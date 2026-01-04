@@ -52,7 +52,7 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
                 <div className="relative p-6 sm:p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/30">
                     <button
                         onClick={closeModal}
-                        aria-label="Close modal"
+                        aria-label="关闭弹窗"
                         className="absolute top-4 right-4 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors group"
                     >
                         <X className="w-5 h-5 text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-100" />
@@ -101,7 +101,7 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
 
                     {/* TL;DR Summary */}
                     <section>
-                        <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Summary</h4>
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">概要</h4>
                         <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">
                             {item.summary}
                         </p>
@@ -115,13 +115,13 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
                                 <div className="grid sm:grid-cols-2 gap-6">
                                     {item.expandedDetails.background && (
                                         <section>
-                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">Background</h4>
+                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">背景</h4>
                                             <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.expandedDetails.background}</p>
                                         </section>
                                     )}
                                     {item.expandedDetails.problem && (
                                         <section>
-                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">The Challenge</h4>
+                                            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">挑战</h4>
                                             <p className="text-sm text-zinc-600 dark:text-zinc-400">{item.expandedDetails.problem}</p>
                                         </section>
                                     )}
@@ -130,17 +130,17 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
 
                             {/* Solution & Result */}
                             <section className="bg-blue-50/50 dark:bg-blue-900/10 -mx-4 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30">
-                                <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">Action & Result</h4>
+                                <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">行动与成果</h4>
                                 <div className="space-y-4">
                                     {item.expandedDetails.solution && (
                                         <div>
-                                            <span className="font-semibold text-zinc-900 dark:text-zinc-200">Solution: </span>
+                                            <span className="font-semibold text-zinc-900 dark:text-zinc-200">解决方案：</span>
                                             <span className="text-zinc-700 dark:text-zinc-300">{item.expandedDetails.solution}</span>
                                         </div>
                                     )}
                                     {item.expandedDetails.result && (
                                         <div>
-                                            <span className="font-semibold text-zinc-900 dark:text-zinc-200">Outcome: </span>
+                                            <span className="font-semibold text-zinc-900 dark:text-zinc-200">成果：</span>
                                             <span className="text-zinc-700 dark:text-zinc-300">{item.expandedDetails.result}</span>
                                         </div>
                                     )}
@@ -150,7 +150,7 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
                             {/* Key Bullets (from data structure) */}
                             {('details' in item && item.details) && (
                                 <section>
-                                    <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Key Details</h4>
+                                    <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">核心详情</h4>
                                     <ul className="space-y-2">
                                         {item.details.map((detail, idx) => (
                                             <li key={idx} className="flex gap-2 text-sm text-zinc-600 dark:text-zinc-300">
@@ -167,7 +167,7 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
                     {/* Key Outcomes / Metrics */}
                     {item.keyOutcomes && item.keyOutcomes.length > 0 && (
                         <section>
-                            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Key Metrics</h4>
+                            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">关键指标</h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {item.keyOutcomes.map((outcome, idx) => (
                                     <div key={idx} className="flex items-center gap-2 p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-100 dark:border-zinc-700">
@@ -181,7 +181,7 @@ export function ExperienceModal({ item }: ExperienceModalProps) {
 
                     {/* Tech Stack */}
                     <section>
-                        <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">Tech Stack</h4>
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">技术栈</h4>
                         <div className="flex flex-wrap gap-2">
                             {item.techTags?.map((tech, idx) => (
                                 <span key={idx} className="px-2.5 py-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 rounded border border-zinc-200 dark:border-zinc-700">

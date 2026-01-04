@@ -39,8 +39,8 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "impact-1",
             title: "开源项目",
-            value: "Open",
-            label: "Source",
+            value: "开源",
+            label: "项目",
             description: "WeChat AI Bot 开源项目",
             linkedExperienceId: "exp-wechat-bot",
             icon: "Star",
@@ -61,7 +61,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "impact-3",
             title: "用户服务",
-            value: "Stable",
+            value: "稳定",
             label: "校内应用",
             description: "教育平台稳定服务校内用户",
             linkedExperienceId: "exp-chinasoft",
@@ -72,7 +72,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "impact-4",
             title: "核心能力",
-            value: "AI Native",
+            value: "AI 原生",
             label: "全栈开发",
             description: "AI 驱动的全栈开发，从需求到交付",
             icon: "Code2",

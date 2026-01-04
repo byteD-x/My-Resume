@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Download } from 'lucide-react';
+import { Menu, X, Github, Download, Mail } from 'lucide-react';
 import { ContactData, HeroData } from '@/types';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
@@ -118,6 +118,14 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             <Download size={16} />
                             简历 PDF
                         </a>
+                        <button
+                            onClick={() => scrollTo('#contact')}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+                            aria-label="立即联系"
+                        >
+                            <Mail size={16} />
+                            立即联系
+                        </button>
                     </div>
 
                     {/* Mobile Toggle */}
@@ -167,11 +175,24 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                 ))}
                             </div>
                             <div className="p-5 border-t border-slate-100 space-y-3">
-                                <a href="/resume.pdf" className="flex items-center justify-center w-full py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20">
+                                <button
+                                    onClick={() => scrollTo('#contact')}
+                                    className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20"
+                                >
+                                    <Mail size={18} />
+                                    立即联系
+                                </button>
+                                <a href="/resume.pdf" className="flex items-center justify-center w-full py-3.5 bg-slate-100 text-slate-700 rounded-xl font-semibold">
                                     下载简历 PDF
                                 </a>
                                 <div className="flex gap-4 justify-center">
-                                    <a href={contactData.github} className="p-3 bg-slate-100 rounded-full text-slate-600">
+                                    <a
+                                        href={contactData.github}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="p-3 bg-slate-100 rounded-full text-slate-600"
+                                        aria-label="访问 GitHub"
+                                    >
                                         <Github size={20} />
                                     </a>
                                 </div>

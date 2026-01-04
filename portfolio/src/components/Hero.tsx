@@ -133,7 +133,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                         >
                             <div className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-6 flex items-center gap-2">
                                 <span className="w-8 h-[1px] bg-slate-200" />
-                                Quick Facts
+                                核心信息
                             </div>
 
                             <div className="space-y-6">
