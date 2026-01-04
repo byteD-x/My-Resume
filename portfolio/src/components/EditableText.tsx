@@ -1,28 +1,33 @@
 'use client';
 
-import { ENABLE_EDITING } from '@/data';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, ElementType, ComponentPropsWithoutRef } from 'react';
 
-interface EditableTextProps {
+interface EditableTextProps<T extends ElementType> {
     id: string;
     value: string;
     onChange: (id: string, value: string) => void;
     className?: string;
-    as?: 'h1' | 'h2' | 'h3' | 'p' | 'span' | 'div';
+    as?: T;
     multiline?: boolean;
+    isEditorActive?: boolean;  // 从父组件传入的编辑状态
 }
 
-export default function EditableText({
+export default function EditableText<T extends ElementType = 'span'>({
     id,
     value,
     onChange,
     className = '',
-    as: Component = 'span',
+    as,
     multiline = false,
-}: EditableTextProps) {
+    isEditorActive = false,
+}: EditableTextProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof EditableTextProps<T>>) {
+    const Component = as || 'span';
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
     const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+
+    // 检查是否启用编辑器
+    const isEditorEnabled = process.env.NEXT_PUBLIC_ENABLE_EDITOR === '1';
 
     useEffect(() => {
         setLocalValue(value);
@@ -31,13 +36,17 @@ export default function EditableText({
     useEffect(() => {
         if (isEditing && inputRef.current) {
             inputRef.current.focus();
+            // 选中全部文本
+            inputRef.current.select();
         }
     }, [isEditing]);
 
     const handleBlur = useCallback(() => {
         setIsEditing(false);
-        onChange(id, localValue);
-    }, [id, localValue, onChange]);
+        if (localValue !== value) {
+            onChange(id, localValue);
+        }
+    }, [id, localValue, onChange, value]);
 
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
         if (e.key === 'Enter' && !multiline) {
@@ -51,15 +60,16 @@ export default function EditableText({
     }, [handleBlur, multiline, value]);
 
     // 非编辑模式：显示普通文本
-    if (!ENABLE_EDITING) {
+    if (!isEditorEnabled || !isEditorActive) {
         return <Component className={className}>{value}</Component>;
     }
 
     // 编辑模式：显示可编辑字段
     if (isEditing) {
         const baseClasses = `
-      bg-transparent border-none outline-none w-full
-      focus:ring-2 focus:ring-blue-500/30 rounded-lg
+      bg-white border border-blue-300 outline-none w-full
+      focus:ring-2 focus:ring-blue-500/30 rounded-lg px-2 py-1
+      text-zinc-900
       ${className}
     `;
 
@@ -96,13 +106,21 @@ export default function EditableText({
             className={`
         ${className}
         cursor-pointer
-        border border-dashed border-gray-300 hover:border-blue-400
+        border border-dashed border-zinc-300 hover:border-blue-400
         rounded-lg px-2 py-1 -mx-2 -my-1
         transition-all duration-200
         hover:bg-blue-50/50
+        inline-block
       `}
             onClick={() => setIsEditing(true)}
             title="点击编辑"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    setIsEditing(true);
+                }
+            }}
         >
             {localValue}
         </Component>

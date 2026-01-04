@@ -1,132 +1,95 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { portfolioData as initialData } from '@/data';
-import { PortfolioData, HeroData, VibeCodingData } from '@/types';
+import { useEditableContent } from '@/lib/useEditableContent';
 import Navbar from '@/components/Navbar';
-import Hero from '../components/Hero';
+import Hero from '@/components/Hero';
 import HighlightDeck from '@/components/HighlightDeck';
 import ExperienceFlow from '@/components/ExperienceFlow';
 import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
-import ExportButton from '@/components/ExportButton';
+import EditorToolbar from '@/components/EditorToolbar';
 import FloatingResumeButton from '@/components/FloatingResumeButton';
-import EditableText from '@/components/EditableText';
+import Footer from '@/components/Footer';
 
 export default function Home() {
-  const [data, setData] = useState<PortfolioData>(initialData);
+  const {
+    data,
+    isEditorEnabled,
+    isEditing,
+    isDirty,
+    lastSaved,
+    setIsEditing,
+    saveNow,
+    exportJSON,
+    importJSON,
+    resetToDefault,
+  } = useEditableContent();
 
-  // Hero Update
-  const handleHeroUpdate = useCallback((field: keyof HeroData, value: string) => {
-    setData(prev => ({
-      ...prev,
-      hero: { ...prev.hero, [field]: value }
-    }));
+  // Impact → Timeline 高亮状态
+  const [highlightedExperienceId, setHighlightedExperienceId] = useState<string | null>(null);
+
+  // 处理 Impact 卡片点击
+  const handleImpactClick = useCallback((linkedExperienceId: string) => {
+    setHighlightedExperienceId(linkedExperienceId);
   }, []);
 
-  // About Update
-  const handleAboutUpdate = useCallback((value: string) => {
-    setData(prev => ({ ...prev, about: value }));
+  // 清除高亮
+  const handleClearHighlight = useCallback(() => {
+    setHighlightedExperienceId(null);
   }, []);
-
-  // Timeline Update
-  const handleTimelineUpdate = useCallback((index: number, field: string, value: string) => {
-    setData(prev => ({
-      ...prev,
-      timeline: prev.timeline.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-  }, []);
-
-  const handleTimelineDetailUpdate = useCallback((index: number, detailIndex: number, value: string) => {
-    setData(prev => ({
-      ...prev,
-      timeline: prev.timeline.map((item, i) =>
-        i === index
-          ? { ...item, details: item.details.map((d, di) => di === detailIndex ? value : d) }
-          : item
-      )
-    }));
-  }, []);
-
-  // Projects Update
-  const handleProjectUpdate = useCallback((index: number, field: string, value: string) => {
-    setData(prev => ({
-      ...prev,
-      projects: prev.projects.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      )
-    }));
-  }, []);
-
-  const handleProjectDetailUpdate = useCallback((index: number, detailIndex: number, value: string) => {
-    setData(prev => ({
-      ...prev,
-      projects: prev.projects.map((item, i) =>
-        i === index
-          ? { ...item, details: item.details.map((d, di) => di === detailIndex ? value : d) }
-          : item
-      )
-    }));
-  }, []);
-
-  // VibeCoding Update
-  const handleVibeCodingUpdate = useCallback((field: keyof VibeCodingData, value: string) => {
-    setData(prev => ({
-      ...prev,
-      vibeCoding: { ...prev.vibeCoding, [field]: value }
-    }));
-  }, []);
-
-  // Get current data for export
-  const getData = useCallback(() => data, [data]);
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
-
+    <main className="min-h-screen relative">
       <Navbar heroData={data.hero} contactData={data.contact} />
 
-      <Hero data={data.hero} onUpdate={handleHeroUpdate} />
+      <Hero data={data.hero} isEditorActive={isEditing} />
 
-      <div id="impact">
-        <HighlightDeck />
-      </div>
-
-      {/* About Section */}
-      <section className="container-padding py-12">
-        <div className="max-w-4xl mx-auto text-center glass-panel p-8 rounded-2xl border border-white/5">
-          <h2 className="text-2xl font-bold mb-4 text-white">About Me</h2>
-          <div className="text-gray-400 leading-relaxed text-lg">
-            <EditableText
-              id="about"
-              value={data.about}
-              onChange={(_, val) => handleAboutUpdate(val)}
-              as="div"
-              multiline
-            />
-          </div>
-        </div>
-      </section>
+      <HighlightDeck
+        items={data.impact}
+        onItemClick={handleImpactClick}
+        isEditorActive={isEditing}
+      />
 
       <ExperienceFlow
         timeline={data.timeline}
         projects={data.projects}
-        onUpdateTimeline={handleTimelineUpdate}
-        onUpdateTimelineDetail={handleTimelineDetailUpdate}
-        onUpdateProject={handleProjectUpdate}
-        onUpdateProjectDetail={handleProjectDetailUpdate}
+        isEditorActive={isEditing}
+        highlightedId={highlightedExperienceId}
+        onClearHighlight={handleClearHighlight}
       />
 
       <TechStack
         skills={data.skills}
         vibeCoding={data.vibeCoding}
-        onUpdateVibeCoding={handleVibeCodingUpdate}
+        isEditorActive={isEditing}
       />
 
-      <Contact contactData={data.contact} heroData={data.hero} />
+      <Contact
+        contactData={data.contact}
+        heroData={data.hero}
+        isEditorActive={isEditing}
+      />
 
-      <ExportButton getData={getData} />
+      <Footer
+        name={data.hero.name}
+        githubUrl={data.contact.github}
+      />
+
+      {/* 编辑器工具栏 - 仅在启用编辑功能时显示 */}
+      {isEditorEnabled && (
+        <EditorToolbar
+          isEditing={isEditing}
+          isDirty={isDirty}
+          lastSaved={lastSaved}
+          onToggleEdit={setIsEditing}
+          onSave={saveNow}
+          onExport={exportJSON}
+          onImport={importJSON}
+          onReset={resetToDefault}
+        />
+      )}
+
       <FloatingResumeButton />
     </main>
   );

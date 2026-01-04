@@ -17,15 +17,15 @@
   --text-primary: #09090B;
   /* zinc-950 */
   --text-secondary: #3F3F46;
-  /* zinc-700 (Requested) */
+  /* zinc-700 */
   --text-tertiary: #A1A1AA;
   /* zinc-400 */
 
   /* Accents */
   --color-main: #18181B;
-  /* zinc-900 (Requested Main) */
+  /* zinc-900 */
   --color-cta: #2563EB;
-  /* blue-600 (Requested CTA) */
+  /* blue-600 */
   --color-border: #E4E4E7;
   /* zinc-200 */
 
@@ -53,15 +53,17 @@ body {
   background-color: var(--bg-page);
   color: var(--text-primary);
   font-family: var(--font-body);
-  /* Subtle grain or noise could be added here if requested, 
-     but "low contrast gradient" is requested. */
   background-image: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #FAFAFA 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
-  selection-background-color: var(--color-cta);
-  selection-color: #fff;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-cta);
+  color: #fff;
 }
 
 h1,
@@ -80,13 +82,31 @@ h6 {
    ======================================== */
 
 .container-padding {
-  @apply px-6 md:px-12 lg:px-24 max-w-[1400px] mx-auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .container-padding {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-padding {
+    padding-left: 6rem;
+    padding-right: 6rem;
+  }
 }
 
 /* Editorial Typography */
 .text-display {
-  font-size: clamp(3rem, 8vw, 5rem);
-  line-height: 0.95;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  line-height: 1.1;
   font-weight: 600;
   letter-spacing: -0.04em;
 }
@@ -97,12 +117,17 @@ h6 {
   color: var(--text-secondary);
 }
 
-/* Bento Cards */
+/* ========================================
+   Cards - IMPORTANT: No overflow-hidden on text containers
+   ======================================== */
+
+/* Bento Card - keep overflow visible for text */
 .bento-card {
   background-color: var(--bg-surface);
   border: 1px solid var(--color-border);
   border-radius: 1.5rem;
   transition: all 0.3s ease;
+  /* DO NOT use overflow-hidden here - it clips text at rounded corners */
 }
 
 .bento-card:hover {
@@ -120,6 +145,9 @@ h6 {
   padding: 0.75rem 2rem;
   font-weight: 500;
   transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-primary:hover {
@@ -128,7 +156,10 @@ h6 {
   transform: translateY(-1px);
 }
 
-/* Scrollbar */
+/* ========================================
+   Scrollbar
+   ======================================== */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -144,4 +175,24 @@ h6 {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #A1A1AA;
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out;
 }
