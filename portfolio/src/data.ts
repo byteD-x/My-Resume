@@ -33,9 +33,9 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "impact-1",
             title: "开源项目",
-            value: "100+",
-            label: "GitHub Stars",
-            description: "WeChat AI Bot 开源项目获得社区认可",
+            value: "Open",
+            label: "Source",
+            description: "WeChat AI Bot 开源项目",
             linkedExperienceId: "exp-wechat-bot",
             icon: "Star",
             colSpan: "md:col-span-1",
@@ -55,9 +55,9 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "impact-3",
             title: "用户服务",
-            value: "1k+",
-            label: "覆盖用户",
-            description: "教育平台服务超过 1000 名用户",
+            value: "Stable",
+            label: "校内应用",
+            description: "教育平台稳定服务校内用户",
             linkedExperienceId: "exp-chinasoft",
             icon: "Users",
             colSpan: "md:col-span-1",
@@ -211,14 +211,25 @@ export const defaultPortfolioData: PortfolioData = {
             link: "https://github.com/icefunicu/wechat-bot",
             demoLink: "",
             tech: ["Python", "wxauto", "LLM APIs"],
+            techTags: ["Python", "wxauto", "LLM APIs"],
             summary: "基于大模型的微信智能助手，实现消息自动化与个性化 AI 回复。",
-            impact: "GitHub 100+ Stars",
+            impact: "GitHub 开源项目",
             details: [
                 "【自动化】基于 wxauto 实现微信 PC 端消息自动监控与回复",
                 "【多模型】支持 OpenAI、Claude、Gemini 等多种大模型 API 一键切换",
                 "【个性化】可针对不同联系人配置独立的 AI 人设与回复风格",
                 "【开源】项目完整开源，展现 AI 工程化实战能力"
             ],
+            keyOutcomes: ["开源项目", "活跃用户社区"],
+            expandedDetails: {
+                background: "微信生态封闭，缺乏官方 AI 接口，用户通过个人号接入 AI 需求强烈。",
+                problem: "现有的个人号接入方案往往风险高（易封号）或配置复杂。",
+                solution: "利用 wxauto 模拟 PC 端操作（非 hook 协议），安全稳定；封装多模型 API，提供统一的配置化接口。",
+                result: "GitHub 开源项目，帮助开发者低成本接入 AI 助手。",
+                role: "独立开发者",
+                techStack: ["Python", "wxauto", "OpenAI API", "Claude API"],
+                links: [{ label: "GitHub", url: "https://github.com/icefunicu/wechat-bot" }]
+            },
             highlighted: true
         },
         {
@@ -226,14 +237,24 @@ export const defaultPortfolioData: PortfolioData = {
             year: "2024",
             name: "乐学网",
             tech: ["Spring Boot", "Redis", "Spring Security"],
+            techTags: ["Spring Boot", "Redis", "Spring Security", "Vue.js"],
             summary: "全栈教育平台，支持在线课程、视频播放、微信支付等完整功能。",
-            impact: "用户量 1000+",
+            impact: "校内应用",
             details: [
                 "【缓存架构】采用 Redis 缓存高频数据，保障数据一致性",
                 "【网关设计】Gateway + Redis 实现统一鉴权与分布式会话共享",
                 "【实时排行】基于 Redis Zset 实现实时排行榜",
                 "【云服务】集成微信支付、阿里云短信、OSS 对象存储"
             ],
+            keyOutcomes: ["支持视频点播", "支付功能上线"],
+            expandedDetails: {
+                background: "校园内缺乏一个集课程点播、直播、互动于一体的综合性学习平台。",
+                problem: "现有平台功能单一，无法满足学生多样化的学习需求，且并发性能较差。",
+                solution: "构建基于微服务思想的单体架构（模块化），引入 Redis 缓存热点数据，对接云服务提升可靠性。",
+                result: "上线后成为校内学习平台之一，稳定运行。",
+                role: "全栈开发者",
+                techStack: ["Spring Boot", "Redis", "Vue.js", "MySQL"]
+            },
             highlighted: true
         },
         {
@@ -243,14 +264,25 @@ export const defaultPortfolioData: PortfolioData = {
             link: "https://github.com/icefunicu/easyCloudPan",
             demoLink: "",
             tech: ["Spring Boot", "Vue.js", "Redis", "FFmpeg"],
+            techTags: ["Spring Boot", "Vue.js", "Redis", "FFmpeg"],
             summary: "仿百度网盘 Web 端，支持文件秒传、视频转码、分享链接。",
-            impact: "Star 3+",
+            impact: "个人项目",
             details: [
                 "【极速秒传】基于 MD5 生成唯一文件 ID，实现文件秒传功能",
                 "【视频处理】集成 FFmpeg 实现视频索引生成、切片及转码",
                 "【缓存优化】Redis 存储高频链接与分享码",
                 "【社交登录】提供多元化登录方式"
             ],
+            keyOutcomes: ["实现文件秒传", "支持视频在线倍速播放"],
+            expandedDetails: {
+                background: "个人文件存储与分享在局域网/公网环境下需求大，但商业网盘限速严重。",
+                problem: "自建网盘往往功能简陋，缺乏视频转码、断点续传等高级功能。",
+                solution: "仿照商业网盘架构，实现基于 MD5 的秒传去重；后端集成 FFmpeg 自动转码视频以支持 HLS 播放。",
+                result: "实现了核心网盘功能，作为个人作品集展示。",
+                role: "独立开发者",
+                techStack: ["Spring Boot", "Vue.js", "Redis", "FFmpeg", "MySQL"],
+                links: [{ label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" }]
+            },
             highlighted: false
         }
     ],
@@ -259,8 +291,8 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "skill-backend",
             category: "后端开发",
-            description: "Java/Spring、API 设计、鉴权、性能优化、稳定性",
-            items: ["Java", "Spring Boot", "MyBatis Plus", "Spring Security", "Spring Cloud", "Python"]
+            description: "Java/Spring、Python/Flask/Django、API 设计、鉴权、性能优化、稳定性",
+            items: ["Java", "Spring Boot", "MyBatis Plus", "Spring Cloud", "Python", "Flask", "Django"]
         },
         {
             id: "skill-data",
@@ -297,7 +329,7 @@ export const defaultPortfolioData: PortfolioData = {
         phone: "15035925107",
         email: "2041487752dxj@gmail.com",
         github: "https://github.com/icefunicu",
-        website: "https://netxx.cn",
+        website: "https://my-resume-gray-five.vercel.app/",
         resumeButtonText: "下载简历 PDF",
         ctaText: "开始合作"
     }

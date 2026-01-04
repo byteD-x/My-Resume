@@ -1,7 +1,7 @@
 // Portfolio Data Type Definitions
 
 // ==========================================
-// Experience / Timeline Types
+// Shared Types
 // ==========================================
 
 export interface ExperienceDetail {
@@ -12,33 +12,40 @@ export interface ExperienceDetail {
   role?: string;           // 我的角色
   techStack?: string[];    // 技术栈
   links?: { label: string; url: string }[];  // 相关链接
+  images?: { src: string; alt: string }[];   // 可选：项目截图
 }
 
-export interface TimelineItem {
-  id: string;              // 唯一标识，用于 Impact 跳转
+export interface BaseExperienceItem {
+  id: string;              // 唯一标识 (slug)
   year: string;
+  role?: string;           // 角色 (Timeline) 或 empty (Project)
+  company?: string;        // 公司 (Timeline) 或 empty (Project)
+  name?: string;           // 项目名 (Project)
+  location?: string;       // 地点
+  summary: string;         // 1-2 行摘要
+  techTags: string[];      // 技术标签
+  highlighted?: boolean;   // 是否为重点
+  expandedDetails?: ExperienceDetail;  // 展开后的结构化详情
+  keyOutcomes?: string[];  // 核心结果
+  link?: string;           // Project link
+  demoLink?: string;       // Project demo link
+}
+
+// ==========================================
+// Experience / Timeline Types
+// ==========================================
+
+export interface TimelineItem extends BaseExperienceItem {
   role: string;
   company: string;
-  location?: string;       // 地点（可选）
-  summary: string;         // 1-2 行摘要
   bulletPoints?: string[]; // 旧版详情（兼容）
-  expandedDetails?: ExperienceDetail;  // 展开后的结构化详情
-  keyOutcomes?: string[];  // 核心结果（2-3个量化短句，默认显示）
-  techTags?: string[];     // 3-6 个技术标签
-  highlighted?: boolean;   // 是否为重点经历
 }
 
-export interface ProjectItem {
-  id: string;
-  year: string;
+export interface ProjectItem extends BaseExperienceItem {
   name: string;
-  link?: string;
-  demoLink?: string;
-  tech: string[];
-  summary: string;
-  details: string[];
-  impact?: string;
-  highlighted?: boolean;
+  tech: string[]; // Keep for backward compatibility, mapped to techTags
+  details: string[]; // Keep for backward compatibility
+  impact?: string; // string format impact
 }
 
 // ==========================================

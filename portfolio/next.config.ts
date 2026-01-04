@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  // output: 'export', // Intercepting Routes are not supported with static export
   images: {
     unoptimized: true,
   },
