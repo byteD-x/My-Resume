@@ -23,6 +23,7 @@ export interface TimelineItem {
   summary: string;         // 1-2 行摘要
   bulletPoints?: string[]; // 旧版详情（兼容）
   expandedDetails?: ExperienceDetail;  // 展开后的结构化详情
+  keyOutcomes?: string[];  // 核心结果（2-3个量化短句，默认显示）
   techTags?: string[];     // 3-6 个技术标签
   highlighted?: boolean;   // 是否为重点经历
 }

@@ -331,7 +331,7 @@ function TimelineCard({
 
             {/* 卡片 - Interactive Header */}
             <div
-                className="card transition-all"
+                className="card transition-all group hover:border-blue-200"
                 style={isExpanded ? {
                     borderColor: 'var(--border-strong)',
                     boxShadow: 'var(--shadow-md)'
@@ -340,67 +340,97 @@ function TimelineCard({
                 {/* 头部 - Min height 48px+ for accessibility */}
                 <button
                     onClick={onToggle}
-                    className="w-full p-6 text-left flex flex-col md:flex-row md:items-start gap-4 focus-visible:ring-inset"
+                    className="w-full p-5 md:p-6 text-left flex flex-col md:flex-row md:items-start gap-4 focus-visible:ring-inset"
                     style={{ minHeight: '80px' }}
                 >
-                    <div className="flex-1">
-                        {/* 时间和公司 - Aligned */}
-                        <div className="flex flex-wrap items-center gap-3 mb-2">
+                    <div className="flex-1 space-y-3">
+                        {/* 1. Header Row: Role & Company & Year */}
+                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3 flex-wrap">
                             <span
-                                className="text-xs font-mono font-medium px-2 py-1 rounded"
-                                style={{ backgroundColor: 'var(--bg-muted)', color: 'var(--text-secondary)' }}
+                                className="text-xs font-mono font-medium px-2 py-0.5 rounded border self-start md:self-auto"
+                                style={{
+                                    backgroundColor: 'var(--bg-muted)',
+                                    color: 'var(--text-secondary)',
+                                    borderColor: 'var(--border-default)'
+                                }}
                             >
                                 {item.year}
                             </span>
+
+                            <h3 className="text-lg font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                                <EditableText
+                                    id={`timeline-${item.id}-role`}
+                                    value={item.role}
+                                    onChange={() => { }}
+                                    as="span"
+                                    isEditorActive={isEditorActive}
+                                />
+                            </h3>
+
+                            <span className="hidden md:inline text-slate-300">|</span>
+
                             <span
                                 className="flex items-center gap-1.5 text-sm font-medium"
-                                style={{ color: 'var(--text-tertiary)' }}
+                                style={{ color: 'var(--text-secondary)' }}
                             >
                                 <Building2 size={14} />
                                 {item.company}
                             </span>
                         </div>
 
-                        {/* 职位标题 */}
-                        <h3 className="text-lg md:text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-                            <EditableText
-                                id={`timeline-${item.id}-role`}
-                                value={item.role}
-                                onChange={() => { }}
-                                as="span"
-                                isEditorActive={isEditorActive}
-                            />
-                        </h3>
+                        {/* 2. Summary (Value Prop) */}
+                        {item.summary && (
+                            <p className="text-sm leading-relaxed max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
+                                <EditableText
+                                    id={`timeline-${item.id}-summary`}
+                                    value={item.summary}
+                                    onChange={() => { }}
+                                    as="span"
+                                    isEditorActive={isEditorActive}
+                                />
+                            </p>
+                        )}
 
-                        {/* 摘要 - Limited width for reading */}
-                        <p className="text-sm leading-relaxed max-w-3xl" style={{ color: 'var(--text-secondary)' }}>
-                            <EditableText
-                                id={`timeline-${item.id}-summary`}
-                                value={item.summary}
-                                onChange={() => { }}
-                                as="span"
-                                isEditorActive={isEditorActive}
-                            />
-                        </p>
+                        {/* 3. ✅ Key Outcomes (The "Result" hook) */}
+                        {item.keyOutcomes && item.keyOutcomes.length > 0 && (
+                            <ul className="space-y-1 mt-2">
+                                {item.keyOutcomes.map((outcome, idx) => (
+                                    <li key={idx} className="flex items-start gap-2 text-sm font-medium">
+                                        <span className="text-green-500 mt-1.5 w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
+                                        <span style={{ color: 'var(--text-primary)' }}>{outcome}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
 
-                        {/* 技术标签 - Only show when collapsed or always? Spec says concise. Keeping it. */}
+                        {/* 4. Tech Tags (Condensed) */}
                         {item.techTags && item.techTags.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                {item.techTags.map((tag, i) => (
-                                    <span key={i} className="tag text-xs">
+                            <div className="flex flex-wrap gap-2 pt-1 opacity-80 group-hover:opacity-100 transition-opacity">
+                                {item.techTags.slice(0, 5).map((tag, i) => (
+                                    <span key={i} className="px-2 py-0.5 rounded text-[11px] font-medium border bg-slate-50 text-slate-500 border-slate-100">
                                         {tag}
                                     </span>
                                 ))}
+                                {item.techTags.length > 5 && (
+                                    <span className="px-2 py-0.5 rounded text-[11px] font-medium text-slate-400">
+                                        +{item.techTags.length - 5}
+                                    </span>
+                                )}
                             </div>
                         )}
                     </div>
 
-                    {/* 展开/收起图标 - 44x44 area */}
-                    <div
-                        className={`w-11 h-11 flex items-center justify-center rounded-lg transition-transform ${isExpanded ? 'rotate-180 bg-slate-100' : ''}`}
-                        style={{ color: 'var(--text-tertiary)' }}
-                    >
-                        <ChevronDown size={20} />
+                    {/* 展开/收起图标 */}
+                    <div className="flex flex-col items-center justify-center gap-1 pl-2">
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">
+                            {isExpanded ? 'Fold' : 'More'}
+                        </span>
+                        <div
+                            className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${isExpanded ? 'bg-slate-100 rotate-180' : 'bg-slate-50 group-hover:bg-blue-50 group-hover:text-blue-600'}`}
+                            style={{ color: 'var(--text-tertiary)' }}
+                        >
+                            <ChevronDown size={18} />
+                        </div>
                     </div>
                 </button>
 
@@ -411,80 +441,69 @@ function TimelineCard({
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.2 }}
+                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                             className="overflow-hidden"
                         >
                             <div
-                                className="px-6 pb-8 pt-2 space-y-6 border-t"
+                                className="px-5 md:px-6 pb-8 pt-4 space-y-6 border-t bg-slate-50/50"
                                 style={{ borderColor: 'var(--border-default)' }}
                             >
-                                {/* 问题 */}
-                                {item.expandedDetails.problem && (
-                                    <DetailBlock
-                                        label="问题 / 挑战"
-                                        content={item.expandedDetails.problem}
-                                        color="var(--color-primary)"
-                                    />
-                                )}
+                                {/* Context / Problem / Solution Grid */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {item.expandedDetails.problem && (
+                                        <div className="space-y-1">
+                                            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">背景与挑战</h4>
+                                            <p className="text-sm leading-relaxed text-slate-600">
+                                                {item.expandedDetails.problem}
+                                            </p>
+                                        </div>
+                                    )}
+                                    {item.expandedDetails.solution && (
+                                        <div className="space-y-1">
+                                            <h4 className="text-xs font-bold uppercase tracking-wider text-blue-600">行动与方案</h4>
+                                            <p className="text-sm leading-relaxed text-slate-600">
+                                                {item.expandedDetails.solution}
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
 
-                                {/* 行动/方案 */}
-                                {item.expandedDetails.solution && (
-                                    <DetailBlock
-                                        label="行动 / 方案"
-                                        content={item.expandedDetails.solution}
-                                        color="var(--text-secondary)"
-                                    />
-                                )}
-
-                                {/* 结果 */}
+                                {/* Full Result (if different from key outcomes) */}
                                 {item.expandedDetails.result && (
-                                    <DetailBlock
-                                        label="最终结果"
-                                        content={item.expandedDetails.result}
-                                        color="var(--color-success)"
-                                    />
-                                )}
-
-                                {/* 我的角色 */}
-                                {item.expandedDetails.role && (
-                                    <div className="pt-4 border-t" style={{ borderColor: 'var(--border-default)' }}>
-                                        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                                            <span className="font-semibold mr-2" style={{ color: 'var(--text-primary)' }}>我的角色：</span>
-                                            {item.expandedDetails.role}
+                                    <div className="p-4 rounded-lg bg-emerald-50/50 border border-emerald-100">
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-700 mb-1">最终成效</h4>
+                                        <p className="text-sm leading-relaxed text-emerald-900">
+                                            {item.expandedDetails.result}
                                         </p>
                                     </div>
                                 )}
 
-                                {/* 技术栈详情 */}
-                                {item.expandedDetails.techStack && item.expandedDetails.techStack.length > 0 && (
-                                    <div className="pt-2">
-                                        <div className="flex flex-wrap gap-2">
-                                            {item.expandedDetails.techStack.map((tech, i) => (
-                                                <span key={i} className="tag">
-                                                    {tech}
-                                                </span>
+                                {/* Role & Links */}
+                                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-2 border-t border-slate-100">
+                                    {item.expandedDetails.role && (
+                                        <div className="text-xs text-slate-500">
+                                            <span className="font-semibold text-slate-700">我的角色：</span>
+                                            {item.expandedDetails.role}
+                                        </div>
+                                    )}
+
+                                    {item.expandedDetails.links && item.expandedDetails.links.length > 0 && (
+                                        <div className="flex gap-2">
+                                            {item.expandedDetails.links.map((link, i) => (
+                                                <a
+                                                    key={i}
+                                                    href={link.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md bg-white border border-slate-200 hover:border-blue-300 hover:text-blue-600 transition-colors shadow-sm"
+                                                >
+                                                    <ExternalLink size={12} />
+                                                    {link.label}
+                                                </a>
                                             ))}
                                         </div>
-                                    </div>
-                                )}
-
-                                {/* 链接 */}
-                                {item.expandedDetails.links && item.expandedDetails.links.length > 0 && (
-                                    <div className="flex flex-wrap gap-4 pt-2">
-                                        {item.expandedDetails.links.map((link, i) => (
-                                            <a
-                                                key={i}
-                                                href={link.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="btn btn-secondary text-xs h-8 px-3"
-                                            >
-                                                <ExternalLink size={14} className="mr-1.5" />
-                                                {link.label}
-                                            </a>
-                                        ))}
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                         </motion.div>
                     )}

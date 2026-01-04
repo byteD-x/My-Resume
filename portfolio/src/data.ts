@@ -96,6 +96,7 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "打造基于大模型的微信智能助手，实现消息自动化与个性化AI回复。",
             techTags: ["Python", "wxauto", "OpenAI", "Claude", "Gemini"],
             highlighted: true,
+            keyOutcomes: ["开源获 100+ Stars", "落地 AI 工程化能力"],
             expandedDetails: {
                 background: "微信作为国内最主流的即时通讯工具，缺乏官方的自动化与 AI 集成能力。",
                 problem: "用户希望在微信中接入大模型能力，实现智能回复、消息总结等功能，但缺乏成熟的解决方案。",
@@ -114,6 +115,7 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "为南方科技大学独立交付智能流程自动化原型系统，验证核心技术可行性。",
             techTags: ["Python", "自动化", "端到端交付"],
             highlighted: true,
+            keyOutcomes: ["端到端交付 IPA 系统", "按期通过客户验收"],
             expandedDetails: {
                 background: "南方科技大学研究项目需要智能流程自动化（IPA）系统原型来验证技术方案。",
                 problem: "需要在短时间内完成从数据采集、处理到可视化的完整链路。",
@@ -131,6 +133,7 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "负责 SQL 慢查询治理与关键接口性能优化（线上口径关键接口耗时下降 60%+），并推动 CI/CD 规范化交付。",
             techTags: ["Java", "Spring Boot", "MySQL", "Redis", "Docker", "CI/CD"],
             highlighted: true,
+            keyOutcomes: ["关键接口耗时降低 60%+", "建立慢查询治理流程", "规范 CI/CD 交付"],
             expandedDetails: {
                 background: "企业级系统面临性能瓶颈，关键接口响应时间过长影响用户体验。",
                 problem: "SQL 慢查询普遍、缺乏统一的性能监控与优化机制，发布流程不规范导致风险高。",
@@ -148,6 +151,7 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "主导医学论文智能检索小程序后端架构，为顶尖医学专家提供 AI 驱动的科研工具。",
             techTags: ["后端", "AI搜索", "小程序", "订阅推送"],
             highlighted: false,
+            keyOutcomes: ["构建智能论文检索架构", "打造个性化推送服务"],
             expandedDetails: {
                 background: "医学专家需要高效的论文检索与追踪工具来跟进领域前沿。",
                 problem: "传统检索方式效率低，难以满足专家对精准性和时效性的需求。",
@@ -165,6 +169,7 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "核心参与运营平台与数据中台建设，实现接口性能 5 倍提升，完成百万级数据迁移架构设计。",
             techTags: ["Java", "ClickHouse", "MySQL", "性能优化", "数据迁移"],
             highlighted: false,
+            keyOutcomes: ["接口性能提升 5x (20s→4s)", "迁移 300+ 百万级数据表", "实现 ClickHouse 毫秒级查询"],
             expandedDetails: {
                 background: "陕西联通数字化部门需要建设统一的运营平台与数据中台。",
                 problem: "活动查询接口响应时间超过 20 秒，数据分散在多个 MySQL 实例中难以统一分析。",
@@ -182,6 +187,7 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "GPA 3.8/4.5，多次获得校级荣誉，参与校地合作项目完成小程序交付。",
             techTags: ["计算机科学", "大数据", "项目实践"],
             highlighted: false,
+            keyOutcomes: ["GPA 3.8/4.5 (Top 5%)", "交付校地合作小程序"],
             expandedDetails: {
                 background: "本科阶段系统学习计算机科学与大数据技术。",
                 result: "GPA 3.8/4.5，获校级三好学生、优秀学生干部、院级奖学金等多项荣誉。省级首届程序设计大赛优秀奖。",

@@ -97,8 +97,8 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                     </div>
                 </motion.div>
 
-                {/* Skills Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {/* Skills List Layout */}
+                <div className="space-y-8 max-w-4xl mx-auto">
                     {skills.map((skill, index) => {
                         const Icon = categoryIcons[skill.category] || Code;
                         const isExpanded = expandedCategories.has(skill.id);
@@ -109,89 +109,72 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                         return (
                             <motion.div
                                 key={skill.id}
-                                initial={fadeIn.initial}
-                                whileInView={fadeIn.animate}
-                                transition={{
-                                    duration: 0.3,
-                                    delay: index * 0.05,
-                                    ease: [0.22, 1, 0.36, 1]
-                                }}
-                                viewport={{ once: true, margin: '-50px' }}
-                                className="card p-6"
-                                style={{ backgroundColor: 'var(--bg-surface)' }}
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1, duration: 0.3 }}
+                                className="group"
                             >
-                                {/* Category Header */}
-                                <div className="flex items-start gap-3 mb-4">
-                                    <div
-                                        className="p-2 rounded-lg flex-shrink-0"
-                                        style={{
-                                            backgroundColor: 'var(--color-primary-light)',
-                                            color: 'var(--color-primary)',
-                                        }}
-                                    >
-                                        <Icon size={18} />
-                                    </div>
-                                    <div>
-                                        <h3
-                                            className="font-semibold"
-                                            style={{ color: 'var(--text-primary)' }}
+                                <div className="flex flex-col md:flex-row md:items-start gap-4 md:gap-8 p-4 md:p-6 rounded-2xl hover:bg-white/50 border border-transparent hover:border-slate-200 transition-all">
+                                    {/* Icon & Title Column */}
+                                    <div className="flex-shrink-0 w-full md:w-48 flex items-center md:items-start gap-3 md:block">
+                                        <div
+                                            className="p-2.5 rounded-xl bg-blue-50/50 text-blue-600 mb-0 md:mb-3 inline-flex"
                                         >
-                                            {skill.category}
-                                        </h3>
-                                        {skill.description && (
-                                            <p
-                                                className="text-xs mt-0.5"
-                                                style={{ color: 'var(--text-tertiary)' }}
-                                            >
-                                                {skill.description}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-
-                                {/* Tags */}
-                                <div className="flex flex-wrap gap-2">
-                                    <AnimatePresence mode="popLayout">
-                                        {visibleTags.map((item) => (
-                                            <motion.span
-                                                key={item}
-                                                layout
-                                                initial={{ opacity: 0, scale: 0.9 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                exit={{ opacity: 0, scale: 0.9 }}
-                                                transition={{ duration: 0.15 }}
-                                                className="tag"
-                                            >
-                                                {item}
-                                            </motion.span>
-                                        ))}
-                                    </AnimatePresence>
-
-                                    {/* Show more button */}
-                                    {hasMoreTags && (
-                                        <button
-                                            onClick={() => toggleCategory(skill.id)}
-                                            className="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium rounded-full transition-colors"
-                                            style={{
-                                                backgroundColor: 'var(--color-primary-light)',
-                                                color: 'var(--color-primary)',
-                                            }}
-                                        >
-                                            {isExpanded ? (
-                                                <>收起</>
-                                            ) : (
-                                                <>+{hiddenCount} 更多</>
+                                            <Icon size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-bold text-slate-800 text-lg">{skill.category}</h3>
+                                            {skill.description && (
+                                                <p className="text-xs text-slate-500 mt-1 leading-relaxed hidden md:block">
+                                                    {skill.description}
+                                                </p>
                                             )}
-                                            <ChevronDown
-                                                size={12}
-                                                style={{
-                                                    transform: isExpanded ? 'rotate(180deg)' : 'none',
-                                                    transition: 'transform 0.2s',
-                                                }}
-                                            />
-                                        </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Mobile Description (Shown below title on mobile) */}
+                                    {skill.description && (
+                                        <p className="text-xs text-slate-500 md:hidden -mt-2 mb-2">
+                                            {skill.description}
+                                        </p>
                                     )}
+
+                                    {/* Tags Column */}
+                                    <div className="flex-1">
+                                        <div className="flex flex-wrap gap-2">
+                                            <AnimatePresence mode="popLayout">
+                                                {visibleTags.map((item) => (
+                                                    <motion.span
+                                                        key={item}
+                                                        layout
+                                                        initial={{ opacity: 0, scale: 0.9 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        exit={{ opacity: 0, scale: 0.9 }}
+                                                        className="px-3 py-1.5 rounded-lg text-[13px] font-medium bg-white border border-slate-200 text-slate-600 shadow-sm"
+                                                    >
+                                                        {item}
+                                                    </motion.span>
+                                                ))}
+                                            </AnimatePresence>
+
+                                            {/* Show more button */}
+                                            {hasMoreTags && (
+                                                <button
+                                                    onClick={() => toggleCategory(skill.id)}
+                                                    className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold rounded-lg text-blue-600 hover:bg-blue-50 transition-colors"
+                                                >
+                                                    {isExpanded ? '收起' : `+${hiddenCount}`}
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
+
+                                {/* Divider (except last) */}
+                                {index !== skills.length - 1 && (
+                                    <div className="h-px bg-slate-100 mx-6 md:mx-0 my-2" />
+                                )}
                             </motion.div>
                         );
                     })}
