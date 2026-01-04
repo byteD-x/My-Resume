@@ -90,10 +90,11 @@ export const defaultPortfolioData: PortfolioData = {
     timeline: [
         {
             id: "exp-wechat-bot",
-            year: "2025.12 - 2026.01",
+            year: "2025.12 - 至今",
             role: "独立开发者",
-            company: "个人项目 · WeChat AI Bot",
-            summary: "打造基于大模型的微信智能助手，实现消息自动化与个性化AI回复。",
+            company: "WeChat AI Bot",
+            location: "开源项目",
+            summary: "基于大模型的微信智能助手，实现消息自动化与个性化AI回复。",
             techTags: ["Python", "wxauto", "OpenAI", "Claude", "Gemini"],
             highlighted: true,
             keyOutcomes: ["开源获 100+ Stars", "落地 AI 工程化能力"],
@@ -103,7 +104,7 @@ export const defaultPortfolioData: PortfolioData = {
                 solution: "基于 Python + wxauto 实现微信 PC 端自动化，对接 OpenAI/Claude/Gemini 等主流大模型 API。",
                 result: "项目开源于 GitHub 获得 100+ Stars，展现 AI 工程化落地能力。",
                 role: "独立完成从需求分析、架构设计到代码实现的全流程。",
-                techStack: ["Python", "wxauto", "OpenAI API", "Claude API", "Gemini API"],
+                techStack: ["Python", "wxauto", "OpenAI", "Claude", "Gemini"],
                 links: [{ label: "GitHub", url: "https://github.com/icefunicu/wechat-bot" }]
             }
         },
@@ -111,8 +112,9 @@ export const defaultPortfolioData: PortfolioData = {
             id: "exp-sustech",
             year: "2025.11 - 2025.12",
             role: "外包技术顾问",
-            company: "南方科技大学 · IPA Demo",
-            summary: "为南方科技大学独立交付智能流程自动化原型系统，验证核心技术可行性。",
+            company: "南方科技大学",
+            location: "深圳",
+            summary: "独立交付智能流程自动化（IPA）原型系统，验证核心技术可行性。",
             techTags: ["Python", "自动化", "端到端交付"],
             highlighted: true,
             keyOutcomes: ["端到端交付 IPA 系统", "按期通过客户验收"],
@@ -128,19 +130,20 @@ export const defaultPortfolioData: PortfolioData = {
         {
             id: "exp-chinasoft",
             year: "2025.04 - 2025.09",
-            role: "后端/全栈工程师（项目制）",
-            company: "中软国际",
-            summary: "负责 SQL 慢查询治理与关键接口性能优化（线上口径关键接口耗时下降 60%+），并推动 CI/CD 规范化交付。",
+            role: "后端/全栈工程师",
+            company: "中软国际（项目制）",
+            location: "西安",
+            summary: "负责 SQL 慢查询治理与关键接口性能优化，并推动 CI/CD 规范化交付。",
             techTags: ["Java", "Spring Boot", "MySQL", "Redis", "Docker", "CI/CD"],
             highlighted: true,
             keyOutcomes: ["关键接口耗时降低 60%+", "建立慢查询治理流程", "规范 CI/CD 交付"],
             expandedDetails: {
-                background: "企业级系统面临性能瓶颈，关键接口响应时间过长影响用户体验。",
+                background: "企业级系统关键接口响应时间过长，影响用户体验。",
                 problem: "SQL 慢查询普遍、缺乏统一的性能监控与优化机制，发布流程不规范导致风险高。",
-                solution: "建立慢查询排查流程（Top SQL/调用频次/耗时分层），结合执行计划定位瓶颈；通过索引优化、SQL 改写、分页策略、热点缓存等手段推动性能提升。梳理核心接口依赖链路，补齐超时/重试/降级策略；拆分高频接口为可观测模块。推动/维护 CI/CD 流水线。",
-                result: "关键接口耗时下降 60%+，减少人为发布风险与回滚成本，让迭代更可控。",
+                solution: "建立慢查询排查流程（Top SQL/耗时分层）。通过索引优化、SQL 改写、分页策略、热点缓存等手段提升性能。推动 CI/CD 流水线落地。",
+                result: "关键接口耗时下降 60%+，减少人为发布风险与回滚成本。",
                 role: "主导性能优化专项，参与 CI/CD 建设。",
-                techStack: ["Java", "Spring Boot", "Spring Cloud", "MySQL", "Redis", "Docker", "Git", "CI/CD"]
+                techStack: ["Java", "Spring Boot", "MySQL", "Redis", "Docker", "CI/CD"]
             }
         },
         {
@@ -148,6 +151,7 @@ export const defaultPortfolioData: PortfolioData = {
             year: "2024.08 - 2024.10",
             role: "后端开发实习生",
             company: "国家骨科临床研究中心",
+            location: "远程",
             summary: "主导医学论文智能检索小程序后端架构，为顶尖医学专家提供 AI 驱动的科研工具。",
             techTags: ["后端", "AI搜索", "小程序", "订阅推送"],
             highlighted: false,
@@ -158,39 +162,41 @@ export const defaultPortfolioData: PortfolioData = {
                 solution: "构建 Submet 医学论文检索小程序，深度整合 AI 搜索引擎，打造个性化推送服务。",
                 result: "大幅缩减论文检索与辨别的时间成本，服务国内医学领域专家群体。",
                 role: "主导后端架构设计与实现。",
-                techStack: ["后端开发", "AI 搜索引擎", "微信小程序", "订阅推送系统"]
+                techStack: ["后端开发", "AI 搜索引擎", "微信小程序"]
             }
         },
         {
             id: "exp-unicom",
             year: "2024.05 - 2024.08",
             role: "后端开发实习生",
-            company: "中国联通陕西省分公司 · 数字化部",
-            summary: "核心参与运营平台与数据中台建设，实现接口性能 5 倍提升，完成百万级数据迁移架构设计。",
+            company: "中国联通陕西省分公司",
+            location: "西安 · 数字化部",
+            summary: "核心参与运营平台与数据中台建设，实现接口性能 5 倍提升，完成百万级数据迁移。",
             techTags: ["Java", "ClickHouse", "MySQL", "性能优化", "数据迁移"],
             highlighted: false,
             keyOutcomes: ["接口性能提升 5x (20s→4s)", "迁移 300+ 百万级数据表", "实现 ClickHouse 毫秒级查询"],
             expandedDetails: {
                 background: "陕西联通数字化部门需要建设统一的运营平台与数据中台。",
                 problem: "活动查询接口响应时间超过 20 秒，数据分散在多个 MySQL 实例中难以统一分析。",
-                solution: "将活动查询接口响应时间从 20s+ 优化至 4s；完成 300+ 张百万级数据表的同步迁移，采用 ClickHouse 替代 MySQL；设计并实现对外 API 二次授权认证机制。",
-                result: "性能提升 5 倍，实现毫秒级查询，整合陕西省及各地市数千万条数据。",
+                solution: "将活动查询接口响应时间从 20s+ 优化至 4s；完成 300+ 张百万级数据表的同步迁移，采用 ClickHouse 替代 MySQL。",
+                result: "性能提升 5 倍，实现毫秒级查询，整合数千万条数据。",
                 role: "核心参与性能优化与数据迁移工作。",
-                techStack: ["Java", "MySQL", "ClickHouse", "xxl-job", "API 安全", "数据中台"]
+                techStack: ["Java", "MySQL", "ClickHouse", "xxl-job"]
             }
         },
         {
             id: "exp-education",
             year: "2021.09 - 2025.06",
-            role: "数据科学与大数据技术",
+            role: "本科 · 数据科学与大数据技术",
             company: "南阳理工学院",
-            summary: "GPA 3.8/4.5，多次获得校级荣誉，参与校地合作项目完成小程序交付。",
+            location: "河南",
+            summary: "GPA 3.8/4.5 (Top 5%)，多次获得校级荣誉，省级首届程序设计大赛优秀奖。",
             techTags: ["计算机科学", "大数据", "项目实践"],
             highlighted: false,
             keyOutcomes: ["GPA 3.8/4.5 (Top 5%)", "交付校地合作小程序"],
             expandedDetails: {
                 background: "本科阶段系统学习计算机科学与大数据技术。",
-                result: "GPA 3.8/4.5，获校级三好学生、优秀学生干部、院级奖学金等多项荣誉。省级首届程序设计大赛优秀奖。",
+                result: "GPA 3.8/4.5，获校级三好学生、优秀学生干部、院级奖学金等多项荣誉。",
                 role: "参与学校及当地政府网站维护工作，在校地合作项目中完成小程序开发与交付。",
                 techStack: ["Java", "Python", "数据分析", "Web 开发"]
             }
@@ -223,10 +229,10 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "全栈教育平台，支持在线课程、视频播放、微信支付等完整功能。",
             impact: "用户量 1000+",
             details: [
-                "【缓存架构】采用 Redis 缓存高频数据，配合主动更新+超时剔除策略保障数据一致性",
-                "【网关设计】Gateway + Redis 实现统一鉴权与分布式会话共享，集成全局异常处理",
-                "【实时排行】基于 Redis Zset 实现实时排行榜，解决传统数据库高频交互瓶颈",
-                "【云服务】集成微信支付、阿里云短信、OSS 对象存储、视频点播等核心能力"
+                "【缓存架构】采用 Redis 缓存高频数据，保障数据一致性",
+                "【网关设计】Gateway + Redis 实现统一鉴权与分布式会话共享",
+                "【实时排行】基于 Redis Zset 实现实时排行榜",
+                "【云服务】集成微信支付、阿里云短信、OSS 对象存储"
             ],
             highlighted: true
         },
@@ -237,28 +243,13 @@ export const defaultPortfolioData: PortfolioData = {
             link: "https://github.com/icefunicu/easyCloudPan",
             demoLink: "",
             tech: ["Spring Boot", "Vue.js", "Redis", "FFmpeg"],
-            summary: "仿百度网盘 Web 端，支持文件秒传、视频转码、分享链接等核心功能。",
+            summary: "仿百度网盘 Web 端，支持文件秒传、视频转码、分享链接。",
             impact: "Star 3+",
             details: [
                 "【极速秒传】基于 MD5 生成唯一文件 ID，实现文件秒传功能",
-                "【视频处理】集成 FFmpeg 实现视频索引生成、切片、缩略图生成及异步转码",
-                "【缓存优化】Redis 存储高频链接与分享码，使用布隆过滤器解决缓存穿透问题",
-                "【社交登录】接入 QQ 邮箱 SMTP 服务与 QQ 登录 API，提供多元化登录方式"
-            ],
-            highlighted: false
-        },
-        {
-            id: "proj-fund",
-            year: "2023",
-            name: "智能基金管理系统",
-            link: "https://github.com/icefunicu/ry-fund",
-            tech: ["RuoYi", "Spring Boot", "Vue.js"],
-            summary: "基于若依框架的企业级基金管理系统，模块化后端架构。",
-            impact: "企业级交付",
-            details: [
-                "【架构】采用 RuoYi 企业级框架，模块化拆分 admin/framework/system 层",
-                "【功能】支持个人基金追踪、数据统计、报表导出等完整功能",
-                "【工程化】展现专业级后端组织能力与企业开发规范理解"
+                "【视频处理】集成 FFmpeg 实现视频索引生成、切片及转码",
+                "【缓存优化】Redis 存储高频链接与分享码",
+                "【社交登录】提供多元化登录方式"
             ],
             highlighted: false
         }
@@ -267,39 +258,33 @@ export const defaultPortfolioData: PortfolioData = {
     skills: [
         {
             id: "skill-backend",
-            category: "Backend",
+            category: "后端开发",
             description: "Java/Spring、API 设计、鉴权、性能优化、稳定性",
             items: ["Java", "Spring Boot", "MyBatis Plus", "Spring Security", "Spring Cloud", "Python"]
         },
         {
             id: "skill-data",
-            category: "Data",
-            description: "MySQL、Redis、ClickHouse、ElasticSearch、迁移/建模/查询优化",
+            category: "数据存储",
+            description: "MySQL、Redis、ClickHouse、ES、数据迁移与建模",
             items: ["MySQL", "Redis", "ClickHouse", "Elasticsearch"]
         },
         {
             id: "skill-ai",
-            category: "AI Engineering",
-            description: "OpenAI/Claude/Gemini API、工具调用、基础评测、成本/延迟意识",
-            items: ["OpenAI API", "Claude API", "Gemini API", "工具调用", "Prompt 工程"]
+            category: "AI 工程化",
+            description: "主流 LLM API 集成、工具调用、Prompt 工程、成本优化",
+            items: ["OpenAI/Claude/Gemini", "Function Calling", "Prompt Engineering", "AI Bot 开发"]
         },
         {
             id: "skill-devops",
-            category: "Engineering",
-            description: "CI/CD、Docker、Linux、Git、可观测性（日志/指标/链路追踪）",
+            category: "工程 & 运维",
+            description: "CI/CD、容器化、Linux、Git、可观测性",
             items: ["Docker", "Linux", "Git", "Maven", "Nginx", "CI/CD"]
         },
         {
             id: "skill-frontend",
-            category: "前端",
-            description: "Vue.js、JavaScript、响应式设计",
-            items: ["Vue.js", "JavaScript", "HTML/CSS", "响应式设计"]
-        },
-        {
-            id: "skill-vibe",
-            category: "AI-assisted Workflow",
-            description: "Cursor/Windsurf（需求拆解→实现→测试→重构→Review）",
-            items: ["Cursor", "Windsurf", "Claude", "ChatGPT", "AI 辅助开发"]
+            category: "前端 & 全栈",
+            description: "Vue.js、Next.js、TailwindCSS、响应式设计",
+            items: ["Vue.js", "Next.js", "TypeScript", "TailwindCSS"]
         }
     ],
 

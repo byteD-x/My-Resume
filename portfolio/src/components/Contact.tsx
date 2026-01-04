@@ -1,10 +1,13 @@
+
 'use client';
 
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Github, Globe, Phone, Copy, Check, ExternalLink, Download, MessageCircle } from 'lucide-react';
+import { Mail, Github, Globe, Phone, Copy, Check, ExternalLink, MessageCircle } from 'lucide-react';
 import { ContactData } from '@/types';
 import { ToastTrigger } from './Toast';
+import { Section } from './ui/Section';
+import { Container } from './ui/Container';
 
 interface ContactProps {
     contactData: ContactData;
@@ -14,9 +17,13 @@ export default function Contact({ contactData }: ContactProps) {
     const [copiedField, setCopiedField] = useState<string | null>(null);
 
     const handleCopy = useCallback(async (value: string, field: string) => {
-        await navigator.clipboard.writeText(value);
-        setCopiedField(field);
-        setTimeout(() => setCopiedField(null), 2000);
+        try {
+            await navigator.clipboard.writeText(value);
+            setCopiedField(field);
+            setTimeout(() => setCopiedField(null), 2000);
+        } catch (err) {
+            console.error('Failed to copy:', err);
+        }
     }, []);
 
     const contactItems = [
@@ -25,7 +32,7 @@ export default function Contact({ contactData }: ContactProps) {
             icon: Mail,
             label: '邮箱',
             value: contactData.email,
-            href: `mailto:${contactData.email}`,
+            href: `mailto:${contactData.email} `,
             canCopy: true,
         },
         {
@@ -33,7 +40,7 @@ export default function Contact({ contactData }: ContactProps) {
             icon: Phone,
             label: '电话',
             value: contactData.phone,
-            href: `tel:${contactData.phone}`,
+            href: `tel:${contactData.phone} `,
             canCopy: true,
         },
         {
@@ -44,181 +51,124 @@ export default function Contact({ contactData }: ContactProps) {
             href: contactData.github,
             external: true,
         },
-        {
+        // { ... } // Removed website/personal blog if "under maintenance" logic is not strictly needed or kept simple. 
+        // Keeping it if user data has it, but streamlining.
+        ...(contactData.website ? [{
             id: 'website',
             icon: Globe,
             label: '个人站',
-            value: contactData.website.replace('https://', ''),
+            value: contactData.website.replace(/^https?:\/\//, ''),
             href: contactData.website,
             external: true,
             note: '维护中',
-        },
+        }] : []),
     ];
 
     return (
         <>
-            <section
-                className="section"
-                id="contact"
-                style={{ backgroundColor: 'var(--bg-page)' }}
-            >
-                <div className="container">
+            <Section id="contact" className="bg-white">
+                <Container>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{ duration: 0.5 }}
+                        className="max-w-4xl mx-auto"
                     >
                         {/* Main Card */}
-                        <div
-                            className="card p-6 md:p-10"
-                            style={{ backgroundColor: 'var(--bg-surface)' }}
-                        >
-                            {/* Header */}
-                            <div className="text-center mb-8">
-                                <h2
-                                    className="text-2xl md:text-3xl font-bold mb-3"
-                                    style={{ color: 'var(--text-primary)' }}
-                                >
-                                    准备好一起{' '}
-                                    <span style={{ color: 'var(--color-primary)' }}>创造价值</span>
-                                    {' '}了吗？
-                                </h2>
-                                <p
-                                    className="text-base max-w-lg mx-auto"
-                                    style={{ color: 'var(--text-secondary)' }}
-                                >
-                                    无论是项目合作、技术咨询，还是只是想打个招呼，我都期待与您交流。
-                                </p>
-                            </div>
+                        <div className="bg-gradient-to-br from-slate-900 to-indigo-950 rounded-3xl p-8 md:p-12 text-white shadow-2xl relative overflow-hidden">
+                            {/* Decorative Background */}
+                            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-                            {/* CTA Callout */}
-                            <div
-                                className="flex items-center justify-center gap-3 p-4 rounded-xl mb-8"
-                                style={{ backgroundColor: 'var(--color-primary-light)' }}
-                            >
-                                <MessageCircle size={20} style={{ color: 'var(--color-primary)' }} />
-                                <span
-                                    className="text-sm font-medium"
-                                    style={{ color: 'var(--color-primary)' }}
-                                >
-                                    可邮件约 15 分钟沟通，快速了解我能为您做什么
-                                </span>
-                            </div>
+                            <div className="relative z-10 flex flex-col md:flex-row gap-12 items-center">
+                                {/* Left Side: Text & Primary Action */}
+                                <div className="flex-1 text-center md:text-left space-y-8">
+                                    <div>
+                                        <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+                                            准备好一起 <span className="text-indigo-300">创造价值</span> 了吗？
+                                        </h2>
+                                        <p className="text-indigo-100/80 text-lg leading-relaxed max-w-lg mx-auto md:mx-0">
+                                            无论是项目合作、全职机会，还是技术交流，我都期待与您的对话。
+                                        </p>
+                                    </div>
 
-                            {/* Contact Items Grid */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                                {contactItems.map((item) => {
-                                    const Icon = item.icon;
-                                    const isCopied = copiedField === item.id;
-
-                                    return (
-                                        <div
-                                            key={item.id}
-                                            className="flex items-center gap-4 p-4 rounded-xl transition-colors"
-                                            style={{
-                                                backgroundColor: 'var(--bg-muted)',
-                                                border: '1px solid var(--border-default)',
-                                            }}
+                                    <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+                                        <a
+                                            href={`mailto:${contactData.email}?subject = 合作咨询`}
+                                            className="inline-flex items-center gap-2.5 bg-white text-indigo-950 hover:bg-indigo-50 px-8 py-4 rounded-full font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/20"
                                         >
-                                            {/* Icon */}
+                                            <Mail size={20} />
+                                            <span>发送邮件</span>
+                                        </a>
+                                        <p className="text-sm text-indigo-300 font-medium flex items-center gap-2">
+                                            <MessageCircle size={16} />
+                                            通常在 24 小时内回复
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Right Side: Contact Details */}
+                                <div className="w-full md:w-auto flex flex-col gap-4 min-w-[300px]">
+                                    {contactItems.map((item) => {
+                                        const Icon = item.icon;
+                                        const isCopied = copiedField === item.id;
+
+                                        return (
                                             <div
-                                                className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                                                style={{
-                                                    backgroundColor: 'var(--bg-surface)',
-                                                    color: 'var(--text-secondary)',
-                                                }}
+                                                key={item.id}
+                                                className="bg-white/10 backdrop-blur-md border border-white/10 rounded-xl p-4 flex items-center gap-4 hover:bg-white/15 transition-colors group"
                                             >
-                                                <Icon size={18} />
-                                            </div>
-
-                                            {/* Content */}
-                                            <div className="flex-1 min-w-0">
-                                                <div
-                                                    className="text-xs uppercase tracking-wide mb-0.5"
-                                                    style={{ color: 'var(--text-tertiary)' }}
-                                                >
-                                                    {item.label}
-                                                    {item.note && (
-                                                        <span
-                                                            className="ml-2 normal-case"
-                                                            style={{ color: 'var(--text-tertiary)' }}
-                                                        >
-                                                            ({item.note})
-                                                        </span>
-                                                    )}
+                                                <div className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-indigo-200">
+                                                    <Icon size={20} />
                                                 </div>
-                                                <a
-                                                    href={item.href}
-                                                    target={item.external ? '_blank' : undefined}
-                                                    rel={item.external ? 'noopener noreferrer' : undefined}
-                                                    className="font-medium text-sm truncate block transition-colors hover:underline"
-                                                    style={{ color: 'var(--text-primary)' }}
-                                                >
-                                                    {item.value}
-                                                </a>
-                                            </div>
 
-                                            {/* Actions */}
-                                            <div className="flex items-center gap-2 flex-shrink-0">
-                                                {item.canCopy && (
-                                                    <button
-                                                        onClick={() => handleCopy(item.value, item.id)}
-                                                        className="p-2 rounded-lg transition-colors"
-                                                        style={{
-                                                            backgroundColor: isCopied ? 'var(--color-success-light)' : 'var(--bg-surface)',
-                                                            color: isCopied ? 'var(--color-success)' : 'var(--text-tertiary)',
-                                                        }}
-                                                        aria-label={`复制${item.label}`}
-                                                    >
-                                                        {isCopied ? <Check size={16} /> : <Copy size={16} />}
-                                                    </button>
-                                                )}
-                                                {item.external && (
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="text-xs text-indigo-300 uppercase tracking-wider font-semibold mb-0.5">
+                                                        {item.label}
+                                                    </div>
                                                     <a
                                                         href={item.href}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="p-2 rounded-lg transition-colors"
-                                                        style={{
-                                                            backgroundColor: 'var(--bg-surface)',
-                                                            color: 'var(--text-tertiary)',
-                                                        }}
-                                                        aria-label={`打开${item.label}`}
+                                                        target={item.external ? '_blank' : undefined}
+                                                        rel={item.external ? 'noopener noreferrer' : undefined}
+                                                        className="text-white font-medium truncate block hover:text-indigo-200 transition-colors"
                                                     >
-                                                        <ExternalLink size={16} />
+                                                        {item.value}
                                                     </a>
-                                                )}
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
+                                                </div>
 
-                            {/* Primary CTA */}
-                            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                                <a
-                                    href="/resume.pdf"
-                                    target="_blank"
-                                    className="btn btn-primary w-full sm:w-auto"
-                                >
-                                    <Download size={18} />
-                                    {contactData.resumeButtonText || '下载简历 PDF'}
-                                </a>
-                                <a
-                                    href={`mailto:${contactData.email}?subject=合作咨询`}
-                                    className="btn btn-secondary w-full sm:w-auto"
-                                >
-                                    <Mail size={18} />
-                                    发送邮件
-                                </a>
+                                                <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity focus-within:opacity-100">
+                                                    {item.canCopy && (
+                                                        <button
+                                                            onClick={() => handleCopy(item.value, item.id)}
+                                                            className="p-2 hover:bg-white/20 rounded-lg text-indigo-200 hover:text-white transition-colors"
+                                                            title="复制"
+                                                        >
+                                                            {isCopied ? <Check size={16} /> : <Copy size={16} />}
+                                                        </button>
+                                                    )}
+                                                    {item.external && (
+                                                        <a
+                                                            href={item.href}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="p-2 hover:bg-white/20 rounded-lg text-indigo-200 hover:text-white transition-colors"
+                                                            title="打开"
+                                                        >
+                                                            <ExternalLink size={16} />
+                                                        </a>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </motion.div>
-                </div>
-            </section>
+                </Container>
+            </Section>
 
-            {/* Toast for copy feedback */}
             <ToastTrigger
                 show={copiedField !== null}
                 message="已复制到剪贴板！"
