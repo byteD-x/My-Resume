@@ -12,10 +12,11 @@ export const ENABLE_EDITING = false;
 // ==========================================
 export const portfolioData: PortfolioData = {
     hero: {
-        title: "杜旭嘉",
+        name: "杜旭嘉",
+        title: "Full Stack Engineer & AI Native Dev",
         subtitle: "全栈工程师 · AI 原生开发者 · 用代码与智能重新定义可能"
     },
-    about: "2025届计算机专业毕业生，专注于后端架构与 AI 应用开发。曾服务于中国联通、国家骨科临床研究中心、中软国际等机构，深度参与核心系统研发。擅长 Vibe Coding —— 以 AI 为核心驱动力，快速交付跨技术栈的高质量产品。从后端到前端，从传统架构到 AI 集成，皆可独立完成。",
+    about: "2025届计算机专业毕业生，专注于后端架构与 AI 应用开发。AI 原生开发践行者，擅长使用 Cursor/Windsurf 等工具极速交付高质量全栈应用。从复杂后端架构到精美前端交互，皆可独立完成。",
     timeline: [
         {
             year: "2025.12 - 2026.01",
@@ -92,8 +93,10 @@ export const portfolioData: PortfolioData = {
             year: "2025",
             name: "WeChat AI Bot",
             link: "https://github.com/icefunicu/wechat-bot",
-            tech: ["Python", "wxauto", "OpenAI API", "Claude API", "Gemini API"],
+            demoLink: "",
+            tech: ["Python", "wxauto", "LLM APIs"],
             summary: "基于大模型的微信智能助手，实现消息自动化与个性化 AI 回复。",
+            impact: "Github 100+ Stars",
             details: [
                 "【自动化】基于 wxauto 实现微信 PC 端消息自动监控与回复",
                 "【多模型】支持 OpenAI、Claude、Gemini 等多种大模型 API 一键切换",
@@ -104,8 +107,9 @@ export const portfolioData: PortfolioData = {
         {
             year: "2024",
             name: "乐学网",
-            tech: ["Spring Boot", "MySQL", "Redis", "Spring Security", "JWT", "Nginx"],
-            summary: "全栈教育平台，支持在线课程、视频播放、微信支付、动态权限管理等完整功能。",
+            tech: ["Spring Boot", "Redis", "Spring Security"],
+            summary: "全栈教育平台，支持在线课程、视频播放、微信支付等完整功能。",
+            impact: "用户量 1000+",
             details: [
                 "【缓存架构】采用 Redis 缓存高频数据，配合主动更新+超时剔除策略保障数据一致性",
                 "【网关设计】Gateway + Redis 实现统一鉴权与分布式会话共享，集成全局异常处理",
@@ -117,8 +121,10 @@ export const portfolioData: PortfolioData = {
             year: "2024",
             name: "个人云盘",
             link: "https://github.com/icefunicu/easyCloudPan",
-            tech: ["Spring Boot", "Spring Security", "Spring Data JPA", "Vue.js", "MySQL", "Redis", "FFmpeg"],
-            summary: "仿百度网盘 Web 端，支持文件秒传、视频转码、分享链接等核心功能。已获 3 Stars。",
+            demoLink: "",
+            tech: ["Spring Boot", "Vue.js", "Redis", "FFmpeg"],
+            summary: "仿百度网盘 Web 端，支持文件秒传、视频转码、分享链接等核心功能。",
+            impact: "Star 3+",
             details: [
                 "【极速秒传】基于 MD5 生成唯一文件 ID，实现文件秒传功能",
                 "【视频处理】集成 FFmpeg 实现视频索引生成、切片、缩略图生成及异步转码",
@@ -130,8 +136,9 @@ export const portfolioData: PortfolioData = {
             year: "2023",
             name: "智能基金管理系统",
             link: "https://github.com/icefunicu/ry-fund",
-            tech: ["Spring Boot", "Vue.js", "RuoYi Framework", "MySQL"],
-            summary: "基于若依框架的企业级基金管理系统，展现模块化后端架构能力。",
+            tech: ["RuoYi", "Spring Boot", "Vue.js"],
+            summary: "基于若依框架的企业级基金管理系统，模块化后端架构。",
+            impact: "企业级交付",
             details: [
                 "【架构】采用 RuoYi 企业级框架，模块化拆分 admin/framework/system 层",
                 "【功能】支持个人基金追踪、数据统计、报表导出等完整功能",

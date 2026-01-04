@@ -1,14 +1,34 @@
 import type { Metadata } from "next";
+import { Archivo, Space_Grotesk, Noto_Sans_SC } from "next/font/google";
 import "./globals.css";
 
+const archivo = Archivo({
+  subsets: ["latin"],
+  variable: "--font-archivo",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space",
+  display: "swap",
+});
+
+const notoSansSC = Noto_Sans_SC({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-noto-sans-sc",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "杜旭嘉 - 全栈工程师 | AI 原生开发者",
-  description: "专注于后端架构与 AI 应用开发的全栈工程师。擅长 Vibe Coding，以 AI 为核心驱动力快速交付跨技术栈的高质量产品。",
-  keywords: ["杜旭嘉", "全栈工程师", "后端开发", "AI开发", "Vibe Coding", "Java", "Python", "Spring Boot"],
+  title: "杜旭嘉 - Full Stack Engineer & AI Native Dev",
+  description: "Senior Full Stack Engineer specializing in AI-native development. Crafting cinematic web experiences with Next.js, Motion, and AI agents.",
+  keywords: ["杜旭嘉", "Full Stack", "AI Native", "Next.js", "React", "Design Engineer", "Portfolio"],
   authors: [{ name: "杜旭嘉" }],
   openGraph: {
-    title: "杜旭嘉 - 全栈工程师 | AI 原生开发者",
-    description: "专注于后端架构与 AI 应用开发的全栈工程师",
+    title: "杜旭嘉 - Full Stack Engineer",
+    description: "Building the future of web with AI and Motion.",
     type: "website",
   },
 };
@@ -20,15 +40,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="antialiased">
+      <body
+        className={`${archivo.variable} ${spaceGrotesk.variable} ${notoSansSC.variable} antialiased selection:bg-zinc-200 selection:text-zinc-900 bg-zinc-50`}
+      >
         {children}
       </body>
     </html>

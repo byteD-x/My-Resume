@@ -4,19 +4,19 @@ import { useState, useCallback } from 'react';
 import { portfolioData as initialData } from '@/data';
 import { PortfolioData, HeroData, VibeCodingData } from '@/types';
 import Navbar from '@/components/Navbar';
-import Hero from '@/components/Hero';
-import About from '@/components/About';
-import Timeline from '@/components/Timeline';
-import Skills from '@/components/Skills';
-import VibeCoding from '@/components/VibeCoding';
-import Projects from '@/components/Projects';
+import Hero from '../components/Hero';
+import HighlightDeck from '@/components/HighlightDeck';
+import ExperienceFlow from '@/components/ExperienceFlow';
+import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
 import ExportButton from '@/components/ExportButton';
+import FloatingResumeButton from '@/components/FloatingResumeButton';
+import EditableText from '@/components/EditableText';
 
 export default function Home() {
   const [data, setData] = useState<PortfolioData>(initialData);
 
-  // Hero 更新
+  // Hero Update
   const handleHeroUpdate = useCallback((field: keyof HeroData, value: string) => {
     setData(prev => ({
       ...prev,
@@ -24,12 +24,12 @@ export default function Home() {
     }));
   }, []);
 
-  // About 更新
+  // About Update
   const handleAboutUpdate = useCallback((value: string) => {
     setData(prev => ({ ...prev, about: value }));
   }, []);
 
-  // Timeline 更新
+  // Timeline Update
   const handleTimelineUpdate = useCallback((index: number, field: string, value: string) => {
     setData(prev => ({
       ...prev,
@@ -50,15 +50,7 @@ export default function Home() {
     }));
   }, []);
 
-  // VibeCoding 更新
-  const handleVibeCodingUpdate = useCallback((field: keyof VibeCodingData, value: string) => {
-    setData(prev => ({
-      ...prev,
-      vibeCoding: { ...prev.vibeCoding, [field]: value }
-    }));
-  }, []);
-
-  // Projects 更新
+  // Projects Update
   const handleProjectUpdate = useCallback((index: number, field: string, value: string) => {
     setData(prev => ({
       ...prev,
@@ -79,65 +71,63 @@ export default function Home() {
     }));
   }, []);
 
-  // 获取当前数据用于导出
+  // VibeCoding Update
+  const handleVibeCodingUpdate = useCallback((field: keyof VibeCodingData, value: string) => {
+    setData(prev => ({
+      ...prev,
+      vibeCoding: { ...prev.vibeCoding, [field]: value }
+    }));
+  }, []);
+
+  // Get current data for export
   const getData = useCallback(() => data, [data]);
 
   return (
-    <main className="min-h-screen bg-[var(--background)] relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 grid-pattern opacity-30" />
+    <main className="min-h-screen relative overflow-hidden">
 
-        {/* Radial Gradients */}
-        <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-to-br from-blue-500/12 via-indigo-500/6 to-transparent rounded-full blur-3xl animate-float-slow" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-gradient-to-br from-emerald-500/10 via-cyan-500/6 to-transparent rounded-full blur-3xl animate-float-delayed" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-br from-sky-500/6 via-fuchsia-500/4 to-transparent rounded-full blur-3xl animate-glow" />
+      <Navbar heroData={data.hero} contactData={data.contact} />
+
+      <Hero data={data.hero} onUpdate={handleHeroUpdate} />
+
+      <div id="impact">
+        <HighlightDeck />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10">
-        <Navbar />
-
-        <Hero data={data.hero} onUpdate={handleHeroUpdate} />
-
-        <section id="about">
-          <About content={data.about} onUpdate={handleAboutUpdate} />
-        </section>
-
-        <section id="experience" className="py-24 px-6">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-12 text-center">
-              经历
-            </h2>
-            <Timeline
-              items={data.timeline}
-              onUpdate={handleTimelineUpdate}
-              onUpdateDetail={handleTimelineDetailUpdate}
+      {/* About Section */}
+      <section className="container-padding py-12">
+        <div className="max-w-4xl mx-auto text-center glass-panel p-8 rounded-2xl border border-white/5">
+          <h2 className="text-2xl font-bold mb-4 text-white">About Me</h2>
+          <div className="text-gray-400 leading-relaxed text-lg">
+            <EditableText
+              id="about"
+              value={data.about}
+              onChange={(_, val) => handleAboutUpdate(val)}
+              as="div"
+              multiline
             />
           </div>
-        </section>
+        </div>
+      </section>
 
-        <VibeCoding data={data.vibeCoding} onUpdate={handleVibeCodingUpdate} />
+      <ExperienceFlow
+        timeline={data.timeline}
+        projects={data.projects}
+        onUpdateTimeline={handleTimelineUpdate}
+        onUpdateTimelineDetail={handleTimelineDetailUpdate}
+        onUpdateProject={handleProjectUpdate}
+        onUpdateProjectDetail={handleProjectDetailUpdate}
+      />
 
-        <section id="projects">
-          <Projects
-            projects={data.projects}
-            onUpdate={handleProjectUpdate}
-            onUpdateDetail={handleProjectDetailUpdate}
-          />
-        </section>
+      <TechStack
+        skills={data.skills}
+        vibeCoding={data.vibeCoding}
+        onUpdateVibeCoding={handleVibeCodingUpdate}
+      />
 
-        <section id="skills">
-          <Skills skills={data.skills} />
-        </section>
+      <Contact contactData={data.contact} heroData={data.hero} />
 
-        <section id="contact">
-          <Contact contact={data.contact} />
-        </section>
-
-        <ExportButton getData={getData} />
-      </div>
+      <ExportButton getData={getData} />
+      <FloatingResumeButton />
     </main>
   );
 }

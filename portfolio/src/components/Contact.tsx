@@ -1,198 +1,89 @@
-'use client';
-
-import { ContactInfo } from '@/types';
-import { Mail, Phone, Github, Globe, Sparkles, Heart } from 'lucide-react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Mail, Github, Globe, Phone, Copy, Check, ArrowRight } from 'lucide-react';
+import { ContactData, HeroData } from '@/types';
 
 interface ContactProps {
-    contact: ContactInfo;
+    contactData: ContactData;
+    heroData: HeroData;
 }
 
-const contactStyles = [
-    {
-        gradient: 'from-emerald-500 to-teal-500',
-        bgGradient: 'from-emerald-500/10 to-teal-500/10',
-        border: 'border-emerald-500/20',
-        glow: 'hover:shadow-emerald-500/20',
-    },
-    {
-        gradient: 'from-blue-500 to-indigo-500',
-        bgGradient: 'from-blue-500/10 to-indigo-500/10',
-        border: 'border-blue-500/20',
-        glow: 'hover:shadow-blue-500/20',
-    },
-    {
-        gradient: 'from-zinc-400 to-zinc-600',
-        bgGradient: 'from-zinc-500/10 to-zinc-700/10',
-        border: 'border-zinc-500/20',
-        glow: 'hover:shadow-zinc-500/20',
-    },
-    {
-        gradient: 'from-violet-500 to-purple-500',
-        bgGradient: 'from-violet-500/10 to-purple-500/10',
-        border: 'border-violet-500/20',
-        glow: 'hover:shadow-violet-500/20',
-    },
-];
+export default function Contact({ contactData, heroData }: ContactProps) {
+    const [copied, setCopied] = useState(false);
+    const email = contactData.email;
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.1 },
-    },
-};
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.5, ease: "easeOut" as const },
-    },
-};
-
-export default function Contact({ contact }: ContactProps) {
-    const contactItems = [
-        { icon: Phone, label: '电话', value: contact.phone, href: `tel:${contact.phone}` },
-        { icon: Mail, label: '邮箱', value: contact.email, href: `mailto:${contact.email}` },
-        { icon: Github, label: 'GitHub', value: 'GitHub', href: contact.github },
-        { icon: Globe, label: '个人网站', value: 'Website', href: contact.website },
-    ];
+    const handleCopy = () => {
+        navigator.clipboard.writeText(email);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
 
     return (
-        <section className="py-32 px-6 relative overflow-hidden">
-            <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-violet-500/10 via-purple-500/5 to-transparent rounded-full blur-3xl animate-float-slow" />
-                <div className="absolute bottom-20 right-10 w-64 h-64 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-3xl animate-float-delayed" />
-            </div>
-
-            <div className="max-w-4xl mx-auto relative z-10">
-                <motion.h2
-                    className="text-sm font-semibold text-zinc-500 uppercase tracking-widest mb-14 text-center"
-                    initial={{ opacity: 0, y: -20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                >
-                    联系方式
-                </motion.h2>
-
+        <section className="py-24 relative" id="contact">
+            <div className="container-padding max-w-5xl mx-auto">
                 <motion.div
-                    className="relative group"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    className="glass-card p-12 md:p-16 text-center relative overflow-hidden"
                 >
-                    {/* Glow Border */}
-                    <div className="absolute -inset-[1px] bg-gradient-to-r from-violet-500/30 via-fuchsia-500/30 to-blue-500/30 rounded-3xl opacity-0 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
+                    {/* Background Gradients */}
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] -z-10" />
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-full blur-[80px] -z-10" />
 
-                    {/* Card */}
-                    <div className="relative bg-white/[0.02] backdrop-blur-xl rounded-3xl p-8 border border-white/[0.06] overflow-hidden">
-                        {/* Inner Glow */}
-                        <div className="absolute top-0 right-0 w-56 h-56 bg-gradient-to-br from-violet-500/10 via-purple-500/5 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
-                        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent rounded-full blur-2xl pointer-events-none" aria-hidden="true" />
-
-                        <motion.div
-                            className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative"
-                            variants={containerVariants}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                        >
-                            {contactItems.map((item, index) => {
-                                const style = contactStyles[index];
-
-                                return (
-                                    <motion.a
-                                        key={index}
-                                        href={item.href}
-                                        target={item.href.startsWith('http') ? '_blank' : undefined}
-                                        rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                                        variants={itemVariants}
-                                        className={`
-                                            relative flex items-center gap-4 p-5 rounded-2xl
-                                            bg-gradient-to-br ${style.bgGradient}
-                                            border ${style.border}
-                                            ${style.glow}
-                                            hover:bg-white/[0.04]
-                                            transition-all duration-300
-                                            group/item overflow-hidden
-                                        `}
-                                        whileHover={{ scale: 1.02, y: -2 }}
-                                        whileTap={{ scale: 0.98 }}
-                                    >
-                                        {/* Hover Shine Effect */}
-                                        <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover/item:translate-x-[100%] transition-transform duration-700" />
-
-                                        {/* Icon */}
-                                        <motion.div
-                                            className={`
-                                                w-12 h-12 rounded-xl
-                                                bg-gradient-to-br ${style.gradient}
-                                                flex items-center justify-center
-                                                shadow-lg group-hover/item:shadow-xl
-                                                transition-all duration-300 relative
-                                            `}
-                                            whileHover={{ rotate: 5, scale: 1.1 }}
-                                        >
-                                            <item.icon className="w-5 h-5 text-white" />
-                                        </motion.div>
-
-                                        <div className="relative min-w-0">
-                                            <p className="text-xs text-zinc-500 uppercase tracking-wider mb-0.5">
-                                                {item.label}
-                                            </p>
-                                            <p className="text-white font-medium group-hover/item:text-zinc-200 transition-colors break-all">
-                                                {item.value}
-                                            </p>
-                                        </div>
-                                    </motion.a>
-                                );
-                            })}
-                        </motion.div>
-                    </div>
-                </motion.div>
-
-                {/* Footer */}
-                <motion.div
-                    className="flex flex-col items-center justify-center gap-4 mt-20"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5 }}
-                >
-                    <div className="flex items-center gap-3">
-                        <motion.div
-                            animate={{ rotate: [0, 10, -10, 0] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            <Sparkles className="w-4 h-4 text-violet-400" />
-                        </motion.div>
-                        <p className="text-zinc-500 text-sm">
-                            Built with
-                        </p>
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                        >
-                            <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
-                        </motion.div>
-                        <p className="text-zinc-500 text-sm">
-                            using Next.js & Tailwind CSS
-                        </p>
-                        <motion.div
-                            animate={{ rotate: [0, -10, 10, 0] }}
-                            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                        >
-                            <Sparkles className="w-4 h-4 text-violet-400" />
-                        </motion.div>
-                    </div>
-                    <p className="text-zinc-600 text-sm">
-                        © {new Date().getFullYear()} 杜旭嘉. All rights reserved.
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white">
+                        Ready to Build <span className="text-gradient-main">Something Amazing?</span>
+                    </h2>
+                    <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-10">
+                        Whether you have a question, a project idea, or just want to say hi, I&apos;m always open to new opportunities and collaborations.
                     </p>
+
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-12">
+                        <button
+                            onClick={handleCopy}
+                            className="group relative flex items-center gap-3 px-8 py-4 bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 rounded-2xl transition-all w-full md:w-auto justify-center"
+                        >
+                            <Mail className="text-cyan-400" />
+                            <span className="text-lg font-medium text-gray-200">{email}</span>
+                            <div className="ml-2 p-1.5 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors">
+                                {copied ? <Check size={18} className="text-green-400" /> : <Copy size={18} className="text-gray-400 group-hover:text-white" />}
+                            </div>
+
+                            {copied && (
+                                <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-green-500 text-black text-xs font-bold rounded-lg animate-fade-in-up">
+                                    Copied!
+                                </span>
+                            )}
+                        </button>
+
+                        <a
+                            href={contactData.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-bold hover:bg-gray-200 transition-all w-full md:w-auto justify-center shadow-lg shadow-white/10"
+                        >
+                            <Github />
+                            <span>GitHub Profile</span>
+                            <ArrowRight size={18} />
+                        </a>
+                    </div>
+
+                    {/* Social Links Matrix */}
+                    <div className="flex flex-wrap justify-center gap-6 pt-10 border-t border-white/5">
+                        <a href={`tel:${contactData.phone}`} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                            <Phone size={18} />
+                            <span>{contactData.phone}</span>
+                        </a>
+                        <a href={contactData.website} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+                            <Globe size={18} />
+                            <span>{contactData.website}</span>
+                        </a>
+                    </div>
                 </motion.div>
+
+                <div className="text-center mt-12 text-gray-500 text-sm">
+                    © {new Date().getFullYear()} {heroData.name}. All rights reserved. Built with Next.js, Tailwind & Motion.
+                </div>
             </div>
         </section>
     );

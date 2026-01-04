@@ -1,6 +1,7 @@
 // Portfolio Data Type Definitions
 
 export interface HeroData {
+  name: string;
   title: string;
   subtitle: string;
 }
@@ -17,9 +18,11 @@ export interface ProjectItem {
   year: string;
   name: string;
   link?: string;
+  demoLink?: string;
   tech: string[];
   summary: string;
   details: string[];
+  impact?: string; // e.g. "Performance +50%"
 }
 
 export interface SkillCategory {
@@ -32,7 +35,7 @@ export interface VibeCodingData {
   description: string;
 }
 
-export interface ContactInfo {
+export interface ContactData {
   phone: string;
   email: string;
   github: string;
@@ -46,5 +49,5 @@ export interface PortfolioData {
   projects: ProjectItem[];
   skills: SkillCategory[];
   vibeCoding: VibeCodingData;
-  contact: ContactInfo;
+  contact: ContactData;
 }
