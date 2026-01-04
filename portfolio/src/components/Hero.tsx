@@ -141,7 +141,9 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                     </div>
                                     <div>
                                         <div className="text-xs uppercase text-slate-400 font-semibold mb-1">岗位方向</div>
-                                        <div className="text-lg font-bold text-slate-900">后端 / 全栈 / AI 工程</div>
+                                        <div className="text-lg font-bold text-slate-900">
+                                            {data.quickFacts?.role || "后端 / 全栈 / AI 工程"}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -151,14 +153,16 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                     </div>
                                     <div>
                                         <div className="text-xs uppercase text-slate-400 font-semibold mb-1">入职时间</div>
-                                        <div className="text-lg font-bold text-emerald-600">可立即入职</div>
+                                        <div className="text-lg font-bold text-emerald-600">
+                                            {data.quickFacts?.availability || "可立即入职"}
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div className="pt-6 border-t border-slate-100">
                                     <div className="text-xs uppercase text-slate-400 font-semibold mb-3">核心技术栈</div>
                                     <div className="flex flex-wrap gap-2">
-                                        {['Java', 'Spring', 'Python', 'LLM API', 'MySQL', 'Redis'].map(tag => (
+                                        {(data.quickFacts?.techStack || ['Java', 'Spring', 'Python', 'LLM API', 'MySQL', 'Redis']).map(tag => (
                                             <span key={tag} className="px-3 py-1 bg-slate-50 text-slate-600 text-sm font-medium rounded-full border border-slate-100">
                                                 {tag}
                                             </span>

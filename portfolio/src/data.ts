@@ -24,7 +24,12 @@ export const defaultPortfolioData: PortfolioData = {
                 title: "AI 落地",
                 description: "LLM API 集成、工具调用、Bot/搜索类应用快速交付"
             }
-        ]
+        ],
+        quickFacts: {
+            role: "后端 / 全栈 / AI 工程",
+            availability: "可立即入职",
+            techStack: ["Java", "Spring", "Python", "LLM API", "MySQL", "Redis"]
+        }
     },
 
     about: "2025届计算机专业毕业生，专注于后端架构与 AI 应用开发。AI 原生开发践行者，擅长使用 Cursor/Windsurf 等工具极速交付高质量全栈应用。从复杂后端架构到精美前端交互，皆可独立完成。",
