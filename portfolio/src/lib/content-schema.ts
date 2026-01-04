@@ -18,6 +18,12 @@ const ExperienceDetailSchema = z.object({
     })).optional(),
 }).optional();
 
+const QuickFactsSchema = z.object({
+    role: z.string(),
+    availability: z.string(),
+    techStack: z.array(z.string()),
+});
+
 const TimelineItemSchema = z.object({
     id: z.string(),
     year: z.string(),
@@ -26,8 +32,9 @@ const TimelineItemSchema = z.object({
     location: z.string().optional(),
     summary: z.string(),
     bulletPoints: z.array(z.string()).optional(),
-    expandedDetails: ExperienceDetailSchema,
-    techTags: z.array(z.string()).optional(),
+    expandedDetails: ExperienceDetailSchema.optional(),
+    keyOutcomes: z.array(z.string()).optional(),
+    techTags: z.array(z.string()),
     highlighted: z.boolean().optional(),
 });
 
@@ -38,9 +45,12 @@ const ProjectItemSchema = z.object({
     link: z.string().optional(),
     demoLink: z.string().optional(),
     tech: z.array(z.string()),
+    techTags: z.array(z.string()),
     summary: z.string(),
     details: z.array(z.string()),
     impact: z.string().optional(),
+    expandedDetails: ExperienceDetailSchema.optional(),
+    keyOutcomes: z.array(z.string()).optional(),
     highlighted: z.boolean().optional(),
 });
 
@@ -69,6 +79,7 @@ const HeroDataSchema = z.object({
     title: z.string(),
     subtitle: z.string(),
     bullets: z.array(HeroBulletSchema).min(1).max(5),
+    quickFacts: QuickFactsSchema.optional(),
 });
 
 const SkillCategorySchema = z.object({
