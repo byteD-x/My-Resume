@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     ArrowUpRight,
@@ -11,7 +11,7 @@ import {
     FolderGit2,
     ChevronUp,
     ExternalLink,
-    MapPin
+    Download
 } from 'lucide-react';
 import { TimelineItem, ProjectItem } from '@/types';
 import EditableText from './EditableText';
@@ -24,6 +24,13 @@ interface ExperienceFlowProps {
     onClearHighlight?: () => void;
 }
 
+// 简洁动画配置
+const fadeVariants = {
+    initial: { opacity: 0, y: 12 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -8 }
+};
+
 export default function ExperienceFlow({
     timeline,
     projects,
@@ -32,12 +39,17 @@ export default function ExperienceFlow({
     onClearHighlight
 }: ExperienceFlowProps) {
     const [activeTab, setActiveTab] = useState<'work' | 'projects'>('work');
-    const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
     const [showMoreExperiences, setShowMoreExperiences] = useState(false);
 
     // 分离 highlighted 和 non-highlighted 经历
     const highlightedExperiences = timeline.filter(item => item.highlighted);
     const otherExperiences = timeline.filter(item => !item.highlighted);
+
+    // 默认展开最近 2-3 条高亮经历 - use useMemo for initial calculation
+    const [expandedItems, setExpandedItems] = useState<Set<string>>(() => {
+        const defaultExpanded = timeline.filter(item => item.highlighted).slice(0, 3).map(e => e.id);
+        return new Set(defaultExpanded);
+    });
 
     // 滚动到被高亮的项目
     useEffect(() => {
@@ -45,16 +57,15 @@ export default function ExperienceFlow({
             const element = document.getElementById(`timeline-${highlightedId}`);
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // 自动展开被高亮的项目
-                setExpandedItems(prev => new Set([...prev, highlightedId]));
-
-                // 如果是在 "更多经历" 里，自动展开
-                if (otherExperiences.find(e => e.id === highlightedId)) {
-                    setShowMoreExperiences(true);
-                }
+                // Use requestAnimationFrame to defer state updates
+                requestAnimationFrame(() => {
+                    setExpandedItems(prev => new Set([...prev, highlightedId]));
+                    if (otherExperiences.find(e => e.id === highlightedId)) {
+                        setShowMoreExperiences(true);
+                    }
+                });
             }
 
-            // 2秒后清除高亮
             const timer = setTimeout(() => {
                 onClearHighlight?.();
             }, 2000);
@@ -85,35 +96,30 @@ export default function ExperienceFlow({
     };
 
     return (
-        <section className="py-24 relative bg-zinc-50" id="experience">
-            <div className="container-padding">
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                    >
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-zinc-900">
-                            职业 <span className="text-zinc-400">履历</span>
-                        </h2>
-                        <p className="text-zinc-500 text-lg max-w-xl">
-                            从企业级系统到 AI 原生应用的成长轨迹
-                        </p>
+        <section className="section" id="experience" style={{ backgroundColor: 'var(--bg-page)' }}>
+            <div className="container">
+                {/* Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+                    <motion.div {...fadeVariants} viewport={{ once: true }}>
+                        <h2 className="section-title mb-2">职业履历</h2>
+                        <p className="section-subtitle">从企业级系统到 AI 原生应用的成长轨迹</p>
                     </motion.div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3 flex-wrap">
                         {/* 展开/收起全部 */}
                         <div className="flex gap-2">
                             <button
                                 onClick={expandAll}
-                                className="px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors flex items-center gap-1"
+                                className="px-3 py-1.5 text-sm rounded-lg transition-colors flex items-center gap-1"
+                                style={{ color: 'var(--text-secondary)' }}
                             >
                                 <ChevronDown size={14} />
                                 展开全部
                             </button>
                             <button
                                 onClick={collapseAll}
-                                className="px-4 py-2 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors flex items-center gap-1"
+                                className="px-3 py-1.5 text-sm rounded-lg transition-colors flex items-center gap-1"
+                                style={{ color: 'var(--text-secondary)' }}
                             >
                                 <ChevronUp size={14} />
                                 收起全部
@@ -121,23 +127,34 @@ export default function ExperienceFlow({
                         </div>
 
                         {/* Tab 切换 */}
-                        <div className="flex gap-2 p-1 bg-zinc-200/50 rounded-full border border-zinc-200">
+                        <div
+                            className="flex gap-1 p-1 rounded-full"
+                            style={{ backgroundColor: 'var(--bg-muted)', border: '1px solid var(--border-default)' }}
+                        >
                             <button
                                 onClick={() => setActiveTab('work')}
-                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${activeTab === 'work'
-                                        ? 'bg-white text-zinc-900 shadow-sm'
-                                        : 'text-zinc-500 hover:text-zinc-700'
-                                    }`}
+                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2`}
+                                style={activeTab === 'work' ? {
+                                    backgroundColor: 'var(--bg-surface)',
+                                    color: 'var(--text-primary)',
+                                    boxShadow: 'var(--shadow-sm)'
+                                } : {
+                                    color: 'var(--text-secondary)'
+                                }}
                             >
                                 <Briefcase size={14} />
                                 工作经历
                             </button>
                             <button
                                 onClick={() => setActiveTab('projects')}
-                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-2 ${activeTab === 'projects'
-                                        ? 'bg-white text-zinc-900 shadow-sm'
-                                        : 'text-zinc-500 hover:text-zinc-700'
-                                    }`}
+                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center gap-2`}
+                                style={activeTab === 'projects' ? {
+                                    backgroundColor: 'var(--bg-surface)',
+                                    color: 'var(--text-primary)',
+                                    boxShadow: 'var(--shadow-sm)'
+                                } : {
+                                    color: 'var(--text-secondary)'
+                                }}
                             >
                                 <FolderGit2 size={14} />
                                 项目经历
@@ -146,21 +163,26 @@ export default function ExperienceFlow({
                     </div>
                 </div>
 
+                {/* Content */}
                 <div className="relative">
                     <AnimatePresence mode="wait">
                         {activeTab === 'work' && (
                             <motion.div
                                 key="work"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3 }}
+                                variants={fadeVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={{ duration: 0.2 }}
                             >
                                 {/* 时间线轴 */}
-                                <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-zinc-200" />
+                                <div
+                                    className="absolute left-3 md:left-6 top-0 bottom-0 w-px"
+                                    style={{ backgroundColor: 'var(--border-default)' }}
+                                />
 
                                 {/* 重点经历 */}
-                                <div className="space-y-6">
+                                <div className="space-y-4">
                                     {highlightedExperiences.map((item, index) => (
                                         <TimelineCard
                                             key={item.id}
@@ -176,12 +198,13 @@ export default function ExperienceFlow({
 
                                 {/* 更多经历 */}
                                 {otherExperiences.length > 0 && (
-                                    <div className="mt-8">
+                                    <div className="mt-6">
                                         <button
                                             onClick={() => setShowMoreExperiences(!showMoreExperiences)}
-                                            className="flex items-center gap-2 text-zinc-500 hover:text-zinc-900 transition-colors mb-6 ml-12"
+                                            className="flex items-center gap-2 transition-colors mb-4 ml-10 md:ml-14 text-sm"
+                                            style={{ color: 'var(--text-secondary)' }}
                                         >
-                                            {showMoreExperiences ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                                            {showMoreExperiences ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                             <span className="font-medium">
                                                 {showMoreExperiences ? '收起更多经历' : `更多经历 (${otherExperiences.length})`}
                                             </span>
@@ -193,7 +216,8 @@ export default function ExperienceFlow({
                                                     initial={{ opacity: 0, height: 0 }}
                                                     animate={{ opacity: 1, height: 'auto' }}
                                                     exit={{ opacity: 0, height: 0 }}
-                                                    className="space-y-6 overflow-hidden"
+                                                    transition={{ duration: 0.2 }}
+                                                    className="space-y-4 overflow-hidden"
                                                 >
                                                     {otherExperiences.map((item, index) => (
                                                         <TimelineCard
@@ -217,11 +241,12 @@ export default function ExperienceFlow({
                         {activeTab === 'projects' && (
                             <motion.div
                                 key="projects"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3 }}
-                                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                                variants={fadeVariants}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                transition={{ duration: 0.2 }}
+                                className="grid grid-cols-1 md:grid-cols-2 gap-4"
                             >
                                 {projects.map((project, index) => (
                                     <ProjectCard
@@ -236,20 +261,26 @@ export default function ExperienceFlow({
                     </AnimatePresence>
                 </div>
 
-                {/* CTA 在时间线末尾 */}
+                {/* CTA */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
-                    className="mt-16 text-center"
+                    className="mt-12 text-center"
                 >
+                    <p
+                        className="text-sm mb-4"
+                        style={{ color: 'var(--text-tertiary)' }}
+                    >
+                        网页为精选版，完整经历/项目细节见 PDF
+                    </p>
                     <a
                         href="/resume.pdf"
                         target="_blank"
-                        className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 text-white rounded-full font-medium hover:bg-zinc-800 transition-colors"
+                        className="btn btn-primary"
                     >
-                        下载完整简历 PDF
-                        <ArrowUpRight size={18} />
+                        <Download size={18} />
+                        查看完整 PDF
                     </a>
                 </motion.div>
             </div>
@@ -276,49 +307,61 @@ function TimelineCard({
     return (
         <motion.div
             id={`timeline-${item.id}`}
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -12 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className={`relative pl-12 md:pl-16 transition-all duration-500 ${isHighlighted ? 'ring-2 ring-blue-400 ring-offset-4 rounded-2xl' : ''
-                }`}
+            transition={{ delay: index * 0.05, duration: 0.25 }}
+            className={`relative pl-10 md:pl-14 transition-all duration-300 ${isHighlighted ? 'ring-2 ring-offset-4 rounded-xl' : ''}`}
+            style={isHighlighted ? {
+                '--tw-ring-color': 'var(--color-primary)',
+                '--tw-ring-offset-color': 'var(--bg-page)'
+            } as React.CSSProperties : undefined}
         >
             {/* 时间线节点 */}
-            <div className={`absolute left-2 md:left-6 top-6 w-4 h-4 rounded-full border-4 transition-colors ${item.highlighted
-                    ? 'bg-blue-500 border-blue-200'
-                    : 'bg-white border-zinc-300'
-                }`} />
+            <div
+                className="absolute left-1.5 md:left-4 top-6 w-3 h-3 rounded-full border-[3px]"
+                style={item.highlighted ? {
+                    backgroundColor: 'var(--color-primary)',
+                    borderColor: 'rgba(37, 99, 235, 0.3)'
+                } : {
+                    backgroundColor: 'var(--bg-surface)',
+                    borderColor: 'var(--border-strong)'
+                }}
+            />
 
             {/* 卡片 */}
             <div
-                className={`bg-white rounded-2xl border transition-all duration-300 ${isExpanded ? 'border-zinc-300 shadow-lg' : 'border-zinc-200 hover:border-zinc-300 hover:shadow-md'
-                    }`}
+                className="card transition-all"
+                style={isExpanded ? {
+                    borderColor: 'var(--border-strong)',
+                    boxShadow: 'var(--shadow-md)'
+                } : undefined}
             >
-                {/* 头部（可点击展开） */}
+                {/* 头部 */}
                 <button
                     onClick={onToggle}
-                    className="w-full p-6 text-left flex flex-col md:flex-row md:items-start gap-4"
+                    className="w-full p-5 text-left flex flex-col md:flex-row md:items-start gap-3"
                 >
                     <div className="flex-1">
                         {/* 时间和公司 */}
-                        <div className="flex flex-wrap items-center gap-3 mb-3">
-                            <span className="text-sm font-mono text-zinc-500 bg-zinc-100 px-2 py-1 rounded">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <span
+                                className="text-xs font-mono px-2 py-0.5 rounded"
+                                style={{ backgroundColor: 'var(--bg-muted)', color: 'var(--text-secondary)' }}
+                            >
                                 {item.year}
                             </span>
-                            <span className="text-zinc-400 flex items-center gap-1 text-sm">
+                            <span
+                                className="flex items-center gap-1 text-sm"
+                                style={{ color: 'var(--text-tertiary)' }}
+                            >
                                 <Building2 size={14} />
                                 {item.company}
                             </span>
-                            {item.location && (
-                                <span className="text-zinc-400 flex items-center gap-1 text-sm">
-                                    <MapPin size={14} />
-                                    {item.location}
-                                </span>
-                            )}
                         </div>
 
                         {/* 职位标题 */}
-                        <h3 className="text-xl font-bold text-zinc-900 mb-2">
+                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
                             <EditableText
                                 id={`timeline-${item.id}-role`}
                                 value={item.role}
@@ -329,7 +372,7 @@ function TimelineCard({
                         </h3>
 
                         {/* 摘要 */}
-                        <p className="text-zinc-600 leading-relaxed">
+                        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                             <EditableText
                                 id={`timeline-${item.id}-summary`}
                                 value={item.summary}
@@ -341,12 +384,9 @@ function TimelineCard({
 
                         {/* 技术标签 */}
                         {item.techTags && item.techTags.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mt-4">
+                            <div className="flex flex-wrap gap-1.5 mt-3">
                                 {item.techTags.map((tag, i) => (
-                                    <span
-                                        key={i}
-                                        className="px-3 py-1 text-xs rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600"
-                                    >
+                                    <span key={i} className="tag">
                                         {tag}
                                     </span>
                                 ))}
@@ -355,57 +395,71 @@ function TimelineCard({
                     </div>
 
                     {/* 展开/收起图标 */}
-                    <div className={`p-2 rounded-full transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
-                        <ChevronDown size={20} className="text-zinc-400" />
+                    <div
+                        className={`p-1 rounded transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                        style={{ color: 'var(--text-tertiary)' }}
+                    >
+                        <ChevronDown size={18} />
                     </div>
                 </button>
 
-                {/* 展开内容 */}
+                {/* 展开内容：问题-行动-结果结构 */}
                 <AnimatePresence>
                     {isExpanded && item.expandedDetails && (
                         <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.2 }}
                             className="overflow-hidden"
                         >
-                            <div className="px-6 pb-6 border-t border-zinc-100 pt-6 space-y-6">
-                                {/* 背景 */}
-                                {item.expandedDetails.background && (
-                                    <DetailSection title="背景" content={item.expandedDetails.background} />
-                                )}
-
+                            <div
+                                className="px-5 pb-5 pt-4 space-y-4 border-t"
+                                style={{ borderColor: 'var(--border-default)' }}
+                            >
                                 {/* 问题 */}
                                 {item.expandedDetails.problem && (
-                                    <DetailSection title="问题" content={item.expandedDetails.problem} />
+                                    <DetailBlock
+                                        label="问题"
+                                        content={item.expandedDetails.problem}
+                                        color="var(--color-primary)"
+                                    />
                                 )}
 
-                                {/* 方案 */}
+                                {/* 行动/方案 */}
                                 {item.expandedDetails.solution && (
-                                    <DetailSection title="方案" content={item.expandedDetails.solution} />
+                                    <DetailBlock
+                                        label="行动"
+                                        content={item.expandedDetails.solution}
+                                        color="var(--color-secondary)"
+                                    />
                                 )}
 
                                 {/* 结果 */}
                                 {item.expandedDetails.result && (
-                                    <DetailSection title="结果" content={item.expandedDetails.result} />
+                                    <DetailBlock
+                                        label="结果"
+                                        content={item.expandedDetails.result}
+                                        color="#16A34A"
+                                    />
                                 )}
 
                                 {/* 我的角色 */}
                                 {item.expandedDetails.role && (
-                                    <DetailSection title="我的角色" content={item.expandedDetails.role} />
+                                    <div className="pt-3 border-t" style={{ borderColor: 'var(--border-default)' }}>
+                                        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                                            <span className="font-medium" style={{ color: 'var(--text-primary)' }}>我的角色：</span>
+                                            {item.expandedDetails.role}
+                                        </p>
+                                    </div>
                                 )}
 
                                 {/* 技术栈 */}
                                 {item.expandedDetails.techStack && item.expandedDetails.techStack.length > 0 && (
-                                    <div>
-                                        <h4 className="text-sm font-semibold text-zinc-700 mb-2">技术栈</h4>
-                                        <div className="flex flex-wrap gap-2">
+                                    <div className="pt-3 border-t" style={{ borderColor: 'var(--border-default)' }}>
+                                        <div className="flex flex-wrap gap-1.5">
                                             {item.expandedDetails.techStack.map((tech, i) => (
-                                                <span
-                                                    key={i}
-                                                    className="px-3 py-1 text-sm rounded-lg bg-zinc-900 text-white"
-                                                >
+                                                <span key={i} className="tag tag-primary">
                                                     {tech}
                                                 </span>
                                             ))}
@@ -415,22 +469,20 @@ function TimelineCard({
 
                                 {/* 链接 */}
                                 {item.expandedDetails.links && item.expandedDetails.links.length > 0 && (
-                                    <div>
-                                        <h4 className="text-sm font-semibold text-zinc-700 mb-2">相关链接</h4>
-                                        <div className="flex flex-wrap gap-3">
-                                            {item.expandedDetails.links.map((link, i) => (
-                                                <a
-                                                    key={i}
-                                                    href={link.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="flex items-center gap-1 text-blue-600 hover:text-blue-700 text-sm"
-                                                >
-                                                    <ExternalLink size={14} />
-                                                    {link.label}
-                                                </a>
-                                            ))}
-                                        </div>
+                                    <div className="flex flex-wrap gap-3 pt-3 border-t" style={{ borderColor: 'var(--border-default)' }}>
+                                        {item.expandedDetails.links.map((link, i) => (
+                                            <a
+                                                key={i}
+                                                href={link.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="flex items-center gap-1 text-sm font-medium transition-colors"
+                                                style={{ color: 'var(--color-primary)' }}
+                                            >
+                                                <ExternalLink size={14} />
+                                                {link.label}
+                                            </a>
+                                        ))}
                                     </div>
                                 )}
                             </div>
@@ -442,12 +494,25 @@ function TimelineCard({
     );
 }
 
-// 详情区块组件
-function DetailSection({ title, content }: { title: string; content: string }) {
+// 详情块组件：问题-行动-结果
+function DetailBlock({ label, content, color }: { label: string; content: string; color: string }) {
     return (
-        <div>
-            <h4 className="text-sm font-semibold text-zinc-700 mb-2">{title}</h4>
-            <p className="text-zinc-600 leading-relaxed">{content}</p>
+        <div className="flex gap-3">
+            <div
+                className="w-1 rounded-full flex-shrink-0"
+                style={{ backgroundColor: color }}
+            />
+            <div>
+                <span
+                    className="text-xs font-semibold uppercase tracking-wide"
+                    style={{ color }}
+                >
+                    {label}
+                </span>
+                <p className="text-sm mt-1 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                    {content}
+                </p>
+            </div>
         </div>
     );
 }
@@ -464,15 +529,15 @@ function ProjectCard({
 }) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.1 }}
-            className="bg-white rounded-2xl border border-zinc-200 p-6 md:p-8 group hover:border-zinc-300 hover:shadow-lg transition-all flex flex-col h-full"
+            transition={{ delay: index * 0.05, duration: 0.25 }}
+            className="card p-5 flex flex-col h-full"
         >
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start mb-3">
                 <div>
-                    <h3 className="text-2xl font-bold text-zinc-900 group-hover:text-blue-600 transition-colors mb-1">
+                    <h3 className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>
                         <EditableText
                             id={`project-${project.id}-name`}
                             value={project.name}
@@ -481,7 +546,7 @@ function ProjectCard({
                             isEditorActive={isEditorActive}
                         />
                     </h3>
-                    <p className="text-xs font-mono text-zinc-400">
+                    <p className="text-xs font-mono mt-0.5" style={{ color: 'var(--text-tertiary)' }}>
                         {project.year} {project.impact && `· ${project.impact}`}
                     </p>
                 </div>
@@ -490,14 +555,18 @@ function ProjectCard({
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 bg-zinc-50 rounded-full hover:bg-zinc-100 text-zinc-400 hover:text-zinc-900 transition-colors"
+                        className="p-2 rounded-lg transition-colors"
+                        style={{
+                            backgroundColor: 'var(--bg-muted)',
+                            color: 'var(--text-tertiary)'
+                        }}
                     >
-                        <ArrowUpRight size={18} />
+                        <ArrowUpRight size={16} />
                     </a>
                 )}
             </div>
 
-            <p className="text-zinc-600 text-sm leading-relaxed mb-4 flex-grow">
+            <p className="text-sm leading-relaxed mb-4 flex-grow" style={{ color: 'var(--text-secondary)' }}>
                 <EditableText
                     id={`project-${project.id}-summary`}
                     value={project.summary}
@@ -507,21 +576,18 @@ function ProjectCard({
                 />
             </p>
 
-            <div className="space-y-3 mb-6">
-                {project.details.map((detail, i) => (
-                    <div key={i} className="flex gap-2 text-sm text-zinc-500">
-                        <ChevronRight size={14} className="mt-1 text-zinc-300 shrink-0" />
+            <div className="space-y-2 mb-4">
+                {project.details.slice(0, 3).map((detail, i) => (
+                    <div key={i} className="flex gap-2 text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                        <ChevronRight size={14} className="mt-0.5 flex-shrink-0" />
                         <span>{detail}</span>
                     </div>
                 ))}
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-4 border-t border-zinc-100 mt-auto">
+            <div className="flex flex-wrap gap-1.5 pt-3 border-t mt-auto" style={{ borderColor: 'var(--border-default)' }}>
                 {project.tech.map((t, i) => (
-                    <span
-                        key={i}
-                        className="px-3 py-1 text-xs rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600"
-                    >
+                    <span key={i} className="tag">
                         {t}
                     </span>
                 ))}

@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Archivo, Space_Grotesk, Noto_Sans_SC } from "next/font/google";
+import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
-
-const archivo = Archivo({
-  subsets: ["latin"],
-  variable: "--font-archivo",
-  display: "swap",
-});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -14,21 +8,21 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
-const notoSansSC = Noto_Sans_SC({
-  weight: ["400", "500", "700"],
+const ibmPlexSans = IBM_Plex_Sans({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-noto-sans-sc",
+  variable: "--font-ibm",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "杜旭嘉 - Full Stack Engineer & AI Native Dev",
-  description: "Senior Full Stack Engineer specializing in AI-native development. Crafting cinematic web experiences with Next.js, Motion, and AI agents.",
-  keywords: ["杜旭嘉", "Full Stack", "AI Native", "Next.js", "React", "Design Engineer", "Portfolio"],
+  title: "杜旭嘉 - 后端/全栈工程师 · AI Native Dev",
+  description: "专注后端架构与 AI 应用开发。把系统做快做稳，把 AI 做到可上线。",
+  keywords: ["杜旭嘉", "后端工程师", "全栈开发", "AI Native", "Java", "Spring Boot", "性能优化"],
   authors: [{ name: "杜旭嘉" }],
   openGraph: {
-    title: "杜旭嘉 - Full Stack Engineer",
-    description: "Building the future of web with AI and Motion.",
+    title: "杜旭嘉 - 后端/全栈工程师",
+    description: "专注后端架构与 AI 应用开发",
     type: "website",
   },
 };
@@ -39,9 +33,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body
-        className={`${archivo.variable} ${spaceGrotesk.variable} ${notoSansSC.variable} antialiased selection:bg-zinc-200 selection:text-zinc-900 bg-zinc-50`}
+        className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} antialiased`}
+        style={{
+          fontFamily: "var(--font-ibm), 'IBM Plex Sans SC', system-ui, sans-serif"
+        }}
+        suppressHydrationWarning
       >
         {children}
       </body>

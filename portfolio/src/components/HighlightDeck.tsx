@@ -1,108 +1,173 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Star, Users, Zap, Gauge, Code2, LucideIcon } from 'lucide-react';
-import { ImpactItem } from '@/types';
+import { Star, Users, Zap, Gauge, Code2, LucideIcon, TrendingUp, ArrowRight } from 'lucide-react';
+import { ImpactItem, TimelineItem } from '@/types';
+import MetricDrawer from './MetricDrawer';
 
-// Icon 映射
+// Icon mapping
 const iconMap: Record<string, LucideIcon> = {
     Star,
     Users,
     Zap,
     Gauge,
     Code2,
+    TrendingUp,
 };
 
 interface HighlightDeckProps {
     items: ImpactItem[];
+    timeline?: TimelineItem[];
     onItemClick?: (linkedExperienceId: string) => void;
-    isEditorActive?: boolean;
 }
+
+// Animation config
+const cardVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+};
 
 export default function HighlightDeck({
     items,
-    onItemClick,
-    isEditorActive = false
+    timeline = [],
+    onItemClick
 }: HighlightDeckProps) {
-    const handleClick = (item: ImpactItem) => {
+    const [selectedMetric, setSelectedMetric] = useState<ImpactItem | null>(null);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+    // Find linked experience for selected metric
+    const linkedExperience = useMemo(() => {
+        if (!selectedMetric?.linkedExperienceId) return null;
+        return timeline.find(t => t.id === selectedMetric.linkedExperienceId) || null;
+    }, [selectedMetric, timeline]);
+
+    const handleCardClick = (item: ImpactItem) => {
+        setSelectedMetric(item);
+        setIsDrawerOpen(true);
+
+        // Also trigger external handler if provided
         if (item.linkedExperienceId && onItemClick) {
             onItemClick(item.linkedExperienceId);
         }
     };
 
+    const handleCloseDrawer = () => {
+        setIsDrawerOpen(false);
+        // Delay clearing metric to allow exit animation
+        setTimeout(() => setSelectedMetric(null), 200);
+    };
+
     return (
-        <section className="py-20 bg-zinc-50 border-y border-zinc-200" id="impact">
-            <div className="container-padding">
-                <div className="mb-12">
-                    <h2 className="text-3xl font-bold text-zinc-900">量化成果</h2>
-                    <p className="text-zinc-500 mt-2">用数据证明工程价值</p>
+        <>
+            <section
+                className="section"
+                id="impact"
+                style={{ backgroundColor: 'var(--bg-surface)' }}
+            >
+                <div className="container">
+                    {/* Section Header */}
+                    <div className="section-header">
+                        <h2 className="section-title">量化成果</h2>
+                        <p className="section-subtitle">用数据证明工程价值，点击卡片查看详情</p>
+                    </div>
+
+                    {/* Metrics Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                        {items.map((item, i) => {
+                            const Icon = iconMap[item.icon] || TrendingUp;
+                            const isFocal = item.isFocal;
+
+                            return (
+                                <motion.div
+                                    key={item.id}
+                                    initial={cardVariants.initial}
+                                    whileInView={cardVariants.animate}
+                                    transition={{
+                                        duration: 0.3,
+                                        delay: i * 0.05,
+                                        ease: [0.22, 1, 0.36, 1]
+                                    }}
+                                    viewport={{ once: true, margin: '-50px' }}
+                                    onClick={() => handleCardClick(item)}
+                                    className={`
+                                        group cursor-pointer p-6 rounded-2xl transition-all
+                                        ${isFocal ? 'sm:col-span-2 lg:col-span-1' : ''}
+                                    `}
+                                    style={{
+                                        backgroundColor: isFocal ? 'var(--text-primary)' : 'var(--bg-page)',
+                                        border: isFocal ? 'none' : '1px solid var(--border-default)',
+                                    }}
+                                    whileHover={{
+                                        y: -4,
+                                        boxShadow: 'var(--shadow-lg)',
+                                    }}
+                                >
+                                    {/* Icon */}
+                                    <div
+                                        className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
+                                        style={isFocal ? {
+                                            backgroundColor: 'rgba(255,255,255,0.1)',
+                                            color: 'white'
+                                        } : {
+                                            backgroundColor: 'var(--color-primary-light)',
+                                            color: 'var(--color-primary)'
+                                        }}
+                                    >
+                                        <Icon size={22} />
+                                    </div>
+
+                                    {/* Metric Value */}
+                                    <div
+                                        className="text-4xl md:text-5xl font-bold mb-1 tracking-tight"
+                                        style={{
+                                            color: isFocal ? 'white' : 'var(--color-primary)',
+                                            fontFamily: 'var(--font-heading)',
+                                        }}
+                                    >
+                                        {item.value}
+                                    </div>
+
+                                    {/* Label */}
+                                    <div
+                                        className="text-sm font-medium mb-3"
+                                        style={{ color: isFocal ? 'rgba(255,255,255,0.7)' : 'var(--text-secondary)' }}
+                                    >
+                                        {item.label}
+                                    </div>
+
+                                    {/* Description */}
+                                    {item.description && (
+                                        <p
+                                            className="text-sm leading-relaxed"
+                                            style={{ color: isFocal ? 'rgba(255,255,255,0.6)' : 'var(--text-tertiary)' }}
+                                        >
+                                            {item.description}
+                                        </p>
+                                    )}
+
+                                    {/* View more hint */}
+                                    <div
+                                        className="flex items-center gap-1 mt-4 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity"
+                                        style={{ color: isFocal ? 'rgba(255,255,255,0.8)' : 'var(--color-primary)' }}
+                                    >
+                                        查看详情
+                                        <ArrowRight size={12} />
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
+                    </div>
                 </div>
+            </section>
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[minmax(180px,auto)]">
-                    {items.map((item, i) => {
-                        const Icon = iconMap[item.icon] || Code2;
-                        const isClickable = !!item.linkedExperienceId;
-
-                        return (
-                            <motion.div
-                                key={item.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                viewport={{ once: true }}
-                                onClick={() => handleClick(item)}
-                                className={`
-                  relative p-6 rounded-3xl border border-zinc-200
-                  hover:shadow-lg transition-all duration-300 hover:-translate-y-1
-                  ${item.colSpan || ''}
-                  ${item.rowSpan || ''}
-                  ${item.isFocal ? 'bg-zinc-900 text-white' : 'bg-white text-zinc-900'}
-                  ${isClickable ? 'cursor-pointer' : ''}
-                `}
-                            >
-                                {/* 背景装饰（Focal 卡片） */}
-                                {item.isFocal && (
-                                    <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-                                        <Icon size={120} />
-                                    </div>
-                                )}
-
-                                <div className="flex flex-col h-full justify-between relative z-10">
-                                    <div className="flex items-start justify-between">
-                                        <div className={`p-2 rounded-xl ${item.isFocal ? 'bg-white/10 text-white' : 'bg-zinc-100 text-zinc-900'
-                                            }`}>
-                                            <Icon size={24} />
-                                        </div>
-                                        {isClickable && (
-                                            <span className="text-xs text-zinc-400">
-                                                点击查看详情 →
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="mt-4">
-                                        <div className={`text-4xl font-bold tracking-tight mb-1 ${item.isFocal ? 'text-white' : 'text-zinc-900'
-                                            }`}>
-                                            {item.value}
-                                        </div>
-                                        <div className={`font-medium ${item.isFocal ? 'text-zinc-400' : 'text-zinc-500'
-                                            }`}>
-                                            {item.label}
-                                        </div>
-                                        {item.description && (
-                                            <div className={`text-xs mt-2 ${item.isFocal ? 'text-zinc-500' : 'text-zinc-400'
-                                                }`}>
-                                                {item.description}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        );
-                    })}
-                </div>
-            </div>
-        </section>
+            {/* Metric Drawer */}
+            <MetricDrawer
+                isOpen={isDrawerOpen}
+                onClose={handleCloseDrawer}
+                metric={selectedMetric}
+                linkedExperience={linkedExperience}
+            />
+        </>
     );
 }

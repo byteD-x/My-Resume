@@ -10,7 +10,6 @@ import {
     RotateCcw,
     Check,
     X,
-    Copy,
     AlertCircle
 } from 'lucide-react';
 
@@ -114,8 +113,8 @@ export default function EditorToolbar({
                     <button
                         onClick={() => onToggleEdit(!isEditing)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${isEditing
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200'
                             }`}
                     >
                         <Edit3 size={16} />
@@ -190,8 +189,8 @@ export default function EditorToolbar({
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: -50, opacity: 0 }}
                         className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-6 py-3 rounded-full shadow-lg flex items-center gap-2 ${toast.type === 'success'
-                                ? 'bg-green-600 text-white'
-                                : 'bg-red-600 text-white'
+                            ? 'bg-green-600 text-white'
+                            : 'bg-red-600 text-white'
                             }`}
                     >
                         {toast.type === 'success' ? <Check size={18} /> : <AlertCircle size={18} />}

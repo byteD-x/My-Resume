@@ -9,7 +9,6 @@ import ExperienceFlow from '@/components/ExperienceFlow';
 import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
 import EditorToolbar from '@/components/EditorToolbar';
-import FloatingResumeButton from '@/components/FloatingResumeButton';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -43,12 +42,16 @@ export default function Home() {
     <main className="min-h-screen relative">
       <Navbar heroData={data.hero} contactData={data.contact} />
 
-      <Hero data={data.hero} isEditorActive={isEditing} />
+      <Hero
+        data={data.hero}
+        contactData={data.contact}
+        isEditorActive={isEditing}
+      />
 
       <HighlightDeck
         items={data.impact}
+        timeline={data.timeline}
         onItemClick={handleImpactClick}
-        isEditorActive={isEditing}
       />
 
       <ExperienceFlow
@@ -62,13 +65,10 @@ export default function Home() {
       <TechStack
         skills={data.skills}
         vibeCoding={data.vibeCoding}
-        isEditorActive={isEditing}
       />
 
       <Contact
         contactData={data.contact}
-        heroData={data.hero}
-        isEditorActive={isEditing}
       />
 
       <Footer
@@ -89,8 +89,6 @@ export default function Home() {
           onReset={resetToDefault}
         />
       )}
-
-      <FloatingResumeButton />
     </main>
   );
 }

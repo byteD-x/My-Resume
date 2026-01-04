@@ -54,16 +54,22 @@ export function useEditableContent(): UseEditableContentReturn {
                 const parsed = JSON.parse(stored);
                 const result = validatePortfolioData(parsed);
                 if (result.success) {
-                    setData(result.data);
+                    // Use requestAnimationFrame to defer state update
+                    requestAnimationFrame(() => {
+                        setData(result.data);
+                    });
                 } else {
                     console.warn('存储的数据格式不正确，使用默认内容', result.errors);
                 }
             }
-        } catch (e) {
-            console.warn('加载存储内容失败，使用默认内容', e);
+        } catch {
+            console.warn('加载存储内容失败，使用默认内容');
         }
 
-        setIsHydrated(true);
+        // Use requestAnimationFrame to defer hydration state update
+        requestAnimationFrame(() => {
+            setIsHydrated(true);
+        });
     }, []);
 
     // 自动保存
@@ -140,7 +146,7 @@ export function useEditableContent(): UseEditableContentReturn {
             } else {
                 return { success: false, errors: result.errors };
             }
-        } catch (e) {
+        } catch {
             return { success: false, errors: ['JSON 解析失败，请检查格式是否正确'] };
         }
     }, [saveToStorage]);
