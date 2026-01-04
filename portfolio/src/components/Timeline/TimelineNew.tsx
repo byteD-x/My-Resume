@@ -1,18 +1,15 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { TimelineItem as TimelineItemType } from '@/types';
 import { TimelineItem } from './TimelineItem';
-import { Badge } from '../ui/Badge';
-import EditableText from '../EditableText';
 
 interface TimelineProps {
     items: TimelineItemType[];
     isEditorActive?: boolean;
 }
 
-export function Timeline({ items, isEditorActive = false }: TimelineProps) {
+export function Timeline({ items }: TimelineProps) {
     return (
         <div className="relative space-y-12">
             {/* Vertical Line */}

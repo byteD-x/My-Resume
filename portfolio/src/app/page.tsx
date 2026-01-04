@@ -39,12 +39,6 @@ export default function Home() {
 
       <Section id="impact" className="scroll-mt-20">
         <Container>
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">量化成果</h2>
-            <p className="text-lg text-slate-600 max-w-2xl">
-              用数据说话，展示核心竞争力的直接证据。
-            </p>
-          </div>
           <HighlightDeck
             items={data.impact}
             timeline={data.timeline}

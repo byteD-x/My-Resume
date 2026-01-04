@@ -58,6 +58,41 @@ export default function HighlightDeck({
         setTimeout(() => setSelectedMetric(null), 200);
     };
 
+    // Dynamic GitHub Stats
+    const [displayItems, setDisplayItems] = useState(items);
+
+    // Sync props to state if props change (editor mode)
+    // But we also want to overwrite with dynamic data if available
+    React.useEffect(() => {
+        setDisplayItems(items);
+    }, [items]);
+
+    React.useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await fetch('/api/github');
+                if (!res.ok) return;
+                const data = await res.json();
+
+                if (data.totalStars !== undefined) {
+                    setDisplayItems(prev => prev.map(item => {
+                        // Update Open Source item (impact-1)
+                        if (item.id === 'impact-1') {
+                            return {
+                                ...item,
+                                value: `${data.totalStars}+` // Show total stars
+                            };
+                        }
+                        return item;
+                    }));
+                }
+            } catch {
+                // Ignore errors, keep static data
+            }
+        };
+        fetchStats();
+    }, []);
+
     return (
         <>
             <section
@@ -74,7 +109,7 @@ export default function HighlightDeck({
 
                     {/* Metrics Grid - Desktop gap-6 (24px) */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
-                        {items.map((item, i) => {
+                        {displayItems.map((item, i) => {
                             const Icon = iconMap[item.icon] || TrendingUp;
                             const isFocal = item.isFocal;
 

@@ -1,9 +1,8 @@
 'use client';
 
-import { notFound } from 'next/navigation';
 import { getExperience } from '@/lib/experiences';
 import { ExperienceModal } from '@/components/ExperienceModal';
-import { useEffect, useState, use } from 'react';
+import { use } from 'react';
 
 // We need to fetch data client-side or pass it somehow. 
 // Intercepting routes are Client Components if they use client hooks or animations usually?

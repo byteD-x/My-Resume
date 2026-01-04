@@ -3,7 +3,6 @@
 import React from 'react';
 import { TimelineItem as TimelineItemType } from '@/types';
 import { ExperienceCard } from '../ExperienceCard';
-import { motion } from 'framer-motion';
 
 interface TimelineItemProps {
     item: TimelineItemType;
@@ -15,7 +14,6 @@ interface TimelineItemProps {
 export function TimelineItem({
     item,
     isLast,
-    index,
     isHighlighted = false
 }: TimelineItemProps) {
     return (

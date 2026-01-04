@@ -2,9 +2,7 @@ import { notFound } from 'next/navigation';
 import { getExperience, getAllExperienceSlugs } from '@/lib/experiences';
 import { ExperienceModal } from '@/components/ExperienceModal';
 
-interface PageProps {
-    params: { slug: string };
-}
+
 
 export async function generateStaticParams() {
     return getAllExperienceSlugs();

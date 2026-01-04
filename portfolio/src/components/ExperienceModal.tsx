@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X, Calendar, MapPin, Building, Globe, Github } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { TimelineItem, ProjectItem } from '../types';

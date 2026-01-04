@@ -32,7 +32,7 @@ export default function Contact({ contactData }: ContactProps) {
             icon: Mail,
             label: '邮箱',
             value: contactData.email,
-            href: `mailto:${contactData.email} `,
+            href: `mailto:${contactData.email}?subject=${encodeURIComponent('应聘(后端工程师)-杜旭嘉')}&body=${encodeURIComponent('你好，我对您的项目/经历非常感兴趣。\n\n我的 GitHub: https://github.com/icefunicu\n在线简历: https://my-resume-gray-five.vercel.app/\n简历 PDF: (请见附件)\n\n期待回复！')}`,
             canCopy: true,
         },
         {
@@ -40,7 +40,7 @@ export default function Contact({ contactData }: ContactProps) {
             icon: Phone,
             label: '电话',
             value: contactData.phone,
-            href: `tel:${contactData.phone} `,
+            href: `tel:${contactData.phone.replace(/\s+/g, '')}`,
             canCopy: true,
         },
         {
@@ -95,7 +95,7 @@ export default function Contact({ contactData }: ContactProps) {
 
                                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
                                         <a
-                                            href={`mailto:${contactData.email}?subject = 合作咨询`}
+                                            href={`mailto:${contactData.email}?subject=${encodeURIComponent('应聘(后端工程师)-杜旭嘉')}&body=${encodeURIComponent('你好，我对您的项目/经历非常感兴趣。\n\n我的 GitHub: https://github.com/icefunicu\n在线简历: https://my-resume-gray-five.vercel.app/\n简历 PDF: (请见附件)\n\n期待回复！')}`}
                                             className="inline-flex items-center gap-2.5 bg-white text-indigo-950 hover:bg-indigo-50 px-8 py-4 rounded-full font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-indigo-900/20"
                                         >
                                             <Mail size={20} />

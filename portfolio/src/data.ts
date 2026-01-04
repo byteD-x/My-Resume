@@ -6,30 +6,30 @@ import { PortfolioData } from './types';
 export const defaultPortfolioData: PortfolioData = {
     hero: {
         name: "杜旭嘉",
-        title: "把系统做快做稳，把 AI 做到可上线。",
-        subtitle: "后端 / 全栈 / AI 工程｜深圳/南京/西安/杭州/成都｜优先远程（也接受到岗/混合）",
-        location: "深圳 / 南京 / 西安 / 杭州 / 成都 / 远程 (优先)",
+        title: "后端工程师",
+        subtitle: "主投：后端开发 ｜ 兼任：AI 工程 / 全栈 ｜ 远程办公 (优先) ｜ Base：深圳 (可到岗：南京/杭州/成都)",
+        location: "远程办公 (优先) ｜ Base：深圳 ｜ 可到岗：南京 / 杭州 / 成都",
         bullets: [
             {
                 id: "bullet-1",
-                title: "性能与稳定性",
-                description: "SQL 慢查询治理、接口延迟优化、可观测与回归"
+                title: "高并发/高可用",
+                description: "SQL 慢查询治理 (20s→4s)、接口延迟降低 60%+"
             },
             {
                 id: "bullet-2",
-                title: "数据链路",
-                description: "MySQL/Redis/ES + ClickHouse 迁移与 OLAP 查询优化"
+                title: "数据密集型架构",
+                description: "MySQL/Redis/ClickHouse 百万级数据迁移与查询优化"
             },
             {
                 id: "bullet-3",
-                title: "AI 落地",
-                description: "LLM API 集成、工具调用、Bot/搜索类应用快速交付"
+                title: "AI 工程化落地",
+                description: "LLM API 集成与工具调用，从 Demo 到生产环境交付"
             }
         ],
         quickFacts: {
-            role: "后端 / 全栈 / AI 工程",
+            role: "主投：后端 ｜ 兼任：AI / 全栈",
             availability: "可立即入职",
-            techStack: ["Java", "Spring", "Python", "LLM API", "MySQL", "Redis"]
+            techStack: ["Java", "Spring Boot", "Python", "MySQL", "Redis", "LLM APIs"]
         }
     },
 

@@ -10,7 +10,7 @@ interface ExperienceCardProps {
     type?: 'timeline' | 'project';
 }
 
-export function ExperienceCard({ item, type = 'timeline' }: ExperienceCardProps) {
+export function ExperienceCard({ item }: ExperienceCardProps) {
     // Determine title and subtitle based on type
     const title = 'role' in item ? item.role : item.name;
     const subtitle = 'company' in item ? item.company : '';
