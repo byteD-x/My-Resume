@@ -14,8 +14,8 @@
   --text-muted: #71717a;
 
   /* Typography */
-  --font-heading: 'Space Grotesk', 'Archivo', 'Helvetica Neue', 'Arial', sans-serif;
-  --font-body: 'Archivo', 'Space Grotesk', 'Helvetica Neue', 'Arial', sans-serif;
+  --font-heading: 'Space Grotesk', 'Archivo', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', 'Arial', sans-serif;
+  --font-body: 'Archivo', 'Space Grotesk', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', 'Arial', sans-serif;
 
   /* Accent Colors */
   --accent-blue: #3b82f6;
