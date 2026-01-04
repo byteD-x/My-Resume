@@ -72,8 +72,8 @@ export default function HighlightDeck({
                         <p className="section-subtitle">用数据证明工程价值，点击卡片查看详情</p>
                     </div>
 
-                    {/* Metrics Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    {/* Metrics Grid - Desktop gap-6 (24px) */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
                         {items.map((item, i) => {
                             const Icon = iconMap[item.icon] || TrendingUp;
                             const isFocal = item.isFocal;
@@ -91,7 +91,7 @@ export default function HighlightDeck({
                                     viewport={{ once: true, margin: '-50px' }}
                                     onClick={() => handleCardClick(item)}
                                     className={`
-                                        group cursor-pointer p-6 rounded-2xl transition-all
+                                        group cursor-pointer p-6 rounded-2xl transition-all flex flex-col h-full
                                         ${isFocal ? 'sm:col-span-2 lg:col-span-1' : ''}
                                     `}
                                     style={{
@@ -103,56 +103,61 @@ export default function HighlightDeck({
                                         boxShadow: 'var(--shadow-lg)',
                                     }}
                                 >
-                                    {/* Icon */}
-                                    <div
-                                        className="w-11 h-11 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
-                                        style={isFocal ? {
-                                            backgroundColor: 'rgba(255,255,255,0.1)',
-                                            color: 'white'
-                                        } : {
-                                            backgroundColor: 'var(--color-primary-light)',
-                                            color: 'var(--color-primary)'
-                                        }}
-                                    >
-                                        <Icon size={22} />
-                                    </div>
-
-                                    {/* Metric Value */}
-                                    <div
-                                        className="text-4xl md:text-5xl font-bold mb-1 tracking-tight"
-                                        style={{
-                                            color: isFocal ? 'white' : 'var(--color-primary)',
-                                            fontFamily: 'var(--font-heading)',
-                                        }}
-                                    >
-                                        {item.value}
-                                    </div>
-
-                                    {/* Label */}
-                                    <div
-                                        className="text-sm font-medium mb-3"
-                                        style={{ color: isFocal ? 'rgba(255,255,255,0.7)' : 'var(--text-secondary)' }}
-                                    >
-                                        {item.label}
-                                    </div>
-
-                                    {/* Description */}
-                                    {item.description && (
-                                        <p
-                                            className="text-sm leading-relaxed"
-                                            style={{ color: isFocal ? 'rgba(255,255,255,0.6)' : 'var(--text-tertiary)' }}
+                                    {/* Header: Icon + Value */}
+                                    <div className="mb-4">
+                                        <div
+                                            className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform group-hover:scale-110"
+                                            style={isFocal ? {
+                                                backgroundColor: 'rgba(255,255,255,0.1)',
+                                                color: 'white'
+                                            } : {
+                                                backgroundColor: 'var(--color-primary-light)',
+                                                color: 'var(--color-primary)'
+                                            }}
                                         >
-                                            {item.description}
-                                        </p>
-                                    )}
+                                            <Icon size={24} />
+                                        </div>
 
-                                    {/* View more hint */}
-                                    <div
-                                        className="flex items-center gap-1 mt-4 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity"
-                                        style={{ color: isFocal ? 'rgba(255,255,255,0.8)' : 'var(--color-primary)' }}
-                                    >
-                                        查看详情
-                                        <ArrowRight size={12} />
+                                        {/* Metric Value - Tabular Nums */}
+                                        <div
+                                            className="text-4xl md:text-5xl font-bold tracking-tight tabular-nums"
+                                            style={{
+                                                color: isFocal ? 'white' : 'var(--color-primary)',
+                                                fontFamily: 'var(--font-heading)',
+                                            }}
+                                        >
+                                            {item.value}
+                                        </div>
+                                    </div>
+
+                                    {/* Content */}
+                                    <div className="flex-1 flex flex-col">
+                                        {/* Label */}
+                                        <div
+                                            className="text-sm font-semibold mb-2"
+                                            style={{ color: isFocal ? 'rgba(255,255,255,0.9)' : 'var(--text-primary)' }}
+                                        >
+                                            {item.label}
+                                        </div>
+
+                                        {/* Description */}
+                                        {item.description && (
+                                            <p
+                                                className="text-sm leading-relaxed mb-6"
+                                                style={{ color: isFocal ? 'rgba(255,255,255,0.7)' : 'var(--text-tertiary)' }}
+                                            >
+                                                {item.description}
+                                            </p>
+                                        )}
+
+                                        {/* Footer: View Details (Always at bottom) */}
+                                        <div
+                                            className="mt-auto flex items-center gap-1 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity"
+                                            style={{ color: isFocal ? 'rgba(255,255,255,0.9)' : 'var(--color-primary)' }}
+                                        >
+                                            查看详情
+                                            <ArrowRight size={14} />
+                                        </div>
                                     </div>
                                 </motion.div>
                             );

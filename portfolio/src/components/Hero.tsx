@@ -13,10 +13,11 @@ interface HeroProps {
 }
 
 // Animation config
+// Animation config
 const fadeIn = {
     initial: { opacity: 0, y: 16 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.3, ease: 'easeOut' as const }
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as any }
 };
 
 // Quick Facts data (derived from hero data)
@@ -32,27 +33,27 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
 
     return (
         <section
-            className="section pt-28 pb-12 md:pt-36 md:pb-16 lg:pt-40 lg:pb-20"
+            className="section pt-32 md:pt-48 pb-12 md:pb-24" // Increased top padding
             style={{ backgroundColor: 'var(--bg-page)' }}
         >
             <div className="container">
                 {/* Two-column layout on desktop */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
 
                     {/* Left Column: Value Proposition */}
-                    <div className="lg:col-span-7 xl:col-span-7">
+                    <div className="lg:col-span-7 xl:col-span-7 flex flex-col items-start pt-2">
                         {/* Status badges */}
                         <motion.div
                             {...fadeIn}
-                            className="flex flex-wrap items-center gap-2 mb-6"
+                            className="flex flex-wrap items-center gap-3 mb-8"
                         >
                             {/* Open to work badge */}
                             <span
-                                className="badge badge-success"
-                                style={{ gap: '6px' }}
+                                className="badge badge-success px-4"
+                                style={{ height: '32px', borderRadius: '999px' }}
                             >
                                 <span
-                                    className="w-2 h-2 rounded-full animate-pulse"
+                                    className="w-2.5 h-2.5 rounded-full animate-pulse mr-2"
                                     style={{ backgroundColor: 'var(--color-success)' }}
                                 />
                                 可立即入职
@@ -60,10 +61,10 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
 
                             {/* Location */}
                             <span
-                                className="badge"
-                                style={{ gap: '4px' }}
+                                className="badge px-4"
+                                style={{ height: '32px', borderRadius: '999px', backgroundColor: 'var(--bg-muted)', color: 'var(--text-secondary)' }}
                             >
-                                <MapPin size={12} />
+                                <MapPin size={14} className="mr-1.5" />
                                 深圳/南京/西安/杭州/成都
                             </span>
                         </motion.div>
@@ -72,7 +73,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                         <motion.h1
                             {...fadeIn}
                             transition={{ ...fadeIn.transition, delay: 0.05 }}
-                            className="text-display mb-6 text-balance"
+                            className="text-4xl md:text-6xl font-extrabold tracking-tight mb-8 text-balance leading-[1.15]"
                             style={{ color: 'var(--text-primary)' }}
                         >
                             <EditableText
@@ -88,18 +89,18 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                         <motion.div
                             {...fadeIn}
                             transition={{ ...fadeIn.transition, delay: 0.1 }}
-                            className="space-y-3 mb-8"
+                            className="space-y-5 mb-10 w-full"
                         >
                             {data.bullets.map((bullet, index) => (
                                 <div
                                     key={bullet.id}
-                                    className="flex items-start gap-3"
+                                    className="flex items-start gap-4"
                                 >
                                     <div
-                                        className="w-1.5 h-1.5 rounded-full mt-2.5 flex-shrink-0"
+                                        className="w-2 h-2 rounded-full mt-2.5 flex-shrink-0"
                                         style={{ backgroundColor: 'var(--color-primary)' }}
                                     />
-                                    <div className="text-base leading-relaxed">
+                                    <div className="text-lg leading-relaxed max-w-2xl">
                                         <span
                                             className="font-semibold"
                                             style={{ color: 'var(--text-primary)' }}
@@ -112,7 +113,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                                 isEditorActive={isEditorActive}
                                             />
                                         </span>
-                                        <span style={{ color: 'var(--text-tertiary)' }}>：</span>
+                                        <span style={{ color: 'var(--text-tertiary)', margin: '0 4px' }}>：</span>
                                         <span style={{ color: 'var(--text-secondary)' }}>
                                             <EditableText
                                                 id={`hero-bullet-${index}-desc`}
@@ -131,39 +132,28 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                         <motion.div
                             {...fadeIn}
                             transition={{ ...fadeIn.transition, delay: 0.15 }}
-                            className="flex flex-wrap gap-3"
+                            className="flex flex-wrap gap-4"
                         >
-                            {/* Primary: Download PDF */}
+                            {/* Primary: Download PDF - Min height 48px */}
                             <a
                                 href="/resume.pdf"
                                 target="_blank"
-                                className="btn btn-primary"
+                                className="btn btn-primary text-base font-semibold shadow-lg shadow-blue-500/20"
+                                style={{ minWidth: '160px', height: '52px', paddingLeft: '24px', paddingRight: '24px' }}
                             >
-                                <Download size={18} />
+                                <Download size={20} className="mr-2" />
                                 下载简历 PDF
                             </a>
 
-                            {/* Secondary: Email */}
+                            {/* Secondary: Email (consolidated contact) */}
                             {contactData && (
                                 <a
                                     href={`mailto:${contactData.email}`}
-                                    className="btn btn-secondary"
+                                    className="btn btn-secondary text-base"
+                                    style={{ height: '52px' }}
                                 >
-                                    <Mail size={18} />
-                                    发送邮件
-                                </a>
-                            )}
-
-                            {/* Tertiary: GitHub */}
-                            {contactData && (
-                                <a
-                                    href={contactData.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="btn btn-tertiary"
-                                >
-                                    <Github size={18} />
-                                    GitHub
+                                    <Mail size={20} />
+                                    联系我
                                 </a>
                             )}
                         </motion.div>
@@ -173,7 +163,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="pt-6 mt-8 border-t"
+                                className="pt-6 mt-8 border-t w-full"
                                 style={{ borderColor: 'var(--border-default)' }}
                             >
                                 <span
@@ -199,37 +189,37 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                     <motion.div
                         {...fadeIn}
                         transition={{ ...fadeIn.transition, delay: 0.2 }}
-                        className="lg:col-span-5 xl:col-span-5"
+                        className="lg:col-span-5 xl:col-span-5 w-full"
                     >
                         <div
-                            className="card p-6"
+                            className="card p-6 md:p-8"
                             style={{ backgroundColor: 'var(--bg-surface)' }}
                         >
                             <h2
-                                className="text-sm font-semibold uppercase tracking-wide mb-5"
+                                className="text-sm font-bold uppercase tracking-wide mb-6"
                                 style={{ color: 'var(--text-tertiary)' }}
                             >
                                 Recruiter Quick Facts
                             </h2>
 
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 {/* Position */}
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-start gap-4">
                                     <div
-                                        className="p-2 rounded-lg flex-shrink-0"
+                                        className="p-3 rounded-xl flex-shrink-0"
                                         style={{ backgroundColor: 'var(--bg-muted)' }}
                                     >
-                                        <Briefcase size={16} style={{ color: 'var(--text-secondary)' }} />
+                                        <Briefcase size={20} style={{ color: 'var(--text-secondary)' }} />
                                     </div>
                                     <div>
                                         <div
-                                            className="text-xs uppercase tracking-wide mb-0.5"
+                                            className="text-xs uppercase tracking-wide mb-1"
                                             style={{ color: 'var(--text-tertiary)' }}
                                         >
                                             岗位方向
                                         </div>
                                         <div
-                                            className="font-medium"
+                                            className="font-semibold text-lg"
                                             style={{ color: 'var(--text-primary)' }}
                                         >
                                             {quickFacts.position}
@@ -238,22 +228,22 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                 </div>
 
                                 {/* Location */}
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-start gap-4">
                                     <div
-                                        className="p-2 rounded-lg flex-shrink-0"
+                                        className="p-3 rounded-xl flex-shrink-0"
                                         style={{ backgroundColor: 'var(--bg-muted)' }}
                                     >
-                                        <MapPin size={16} style={{ color: 'var(--text-secondary)' }} />
+                                        <MapPin size={20} style={{ color: 'var(--text-secondary)' }} />
                                     </div>
                                     <div>
                                         <div
-                                            className="text-xs uppercase tracking-wide mb-0.5"
+                                            className="text-xs uppercase tracking-wide mb-1"
                                             style={{ color: 'var(--text-tertiary)' }}
                                         >
                                             地点偏好
                                         </div>
                                         <div
-                                            className="font-medium"
+                                            className="font-medium text-base"
                                             style={{ color: 'var(--text-primary)' }}
                                         >
                                             {quickFacts.remote}
@@ -262,22 +252,22 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                 </div>
 
                                 {/* Availability */}
-                                <div className="flex items-start gap-3">
+                                <div className="flex items-start gap-4">
                                     <div
-                                        className="p-2 rounded-lg flex-shrink-0"
+                                        className="p-3 rounded-xl flex-shrink-0"
                                         style={{ backgroundColor: 'var(--color-success-light)' }}
                                     >
-                                        <Calendar size={16} style={{ color: 'var(--color-success)' }} />
+                                        <Calendar size={20} style={{ color: 'var(--color-success)' }} />
                                     </div>
                                     <div>
                                         <div
-                                            className="text-xs uppercase tracking-wide mb-0.5"
+                                            className="text-xs uppercase tracking-wide mb-1"
                                             style={{ color: 'var(--text-tertiary)' }}
                                         >
                                             入职时间
                                         </div>
                                         <div
-                                            className="font-semibold"
+                                            className="font-bold text-base"
                                             style={{ color: 'var(--color-success)' }}
                                         >
                                             {quickFacts.availability}
@@ -287,21 +277,21 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
 
                                 {/* Divider */}
                                 <div
-                                    className="border-t my-4"
+                                    className="border-t my-6"
                                     style={{ borderColor: 'var(--border-default)' }}
                                 />
 
                                 {/* Core Tech Stack */}
                                 <div>
                                     <div
-                                        className="text-xs uppercase tracking-wide mb-3"
+                                        className="text-xs uppercase tracking-wide mb-4"
                                         style={{ color: 'var(--text-tertiary)' }}
                                     >
                                         核心技术栈
                                     </div>
                                     <div className="flex flex-wrap gap-2">
                                         {quickFacts.coreStack.map((tech) => (
-                                            <span key={tech} className="tag">
+                                            <span key={tech} className="tag px-3 py-1.5 text-sm">
                                                 {tech}
                                             </span>
                                         ))}
@@ -316,11 +306,11 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                 <motion.div
                     {...fadeIn}
                     transition={{ ...fadeIn.transition, delay: 0.3 }}
-                    className="hidden lg:flex justify-center mt-12"
+                    className="hidden lg:flex justify-center mt-20"
                 >
                     <a
                         href="#impact"
-                        className="flex flex-col items-center gap-2 text-sm transition-opacity hover:opacity-70"
+                        className="flex flex-col items-center gap-2 text-sm transition-opacity hover:opacity-70 p-4"
                         style={{ color: 'var(--text-tertiary)' }}
                         onClick={(e) => {
                             e.preventDefault();
@@ -329,10 +319,10 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                     >
                         <span>向下探索</span>
                         <motion.div
-                            animate={{ y: [0, 4, 0] }}
+                            animate={{ y: [0, 6, 0] }}
                             transition={{ duration: 1.5, repeat: Infinity }}
                         >
-                            <ChevronDown size={20} />
+                            <ChevronDown size={24} />
                         </motion.div>
                     </a>
                 </motion.div>
