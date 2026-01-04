@@ -34,6 +34,7 @@ export default function FloatingResumeButton() {
             <AnimatePresence>
                 {isVisible && (
                     <motion.div
+                        data-print="hide"
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
@@ -74,6 +75,7 @@ export default function FloatingResumeButton() {
                 <motion.a
                     href="/resume.pdf"
                     target="_blank"
+                    data-print="hide"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     exit={{ scale: 0.8, opacity: 0 }}

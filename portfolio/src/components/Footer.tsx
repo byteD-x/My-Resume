@@ -15,6 +15,7 @@ export default function Footer({ name, githubUrl }: FooterProps) {
 
     return (
         <footer
+            data-print="hide"
             className="border-t"
             style={{
                 backgroundColor: 'var(--bg-surface)',

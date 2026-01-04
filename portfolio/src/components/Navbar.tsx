@@ -54,6 +54,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
 
     return (
         <nav
+            data-print="hide"
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
                 scrolled
@@ -103,14 +104,16 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         <a
                             href={contactData.github}
                             target="_blank"
-                            className="p-2.5 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
-                            aria-label="GitHub"
+                            rel="noopener noreferrer"
+                            className="p-3 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+                            aria-label="访问我的 GitHub 主页"
                         >
                             <Github size={20} />
                         </a>
                         <a
                             href="/resume.pdf"
                             className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-full text-sm font-semibold hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/10"
+                            aria-label="下载简历 PDF"
                         >
                             <Download size={16} />
                             简历 PDF
@@ -119,8 +122,9 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
 
                     {/* Mobile Toggle */}
                     <button
-                        className="md:hidden p-2 text-slate-600"
+                        className="md:hidden p-3 text-slate-600"
                         onClick={() => setIsOpen(true)}
+                        aria-label="打开菜单"
                     >
                         <Menu size={24} />
                     </button>

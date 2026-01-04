@@ -66,7 +66,7 @@ export default function Contact({ contactData }: ContactProps) {
 
     return (
         <>
-            <Section id="contact" className="bg-white">
+            <Section id="contact" className="bg-white" data-print="hide">
                 <Container>
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
@@ -141,8 +141,9 @@ export default function Contact({ contactData }: ContactProps) {
                                                     {item.canCopy && (
                                                         <button
                                                             onClick={() => handleCopy(item.value, item.id)}
-                                                            className="p-2 hover:bg-white/20 rounded-lg text-indigo-200 hover:text-white transition-colors"
+                                                            className="p-3 hover:bg-white/20 rounded-lg text-indigo-200 hover:text-white transition-colors"
                                                             title="复制"
+                                                            aria-label={`复制 ${item.label}`}
                                                         >
                                                             {isCopied ? <Check size={16} /> : <Copy size={16} />}
                                                         </button>
@@ -152,8 +153,9 @@ export default function Contact({ contactData }: ContactProps) {
                                                             href={item.href}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
-                                                            className="p-2 hover:bg-white/20 rounded-lg text-indigo-200 hover:text-white transition-colors"
+                                                            className="p-3 hover:bg-white/20 rounded-lg text-indigo-200 hover:text-white transition-colors"
                                                             title="打开"
+                                                            aria-label={`打开 ${item.label}`}
                                                         >
                                                             <ExternalLink size={16} />
                                                         </a>

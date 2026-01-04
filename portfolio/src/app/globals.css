@@ -201,3 +201,113 @@ h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-tertiary);
 }
+
+/* ========================================
+   Print Styles - Optimized for Resume Printing
+   ======================================== */
+@media print {
+
+  /* Page setup - minimize margins for maximum content */
+  @page {
+    margin: 10mm;
+    size: A4;
+  }
+
+  /* Force high contrast - override dark mode completely */
+  html,
+  body {
+    background-color: #fff !important;
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide interactive/decorative elements via data-print attribute */
+  [data-print="hide"],
+  nav,
+  footer,
+  .no-print,
+  .fixed,
+  .sticky {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Remove all visual effects */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Force all text to black for readability */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  div,
+  span,
+  li,
+  td,
+  th,
+  strong,
+  em,
+  b,
+  i {
+    color: #000 !important;
+    background: transparent !important;
+  }
+
+  /* Links - black with underline for print readability */
+  a,
+  a:visited {
+    color: #000 !important;
+    text-decoration: underline !important;
+  }
+
+  /* Container - full width for print */
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Remove decorative backgrounds */
+  section,
+  article,
+  main,
+  div {
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  /* Page break control */
+  section,
+  article,
+  .card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* Hide purely decorative blur backgrounds */
+  .blur-3xl,
+  .blur-2xl,
+  .blur-xl {
+    display: none !important;
+  }
+}

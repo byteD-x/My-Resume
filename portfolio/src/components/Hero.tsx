@@ -101,9 +101,11 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                             {...fadeIn}
                             transition={{ delay: 0.3 }}
                             className="flex flex-wrap gap-4"
+                            data-print="hide"
                         >
                             <a
                                 href="/resume.pdf"
+                                data-print="hide"
                                 className="inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white bg-blue-600 rounded-full hover:bg-blue-700 hover:-translate-y-0.5 transition-all shadow-xl shadow-blue-600/20"
                             >
                                 <Download size={20} className="mr-2.5" />

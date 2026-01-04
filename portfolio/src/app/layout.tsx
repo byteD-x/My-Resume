@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
+import { siteConfig } from "@/config/site";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -16,14 +17,39 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "杜旭嘉 - 后端/全栈工程师 · AI Native Dev",
-  description: "专注后端架构与 AI 应用开发。把系统做快做稳，把 AI 做到可上线。",
-  keywords: ["杜旭嘉", "后端工程师", "全栈开发", "AI Native", "Java", "Spring Boot", "性能优化"],
-  authors: [{ name: "杜旭嘉" }],
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: {
+    template: `%s | ${siteConfig.name} - ${siteConfig.role}`,
+    default: `${siteConfig.name} - ${siteConfig.role}`,
+  },
+  description: siteConfig.description,
+  keywords: ["后端工程师", "全栈开发", "AI工程", "Java", "Spring Boot", "Python", "LLM", "Resume", "Portfolio"],
+  authors: [{ name: siteConfig.name }],
   openGraph: {
-    title: "杜旭嘉 - 后端/全栈工程师",
-    description: "专注后端架构与 AI 应用开发",
+    title: `${siteConfig.name} - ${siteConfig.role}`,
+    description: siteConfig.description,
+    url: siteConfig.siteUrl,
+    siteName: `${siteConfig.name} Portfolio`,
     type: "website",
+    locale: "zh_CN",
+    images: [
+      {
+        url: siteConfig.ogImagePath, // TODO: Add /public/og.png (1200x630)
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} - ${siteConfig.role}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} - ${siteConfig.role}`,
+    description: siteConfig.description,
+    images: [siteConfig.ogImagePath],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
