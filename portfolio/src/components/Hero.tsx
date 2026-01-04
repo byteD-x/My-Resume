@@ -47,7 +47,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                             </Badge>
                             <Badge variant="outline" className="py-1.5 px-3.5 text-sm font-normal text-slate-500 bg-white shadow-sm">
                                 <MapPin size={14} className="mr-1.5 opacity-70" />
-                                深圳 / 南京 / 西安 / 杭州 / 成都
+                                {data.location || "深圳 / 南京 / 西安 / 杭州 / 成都"}
                             </Badge>
                         </motion.div>
 

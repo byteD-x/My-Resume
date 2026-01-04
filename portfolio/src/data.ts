@@ -8,6 +8,7 @@ export const defaultPortfolioData: PortfolioData = {
         name: "杜旭嘉",
         title: "把系统做快做稳，把 AI 做到可上线。",
         subtitle: "后端 / 全栈 / AI 工程｜深圳/南京/西安/杭州/成都｜优先远程（也接受到岗/混合）",
+        location: "深圳 / 南京 / 西安 / 杭州 / 成都 / 远程 (优先)",
         bullets: [
             {
                 id: "bullet-1",

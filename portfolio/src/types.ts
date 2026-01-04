@@ -86,6 +86,7 @@ export interface HeroData {
   name: string;
   title: string;           // 主标题
   subtitle: string;        // 副标题
+  location?: string;       // 地点/远程说明
   bullets: HeroBullet[];   // 3 个核心能力点
   quickFacts?: QuickFacts; // "Quick Facts" 卡片数据
 }

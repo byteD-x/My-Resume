@@ -78,6 +78,7 @@ const HeroDataSchema = z.object({
     name: z.string(),
     title: z.string(),
     subtitle: z.string(),
+    location: z.string().optional(),
     bullets: z.array(HeroBulletSchema).min(1).max(5),
     quickFacts: QuickFactsSchema.optional(),
 });
