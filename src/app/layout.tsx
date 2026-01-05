@@ -60,8 +60,32 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
+  // JSON-LD structured data for Person schema
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": siteConfig.name,
+    "jobTitle": siteConfig.role,
+    "url": siteConfig.siteUrl,
+    "email": siteConfig.email,
+    "sameAs": [
+      "https://github.com/icefunicu"
+    ],
+    "knowsAbout": ["后端开发", "全栈开发", "AI工程化", "Java", "Spring Boot", "Python", "LLM"],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Open to Opportunities"
+    }
+  };
+
   return (
     <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} antialiased`}
         style={{
