@@ -1,108 +1,165 @@
 # 杜旭嘉 - 个人作品集网站
 
-Apple 风格的单页个人作品集网站，支持可视化编辑模式。
+高性能、可访问的个人作品集网站，采用现代 Web 技术栈构建，支持可视化编辑模式。
 
-## 技术栈
+![Next.js](https://img.shields.io/badge/Next.js-16+-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4+-38B2AC?logo=tailwind-css)
 
-- **框架**: Next.js 14 (App Router)
-- **语言**: TypeScript
-- **样式**: Tailwind CSS
-- **动画**: Framer Motion
-- **图标**: Lucide React
+## ✨ 特性
 
-## 快速开始
+- **🎨 Premium 设计**: Glass-morphism 风格，平滑动画交互
+- **♿ 可访问性**: WCAG 2.1 兼容，键盘导航，屏幕阅读器友好
+- **🔍 SEO 优化**: 结构化数据 (JSON-LD)，Open Graph，语义化 HTML
+- **📊 数据分析**: Google Analytics 4 集成
+- **🔒 安全**: CSP Headers，XSS 防护
+- **⚡ 高性能**: 动态导入，懒加载动画，Tailwind CSS v4 自动 purge
+- **📱 响应式**: 移动优先设计，触摸友好 (44×44dp 最小触控区域)
+- **🧪 测试覆盖**: Playwright E2E 测试
+
+## 🛠️ 技术栈
+
+| 类别 | 技术 |
+|------|------|
+| 框架 | Next.js 16+ (App Router) |
+| 语言 | TypeScript 5+ |
+| 样式 | Tailwind CSS 4 |
+| 动画 | Framer Motion |
+| 图标 | Lucide React |
+| 分析 | React GA4 |
+| 测试 | Playwright |
+
+## 🚀 快速开始
+
+### 安装依赖
 
 ```bash
-# 安装依赖
 npm install
-
-# 启动开发服务器
-npm run dev
-
-# 构建生产版本
-npm run build
 ```
 
-## 可视化编辑模式
+### 启动开发服务器
 
-本项目支持一个特殊的"可视化编辑模式"，让你可以直接在浏览器中编辑内容，然后导出配置。
+```bash
+npm run dev
+```
 
-### 开启编辑模式
+访问 [http://localhost:3000](http://localhost:3000)
 
-1. 打开 `src/data.ts` 文件
-2. 将 `ENABLE_EDITING` 设置为 `true`：
-   ```typescript
-   export const ENABLE_EDITING = true;
-   ```
-3. 启动开发服务器：`npm run dev`
-4. 在浏览器中打开 `http://localhost:3000`
+### 构建生产版本
 
-### 编辑内容
+```bash
+npm run build
+npm run start
+```
 
-- 编辑模式下，页面右上角会显示"编辑模式已启用"提示
-- 所有可编辑的文字区域会显示虚线边框
-- 点击任意可编辑区域即可开始编辑
-- 按 `Enter` 确认编辑，按 `Esc` 取消编辑
+## 📝 可用脚本
 
-### 导出配置
+| 命令 | 描述 |
+|------|------|
+| `npm run dev` | 启动开发服务器 |
+| `npm run build` | 构建生产版本 |
+| `npm run start` | 启动生产服务器 |
+| `npm run lint` | 运行 ESLint 检查 |
+| `npm run lint:fix` | 自动修复 lint 问题 |
+| `npm run format` | 使用 Prettier 格式化代码 |
+| `npm run test:e2e` | 运行 Playwright E2E 测试 |
+| `npm run test:e2e:ui` | 以 UI 模式运行测试 |
+| `npm run check:links` | 检查死链 |
 
-1. 完成所有编辑后，点击页面右下角的 **"Export Config"** 按钮
-2. 在弹出的对话框中，点击 **"复制代码"**
-3. 将复制的代码粘贴到 `src/data.ts` 文件中，完全替换原有内容
-4. 导出的代码会自动将 `ENABLE_EDITING` 设置为 `false`
+## 📊 Analytics 配置
 
-### 部署
+要启用 Google Analytics 4，设置环境变量：
 
-1. 确保 `ENABLE_EDITING` 为 `false`
-2. 运行构建命令：
-   ```bash
-   npm run build
-   ```
-3. 构建产物位于 `out` 目录，可直接部署到任意静态托管服务
+```bash
+# .env.local
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
 
-## 部署到 GitHub Pages
+支持的追踪事件：
+- 页面浏览
+- 滚动深度 (25%, 50%, 75%, 100%)
+- CTA 点击
+- 简历下载
+- 预约表单提交
 
-1. 在 `next.config.ts` 中配置 `basePath`（如果需要）：
-   ```typescript
-   basePath: '/your-repo-name',
-   assetPrefix: '/your-repo-name/',
-   ```
+## 🧪 测试
 
-2. 构建项目：
-   ```bash
-   npm run build
-   ```
+### 运行 E2E 测试
 
-3. 将 `out` 目录的内容推送到 `gh-pages` 分支
+```bash
+# 首次运行需安装浏览器
+npx playwright install chromium
 
-## 项目结构
+# 运行测试
+npm run test:e2e
+
+# 以 UI 模式运行（可视化调试）
+npm run test:e2e:ui
+```
+
+测试覆盖：
+- Hero 区域加载
+- CTA 按钮点击
+- 预约模态框交互
+- 导航功能
+- 滚动进度条
+- 可访问性检查
+
+## 📁 项目结构
 
 ```
 src/
 ├── app/
-│   ├── globals.css      # 全局样式
-│   ├── layout.tsx       # 根布局
-│   └── page.tsx         # 主页面
+│   ├── globals.css          # 全局样式 + CSS 变量
+│   ├── layout.tsx           # 根布局 + SEO
+│   └── page.tsx             # 主页面
 ├── components/
-│   ├── EditableText.tsx # 可编辑文本组件
-│   ├── Timeline.tsx     # 时间轴组件
-│   ├── Hero.tsx         # 首屏组件
-│   ├── About.tsx        # 关于我组件
-│   ├── Skills.tsx       # 技能组件
-│   ├── VibeCoding.tsx   # Vibe Coding 组件
-│   ├── Projects.tsx     # 项目组件
-│   ├── Contact.tsx      # 联系方式组件
-│   └── ExportButton.tsx # 导出按钮组件
-├── data.ts              # 数据文件（编辑开关 + 内容）
-└── types.ts             # TypeScript 类型定义
+│   ├── Hero.tsx             # 首屏 + CTA
+│   ├── AppointmentModal.tsx # 预约表单模态框
+│   ├── ScrollProgressBar.tsx# 滚动进度条
+│   ├── ExperienceCard.tsx   # 经历卡片 (可展开)
+│   ├── Timeline/            # 时间轴组件
+│   ├── Contact.tsx          # 联系方式
+│   └── ui/                  # 基础 UI 组件
+├── lib/
+│   ├── analytics.ts         # GA4 工具函数
+│   └── AnalyticsProvider.tsx# 分析初始化
+├── config/
+│   └── site.ts              # 站点配置
+├── data.ts                  # 内容数据
+└── types.ts                 # TypeScript 类型
 ```
 
-## 自定义数据
-所有个人信息都存储在 `src/data.ts` 中，你可以：
+## 🔐 安全
 
-1. **使用可视化编辑模式**（推荐）：开启编辑模式 → 在浏览器中编辑 → 导出配置
-2. **直接编辑 data.ts**：手动修改 `portfolioData` 对象中的内容
+已配置的安全措施：
 
-## License
+- **Content-Security-Policy**: 限制资源加载来源
+- **X-Content-Type-Options**: 防止 MIME 类型嗅探
+- **X-Frame-Options**: 防止点击劫持
+- **X-XSS-Protection**: XSS 过滤
+- **Referrer-Policy**: 控制 Referer 发送
+
+## 🌐 部署
+
+### GitHub Pages
+
+项目已配置 GitHub Actions 自动部署：
+
+1. 推送到 `main` 分支触发部署
+2. CI 流程：Lint → Test → Build → Deploy
+
+### Vercel
+
+```bash
+# 直接部署到 Vercel
+npx vercel
+```
+
+## 📄 License
 
 MIT
+
+---
+
+Made with ❤️ by 杜旭嘉
