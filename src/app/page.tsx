@@ -13,6 +13,7 @@ import EditorToolbar from '@/components/EditorToolbar';
 import Footer from '@/components/Footer';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
+import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 
 export default function Home() {
   const {
@@ -31,6 +32,7 @@ export default function Home() {
   return (
     <main className="min-h-screen relative bg-slate-50/30">
       <Navbar heroData={data.hero} contactData={data.contact} />
+      <ScrollProgressBar />
 
       <Hero
         data={data.hero}
