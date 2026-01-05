@@ -99,7 +99,8 @@ const ContactDataSchema = z.object({
     phone: z.string(),
     email: z.string().email(),
     github: z.string().url(),
-    website: z.string().url(),
+    website: z.string().url().optional(),
+    websites: z.array(z.string().url()).optional(),
     resumeButtonText: z.string().optional(),
     ctaText: z.string().optional(),
 });

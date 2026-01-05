@@ -115,7 +115,8 @@ export interface ContactData {
   phone: string;
   email: string;
   github: string;
-  website: string;
+  website?: string;
+  websites?: string[];
   resumeButtonText?: string;  // 下载简历按钮文案
   ctaText?: string;           // CTA 文案
 }

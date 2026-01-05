@@ -328,14 +328,17 @@ export const defaultPortfolioData: PortfolioData = {
 
     vibeCoding: {
         title: "Vibe Coding · AI 原生开发者",
-        description: "熟练运用 AI 作为核心生产力工具，灵活驾驭 Cursor、Windsurf、Claude、ChatGPT、Gemini 等主流 AI 工具进行全栈开发。从需求分析、架构设计、代码实现到调试优化，AI 贯穿开发全流程。无论是后端 Java/Python、前端 Vue/React，还是数据处理、自动化脚本，皆可通过 AI 辅助快速交付高质量代码。不设技术栈边界，以问题为导向，以 AI 为杠杆，极速实现产品落地。"
+        description: "熟练运用 AI 作为核心生产力工具，主要使用 Codex（GPT-5.2-codex）与 Antigravity （ Claude 与 Gemini3pro ），并灵活驾驭 Cursor、Windsurf、Claude、ChatGPT、Gemini 等主流 AI 工具进行全栈开发。从需求分析、架构设计、代码实现到调试优化，AI 贯穿开发全流程。无论是后端 Java/Python、前端 Vue/React，还是数据处理、自动化脚本，皆可通过 AI 辅助快速交付高质量代码。不设技术栈边界，以问题为导向，以 AI 为杠杆，极速实现产品落地。"
     },
 
     contact: {
         phone: "15035925107",
         email: "2041487752dxj@gmail.com",
         github: "https://github.com/icefunicu",
-        website: "https://my-resume-gray-five.vercel.app/",
+        websites: [
+            "https://my-resume-gray-five.vercel.app/",
+            "https://icefunicu.github.io/My-Resume/"
+        ],
         resumeButtonText: "下载简历 PDF",
         ctaText: "开始合作"
     }
