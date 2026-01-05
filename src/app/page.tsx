@@ -4,6 +4,7 @@ import { useEditableContent } from '@/lib/useEditableContent';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import HighlightDeck from '@/components/HighlightDeck';
+import Services from '@/components/Services';
 import { Timeline } from '@/components/Timeline/TimelineNew';
 import { ProjectList } from '@/components/ProjectList';
 import TechStack from '@/components/TechStack';
@@ -57,6 +58,8 @@ export default function Home() {
         </Container>
       </Section>
 
+      <Services services={data.services} />
+
       <Section id="experience" className="scroll-mt-20 bg-white">
         <Container>
           <div className="mb-16">
@@ -97,6 +100,33 @@ export default function Home() {
         name={data.hero.name}
         githubUrl={data.contact.github}
       />
+
+      {/* Magic Toggle (Demo Mode) */}
+      {!isEditorEnabled && (
+        <button
+          onClick={useEditableContent().toggleDemoMode}
+          className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-slate-900 text-white shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group"
+          title="开启演示模式"
+        >
+          <div className="absolute inset-0 rounded-full bg-blue-500/30 animate-ping" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="group-hover:rotate-12 transition-transform"
+          >
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" x2="12" y1="19" y2="22" />
+          </svg>
+        </button>
+      )}
 
       {/* Editor Toolbar */}
       {isEditorEnabled && (

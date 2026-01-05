@@ -6,6 +6,7 @@ import { SkillCategory, VibeCodingData } from '@/types';
 import { TechTag } from './ui/TechTag';
 import { Container } from './ui/Container';
 import { Section } from './ui/Section';
+import { InfiniteScroll } from './ui/InfiniteScroll';
 import {
     Code2, Database, BrainCircuit, Terminal, Layout, Zap, ChevronDown, ChevronUp
 } from 'lucide-react';
@@ -35,6 +36,15 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
         setExpandedCategories(prev => ({ ...prev, [id]: !prev[id] }));
     };
 
+    // Flatten all skills for the Infinite Wall
+    const allSkills = skills.reduce<string[]>((acc, category) => {
+        return [...acc, ...category.items];
+    }, []);
+
+    // Split into two rows for visual interest
+    const firstRow = allSkills.slice(0, Math.ceil(allSkills.length / 2));
+    const secondRow = allSkills.slice(Math.ceil(allSkills.length / 2));
+
     return (
         <Section className="bg-slate-50/50" id="skills">
             <Container>
@@ -46,6 +56,28 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                     <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
                         不设技术边界，以解决问题为核心。熟练运用 AI 辅助开发，实现极速交付。
                     </p>
+                </div>
+
+                {/* Infinite Logo Wall */}
+                <div className="mb-20 -mx-4 md:-mx-0 overflow-hidden space-y-4">
+                    <InfiniteScroll
+                        items={firstRow.map(skill => (
+                            <span key={skill} className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500">
+                                {skill}
+                            </span>
+                        ))}
+                        direction="right"
+                        speed="slow"
+                    />
+                    <InfiniteScroll
+                        items={secondRow.map(skill => (
+                            <span key={skill} className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                                {skill}
+                            </span>
+                        ))}
+                        direction="left"
+                        speed="slow"
+                    />
                 </div>
 
                 {/* Vibe Coding / AI Native Badge */}
@@ -77,7 +109,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                     </div>
                 </motion.div>
 
-                {/* Skills Grid */}
+                {/* Detailed Skills Grid (Preserved for depth) */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
                     {skills.map((category, idx) => {
                         const Icon = categoryIcons[category.category] || Code2;
@@ -153,3 +185,4 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
         </Section>
     );
 }
+

@@ -17,7 +17,7 @@ export function TimelineItem({
     isHighlighted = false
 }: TimelineItemProps) {
     return (
-        <li
+        <div
             id={`timeline-${item.id}`}
             className={`relative pl-8 md:pl-0 group transition-all duration-300 ${isHighlighted ? 'scroll-mt-32' : ''}`}
         >
@@ -66,7 +66,7 @@ export function TimelineItem({
                     <ExperienceCard item={item} hideDate={true} />
                 </div>
             </div>
-        </li>
+        </div>
     );
 }
 

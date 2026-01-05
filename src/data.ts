@@ -28,7 +28,7 @@ export const defaultPortfolioData: PortfolioData = {
         ],
         quickFacts: {
             role: "主投：后端 ｜ 兼任：AI / 全栈",
-            availability: "可立即入职",
+            availability: "可立即入职 ｜ 擅长 AI 落地",
             techStack: ["Java", "Spring Boot", "Python", "MySQL", "Redis", "LLM APIs"]
         }
     },
@@ -323,6 +323,41 @@ export const defaultPortfolioData: PortfolioData = {
             category: "前端 & 全栈",
             description: "Vue.js、Next.js、TailwindCSS、响应式设计",
             items: ["Vue.js", "Next.js", "TypeScript", "TailwindCSS"]
+        }
+    ],
+
+    services: [
+        {
+            id: "svc-fullstack",
+            title: "全栈应用开发",
+            description: "从高性能后端架构到流畅的前端交互，构建企业级 Web 应用。擅长 Spring Boot + React/Next.js 技术栈，确保高可用与安全性。",
+            icon: "Layout",
+            techStack: ["React/Next.js", "Spring Boot", "PostgreSQL"],
+            gradient: "from-blue-500/10 to-indigo-500/10"
+        },
+        {
+            id: "svc-ai-integration",
+            title: "AI 工程化落地",
+            description: "将 LLM 能力（GPT-4/Claude）集成到现有业务流中。提供 RAG 知识库搭建、Agent 智能代理开发及 Prompt 优化服务。",
+            icon: "Bot",
+            techStack: ["LangChain", "LLM APIs", "RAG", "Vector DB"],
+            gradient: "from-purple-500/10 to-fuchsia-500/10"
+        },
+        {
+            id: "svc-performance",
+            title: "性能优化与重构",
+            description: "诊断并解决系统瓶颈。包括 SQL 慢查询治理、接口响应提速、JVM 调优及高并发场景下的架构改进。",
+            icon: "Zap",
+            techStack: ["MySQL Tuning", "Redis", "System Design"],
+            gradient: "from-amber-500/10 to-orange-500/10"
+        },
+        {
+            id: "svc-automation",
+            title: "自动化与数据处理",
+            description: "构建自动化脚本与数据管道，提升业务效率。包含爬虫数据采集、ETL 数据清洗及各类办公流程自动化。",
+            icon: "Workflow",
+            techStack: ["Python", "Pandas", "Automation", "ETL"],
+            gradient: "from-emerald-500/10 to-teal-500/10"
         }
     ],
 

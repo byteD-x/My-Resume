@@ -105,6 +105,15 @@ const ContactDataSchema = z.object({
     ctaText: z.string().optional(),
 });
 
+const ServiceItemSchema = z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string(),
+    icon: z.string(),
+    techStack: z.array(z.string()).optional(),
+    gradient: z.string().optional(),
+});
+
 export const PortfolioDataSchema = z.object({
     hero: HeroDataSchema,
     about: z.string(),
@@ -112,12 +121,12 @@ export const PortfolioDataSchema = z.object({
     timeline: z.array(TimelineItemSchema).min(1),
     projects: z.array(ProjectItemSchema),
     skills: z.array(SkillCategorySchema),
+    services: z.array(ServiceItemSchema),
     vibeCoding: VibeCodingDataSchema,
     contact: ContactDataSchema,
 });
 
 export type PortfolioDataInput = z.infer<typeof PortfolioDataSchema>;
-
 /**
  * 验证导入的 JSON 数据
  * @param data 待验证的数据

@@ -108,6 +108,19 @@ export interface VibeCodingData {
 }
 
 // ==========================================
+// Services Section Types
+// ==========================================
+
+export interface ServiceItem {
+  id: string;
+  title: string;
+  description: string;
+  icon: string; // lucide icon name
+  techStack?: string[]; // Optional tech stack badges
+  gradient?: string; // Optional custom gradient for the card
+}
+
+// ==========================================
 // Contact Section Types
 // ==========================================
 
@@ -132,6 +145,7 @@ export interface PortfolioData {
   timeline: TimelineItem[];
   projects: ProjectItem[];
   skills: SkillCategory[];
+  services: ServiceItem[];
   vibeCoding: VibeCodingData;
   contact: ContactData;
 }

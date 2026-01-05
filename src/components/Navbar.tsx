@@ -57,7 +57,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
         <nav
             data-print="hide"
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b relative",
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
                 scrolled
                     ? "bg-white/70 backdrop-blur-md border-slate-200/80 py-3 shadow-sm"
                     : "bg-transparent border-transparent py-5"

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     locale: "zh_CN",
     images: [
       {
-        url: siteConfig.ogImagePath, // TODO: Add /public/og.png (1200x630)
+        url: "/og.png",
         width: 1200,
         height: 630,
         alt: `${siteConfig.name} - ${siteConfig.role}`,

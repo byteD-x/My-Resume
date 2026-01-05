@@ -15,6 +15,10 @@ export interface UseEditableContentReturn {
     isDirty: boolean;
     lastSaved: Date | null;
 
+    // Demo Mode
+    isDemoMode: boolean;
+    toggleDemoMode: () => void;
+
     // Editor controls
     setIsEditing: (editing: boolean) => void;
     updateData: (newData: PortfolioData) => void;
@@ -34,7 +38,9 @@ export interface UseEditableContentReturn {
  * - 导入/导出/重置功能
  */
 export function useEditableContent(): UseEditableContentReturn {
-    const isEditorEnabled = process.env.NEXT_PUBLIC_ENABLE_EDITOR === '1';
+    // 允许通过环境变量启用，OR 通过 Demo 模式启用
+    const [isDemoMode, setIsDemoMode] = useState(false);
+    const isEditorEnabled = process.env.NEXT_PUBLIC_ENABLE_EDITOR === '1' || isDemoMode;
 
     const [data, setData] = useState<PortfolioData>(defaultPortfolioData);
     const [isEditing, setIsEditing] = useState(false);
@@ -43,6 +49,15 @@ export function useEditableContent(): UseEditableContentReturn {
     const [isHydrated, setIsHydrated] = useState(false);
 
     const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+    // 切换演示模式
+    const toggleDemoMode = useCallback(() => {
+        setIsDemoMode(prev => !prev);
+        // 如果关闭演示模式，也同时关闭编辑状态
+        if (isDemoMode) {
+            setIsEditing(false);
+        }
+    }, [isDemoMode]);
 
     // 从 localStorage 加载
     useEffect(() => {
@@ -169,6 +184,8 @@ export function useEditableContent(): UseEditableContentReturn {
     return {
         data: isHydrated ? data : defaultPortfolioData,
         isEditorEnabled,
+        isDemoMode,
+        toggleDemoMode,
         isEditing,
         isDirty,
         lastSaved,
