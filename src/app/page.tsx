@@ -1,11 +1,11 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useEditableContent } from '@/lib/useEditableContent';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import HighlightDeck from '@/components/HighlightDeck';
 import Services from '@/components/Services';
-import { Timeline } from '@/components/Timeline/TimelineNew';
 import { ProjectList } from '@/components/ProjectList';
 import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
@@ -14,6 +14,21 @@ import Footer from '@/components/Footer';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
+
+// Dynamic import for Timeline - deferred loading as it's below the fold
+const Timeline = dynamic(
+  () => import('@/components/Timeline/TimelineNew').then(mod => ({ default: mod.Timeline })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="animate-pulse space-y-4">
+        {[1, 2, 3].map(i => (
+          <div key={i} className="h-32 bg-slate-100 rounded-xl" />
+        ))}
+      </div>
+    )
+  }
+);
 
 export default function Home() {
   const {
