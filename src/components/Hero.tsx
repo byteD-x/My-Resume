@@ -143,7 +143,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4, duration: 0.6 }}
-                                className="bg-white rounded-2xl border border-slate-100 shadow-2xl shadow-slate-200/50 p-6 md:p-8"
+                                className="glass-light rounded-2xl shadow-2xl shadow-slate-200/50 p-6 md:p-8"
                             >
                                 <div className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-6 flex items-center gap-2">
                                     <span className="w-8 h-[1px] bg-slate-200" />

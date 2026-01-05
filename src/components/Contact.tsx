@@ -120,7 +120,7 @@ export default function Contact({ contactData }: ContactProps) {
                         className="max-w-4xl mx-auto"
                     >
                         {/* Main Card */}
-                        <div className="group relative bg-white/80 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200 dark:border-zinc-700/50 rounded-3xl p-8 md:p-12 shadow-2xl shadow-blue-900/5 dark:shadow-black/50 overflow-hidden">
+                        <div className="group relative glass-light dark:glass-dark rounded-3xl p-8 md:p-12 shadow-2xl shadow-blue-900/5 dark:shadow-black/50 overflow-hidden">
                             {/* Tech Background Grid */}
                             <div
                                 className="absolute inset-0 opacity-[0.05] dark:opacity-[0.1] pointer-events-none"
