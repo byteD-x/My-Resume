@@ -1,15 +1,19 @@
 import type { NextConfig } from "next";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH
+  ? `/${process.env.NEXT_PUBLIC_BASE_PATH}`
+  : "";
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
+
 const nextConfig: NextConfig = {
-  // output: 'export', // Intercepting Routes are not supported with static export
+  output: isStaticExport ? "export" : undefined,
+  trailingSlash: isStaticExport ? true : undefined,
   images: {
     unoptimized: true,
   },
-  // GitHub Pages 部署配置
-  // 如果部署到 https://username.github.io/repo-name/
-  // 请取消注释以下行并修改 repo-name
-  // basePath: '/repo-name',
-  // assetPrefix: '/repo-name/',
+  // Set NEXT_PUBLIC_BASE_PATH=repo-name for GitHub Pages project sites.
+  basePath: isStaticExport ? basePath : undefined,
+  assetPrefix: isStaticExport && basePath ? `${basePath}/` : undefined,
 };
 
 export default nextConfig;

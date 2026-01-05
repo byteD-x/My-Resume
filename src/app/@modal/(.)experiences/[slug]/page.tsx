@@ -1,8 +1,5 @@
-'use client';
-
-import { getExperience } from '@/lib/experiences';
+import { getExperience, getAllExperienceSlugs } from '@/lib/experiences';
 import { ExperienceModal } from '@/components/ExperienceModal';
-import { use } from 'react';
 
 // We need to fetch data client-side or pass it somehow. 
 // Intercepting routes are Client Components if they use client hooks or animations usually?
@@ -11,8 +8,12 @@ import { use } from 'react';
 // ISSUE: getExperience is a helper using `defaultPortfolioData` which is in `data.ts`.
 // If `data.ts` is purely static JS/TS, we can import it in Server Components.
 
-export default function InterceptedExperiencePage({ params }: { params: Promise<{ slug: string }> }) {
-    const { slug } = use(params);
+export async function generateStaticParams() {
+    return getAllExperienceSlugs();
+}
+
+export default async function InterceptedExperiencePage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
     const item = getExperience(slug);
 
     if (!item) {
