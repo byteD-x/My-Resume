@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -93,8 +94,10 @@ export default function RootLayout({
         }}
         suppressHydrationWarning
       >
-        {children}
-        {modal}
+        <AnalyticsProvider>
+          {children}
+          {modal}
+        </AnalyticsProvider>
       </body>
     </html>
   );
