@@ -17,18 +17,18 @@ interface HeroProps {
 }
 
 const fadeIn = {
-    initial: { opacity: 0, y: 20 },
+    initial: { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }
 };
 
 export default function Hero({ data, contactData, isEditorActive = false }: HeroProps) {
     return (
-        <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+        <section className="relative pt-20 pb-20 min-[380px]:pt-24 md:pt-32 lg:pt-48 md:pb-32 overflow-hidden hero-grid noise-layer">
             {/* Background Decor */}
             <div className="absolute inset-0 -z-10 pointer-events-none">
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-3xl opacity-50 translate-x-1/2 -translate-y-1/4" />
-                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-50/50 rounded-full blur-3xl opacity-40 -translate-x-1/4 translate-y-1/4" />
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50/60 dark:bg-blue-900/20 rounded-full blur-3xl opacity-50 translate-x-1/2 -translate-y-1/4" />
+                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-50/60 dark:bg-fuchsia-900/20 rounded-full blur-3xl opacity-40 -translate-x-1/4 translate-y-1/4" />
             </div>
 
             <Container className="relative">
@@ -55,7 +55,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                         <motion.h1
                             {...fadeIn}
                             transition={{ delay: 0.1 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1] text-balance"
+                            className="text-3xl min-[380px]:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1] text-balance"
                         >
                             <EditableText
                                 id="hero-title"
@@ -106,7 +106,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                             <a
                                 href="/resume.pdf"
                                 data-print="hide"
-                                className="inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white bg-blue-600 rounded-full hover:bg-blue-700 hover:-translate-y-0.5 transition-all shadow-xl shadow-blue-600/20"
+                                className="btn btn-primary px-8 py-3.5 text-base font-bold"
                             >
                                 <Download size={20} className="mr-2.5" />
                                 下载简历 PDF
@@ -114,7 +114,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                             {contactData?.email && (
                                 <a
                                     href={`mailto:${contactData.email}`}
-                                    className="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
+                                    className="btn btn-secondary px-8 py-3.5 text-base font-semibold"
                                 >
                                     <Mail size={20} className="mr-2.5" />
                                     发送邮件

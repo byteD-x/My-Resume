@@ -10,18 +10,41 @@ interface ProjectListProps {
 
 export function ProjectList({ items }: ProjectListProps) {
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {items.map((item, index) => (
+        <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-4 lg:gap-6 xl:gap-8"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-10%" }}
+            variants={{
+                hidden: { opacity: 0 },
+                show: {
+                    opacity: 1,
+                    transition: {
+                        staggerChildren: 0.1
+                    }
+                }
+            }}
+        >
+            {items.map((item) => (
                 <motion.div
                     key={item.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ delay: index * 0.1 }}
+                    variants={{
+                        hidden: { opacity: 0, y: 20 },
+                        show: {
+                            opacity: 1,
+                            y: 0,
+                            transition: {
+                                type: "spring",
+                                stiffness: 50,
+                                damping: 15
+                            }
+                        }
+                    }}
+                    className="h-full"
                 >
                     <ExperienceCard item={item} type="project" />
                 </motion.div>
             ))}
-        </div>
+        </motion.div>
     );
 }

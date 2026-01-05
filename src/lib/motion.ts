@@ -90,3 +90,29 @@ export const variants = {
         }
     }
 };
+
+export const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+    }
+};
+
+export const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+};
+
+export const cardHover = {
+    whileHover: {
+        y: -4,
+        boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)"
+    }
+};
+
+export const numberCount = (from: number, to: number) => ({
+    from,
+    to,
+    transition: { duration: 2, ease: "easeOut" }
+});

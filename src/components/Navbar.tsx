@@ -6,6 +6,7 @@ import { Menu, X, Github, Download, Mail } from 'lucide-react';
 import { ContactData, HeroData } from '@/types';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
+import { ProgressBar } from '@/components/ProgressBar';
 
 interface NavbarProps {
     heroData: HeroData;
@@ -25,7 +26,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     const [activeSection, setActiveSection] = useState('');
 
     useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
+        const handleScroll = () => setScrolled(window.scrollY > 50);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -56,12 +57,20 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
         <nav
             data-print="hide"
             className={cn(
-                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
+                "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b relative",
                 scrolled
-                    ? "bg-white/90 backdrop-blur-md border-slate-200 py-3"
+                    ? "bg-white/70 backdrop-blur-md border-slate-200/80 py-3 shadow-sm"
                     : "bg-transparent border-transparent py-5"
             )}
         >
+            <ProgressBar className={cn("opacity-0 transition-opacity duration-300", scrolled && "opacity-100")} />
+            <div
+                aria-hidden="true"
+                className={cn(
+                    "pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-blue-200/80 to-transparent opacity-0 transition-opacity duration-300",
+                    scrolled && "opacity-100"
+                )}
+            />
             <Container>
                 <div className="flex items-center justify-between">
                     {/* Logo */}
@@ -69,11 +78,20 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                         className="flex items-center gap-3 group"
                     >
-                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-sm transition-transform group-hover:scale-105">
+                        <div
+                            className={cn(
+                                "w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 via-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm shadow-md ring-1 ring-white/30 transition-transform group-hover:scale-105",
+                                scrolled && "scale-90"
+                            )}
+                        >
                             DXJ
                         </div>
                         <div className="hidden sm:block text-left">
                             <div className="font-semibold text-slate-800 leading-none mb-1">{heroData.name}</div>
+                            <div className="flex items-center gap-2 text-xs text-emerald-600 font-medium">
+                                <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.15)] animate-pulse" />
+                                Available
+                            </div>
                             <div className="text-xs text-slate-500 font-medium">后端 / AI 工程师</div>
                         </div>
                     </button>
@@ -86,8 +104,9 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                 <button
                                     key={item.name}
                                     onClick={() => scrollTo(item.href)}
+                                    aria-current={isActive ? "page" : undefined}
                                     className={cn(
-                                        "px-5 py-2 rounded-full text-sm font-medium transition-all",
+                                        "px-5 py-2 rounded-full text-sm font-medium transition-all link-underline",
                                         isActive
                                             ? "bg-white text-blue-600 shadow-sm"
                                             : "text-slate-600 hover:text-slate-900 hover:bg-slate-200/50"
@@ -112,7 +131,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         </a>
                         <a
                             href="/resume.pdf"
-                            className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white rounded-full text-sm font-semibold hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/10"
+                            className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
                             aria-label="下载简历 PDF"
                         >
                             <Download size={16} />
@@ -120,7 +139,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         </a>
                         <button
                             onClick={() => scrollTo('#contact')}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-full text-sm font-semibold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+                            className="btn btn-primary gap-2 px-5 py-2.5 text-sm font-semibold"
                             aria-label="立即联系"
                         >
                             <Mail size={16} />
@@ -177,12 +196,12 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             <div className="p-5 border-t border-slate-100 space-y-3">
                                 <button
                                     onClick={() => scrollTo('#contact')}
-                                    className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-600 text-white rounded-xl font-bold shadow-lg shadow-blue-600/20"
+                                    className="btn btn-primary w-full py-3.5 font-bold"
                                 >
                                     <Mail size={18} />
                                     立即联系
                                 </button>
-                                <a href="/resume.pdf" className="flex items-center justify-center w-full py-3.5 bg-slate-100 text-slate-700 rounded-xl font-semibold">
+                                <a href="/resume.pdf" className="btn btn-secondary w-full py-3.5 font-semibold">
                                     下载简历 PDF
                                 </a>
                                 <div className="flex gap-4 justify-center">
