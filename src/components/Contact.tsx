@@ -13,6 +13,17 @@ interface ContactProps {
     contactData: ContactData;
 }
 
+interface ContactItem {
+    id: string;
+    icon: React.ComponentType<{ size?: number }>;
+    label: string;
+    value: string;
+    href: string;
+    canCopy?: boolean;
+    external?: boolean;
+    note?: string;
+}
+
 export default function Contact({ contactData }: ContactProps) {
     const [copiedField, setCopiedField] = useState<string | null>(null);
 
@@ -34,7 +45,7 @@ export default function Contact({ contactData }: ContactProps) {
     const emailBody = `你好，我对您的项目/经历非常感兴趣。\n\n我的 GitHub: https://github.com/icefunicu${resumeLinks ? `\n${resumeLinks}` : ''}\n简历 PDF: (请见附件)\n\n期待回复！`;
     const mailtoHref = `mailto:${contactData.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
-    const contactItems = [
+    const contactItems: ContactItem[] = [
         {
             id: 'email',
             icon: Mail,
