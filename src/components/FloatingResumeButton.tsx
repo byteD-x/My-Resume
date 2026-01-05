@@ -50,6 +50,7 @@ export default function FloatingResumeButton() {
                         <a
                             href="/resume.pdf"
                             target="_blank"
+                            rel="noopener noreferrer"
                             className="btn btn-primary flex-1 py-3"
                         >
                             <Download size={16} />
@@ -75,6 +76,7 @@ export default function FloatingResumeButton() {
                 <motion.a
                     href="/resume.pdf"
                     target="_blank"
+                    rel="noopener noreferrer"
                     data-print="hide"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
