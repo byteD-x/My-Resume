@@ -1,5 +1,10 @@
 import type { NextConfig } from "next";
 
+// Bundle Analyzer - 仅在 ANALYZE=true 时启用
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH
   ? `/${process.env.NEXT_PUBLIC_BASE_PATH}`
   : "";
@@ -45,11 +50,30 @@ const nextConfig: NextConfig = {
   output: isStaticExport ? "export" : undefined,
   trailingSlash: isStaticExport ? true : undefined,
   images: {
-    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './image-loader.ts',
+    // unoptimized: true, // Removed to enable optimization
+  },
+  // React Compiler (Experimental)
+
+  transpilePackages: ["next-image-export-optimizer"],
+
+  experimental: {
   },
   // Set NEXT_PUBLIC_BASE_PATH=repo-name for GitHub Pages project sites.
   basePath: isStaticExport ? basePath : undefined,
   assetPrefix: isStaticExport && basePath ? `${basePath}/` : undefined,
+
+  // Configuration for next-image-export-optimizer
+  env: {
+    nextImageExportOptimizer_imageFolderPath: "public/images",
+    nextImageExportOptimizer_exportFolderPath: "out",
+    nextImageExportOptimizer_quality: "75",
+    nextImageExportOptimizer_storePicturesInWEBP: "true",
+    nextImageExportOptimizer_exportFolderName: "nextImageExportOptimizer",
+    nextImageExportOptimizer_generateAndUseBlurImages: "true",
+    nextImageExportOptimizer_removeOriginalExtension: "true",
+  },
 
   // Security headers (only applies to server mode, not static export)
   async headers() {
@@ -62,4 +86,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

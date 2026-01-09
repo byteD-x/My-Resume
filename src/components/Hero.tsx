@@ -30,9 +30,23 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
         <>
             <section className="relative pt-20 pb-20 min-[380px]:pt-24 md:pt-32 lg:pt-48 md:pb-32 overflow-hidden hero-grid noise-layer">
                 {/* Background Decor */}
-                <div className="absolute inset-0 -z-10 pointer-events-none">
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-50/60 dark:bg-blue-900/20 rounded-full blur-3xl opacity-50 translate-x-1/2 -translate-y-1/4" />
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-50/60 dark:bg-fuchsia-900/20 rounded-full blur-3xl opacity-40 -translate-x-1/4 translate-y-1/4" />
+                <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.2, 1],
+                            opacity: [0.3, 0.5, 0.3],
+                        }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-blue-100/40 to-purple-100/40 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl opacity-40 translate-x-1/3 -translate-y-1/4"
+                    />
+                    <motion.div
+                        animate={{
+                            scale: [1, 1.1, 1],
+                            opacity: [0.3, 0.6, 0.3],
+                        }}
+                        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100/40 to-teal-100/40 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-full blur-3xl opacity-40 -translate-x-1/4 translate-y-1/4"
+                    />
                 </div>
 
                 <Container className="relative">
@@ -143,7 +157,7 @@ export default function Hero({ data, contactData, isEditorActive = false }: Hero
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.4, duration: 0.6 }}
-                                className="glass-light rounded-2xl shadow-2xl shadow-slate-200/50 p-6 md:p-8"
+                                className="bg-glass-strong backdrop-blur-xl rounded-2xl shadow-2xl shadow-slate-200/50 p-6 md:p-8 border border-white/50"
                             >
                                 <div className="text-xs font-bold tracking-widest text-slate-400 uppercase mb-6 flex items-center gap-2">
                                     <span className="w-8 h-[1px] bg-slate-200" />

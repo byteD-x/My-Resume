@@ -36,7 +36,7 @@ export function ExperienceCard({ item, hideDate = false }: ExperienceCardProps) 
                     damping: 30,
                     mass: 0.8
                 }}
-                className="relative overflow-hidden p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 transition-colors duration-300 flex flex-col h-full group-hover:shadow-xl group-hover:shadow-blue-500/5 dark:group-hover:shadow-blue-900/10"
+                className="relative overflow-hidden p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 transition-colors duration-300 flex flex-col h-full group-hover:shadow-2xl group-hover:shadow-blue-500/10 dark:group-hover:shadow-blue-900/20 group-hover:border-blue-500/20"
             >
                 {/* Gradient Hover Border Effect - Use motion for opacity to sync with hover */}
                 <motion.div

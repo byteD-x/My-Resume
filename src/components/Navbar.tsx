@@ -7,6 +7,7 @@ import { ContactData, HeroData } from '@/types';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import { ProgressBar } from '@/components/ProgressBar';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface NavbarProps {
     heroData: HeroData;
@@ -59,7 +60,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
                 scrolled
-                    ? "bg-white/70 backdrop-blur-md border-slate-200/80 py-3 shadow-sm"
+                    ? "bg-glass-strong backdrop-blur-md border-slate-200/50 py-3 shadow-md"
                     : "bg-transparent border-transparent py-5"
             )}
         >
@@ -129,6 +130,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         >
                             <Github size={20} />
                         </a>
+                        <ThemeToggle />
                         <a
                             href="/resume.pdf"
                             className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
@@ -214,6 +216,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     >
                                         <Github size={20} />
                                     </a>
+                                    <ThemeToggle className="bg-slate-100" />
                                 </div>
                             </div>
                         </motion.div>
