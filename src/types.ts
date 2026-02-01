@@ -64,6 +64,7 @@ export interface ImpactItem {
   rowSpan?: string;
   bg?: string;
   isFocal?: boolean;
+  githubRepo?: string;     // Optional: GitHub repo name (e.g. "icefunicu/wechat-bot") for dynamic stats
 }
 
 // ==========================================

@@ -73,14 +73,28 @@ export default function HighlightDeck({
                 if (!res.ok) return;
                 const data = await res.json();
 
-                if (data.totalStars !== undefined) {
+                if (data) {
                     setDisplayItems(prev => prev.map(item => {
-                        if (item.id === 'impact-1') {
+                        // 1. Check for specific repo match first
+                        if (item.githubRepo && data.specificRepos) {
+                            const repoName = item.githubRepo.split('/')[1] || item.githubRepo;
+                            const repoStats = data.specificRepos.find((r: any) => r.name === repoName);
+                            if (repoStats) {
+                                return {
+                                    ...item,
+                                    value: `${repoStats.stars}+`
+                                };
+                            }
+                        }
+
+                        // 2. Fallback to total stars for "impact-1" if no specific repo set (Legacy support)
+                        if (item.id === 'impact-1' && !item.githubRepo && data.totalStars !== undefined) {
                             return {
                                 ...item,
                                 value: `${data.totalStars}+`
                             };
                         }
+
                         return item;
                     }));
                 }
