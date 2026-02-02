@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+// 静态导出需要强制静态配置（API 路由在静态导出时会被忽略，但需要此配置避免构建错误）
+export const dynamic = 'force-static';
 export const revalidate = 3600; // Revalidate every hour
 
 const GITHUB_USERNAME = 'icefunicu';
