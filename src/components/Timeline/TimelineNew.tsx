@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useMemo, useTransition } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { TimelineItem as TimelineItemType } from '@/types';
 import { TimelineItem } from './TimelineItem';
 import { cn } from '@/lib/utils';
@@ -19,7 +19,6 @@ const itemVariants = {
 
 export function Timeline({ items }: TimelineProps) {
     const [activeTag, setActiveTag] = useState<string>('All');
-    const [isPending, startTransition] = useTransition();
 
     // Extract unique tags
     const allTags = useMemo(() => {
@@ -37,9 +36,7 @@ export function Timeline({ items }: TimelineProps) {
     }, [items, activeTag]);
 
     const handleTagChange = (tag: string) => {
-        startTransition(() => {
-            setActiveTag(tag);
-        });
+        setActiveTag(tag);
     };
 
     return (

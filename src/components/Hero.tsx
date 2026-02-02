@@ -31,7 +31,7 @@ const fadeIn = {
     }
 };
 
-export default function Hero({ data, contactData, isEditorActive = false }: HeroProps) {
+export default function Hero({ data, isEditorActive = false }: HeroProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (

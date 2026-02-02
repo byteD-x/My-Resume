@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Moon, Sun, Monitor } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -12,19 +12,24 @@ type Theme = 'light' | 'dark' | 'system';
  * 使用 localStorage 持久化用户偏好
  */
 export function ThemeToggle({ className }: { className?: string }) {
-    const [theme, setTheme] = useState<Theme>('system');
+    // 使用 lazy initializer 来避免在 effect 中调用 setState
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window === 'undefined') return 'system';
+        const stored = localStorage.getItem('theme') as Theme | null;
+        return stored || 'system';
+    });
     const [mounted, setMounted] = useState(false);
 
     // 获取实际显示的主题
-    const getResolvedTheme = (t: Theme): 'light' | 'dark' => {
+    const getResolvedTheme = useCallback((t: Theme): 'light' | 'dark' => {
         if (t === 'system') {
             return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         }
         return t;
-    };
+    }, []);
 
     // 应用主题
-    const applyTheme = (t: Theme) => {
+    const applyTheme = useCallback((t: Theme) => {
         const resolved = getResolvedTheme(t);
         const root = document.documentElement;
 
@@ -35,17 +40,24 @@ export function ThemeToggle({ className }: { className?: string }) {
             root.classList.remove('dark');
             root.style.colorScheme = 'light';
         }
-    };
+    }, [getResolvedTheme]);
 
-    // 初始化
+    // 初始化 - 应用主题并标记 mounted
     useEffect(() => {
-        setMounted(true);
-        const stored = localStorage.getItem('theme') as Theme | null;
-        const initial = stored || 'system';
-        setTheme(initial);
-        applyTheme(initial);
+        // 应用当前主题到 DOM
+        applyTheme(theme);
+        // 使用 RAF 延迟 setMounted，避免同步调用 setState
+        const rafId = requestAnimationFrame(() => {
+            setMounted(true);
+        });
+        return () => cancelAnimationFrame(rafId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // 仅在组件挂载时执行，theme 和 applyTheme 在初始化后由其他 effect 处理
 
-        // 监听系统主题变化
+    // 监听系统主题变化
+    useEffect(() => {
+        if (!mounted) return;
+        
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = () => {
             if (theme === 'system') {
@@ -54,7 +66,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         };
         mediaQuery.addEventListener('change', handleChange);
         return () => mediaQuery.removeEventListener('change', handleChange);
-    }, [theme]);
+    }, [theme, applyTheme, mounted]);
 
     // 切换主题
     const cycleTheme = () => {

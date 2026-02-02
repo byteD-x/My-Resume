@@ -2,9 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 
-// 支持的元素类型映射
-const VALID_ELEMENTS = ['span', 'div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'b', 'i'] as const;
-type ValidElement = typeof VALID_ELEMENTS[number];
+// 支持的元素类型
+type ValidElement = 'span' | 'div' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'strong' | 'em' | 'b' | 'i';
 
 interface EditableTextProps {
     id: string;

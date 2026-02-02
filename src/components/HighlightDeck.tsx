@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { Star, Users, Zap, Gauge, Code2, LucideIcon, TrendingUp, ArrowRight } from 'lucide-react';
 import { ImpactItem, TimelineItem } from '@/types';
 import MetricDrawer from './MetricDrawer';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -23,6 +22,16 @@ interface HighlightDeckProps {
     onItemClick?: (linkedExperienceId: string) => void;
 }
 
+interface GitHubRepoStats {
+    name: string;
+    stars: number;
+}
+
+interface GitHubApiResponse {
+    specificRepos?: GitHubRepoStats[];
+    totalStars?: number;
+}
+
 // Animation config
 const cardVariants = {
     initial: { opacity: 0, y: 20 },
@@ -36,7 +45,6 @@ export default function HighlightDeck({
 }: HighlightDeckProps) {
     const [selectedMetric, setSelectedMetric] = useState<ImpactItem | null>(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const prefersReducedMotion = useReducedMotion();
 
     // Find linked experience for selected metric
     const linkedExperience = useMemo(() => {
@@ -73,14 +81,14 @@ export default function HighlightDeck({
             try {
                 const res = await fetch('/api/github');
                 if (!res.ok) return;
-                const data = await res.json();
+                const data: GitHubApiResponse = await res.json();
 
                 if (data) {
                     setDisplayItems(prev => prev.map(item => {
                         // 1. Check for specific repo match first
                         if (item.githubRepo && data.specificRepos) {
                             const repoName = item.githubRepo.split('/')[1] || item.githubRepo;
-                            const repoStats = data.specificRepos.find((r: any) => r.name === repoName);
+                            const repoStats = data.specificRepos.find((r: GitHubRepoStats) => r.name === repoName);
                             if (repoStats) {
                                 return {
                                     ...item,

@@ -72,7 +72,6 @@ export default function Home() {
 
       <Hero
         data={data.hero}
-        contactData={data.contact}
         isEditorActive={isEditing}
       />
 

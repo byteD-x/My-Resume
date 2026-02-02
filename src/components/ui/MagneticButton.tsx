@@ -38,7 +38,6 @@ export function MagneticButton({
 }: MagneticButtonProps) {
     const buttonRef = useRef<HTMLElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
-    const [isHovered, setIsHovered] = useState(false);
     const prefersReducedMotion = useReducedMotion();
     const rafIdRef = useRef<number | null>(null);
     const lastMousePos = useRef({ x: 0, y: 0, distance: 0, distanceX: 0, distanceY: 0 });
@@ -79,13 +78,11 @@ export function MagneticButton({
 
     const handleMouseEnter = useCallback(() => {
         if (!disabled && !prefersReducedMotion) {
-            setIsHovered(true);
             window.addEventListener('mousemove', handleMouseMove);
         }
     }, [handleMouseMove, disabled, prefersReducedMotion]);
 
     const handleMouseLeave = useCallback(() => {
-        setIsHovered(false);
         setPosition({ x: 0, y: 0 });
         window.removeEventListener('mousemove', handleMouseMove);
         // 清理 RAF

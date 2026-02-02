@@ -36,9 +36,9 @@ test.describe('Portfolio E2E Tests', () => {
             const modal = page.getByRole('dialog');
             await expect(modal).toBeVisible();
 
-            // Check modal has form fields
-            await expect(page.getByLabel(/姓名/i)).toBeVisible();
-            await expect(page.getByLabel(/邮箱/i)).toBeVisible();
+            // Check modal has form fields (scope to modal to avoid conflicts with Contact section)
+            await expect(modal.getByLabel(/您的姓名|姓名/i)).toBeVisible();
+            await expect(modal.getByLabel(/您的邮箱|邮箱地址/i)).toBeVisible();
         });
     });
 
