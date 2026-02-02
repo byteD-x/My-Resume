@@ -27,6 +27,7 @@ export function CursorGlow({
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [isPageHidden, setIsPageHidden] = useState(false);
     const prefersReducedMotion = useReducedMotion();
     const rafIdRef = useRef<number | null>(null);
     const lastMousePos = useRef({ x: 0, y: 0 });
@@ -42,8 +43,20 @@ export function CursorGlow({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // 使用 RAF 节流的鼠标移动处理
+    // 检测页面可见性 - 页面不可见时禁用动画
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            setIsPageHidden(document.hidden);
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }, []);
+
+    // 使用 RAF 节流的鼠标移动处理 - 添加节流优化
     const handleMouseMove = useCallback((e: MouseEvent) => {
+        if (isPageHidden) return;
+
         lastMousePos.current = { x: e.clientX, y: e.clientY };
 
         if (rafIdRef.current === null) {
@@ -52,7 +65,7 @@ export function CursorGlow({
                 rafIdRef.current = null;
             });
         }
-    }, []);
+    }, [isPageHidden]);
 
     const handleMouseEnter = useCallback(() => setIsVisible(true), []);
     const handleMouseLeave = useCallback(() => {
@@ -83,8 +96,8 @@ export function CursorGlow({
         };
     }, [enabled, prefersReducedMotion, hideOnMobile, isMobile, handleMouseMove, handleMouseEnter, handleMouseLeave]);
 
-    // 移动端或禁用时不渲染
-    if (!enabled || prefersReducedMotion || (hideOnMobile && isMobile)) {
+    // 移动端、禁用、或页面隐藏时不渲染
+    if (!enabled || prefersReducedMotion || (hideOnMobile && isMobile) || isPageHidden) {
         return null;
     }
 
@@ -98,7 +111,10 @@ export function CursorGlow({
                     transition={{ duration: 0.2 }}
                     className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden"
                     aria-hidden="true"
-                    style={{ mixBlendMode: blendMode as React.CSSProperties['mixBlendMode'] }}
+                    style={{ 
+                        mixBlendMode: blendMode as React.CSSProperties['mixBlendMode'],
+                        contain: 'strict' 
+                    }}
                 >
                     <motion.div
                         className="absolute rounded-full"
@@ -108,14 +124,16 @@ export function CursorGlow({
                         }}
                         transition={{
                             type: 'spring',
-                            stiffness: 500,
-                            damping: 28,
-                            mass: 0.5,
+                            stiffness: 400,
+                            damping: 30,
+                            mass: 0.8,
                         }}
                         style={{
                             width: size,
                             height: size,
                             background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
+                            willChange: 'transform',
+                            transform: 'translateZ(0)',
                         }}
                     />
                 </motion.div>

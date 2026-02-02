@@ -14,19 +14,28 @@ import Footer from '@/components/Footer';
 import { MotionWrapper } from '@/components/ui/MotionWrapper';
 import { DarkModeCursorGlow } from '@/components/ui/CursorGlow';
 
-// Dynamic import for Services
+// ==========================================
+// 性能优化：动态导入策略
+// ==========================================
+// 使用动态导入来分割代码，减少初始加载包大小
+// 对首屏以下的组件使用动态导入
+
+// Dynamic import for Services - 位于首屏下方，使用动态导入
 const Services = dynamic(() => import('@/components/Services'), {
-  loading: () => <div className="h-96 bg-slate-50 animate-pulse" />
+  loading: () => <div className="h-96 bg-slate-50 animate-pulse rounded-2xl" aria-hidden="true" />,
 });
 
-// Dynamic import for ProjectList
-const ProjectList = dynamic(() => import('@/components/ProjectList').then(mod => mod.ProjectList), {
-  loading: () => <div className="h-96 bg-slate-50 rounded-2xl animate-pulse" />
-});
+// Dynamic import for ProjectList - 位于首屏下方，使用动态导入
+const ProjectList = dynamic(
+  () => import('@/components/ProjectList').then(mod => mod.ProjectList),
+  {
+    loading: () => <div className="h-96 bg-slate-50 rounded-2xl animate-pulse" aria-hidden="true" />,
+  }
+);
 
-// Dynamic import for TechStack
+// Dynamic import for TechStack - 位于页面底部，使用动态导入
 const TechStack = dynamic(() => import('@/components/TechStack'), {
-  loading: () => <div className="h-96 bg-slate-900 animate-pulse" />
+  loading: () => <div className="h-96 bg-slate-900 rounded-2xl animate-pulse" aria-hidden="true" />,
 });
 
 // Dynamic import for Timeline - 延迟加载首屏下方组件，开启 SSR 优化 SEO
@@ -41,12 +50,13 @@ const Timeline = dynamic(
             key={i}
             className="h-36 bg-gradient-to-r from-slate-100 to-slate-50 rounded-2xl border border-slate-100"
             style={{ animationDelay: `${i * 100}ms` }}
+            aria-hidden="true"
           />
         ))}
         <span className="sr-only">正在加载职业履历...</span>
       </div>
-    )
-  }
+    ),
+  },
 );
 
 export default function Home() {

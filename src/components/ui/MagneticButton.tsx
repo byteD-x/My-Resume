@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // 默认配置常量
-const DEFAULT_STRENGTH = 0.3;
-const DEFAULT_RADIUS = 100;
+const DEFAULT_STRENGTH = 0.25;
+const DEFAULT_RADIUS = 80;
 
 interface MagneticButtonProps {
     children: ReactNode;
@@ -41,12 +41,14 @@ export function MagneticButton({
     const prefersReducedMotion = useReducedMotion();
     const rafIdRef = useRef<number | null>(null);
     const lastMousePos = useRef({ x: 0, y: 0, distance: 0, distanceX: 0, distanceY: 0 });
+    const isHoveredRef = useRef(false);
 
-    // 使用 RAF 节流计算磁性效果
+    // 使用 RAF 节流计算磁性效果 - 性能优化
     const calculateMagneticPosition = useCallback(() => {
         const { distanceX, distanceY, distance } = lastMousePos.current;
 
-        if (distance < radius) {
+        // 只在鼠标在按钮范围内时计算
+        if (distance < radius && isHoveredRef.current) {
             const factor = 1 - distance / radius;
             setPosition({
                 x: distanceX * strength * factor,
@@ -78,11 +80,13 @@ export function MagneticButton({
 
     const handleMouseEnter = useCallback(() => {
         if (!disabled && !prefersReducedMotion) {
+            isHoveredRef.current = true;
             window.addEventListener('mousemove', handleMouseMove);
         }
     }, [handleMouseMove, disabled, prefersReducedMotion]);
 
     const handleMouseLeave = useCallback(() => {
+        isHoveredRef.current = false;
         setPosition({ x: 0, y: 0 });
         window.removeEventListener('mousemove', handleMouseMove);
         // 清理 RAF
@@ -119,12 +123,12 @@ export function MagneticButton({
         y: position.y,
     };
 
-    // 使用更平滑稳定的缓动，避免回弹震颤
+    // 使用更平滑稳定的缓动，避免回弹震颤 - 优化为性能更好的配置
     const transition = {
         type: 'spring' as const,
-        stiffness: 300,
-        damping: 40,
-        mass: 1,
+        stiffness: 400,
+        damping: 35,
+        mass: 0.8,
     };
 
     if (as === 'a' && href) {
@@ -137,6 +141,10 @@ export function MagneticButton({
                 rel={rel}
                 animate={motionStyle}
                 transition={transition}
+                style={{ 
+                    willChange: 'transform',
+                    transform: 'translateZ(0)',
+                }}
             >
                 {children}
             </motion.a>
@@ -150,6 +158,10 @@ export function MagneticButton({
                 ref={buttonRef as React.RefObject<HTMLDivElement>}
                 animate={motionStyle}
                 transition={transition}
+                style={{ 
+                    willChange: 'transform',
+                    transform: 'translateZ(0)',
+                }}
             >
                 {children}
             </motion.div>
@@ -163,6 +175,10 @@ export function MagneticButton({
             disabled={disabled}
             animate={motionStyle}
             transition={transition}
+            style={{ 
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+            }}
         >
             {children}
         </motion.button>
