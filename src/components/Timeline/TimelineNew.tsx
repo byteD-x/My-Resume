@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useTransition } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TimelineItem as TimelineItemType } from '@/types';
 import { TimelineItem } from './TimelineItem';
@@ -11,8 +11,15 @@ interface TimelineProps {
     isEditorActive?: boolean;
 }
 
+// 简单的淡入动画变体
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+};
+
 export function Timeline({ items }: TimelineProps) {
     const [activeTag, setActiveTag] = useState<string>('All');
+    const [isPending, startTransition] = useTransition();
 
     // Extract unique tags
     const allTags = useMemo(() => {
@@ -29,6 +36,12 @@ export function Timeline({ items }: TimelineProps) {
         return items.filter(item => item.techTags.includes(activeTag));
     }, [items, activeTag]);
 
+    const handleTagChange = (tag: string) => {
+        startTransition(() => {
+            setActiveTag(tag);
+        });
+    };
+
     return (
         <div className="space-y-8">
             {/* Filter Tags */}
@@ -36,13 +49,14 @@ export function Timeline({ items }: TimelineProps) {
                 {allTags.map(tag => (
                     <button
                         key={tag}
-                        onClick={() => setActiveTag(tag)}
+                        onClick={() => handleTagChange(tag)}
                         className={cn(
-                            "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border",
+                            "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 border cursor-pointer",
                             activeTag === tag
                                 ? "bg-blue-600 text-white border-blue-600 shadow-md transform scale-105"
                                 : "bg-white text-slate-600 border-slate-200 hover:border-blue-400 hover:text-blue-500"
                         )}
+                        aria-pressed={activeTag === tag}
                     >
                         {tag}
                     </button>
@@ -56,25 +70,29 @@ export function Timeline({ items }: TimelineProps) {
                     aria-hidden="true"
                 />
 
-                <AnimatePresence mode="popLayout">
+                {/* 移除 layout prop，使用简单的淡入动画 */}
+                <div className="space-y-12">
                     {filteredItems.map((item, index) => (
                         <motion.div
                             key={item.id}
-                            layout
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.3 }}
+                            initial="hidden"
+                            animate="visible"
+                            variants={itemVariants}
+                            transition={{
+                                duration: 0.4,
+                                delay: index * 0.08,
+                                ease: [0.16, 1, 0.3, 1]
+                            }}
                         >
                             <TimelineItem
                                 item={item}
                                 index={index}
                                 isHighlighted={item.highlighted}
-                                isLast={index === filteredItems.length - 1} // Update logical last
+                                isLast={index === filteredItems.length - 1}
                             />
                         </motion.div>
                     ))}
-                </AnimatePresence>
+                </div>
 
                 {filteredItems.length === 0 && (
                     <motion.div

@@ -1,6 +1,14 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
+import { useReducedMotion } from './useReducedMotion';
+
+// 默认配置常量
+const DEFAULT_MAX_TILT = 10;
+const DEFAULT_PERSPECTIVE = 1000;
+const DEFAULT_SCALE = 1.02;
+const DEFAULT_SPEED = 400;
+const DEFAULT_GLARE_OPACITY = 0.2;
 
 interface TiltConfig {
     maxTilt?: number;      // 最大倾斜角度
@@ -22,12 +30,12 @@ type RefCallback<T> = (instance: T | null) => void;
 
 export function use3DTilt<T extends HTMLElement = HTMLDivElement>(config: TiltConfig = {}) {
     const {
-        maxTilt = 10,
-        perspective = 1000,
-        scale = 1.02,
-        speed = 400,
+        maxTilt = DEFAULT_MAX_TILT,
+        perspective = DEFAULT_PERSPECTIVE,
+        scale = DEFAULT_SCALE,
+        speed = DEFAULT_SPEED,
         glare = true,
-        glareOpacity = 0.2,
+        glareOpacity = DEFAULT_GLARE_OPACITY,
     } = config;
 
     const elementRef = useRef<T | null>(null);
@@ -38,18 +46,20 @@ export function use3DTilt<T extends HTMLElement = HTMLDivElement>(config: TiltCo
         glareX: 50,
         glareY: 50,
     });
+    const prefersReducedMotion = useReducedMotion();
+    const rafIdRef = useRef<number | null>(null);
+    const lastMousePos = useRef<{ percentX: number; percentY: number; glareX: number; glareY: number } | null>(null);
 
-    // 检查用户是否偏好减少动画
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        setPrefersReducedMotion(mediaQuery.matches);
-
-        const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-        mediaQuery.addEventListener('change', handler);
-        return () => mediaQuery.removeEventListener('change', handler);
-    }, []);
+    // 使用 RAF 节流更新倾斜状态
+    const updateTilt = useCallback(() => {
+        if (lastMousePos.current) {
+            const { percentX, percentY, glareX, glareY } = lastMousePos.current;
+            const rotateX = -percentY * maxTilt;
+            const rotateY = percentX * maxTilt;
+            setTilt({ rotateX, rotateY, glareX, glareY });
+        }
+        rafIdRef.current = null;
+    }, [maxTilt]);
 
     const handleMouseMove = useCallback((e: MouseEvent) => {
         if (prefersReducedMotion || !elementRef.current) return;
@@ -58,20 +68,17 @@ export function use3DTilt<T extends HTMLElement = HTMLDivElement>(config: TiltCo
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
 
-        // 计算鼠标相对于中心的偏移 (-1 到 1)
         const percentX = (e.clientX - centerX) / (rect.width / 2);
         const percentY = (e.clientY - centerY) / (rect.height / 2);
-
-        // 计算倾斜角度
-        const rotateX = -percentY * maxTilt;
-        const rotateY = percentX * maxTilt;
-
-        // 计算光泽位置 (0-100%)
         const glareX = ((e.clientX - rect.left) / rect.width) * 100;
         const glareY = ((e.clientY - rect.top) / rect.height) * 100;
 
-        setTilt({ rotateX, rotateY, glareX, glareY });
-    }, [maxTilt, prefersReducedMotion]);
+        lastMousePos.current = { percentX, percentY, glareX, glareY };
+
+        if (rafIdRef.current === null) {
+            rafIdRef.current = requestAnimationFrame(updateTilt);
+        }
+    }, [prefersReducedMotion, updateTilt]);
 
     const handleMouseEnter = useCallback(() => {
         if (!prefersReducedMotion) {
@@ -82,6 +89,21 @@ export function use3DTilt<T extends HTMLElement = HTMLDivElement>(config: TiltCo
     const handleMouseLeave = useCallback(() => {
         setIsHovered(false);
         setTilt({ rotateX: 0, rotateY: 0, glareX: 50, glareY: 50 });
+        // 清理 RAF
+        if (rafIdRef.current !== null) {
+            cancelAnimationFrame(rafIdRef.current);
+            rafIdRef.current = null;
+        }
+        lastMousePos.current = null;
+    }, []);
+
+    // 清理 RAF 的 effect
+    useEffect(() => {
+        return () => {
+            if (rafIdRef.current !== null) {
+                cancelAnimationFrame(rafIdRef.current);
+            }
+        };
     }, []);
 
     // 设置元素引用的回调

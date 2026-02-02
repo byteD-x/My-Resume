@@ -133,6 +133,7 @@ export interface ContactData {
   websites?: string[];
   resumeButtonText?: string;  // 下载简历按钮文案
   ctaText?: string;           // CTA 文案
+  wechat?: string;            // 微信号
 }
 
 // ==========================================

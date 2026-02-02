@@ -1,18 +1,22 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect, ElementType, ComponentPropsWithoutRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
-interface EditableTextProps<T extends ElementType> {
+// 支持的元素类型映射
+const VALID_ELEMENTS = ['span', 'div', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'b', 'i'] as const;
+type ValidElement = typeof VALID_ELEMENTS[number];
+
+interface EditableTextProps {
     id: string;
     value: string;
     onChange: (id: string, value: string) => void;
     className?: string;
-    as?: T;
+    as?: ValidElement;
     multiline?: boolean;
     isEditorActive?: boolean;  // 从父组件传入的编辑状态
 }
 
-export default function EditableText<T extends ElementType = 'span'>({
+export default function EditableText({
     id,
     value,
     onChange,
@@ -20,7 +24,8 @@ export default function EditableText<T extends ElementType = 'span'>({
     as,
     multiline = false,
     isEditorActive = false,
-}: EditableTextProps<T> & Omit<ComponentPropsWithoutRef<T>, keyof EditableTextProps<T>>) {
+    ...restProps
+}: EditableTextProps & Omit<React.HTMLAttributes<HTMLElement>, keyof EditableTextProps>) {
     const Component = as || 'span';
     const [isEditing, setIsEditing] = useState(false);
     const [localValue, setLocalValue] = useState(value);
@@ -61,7 +66,7 @@ export default function EditableText<T extends ElementType = 'span'>({
 
     // 非编辑模式：显示普通文本
     if (!isEditorEnabled || !isEditorActive) {
-        return <Component className={className}>{value}</Component>;
+        return <Component className={className} {...restProps}>{value}</Component>;
     }
 
     // 编辑模式：显示可编辑字段
@@ -121,6 +126,7 @@ export default function EditableText<T extends ElementType = 'span'>({
                     setIsEditing(true);
                 }
             }}
+            {...restProps}
         >
             {localValue}
         </Component>

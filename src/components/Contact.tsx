@@ -79,14 +79,14 @@ export default function Contact({ contactData }: ContactProps) {
             href: `tel:${contactData.phone.replace(/\s+/g, '')}`,
             canCopy: true,
         },
-        {
-            id: 'wechat',
+        ...(contactData.wechat ? [{
+            id: 'wechat' as const,
             icon: MessageSquare,
             label: '微信',
-            value: 'w2041487752',
+            value: contactData.wechat,
             href: '#',
             canCopy: true,
-        },
+        }] : []),
         {
             id: 'github',
             icon: GithubIcon,

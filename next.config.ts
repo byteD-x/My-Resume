@@ -10,10 +10,12 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH
   : "";
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
 
-// Content Security Policy
+// Content Security Policy - 优化版本
+// 注意：'unsafe-inline' 仍然需要用于 styled-components 和 emotion 等 CSS-in-JS 库
+// 在生产环境中考虑使用 nonce 或 hash 进一步加固
 const ContentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com;
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data: https: blob:;
   font-src 'self' https://fonts.gstatic.com;
@@ -21,6 +23,7 @@ const ContentSecurityPolicy = `
   frame-ancestors 'none';
   base-uri 'self';
   form-action 'self';
+  upgrade-insecure-requests;
 `.replace(/\s{2,}/g, ' ').trim();
 
 const securityHeaders = [

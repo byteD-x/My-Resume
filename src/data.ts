@@ -376,6 +376,7 @@ export const defaultPortfolioData: PortfolioData = {
             "https://icefunicu.github.io/My-Resume/"
         ],
         resumeButtonText: "下载简历 PDF",
-        ctaText: "开始合作"
+        ctaText: "开始合作",
+        wechat: "w2041487752"
     }
 };

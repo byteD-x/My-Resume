@@ -1,7 +1,13 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+
+// 默认配置常量
+const DEFAULT_SIZE = 300;
+const DEFAULT_COLOR = 'rgba(59, 130, 246, 0.15)';
+const MOBILE_BREAKPOINT = 768;
 
 interface CursorGlowProps {
     size?: number;           // 光斑大小
@@ -12,8 +18,8 @@ interface CursorGlowProps {
 }
 
 export function CursorGlow({
-    size = 300,
-    color = 'rgba(59, 130, 246, 0.15)',
+    size = DEFAULT_SIZE,
+    color = DEFAULT_COLOR,
     blendMode = 'normal',
     enabled = true,
     hideOnMobile = true,
@@ -21,11 +27,14 @@ export function CursorGlow({
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const prefersReducedMotion = useReducedMotion();
+    const rafIdRef = useRef<number | null>(null);
+    const lastMousePos = useRef({ x: 0, y: 0 });
 
     // 检测移动端
     useEffect(() => {
         const checkMobile = () => {
-            setIsMobile(window.matchMedia('(max-width: 768px)').matches ||
+            setIsMobile(window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches ||
                 'ontouchstart' in window);
         };
         checkMobile();
@@ -33,19 +42,27 @@ export function CursorGlow({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // 检查用户是否偏好减少动画
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        setPrefersReducedMotion(mediaQuery.matches);
-    }, []);
-
+    // 使用 RAF 节流的鼠标移动处理
     const handleMouseMove = useCallback((e: MouseEvent) => {
-        setMousePosition({ x: e.clientX, y: e.clientY });
+        lastMousePos.current = { x: e.clientX, y: e.clientY };
+
+        if (rafIdRef.current === null) {
+            rafIdRef.current = requestAnimationFrame(() => {
+                setMousePosition(lastMousePos.current);
+                rafIdRef.current = null;
+            });
+        }
     }, []);
 
     const handleMouseEnter = useCallback(() => setIsVisible(true), []);
-    const handleMouseLeave = useCallback(() => setIsVisible(false), []);
+    const handleMouseLeave = useCallback(() => {
+        setIsVisible(false);
+        // 清理 RAF
+        if (rafIdRef.current !== null) {
+            cancelAnimationFrame(rafIdRef.current);
+            rafIdRef.current = null;
+        }
+    }, []);
 
     useEffect(() => {
         if (!enabled || prefersReducedMotion || (hideOnMobile && isMobile)) return;
@@ -58,6 +75,11 @@ export function CursorGlow({
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseenter', handleMouseEnter);
             document.removeEventListener('mouseleave', handleMouseLeave);
+            // 清理 RAF
+            if (rafIdRef.current !== null) {
+                cancelAnimationFrame(rafIdRef.current);
+                rafIdRef.current = null;
+            }
         };
     }, [enabled, prefersReducedMotion, hideOnMobile, isMobile, handleMouseMove, handleMouseEnter, handleMouseLeave]);
 

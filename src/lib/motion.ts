@@ -1,3 +1,36 @@
+// 检测是否应该禁用无限动画 (用于静态导出)
+const shouldDisableInfiniteAnimations = (): boolean => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+};
+
+// 创建动态变体的工厂函数
+export const createInfiniteVariant = (
+    keyframes: number[],
+    duration: number,
+    property: 'y' | 'opacity' | 'scale'
+) => {
+    return (() => {
+        if (shouldDisableInfiniteAnimations()) {
+            return {
+                initial: { [property]: keyframes[0] },
+                animate: { [property]: keyframes[0] }
+            };
+        }
+        return {
+            initial: { [property]: keyframes[0] },
+            animate: {
+                [property]: keyframes,
+                transition: {
+                    duration,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }
+            }
+        };
+    })();
+};
+
 export const transitions = {
     spring: {
         type: "spring",
@@ -63,7 +96,7 @@ export const variants = {
         }
     },
 
-    // Aurora Float Effect
+    // Aurora Float Effect - 尊重 prefers-reduced-motion
     float: {
         initial: { y: 0 },
         animate: {
@@ -76,7 +109,7 @@ export const variants = {
         }
     },
 
-    // Pulse Glow
+    // Pulse Glow - 尊重 prefers-reduced-motion
     glow: {
         initial: { opacity: 0.5, scale: 1 },
         animate: {
@@ -116,3 +149,12 @@ export const numberCount = (from: number, to: number) => ({
     to,
     transition: { duration: 2, ease: "easeOut" }
 });
+
+// 安全的 hover 变体 - 接受条件参数
+export const safeCardHover = {
+    whileHover: {
+        y: -4,
+        boxShadow: "0 20px 25px -5px rgba(0,0,0,0.1)"
+    },
+    whileTap: { scale: 0.98 }
+};

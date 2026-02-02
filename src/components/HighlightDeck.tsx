@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Star, Users, Zap, Gauge, Code2, LucideIcon, TrendingUp, ArrowRight } from 'lucide-react';
 import { ImpactItem, TimelineItem } from '@/types';
 import MetricDrawer from './MetricDrawer';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -35,6 +36,7 @@ export default function HighlightDeck({
 }: HighlightDeckProps) {
     const [selectedMetric, setSelectedMetric] = useState<ImpactItem | null>(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const prefersReducedMotion = useReducedMotion();
 
     // Find linked experience for selected metric
     const linkedExperience = useMemo(() => {
@@ -131,49 +133,42 @@ export default function HighlightDeck({
                                     initial={cardVariants.initial}
                                     whileInView={cardVariants.animate}
                                     transition={{
-                                        duration: 0.4,
-                                        delay: i * 0.08,
-                                        ease: [0.16, 1, 0.3, 1]
+                                        duration: 0.35,
+                                        delay: i * 0.06,
+                                        ease: [0.22, 1, 0.36, 1]
                                     }}
                                     viewport={{ once: true, margin: '-50px' }}
                                     onClick={() => handleCardClick(item)}
-                                    // Base styles
                                     className={`
                                         group relative cursor-pointer p-6 rounded-2xl flex flex-col h-full overflow-hidden
-                                        transition-all duration-300
+                                        will-change-transform
                                         ${isFocal
                                             ? 'bg-zinc-900/95 backdrop-blur-xl border-zinc-800/80 text-white shadow-2xl shadow-blue-900/10'
-                                            : 'bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md border-zinc-200/50 dark:border-zinc-800/50 hover:bg-white/80 dark:hover:bg-zinc-900/80 border'}
+                                            : 'bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md border-zinc-200/50 dark:border-zinc-800/50'}
                                         ${isFocal ? 'sm:col-span-2 lg:col-span-1' : ''}
                                     `}
-                                    whileHover={{
-                                        y: -6,
-                                        transition: { type: 'spring', stiffness: 400, damping: 30 }
-                                    }}
-                                    whileTap={{ scale: 0.98 }}
                                 >
-                                    {/* Hover Gradients */}
+                                    {/* Hover Effects - 只用 opacity，避免 translate 震颤 */}
                                     {!isFocal && (
                                         <>
-                                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                                            <div className="absolute inset-0 border border-blue-500/0 group-hover:border-blue-500/20 rounded-2xl transition-colors duration-500 pointer-events-none" />
+                                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out pointer-events-none" />
+                                            <div className="absolute inset-0 border border-blue-500/0 group-hover:border-blue-500/20 rounded-2xl transition-colors duration-300 ease-out pointer-events-none" />
                                         </>
                                     )}
                                     {isFocal && (
-                                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-purple-600/20 opacity-50 group-hover:opacity-80 transition-opacity duration-500 pointer-events-none" />
+                                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-purple-600/20 opacity-50 group-hover:opacity-70 transition-opacity duration-300 ease-out pointer-events-none" />
                                     )}
 
                                     {/* Header: Icon + Value */}
                                     <div className="mb-4 relative z-10">
-                                        <motion.div
-                                            className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300
+                                        <div
+                                            className={`
+                                                w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300
                                                 ${isFocal ? 'bg-white/10 text-white' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/30'}
                                             `}
-                                            whileHover={{ scale: 1.15, rotate: 5 }}
-                                            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                                         >
                                             <Icon size={24} />
-                                        </motion.div>
+                                        </div>
 
                                         {/* Metric Value - Tabular Nums */}
                                         <div

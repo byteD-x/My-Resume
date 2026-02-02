@@ -3,6 +3,11 @@
 import React, { useRef, useState, useCallback, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+
+// 默认配置常量
+const DEFAULT_STRENGTH = 0.3;
+const DEFAULT_RADIUS = 100;
 
 interface MagneticButtonProps {
     children: ReactNode;
@@ -21,8 +26,8 @@ interface MagneticButtonProps {
 export function MagneticButton({
     children,
     className = '',
-    strength = 0.3,
-    radius = 100,
+    strength = DEFAULT_STRENGTH,
+    radius = DEFAULT_RADIUS,
     as = 'button',
     onClick,
     href,
@@ -34,46 +39,69 @@ export function MagneticButton({
     const buttonRef = useRef<HTMLElement>(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
     const [isHovered, setIsHovered] = useState(false);
+    const prefersReducedMotion = useReducedMotion();
+    const rafIdRef = useRef<number | null>(null);
+    const lastMousePos = useRef({ x: 0, y: 0, distance: 0, distanceX: 0, distanceY: 0 });
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        if (!buttonRef.current || disabled) return;
+    // 使用 RAF 节流计算磁性效果
+    const calculateMagneticPosition = useCallback(() => {
+        const { distanceX, distanceY, distance } = lastMousePos.current;
 
-        const rect = buttonRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        // 计算鼠标到中心的距离
-        const distanceX = e.clientX - centerX;
-        const distanceY = e.clientY - centerY;
-        const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
-
-        // 只在半径内产生磁性效果
         if (distance < radius) {
-            const factor = 1 - distance / radius; // 距离越近，吸引力越强
+            const factor = 1 - distance / radius;
             setPosition({
                 x: distanceX * strength * factor,
                 y: distanceY * strength * factor,
             });
         }
-    }, [strength, radius, disabled]);
+
+        rafIdRef.current = null;
+    }, [strength, radius]);
+
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+        if (!buttonRef.current || disabled || prefersReducedMotion) return;
+
+        const rect = buttonRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const distanceX = e.clientX - centerX;
+        const distanceY = e.clientY - centerY;
+        const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+        lastMousePos.current = { x: e.clientX, y: e.clientY, distance, distanceX, distanceY };
+
+        // 只在半径内且RAF空闲时触发计算
+        if (distance < radius && rafIdRef.current === null) {
+            rafIdRef.current = requestAnimationFrame(calculateMagneticPosition);
+        }
+    }, [disabled, prefersReducedMotion, radius, calculateMagneticPosition]);
 
     const handleMouseEnter = useCallback(() => {
-        if (!disabled) {
+        if (!disabled && !prefersReducedMotion) {
             setIsHovered(true);
             window.addEventListener('mousemove', handleMouseMove);
         }
-    }, [handleMouseMove, disabled]);
+    }, [handleMouseMove, disabled, prefersReducedMotion]);
 
     const handleMouseLeave = useCallback(() => {
         setIsHovered(false);
         setPosition({ x: 0, y: 0 });
         window.removeEventListener('mousemove', handleMouseMove);
+        // 清理 RAF
+        if (rafIdRef.current !== null) {
+            cancelAnimationFrame(rafIdRef.current);
+            rafIdRef.current = null;
+        }
     }, [handleMouseMove]);
 
     // 清理事件监听器
     React.useEffect(() => {
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
+            if (rafIdRef.current !== null) {
+                cancelAnimationFrame(rafIdRef.current);
+            }
         };
     }, [handleMouseMove]);
 
@@ -94,11 +122,12 @@ export function MagneticButton({
         y: position.y,
     };
 
+    // 使用更平滑稳定的缓动，避免回弹震颤
     const transition = {
         type: 'spring' as const,
-        stiffness: 150,
-        damping: 15,
-        mass: 0.1,
+        stiffness: 300,
+        damping: 40,
+        mass: 1,
     };
 
     if (as === 'a' && href) {

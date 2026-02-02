@@ -2,6 +2,7 @@
 
 import { motion, Variants, Transition } from 'framer-motion';
 import { ReactNode } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // 动画预设类型
 type AnimationPreset = 'fade-up' | 'fade-down' | 'fade-left' | 'fade-right' | 'scale' | 'blur' | 'slide-up' | 'spring-up';
@@ -15,6 +16,8 @@ interface MotionWrapperProps {
     once?: boolean;
     amount?: number;
     stagger?: number;
+    /** 是否在减少动画模式下禁用动画 */
+    disableOnReducedMotion?: boolean;
 }
 
 // 预定义的动画变体
@@ -68,12 +71,23 @@ export const MotionWrapper = ({
     duration = 0.5,
     once = true,
     amount = 0.2,
+    disableOnReducedMotion = true,
 }: MotionWrapperProps) => {
+    const prefersReducedMotion = useReducedMotion();
+    const shouldAnimate = !prefersReducedMotion || !disableOnReducedMotion;
+
     const variants = presetVariants[preset];
 
-    const transition: Transition = preset === 'spring-up'
-        ? { ...easePresets.spring, delay }
-        : { duration, delay, ease: easePresets.smooth };
+    const transition: Transition = shouldAnimate
+        ? (preset === 'spring-up'
+            ? { ...easePresets.spring, delay }
+            : { duration, delay, ease: easePresets.smooth })
+        : { duration: 0 };
+
+    // 禁用动画时，直接渲染子元素
+    if (!shouldAnimate) {
+        return <div className={className}>{children}</div>;
+    }
 
     return (
         <motion.div
@@ -103,6 +117,8 @@ export const StaggerContainer = ({
     delay = 0,
     staggerDelay = 0.1,
 }: StaggerContainerProps) => {
+    const prefersReducedMotion = useReducedMotion();
+
     const containerVariants: Variants = {
         initial: {},
         animate: {
@@ -112,6 +128,10 @@ export const StaggerContainer = ({
             },
         },
     };
+
+    if (prefersReducedMotion) {
+        return <div className={className}>{children}</div>;
+    }
 
     return (
         <motion.div
@@ -138,7 +158,12 @@ export const StaggerItem = ({
     className = "",
     preset = 'fade-up',
 }: StaggerItemProps) => {
+    const prefersReducedMotion = useReducedMotion();
     const variants = presetVariants[preset];
+
+    if (prefersReducedMotion) {
+        return <div className={className}>{children}</div>;
+    }
 
     return (
         <motion.div

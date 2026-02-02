@@ -145,17 +145,17 @@
   --shadow-xl: 0 25px 50px -12px rgb(15 23 42 / 0.25);
 
   /* ====== Animation System ====== */
-  /* Easing curves - optimized for natural, fluid motion */
+  /* Easing curves - smooth and stable, no bounce */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-in-out-smooth: cubic-bezier(0.4, 0, 0.2, 1);
-  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-out-smooth: cubic-bezier(0, 0, 0.2, 1);
 
   /* Duration tokens */
   --duration-fast: 150ms;
   --duration-normal: 250ms;
-  --duration-slow: 400ms;
-  --duration-slower: 600ms;
+  --duration-slow: 350ms;
+  --duration-slower: 450ms;
 
   /* Stagger delay for list animations */
   --stagger-delay: 50ms;
@@ -317,12 +317,10 @@ h2 {
 
 /* Card utilities */
 .card-hover {
-  transition: transform var(--duration-normal) var(--ease-out-expo),
-    box-shadow var(--duration-normal) var(--ease-out-expo);
+  transition: box-shadow var(--duration-normal) var(--ease-out-quart);
 }
 
 .card-hover:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
 
@@ -334,6 +332,23 @@ h2 {
   transform: translateZ(0);
 }
 
+/* Optimized animation classes */
+.animate-optimized {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Reduce layout thrashing for frequently animated elements */
+.animation-safe {
+  contain: layout style paint;
+}
+
+/* Smooth transform-only animations */
+.transform-only {
+  transition: transform var(--duration-normal) var(--ease-out-expo);
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;
@@ -342,8 +357,8 @@ h2 {
   gap: 0.5rem;
   font-weight: 600;
   border-radius: var(--radius-full);
-  transition: transform var(--duration-fast) var(--ease-out-back),
-    box-shadow var(--duration-normal) var(--ease-out-expo),
+  transition: transform var(--duration-fast) var(--ease-out-quart),
+    box-shadow var(--duration-normal) var(--ease-out-quart),
     background-color var(--duration-fast) ease,
     border-color var(--duration-fast) ease,
     color var(--duration-fast) ease;
@@ -364,8 +379,8 @@ h2 {
 
 .btn-primary:hover {
   background: var(--color-primary-dark);
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 20px 32px -16px rgba(37, 99, 235, 0.75);
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px -16px rgba(37, 99, 235, 0.7);
 }
 
 .btn-primary:active {
