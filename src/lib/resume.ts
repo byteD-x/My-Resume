@@ -1,5 +1,10 @@
 const INVALID_FILENAME_CHARS = /[\/\\:*?"<>|]+/g;
 const TRAILING_SPACES_OR_DOTS = /[. ]+$/g;
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+
+export interface ResumeDownloadClickEvent {
+    preventDefault: () => void;
+}
 
 export function formatResumeFileName(
     title?: string,
@@ -27,7 +32,6 @@ export function formatResumeFileName(
 }
 
 export function getResumeDownloadUrl(fileName: string): string {
-    const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
     if (isStaticExport) {
         const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || '').trim();
         const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` : '';
@@ -36,4 +40,34 @@ export function getResumeDownloadUrl(fileName: string): string {
 
     const params = new URLSearchParams({ filename: fileName });
     return `/api/resume?${params.toString()}`;
+}
+
+export async function triggerResumeDownload(fileName: string, url: string): Promise<void> {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error('Resume download failed');
+    }
+
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = objectUrl;
+    anchor.download = fileName;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(objectUrl);
+}
+
+export function createResumeDownloadHandler(fileName: string, url: string) {
+    if (!isStaticExport || typeof window === 'undefined') return undefined;
+
+    return async (event: ResumeDownloadClickEvent) => {
+        event.preventDefault();
+        try {
+            await triggerResumeDownload(fileName, url);
+        } catch {
+            window.location.href = url;
+        }
+    };
 }

@@ -119,7 +119,6 @@ export default function HighlightDeck({
         <>
             <section
                 className="section relative z-10"
-                id="impact"
             // Remove solid background to fix "ugly box" issue - let page background show through
             >
                 <div className="container">

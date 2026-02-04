@@ -3,11 +3,13 @@
 import { motion } from 'framer-motion';
 import { Download, Calendar as CalendarIcon } from 'lucide-react';
 import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
+import type { ResumeDownloadClickEvent } from '@/lib/resume';
 
 interface HeroCTAProps {
     onOpenModal: () => void;
     downloadName: string;
     downloadUrl: string;
+    onDownloadClick?: (event: ResumeDownloadClickEvent) => void;
 }
 
 const fadeIn = {
@@ -23,7 +25,7 @@ const fadeIn = {
  * Hero CTA 按钮组组件
  * 显示下载简历和预约面谈按钮
  */
-export function HeroCTA({ onOpenModal, downloadName: resumeFileName, downloadUrl }: HeroCTAProps) {
+export function HeroCTA({ onOpenModal, downloadName: resumeFileName, downloadUrl, onDownloadClick }: HeroCTAProps) {
     return (
         <motion.div
             {...fadeIn}
@@ -37,6 +39,7 @@ export function HeroCTA({ onOpenModal, downloadName: resumeFileName, downloadUrl
             <a
                 href={downloadUrl}
                 download={resumeFileName}
+                onClick={onDownloadClick}
                 data-print="hide"
                 className="btn btn-primary px-8 py-3.5 text-base font-bold"
                 aria-label="下载 PDF 简历"

@@ -4,13 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Mail } from 'lucide-react';
 import { defaultPortfolioData } from '@/data';
-import { formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
+import { createResumeDownloadHandler, formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
 
 export default function FloatingResumeButton() {
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const resumeFileName = formatResumeFileName(defaultPortfolioData.hero.title, defaultPortfolioData.hero.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
+    const resumeDownloadHandler = createResumeDownloadHandler(resumeFileName, resumeDownloadUrl);
 
     useEffect(() => {
         // 检测是否为移动端
@@ -54,8 +55,7 @@ export default function FloatingResumeButton() {
                         <a
                             href={resumeDownloadUrl}
                             download={resumeFileName}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            onClick={resumeDownloadHandler}
                             className="btn btn-primary flex-1 py-3"
                         >
                             <Download size={16} />
@@ -81,8 +81,7 @@ export default function FloatingResumeButton() {
                 <motion.a
                     href={resumeDownloadUrl}
                     download={resumeFileName}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    onClick={resumeDownloadHandler}
                     data-print="hide"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}

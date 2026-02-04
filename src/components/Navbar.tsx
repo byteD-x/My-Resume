@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import { ProgressBar } from '@/components/ProgressBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
+import { createResumeDownloadHandler, formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
 
 interface NavbarProps {
     heroData: HeroData;
@@ -28,6 +28,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     const [activeSection, setActiveSection] = useState('');
     const resumeFileName = formatResumeFileName(heroData.title, heroData.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
+    const resumeDownloadHandler = createResumeDownloadHandler(resumeFileName, resumeDownloadUrl);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -137,6 +138,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         <a
                             href={resumeDownloadUrl}
                             download={resumeFileName}
+                            onClick={resumeDownloadHandler}
                             className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
                             aria-label="下载简历 PDF"
                         >
@@ -210,6 +212,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                 <a
                                     href={resumeDownloadUrl}
                                     download={resumeFileName}
+                                    onClick={resumeDownloadHandler}
                                     className="btn btn-secondary w-full py-3.5 font-semibold"
                                 >
                                     下载简历 PDF

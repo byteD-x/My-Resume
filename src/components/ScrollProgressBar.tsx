@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface ScrollProgressBarProps {
@@ -14,6 +14,7 @@ interface ScrollProgressBarProps {
  */
 export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
     const { scrollYProgress } = useScroll();
+    const [progressValue, setProgressValue] = React.useState(0);
 
     // Smooth spring animation for natural feel
     const smoothProgress = useSpring(scrollYProgress, {
@@ -24,6 +25,12 @@ export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
 
     // Transform progress to scaleY (0 to 1)
     const scaleY = useTransform(smoothProgress, [0, 1], [0, 1]);
+    const progressText = `${progressValue}%`;
+
+    useMotionValueEvent(smoothProgress, 'change', (latest) => {
+        const nextValue = Math.round(latest * 100);
+        setProgressValue(nextValue);
+    });
 
     return (
         <div
@@ -33,9 +40,10 @@ export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
             )}
             role="progressbar"
             aria-label="页面滚动进度"
-            aria-valuenow={0}
+            aria-valuenow={progressValue}
             aria-valuemin={0}
             aria-valuemax={100}
+            aria-valuetext={progressText}
         >
             {/* Track */}
             <div className="relative w-1.5 h-32 rounded-full bg-slate-200/50 dark:bg-slate-700/50 backdrop-blur-sm overflow-hidden">
@@ -64,7 +72,7 @@ export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
                 <motion.span
                     className="text-xs font-mono font-medium text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-2 py-1 rounded shadow-sm"
                 >
-                    {/* Dynamic percentage display handled by motion */}
+                    {progressText}
                 </motion.span>
             </motion.div>
         </div>

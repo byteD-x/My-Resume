@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Github, Heart, Calendar } from 'lucide-react';
 
 interface FooterProps {
@@ -9,9 +8,9 @@ interface FooterProps {
 }
 
 export default function Footer({ name, githubUrl }: FooterProps) {
-    // Use static year to avoid hydration mismatch
-    const currentYear = 2026;
-    const lastUpdated = '2026年1月';
+    const now = new Date();
+    const currentYear = now.getFullYear();
+    const lastUpdated = now.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long' });
 
     return (
         <footer
@@ -74,7 +73,7 @@ export default function Footer({ name, githubUrl }: FooterProps) {
                             className="text-sm"
                             style={{ color: 'var(--text-tertiary)' }}
                         >
-                            © {currentYear} {name}
+                            (c) {currentYear} {name}
                         </p>
                     </div>
                 </div>
@@ -95,3 +94,8 @@ export default function Footer({ name, githubUrl }: FooterProps) {
         </footer>
     );
 }
+
+
+
+
+
