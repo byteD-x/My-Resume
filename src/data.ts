@@ -41,7 +41,7 @@ export const defaultPortfolioData: PortfolioData = {
             title: "开源项目",
             value: "100+",
             label: "Star 数",
-            description: "WeChat Bot 开源项目 (Async / Quart 重构)",
+            description: "WeChat AI Assistant 开源项目 (Async / RAG / Electron)",
             linkedExperienceId: "exp-wechat-bot",
             icon: "Star",
             colSpan: "md:col-span-1",
@@ -96,22 +96,47 @@ export const defaultPortfolioData: PortfolioData = {
 
     timeline: [
         {
+            id: "exp-jiaoben",
+            year: "2026.01 - 至今",
+            role: "独立开发者 · 开源项目",
+            company: "浏览器生产力套件",
+            location: "开源项目",
+            summary: "浏览器扩展与油猴脚本工具集合，覆盖书签整理、术语侧边栏、邮箱广告清理、GitHub/Gitee 增强与沉浸式阅读，强调最小权限、稳定注入与性能治理。",
+            techTags: ["Chrome Extension", "Userscript", "JavaScript", "Web Worker", "MutationObserver", "Trie", "AI API", "CSS Highlight API"],
+            highlighted: true,
+            keyOutcomes: [
+                "Terminology Sidebar 覆盖 2,290 条双语术语，列表上限 2,000",
+                "GitHub/Gitee Enhancer 提供 6 项功能开关，缓存过期 24h",
+                "Email Ad Cleaner 覆盖 8 个邮箱入口与规则库（18 域名词/21 发件人词/8 退订词）",
+                "Bookmark Organizer 并发 3、限速 5 req/s、重试 3 次"
+            ],
+            expandedDetails: {
+                background: "为提升开发效率与浏览体验，整理浏览器扩展与用户脚本工具集，覆盖书签整理、术语侧边栏、邮箱广告清理、代码托管平台增强与沉浸式阅读。",
+                problem: "需要在不同站点中保证 SPA 路由下稳定注入，同时控制权限与外部请求成本，并在 AI 不稳定时保持可用。",
+                solution: "实现五个子模块：\n1) Terminology Sidebar：Web Worker + CSS Custom Highlight API 实时术语高亮，覆盖 2,290 条双语词条，列表上限 2,000。\n2) GitHub/Gitee Enhancer：History API 补丁 + turbo/pjax 监听 + MutationObserver，保障 SPA 重注入，提供 6 项功能开关与 24h 缓存过期。\n3) Email Ad Cleaner：AI + 规则双引擎并可失败回退，覆盖 8 个邮箱入口、18 域名关键词、21 发件人词、8 退订词。\n4) Bookmark Organizer：Trie + 正则混合匹配，配置并发 3、限速 5 req/s、重试 3 次、延迟 1000ms。\n5) Immersive Reader：一键提取正文并提供主题/布局/目录/进度控制。",
+                result: "术语侧边栏覆盖 2,290 条双语术语；增强脚本提供 6 项功能开关并控制缓存 24h；广告清理覆盖多邮箱入口与规则库；书签整理并发/限速参数稳定可控。",
+                role: "独立开发者（需求梳理、架构设计、实现与发布）",
+                techStack: ["JavaScript", "Chrome Extension", "Tampermonkey", "Web Worker", "MutationObserver", "Trie", "CSS Custom Highlight API", "AI API"],
+                links: [{ label: "GitHub", url: "https://github.com/icefunicu?tab=repositories" }]
+            }
+        },
+        {
             id: "exp-wechat-bot",
             year: "2025.12 - 至今",
-            role: "独立开发者",
+            role: "独立开发者 · 开源项目",
             company: "WeChat AI Bot",
             location: "开源项目",
-            summary: "基于大模型的微信智能助手，V2.0 重构为异步架构 (Quart)，实现全链路非阻塞与可视化管理。",
-            techTags: ["Python", "Quart", "Asyncio", "React", "SSE"],
+            summary: "基于 wxauto 的微信 PC 客户端自动化 AI 助手，集成 LLM + RAG 长期记忆与 Electron/Web 管理端，后端采用 Quart 异步架构。",
+            techTags: ["Python", "Quart", "Asyncio", "Electron", "SQLite", "ChromaDB", "SSE"],
             highlighted: true,
-            keyOutcomes: ["架构重构 (Flask → Quart)", "全链路异步 I/O", "100+ Stars"],
+            keyOutcomes: ["API 吞吐量提升 5x+", "日志读取内存 <10MB", "Token 成本降低 40%"],
             expandedDetails: {
-                background: "随着功能模块增加，原有的 Flask 同步架构在高并发场景下出现瓶颈，且缺乏友好的可视化管理界面。",
-                problem: "多模型并发请求阻塞主线程，命令行配置繁琐且无法实时查看运行状态。",
-                solution: "重构为基于 Quart 的异步架构，引入 BotManager 实现生命周期管理；开发 React 前端控制台，支持 Server-Sent Events (SSE) 实时日志流与动态配置。",
-                result: "系统响应速度大幅提升，实现从单一脚本到现代化 AI Agent 平台的演进。",
+                background: "微信自动化需要同时处理消息轮询、模型调用与管理端操作，且日志与多模态输入会带来额外 I/O 与成本压力。",
+                problem: "阻塞 I/O 导致 API 超时与卡顿；日志文件膨胀引发内存/磁盘压力；多模态 Token 成本高且易触发图片限制。",
+                solution: "用 `asyncio.to_thread` 将 wxauto/SQLite I/O 从主循环剥离，迁移至 `aiosqlite` 并开启 WAL；SSE 推送实时状态；日志读取改为 `deque(maxlen=N)` 流式方案；多模态引入 Pillow 压缩、Context Trimming 与 `lru_cache` 优化 Token 估算。",
+                result: "API 吞吐量提升 5x+，日志读取延迟稳定在 10ms 级且内存 <10MB，Token 成本降低 40%，图片上传成功率提升至 99%+。",
                 role: "独立开发者",
-                techStack: ["Python", "Quart", "Asyncio", "React", "wxauto"],
+                techStack: ["Python", "Quart", "Asyncio", "Electron", "SQLite", "ChromaDB", "OpenAI API", "Tenacity", "wxauto"],
                 links: [{ label: "GitHub", url: "https://github.com/icefunicu/wechat-bot" }]
             }
         },
@@ -212,29 +237,62 @@ export const defaultPortfolioData: PortfolioData = {
 
     projects: [
         {
+            id: "proj-jiaoben",
+            year: "2026",
+            name: "浏览器生产力套件",
+            link: "https://github.com/icefunicu?tab=repositories",
+            demoLink: "",
+            tech: ["JavaScript", "Chrome Extension", "Tampermonkey", "Web Worker", "CSS Highlight API"],
+            techTags: ["Chrome Extension", "Userscript", "JavaScript", "Web Worker", "MutationObserver", "Trie", "AI API", "CSS Highlight API"],
+            summary: "浏览器扩展与油猴脚本工具集合，覆盖书签整理、术语侧边栏、邮箱广告清理、GitHub/Gitee 增强与沉浸式阅读，强调最小权限、稳定注入与性能治理。",
+            impact: "浏览器插件与用户脚本合集",
+            details: [
+                "Terminology Sidebar：Web Worker + CSS Custom Highlight API 实时术语高亮，覆盖 2,290 条双语词条，列表上限 2,000。",
+                "GitHub/Gitee Enhancer：History API 补丁 + turbo/pjax 监听 + MutationObserver 保证 SPA 重注入，提供 6 项功能开关与 24h 缓存过期。",
+                "Email Ad Cleaner：AI + 规则双引擎并可失败回退，覆盖 8 个邮箱匹配入口、18 域名关键词、21 发件人词、8 退订词。",
+                "Bookmark Organizer：Trie + 正则混合匹配，配置并发 3、限速 5 req/s、重试 3 次、延迟 1000ms。",
+                "Immersive Reader：一键提取正文并提供沉浸式阅读 UI（主题/布局/目录/进度）。"
+            ],
+            keyOutcomes: [
+                "Terminology Sidebar 覆盖 2,290 条双语术语，列表上限 2,000",
+                "GitHub/Gitee Enhancer 提供 6 项功能开关，缓存过期 24h",
+                "Email Ad Cleaner 覆盖 8 个邮箱入口与规则库（18 域名词/21 发件人词/8 退订词）",
+                "Bookmark Organizer 并发 3、限速 5 req/s、重试 3 次"
+            ],
+            expandedDetails: {
+                background: "为提升开发效率与浏览体验，整理浏览器扩展与用户脚本工具集，覆盖书签整理、术语侧边栏、邮箱广告清理、代码托管平台增强与沉浸式阅读。",
+                problem: "需要在不同站点与 SPA 路由下稳定注入，同时控制权限与外部请求成本，并在 AI 不稳定时保持可用。",
+                solution: "按 extensions/scripts/web 分项目隔离；SPA 注入采用 History API 补丁 + turbo/pjax 监听 + MutationObserver；术语识别下沉至 Web Worker 并用 CSS Custom Highlight API 高亮；AI 识别设置超时与失败回退；书签整理使用 Trie + 并发/限速/重试治理。",
+                result: "术语侧边栏覆盖 2,290 条双语词条；脚本增强提供 6 项功能开关并控制缓存 24h；广告清理覆盖 8 个邮箱入口并具备规则库；书签整理并发/限速参数稳定可控。",
+                techStack: ["JavaScript", "Chrome Extension", "Tampermonkey", "Web Worker", "MutationObserver", "Trie", "CSS Custom Highlight API", "AI API"],
+                links: [{ label: "GitHub", url: "https://github.com/icefunicu?tab=repositories" }]
+            },
+            highlighted: true
+        },
+        {
             id: "proj-wechat-bot",
             year: "2025",
             name: "WeChat AI Bot",
             link: "https://github.com/icefunicu/wechat-bot",
             demoLink: "",
-            tech: ["Quart", "Asyncio", "React", "wxauto"],
-            techTags: ["Quart", "Asyncio", "React", "SSE", "LLM APIs"],
-            summary: "基于大模型的微信智能助手，V2.0 重构为异步架构，集成 Web 控制台实现配置热更新与实时日志监控。",
-            impact: "架构重构 & 体验升级",
+            tech: ["Python", "Quart", "Asyncio", "Electron", "ChromaDB"],
+            techTags: ["Quart", "Asyncio", "Electron", "SQLite", "RAG", "SSE", "LLM APIs"],
+            summary: "基于 wxauto 的微信 PC 自动化 AI 助手，集成 LLM + RAG 长期记忆与 Electron 控制台，异步架构支持实时日志与配置管理。",
+            impact: "异步架构 + RAG 记忆",
             details: [
-                "【异步重构】从 Flask 迁移至 Quart，基于 Asyncio 实现全链路非阻塞 I/O，大幅提升并发处理能力",
-                "【可视化】新增 React 管理后台，支持 Server-Sent Events (SSE) 实时日志流监控与多模型配置热更新",
-                "【架构设计】设计 BotManager 生命周期管理器，解耦业务逻辑与底层驱动，提升系统稳定性与可维护性",
-                "【自动化】基于 wxauto 实现微信消息监听与自动回复，支持 OpenAI/Claude/Gemini 多模型无缝切换"
+                "【异步解耦】基于 Quart + Asyncio，使用 `asyncio.to_thread` 将阻塞 I/O 迁出主循环，SSE 推送实时状态",
+                "【RAG 记忆】SQLite + ChromaDB 构建分层记忆（短期/长期/事实），支持语义检索与上下文增强",
+                "【日志性能】`deque(maxlen=N)` 流式读取大日志文件，内存占用 <10MB，读取延迟 10ms 级",
+                "【多模态优化】Pillow 压缩 + Context Trimming + `lru_cache`，Token 成本降低 40%，图片上传成功率 99%+"
             ],
-            keyOutcomes: ["Flask 转 Quart", "实时日志监控", "异步事件驱动"],
+            keyOutcomes: ["API 吞吐量提升 5x+", "日志读取稳定 10ms 级", "Token 成本降低 40%"],
             expandedDetails: {
-                background: "项目初期使用 Flask 同步框架，在处理 LLM 长文本响应时会阻塞消息接收，且配置依赖配置文件，交互体验较差。",
-                problem: "并发性能瓶颈、缺乏可视化监控、配置修改需重启。",
-                solution: "采用 Quart 重写后端核心，利用 await 实现 LLM 流式调用不阻塞主线程；前端采用 React 构建 SPA，通过 API 动态管理 presets 配置。",
-                result: "成功从脚本工具转型为现代化 AI 应用，显著降低了用户的配置门槛与系统延迟。",
+                background: "微信自动化机器人需要长期稳定运行，涉及消息轮询、模型调用、日志管理与多模态输入。",
+                problem: "阻塞 I/O 与大日志读取拖慢响应；多模态 Token 成本高且图片限制影响可用性。",
+                solution: "引入 Quart 异步架构，阻塞 I/O 使用 `asyncio.to_thread` 卸载；日志读取采用 `deque(maxlen=N)`；多模态引入 Pillow 压缩、Context Trimming 与缓存策略。",
+                result: "API 吞吐量提升 5x+，日志读取内存 <10MB 且延迟 10ms 级，Token 成本降低 40%。",
                 role: "独立开发者",
-                techStack: ["Python", "Quart", "Asyncio", "React", "TailwindCSS"],
+                techStack: ["Python", "Quart", "Asyncio", "Electron", "SQLite", "ChromaDB", "OpenAI API", "Tenacity", "wxauto"],
                 links: [{ label: "GitHub", url: "https://github.com/icefunicu/wechat-bot" }]
             },
             highlighted: true

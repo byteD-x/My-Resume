@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 import { TimelineItem, ProjectItem } from '../types';
 import { TechTag } from './ui/TechTag';
+import { saveScrollRestore, ScrollRestoreSection } from '@/lib/scroll-restore';
 
 interface ExperienceCardProps {
     item: TimelineItem | ProjectItem;
@@ -11,16 +12,32 @@ interface ExperienceCardProps {
     hideDate?: boolean;
 }
 
-export function ExperienceCard({ item, hideDate = false }: ExperienceCardProps) {
+export function ExperienceCard({ item, type, hideDate = false }: ExperienceCardProps) {
     const title = 'role' in item ? item.role : item.name;
     const subtitle = 'company' in item ? item.company : '';
     const date = item.year;
 
     const githubLink = item.link || item.expandedDetails?.links?.find(l => l.label.toLowerCase().includes('github'))?.url;
     const demoLink = 'demoLink' in item && item.demoLink ? item.demoLink : item.expandedDetails?.links?.find(l => !l.label.toLowerCase().includes('github'))?.url;
+    const section: ScrollRestoreSection = type === 'project'
+        ? 'projects'
+        : type === 'timeline'
+            ? 'experience'
+            : ('role' in item ? 'experience' : 'projects');
+
+    const handleOpen = () => {
+        if (typeof window === 'undefined') return;
+        const path = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+        saveScrollRestore({
+            path,
+            y: window.scrollY,
+            section,
+            ts: Date.now(),
+        });
+    };
 
     return (
-        <Link href={`/experiences/${item.id}`} scroll={false} className="block group h-full">
+        <Link href={`/experiences/${item.id}`} scroll={false} className="block group h-full" onClick={handleOpen}>
             <div
                 className="
                     relative overflow-hidden p-6 rounded-2xl

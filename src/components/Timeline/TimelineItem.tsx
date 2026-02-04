@@ -63,7 +63,7 @@ export function TimelineItem({
                         </span>
                     </div>
 
-                    <ExperienceCard item={item} hideDate={true} />
+                    <ExperienceCard item={item} hideDate={true} type="timeline" />
                 </div>
             </div>
         </div>

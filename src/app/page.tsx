@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useEffect } from 'react';
 import { useEditableContent } from '@/lib/useEditableContent';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -13,6 +14,7 @@ import EditorToolbar from '@/components/EditorToolbar';
 import Footer from '@/components/Footer';
 import { MotionWrapper } from '@/components/ui/MotionWrapper';
 import { DarkModeCursorGlow } from '@/components/ui/CursorGlow';
+import { clearScrollRestore, readScrollRestore } from '@/lib/scroll-restore';
 
 // ==========================================
 // 性能优化：动态导入策略
@@ -73,6 +75,30 @@ export default function Home() {
     resetToDefault,
     toggleDemoMode,
   } = useEditableContent();
+
+  useEffect(() => {
+    const state = readScrollRestore();
+    if (!state || typeof window === 'undefined') return;
+
+    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (state.path && state.path !== currentPath) return;
+
+    const restoreScroll = () => {
+      if (typeof state.y === 'number' && Number.isFinite(state.y)) {
+        window.scrollTo({ top: state.y, behavior: 'smooth' });
+      } else if (state.section) {
+        const target = document.getElementById(state.section);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      clearScrollRestore();
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(restoreScroll);
+    });
+  }, []);
 
   return (
     <main className="min-h-screen relative bg-slate-50/30">

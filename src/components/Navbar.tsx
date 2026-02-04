@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import { ProgressBar } from '@/components/ProgressBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
 
 interface NavbarProps {
     heroData: HeroData;
@@ -25,6 +26,8 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('');
+    const resumeFileName = formatResumeFileName(heroData.title, heroData.name);
+    const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -132,7 +135,8 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         </a>
                         <ThemeToggle />
                         <a
-                            href="/resume.pdf"
+                            href={resumeDownloadUrl}
+                            download={resumeFileName}
                             className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
                             aria-label="下载简历 PDF"
                         >
@@ -203,7 +207,11 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     <Mail size={18} />
                                     立即联系
                                 </button>
-                                <a href="/resume.pdf" className="btn btn-secondary w-full py-3.5 font-semibold">
+                                <a
+                                    href={resumeDownloadUrl}
+                                    download={resumeFileName}
+                                    className="btn btn-secondary w-full py-3.5 font-semibold"
+                                >
                                     下载简历 PDF
                                 </a>
                                 <div className="flex gap-4 justify-center">

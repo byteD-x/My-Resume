@@ -6,6 +6,8 @@ import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
 
 interface HeroCTAProps {
     onOpenModal: () => void;
+    downloadName: string;
+    downloadUrl: string;
 }
 
 const fadeIn = {
@@ -21,7 +23,7 @@ const fadeIn = {
  * Hero CTA 按钮组组件
  * 显示下载简历和预约面谈按钮
  */
-export function HeroCTA({ onOpenModal }: HeroCTAProps) {
+export function HeroCTA({ onOpenModal, downloadName: resumeFileName, downloadUrl }: HeroCTAProps) {
     return (
         <motion.div
             {...fadeIn}
@@ -33,8 +35,8 @@ export function HeroCTA({ onOpenModal }: HeroCTAProps) {
             data-print="hide"
         >
             <a
-                href="/resume.pdf"
-                download
+                href={downloadUrl}
+                download={resumeFileName}
                 data-print="hide"
                 className="btn btn-primary px-8 py-3.5 text-base font-bold"
                 aria-label="下载 PDF 简历"

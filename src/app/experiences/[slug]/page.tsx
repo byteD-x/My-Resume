@@ -55,7 +55,7 @@ export default async function ExperiencePage({ params }: { params: Promise<{ slu
 
     return (
         <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 p-4 flex items-center justify-center">
-            <ExperienceModal item={item} />
+            <ExperienceModal item={item} variant="page" />
         </div>
     );
 }

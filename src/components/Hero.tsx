@@ -12,6 +12,7 @@ import { HeroQuickFacts } from './Hero/HeroQuickFacts';
 import { HeroBullets } from './Hero/HeroBullets';
 import { HeroCTA } from './Hero/HeroCTA';
 import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
+import { formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
 
 // 懒加载背景动画组件，减少首屏负担
 const HeroBackground = lazy(() => import('./HeroBackground'));
@@ -33,6 +34,8 @@ const fadeIn = {
 
 export default function Hero({ data, isEditorActive = false }: HeroProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const resumeFileName = formatResumeFileName(data.title, data.name);
+    const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
 
     return (
         <>
@@ -88,7 +91,11 @@ export default function Hero({ data, isEditorActive = false }: HeroProps) {
                             <HeroBullets bullets={data.bullets} isEditorActive={isEditorActive} />
 
                             {/* CTAs */}
-                            <HeroCTA onOpenModal={() => setIsModalOpen(true)} />
+                            <HeroCTA
+                                onOpenModal={() => setIsModalOpen(true)}
+                                downloadName={resumeFileName}
+                                downloadUrl={resumeDownloadUrl}
+                            />
                         </div>
 
                         {/* Right Card (Quick Facts) */}
