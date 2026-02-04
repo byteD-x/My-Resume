@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { X, Calendar, MapPin, Building, Globe, Github } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -52,7 +53,7 @@ export function ExperienceModal({ item, variant = 'overlay' }: ExperienceModalPr
     const subtitle = 'company' in item ? item.company : '';
 
     const renderInlineMarkdown = (input: string) => {
-        const nodes: Array<string | JSX.Element> = [];
+        const nodes: Array<ReactNode> = [];
         let remaining = input;
 
         const patterns = [
@@ -145,7 +146,7 @@ export function ExperienceModal({ item, variant = 'overlay' }: ExperienceModalPr
 
     const renderMarkdown = (text: string, tone: 'muted' | 'default' = 'muted') => {
         const lines = text.split('\n');
-        const blocks: Array<JSX.Element> = [];
+        const blocks: Array<ReactNode> = [];
         let paragraphLines: string[] = [];
         let listType: 'ol' | 'ul' | null = null;
         let listItems: string[] = [];
