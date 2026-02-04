@@ -5,6 +5,9 @@ import { formatResumeFileName } from '@/lib/resume';
 
 export const runtime = 'nodejs';
 
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+export const dynamic = isStaticExport ? 'force-static' : 'auto';
+
 const RESUME_PATH = path.join(process.cwd(), 'public', 'resume.pdf');
 const FALLBACK_NAME = 'resume.pdf';
 
