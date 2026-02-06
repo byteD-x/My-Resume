@@ -22,6 +22,7 @@ const sanitizeAsciiFilename = (value: string) => {
 
 export async function GET() {
     const safeFileName = DEFAULT_FILE_NAME || FALLBACK_NAME;
+
     try {
         const file = await fs.readFile(RESUME_PATH);
         const asciiFallback = sanitizeAsciiFilename(safeFileName);

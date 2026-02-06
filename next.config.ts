@@ -50,6 +50,19 @@ const securityHeaders = [
   },
 ];
 
+const headersConfig = isStaticExport
+  ? {}
+  : {
+    async headers() {
+      return [
+        {
+          source: '/(.*)',
+          headers: securityHeaders,
+        },
+      ];
+    },
+  };
+
 const nextConfig: NextConfig = {
   output: isStaticExport ? "export" : undefined,
   trailingSlash: isStaticExport ? true : undefined,
@@ -78,16 +91,7 @@ const nextConfig: NextConfig = {
     nextImageExportOptimizer_generateAndUseBlurImages: "true",
     nextImageExportOptimizer_removeOriginalExtension: "true",
   },
-
-  // Security headers (only applies to server mode, not static export)
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: securityHeaders,
-      },
-    ];
-  },
+  ...headersConfig,
 };
 
 export default withBundleAnalyzer(nextConfig);

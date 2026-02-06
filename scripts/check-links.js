@@ -32,7 +32,11 @@ function getAllFiles(dirPath, arrayOfFiles) {
 function extractLinks(content) {
     // Exclude backslash and other common delimiters
     const urlRegex = /https?:\/\/[^\s"',`)\\\]]+/g;
-    return content.match(urlRegex) || [];
+    const matches = content.match(urlRegex) || [];
+    return matches
+        .map((raw) => raw.replace(/\$\{[^}]*$/, ''))
+        .map((raw) => raw.replace(/[),.;!?]+$/, ''))
+        .filter(Boolean);
 }
 
 async function checkLink(url) {

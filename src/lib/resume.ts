@@ -31,15 +31,16 @@ export function formatResumeFileName(
     return cleaned;
 }
 
-export function getResumeDownloadUrl(fileName: string): string {
+export function getResumeDownloadUrl(_fileName: string): string {
+    void _fileName;
+
     if (isStaticExport) {
         const basePath = (process.env.NEXT_PUBLIC_BASE_PATH || '').trim();
         const normalizedBasePath = basePath ? `/${basePath.replace(/^\/+|\/+$/g, '')}` : '';
         return `${normalizedBasePath}/resume.pdf`;
     }
 
-    const params = new URLSearchParams({ filename: fileName });
-    return `/api/resume?${params.toString()}`;
+    return '/api/resume';
 }
 
 export async function triggerResumeDownload(fileName: string, url: string): Promise<void> {

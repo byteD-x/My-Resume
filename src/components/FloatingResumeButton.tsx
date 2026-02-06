@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Download, Mail } from 'lucide-react';
 import { defaultPortfolioData } from '@/data';
 import { createResumeDownloadHandler, formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
+import { trackCTAClick, trackResumeDownload } from '@/lib/analytics';
 
 export default function FloatingResumeButton() {
     const [isVisible, setIsVisible] = useState(false);
@@ -12,6 +13,16 @@ export default function FloatingResumeButton() {
     const resumeFileName = formatResumeFileName(defaultPortfolioData.hero.title, defaultPortfolioData.hero.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
     const resumeDownloadHandler = createResumeDownloadHandler(resumeFileName, resumeDownloadUrl);
+
+    const handleResumeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        trackCTAClick('resume_download', 'floating');
+        trackResumeDownload();
+        resumeDownloadHandler?.(event);
+    };
+
+    const handleContactClick = () => {
+        trackCTAClick('contact', 'floating');
+    };
 
     useEffect(() => {
         // 检测是否为移动端
@@ -55,7 +66,7 @@ export default function FloatingResumeButton() {
                         <a
                             href={resumeDownloadUrl}
                             download={resumeFileName}
-                            onClick={resumeDownloadHandler}
+                            onClick={handleResumeClick}
                             className="btn btn-primary flex-1 py-3"
                         >
                             <Download size={16} />
@@ -63,6 +74,7 @@ export default function FloatingResumeButton() {
                         </a>
                         <a
                             href="#contact"
+                            onClick={handleContactClick}
                             className="btn btn-secondary flex-1 py-3"
                         >
                             <Mail size={16} />
@@ -81,7 +93,7 @@ export default function FloatingResumeButton() {
                 <motion.a
                     href={resumeDownloadUrl}
                     download={resumeFileName}
-                    onClick={resumeDownloadHandler}
+                    onClick={handleResumeClick}
                     data-print="hide"
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}

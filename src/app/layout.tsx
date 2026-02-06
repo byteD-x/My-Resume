@@ -3,6 +3,7 @@ import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
+import { WebVitals } from "@/lib/performance";
 import { SkipToContent } from "@/components/SkipToContent";
 
 const spaceGrotesk = Space_Grotesk({
@@ -96,6 +97,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <AnalyticsProvider>
+          <WebVitals />
           <SkipToContent />
           <div id="main-content">
             {children}

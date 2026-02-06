@@ -6,8 +6,19 @@ export const revalidate = 3600; // Revalidate every hour
 
 const GITHUB_USERNAME = 'icefunicu';
 const REPO_NAMES = ['wechat-bot', 'easyCloudPan']; // Repos to check specifically
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+const fallbackPayload = {
+    followers: 0,
+    public_repos: 0,
+    totalStars: 0,
+    specificRepos: [],
+};
 
 export async function GET() {
+    if (isStaticExport) {
+        return NextResponse.json(fallbackPayload);
+    }
+
     try {
         const headers: HeadersInit = {
             'Accept': 'application/vnd.github.v3+json',
@@ -26,8 +37,7 @@ export async function GET() {
         ]);
 
         if (!userRes.ok || !reposRes.ok) {
-            console.error('GitHub API rate limited or error');
-            return NextResponse.json({ error: 'GitHub API Error' }, { status: 500 });
+            return NextResponse.json(fallbackPayload);
         }
 
         const user = await userRes.json();
@@ -62,8 +72,7 @@ export async function GET() {
             specificRepos
         });
 
-    } catch (error) {
-        console.error('GitHub API Exception:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    } catch {
+        return NextResponse.json(fallbackPayload);
     }
 }

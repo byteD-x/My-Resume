@@ -7,6 +7,7 @@ import { ContactData } from '@/types';
 import { ToastTrigger } from './Toast';
 import { Section } from './ui/Section';
 import { Container } from './ui/Container';
+import { trackExternalLink } from '@/lib/analytics';
 
 const GithubIcon = ({ size = 24, className }: { size?: number; className?: string }) => (
     <svg
@@ -194,6 +195,10 @@ export default function Contact({ contactData }: ContactProps) {
                                                             if (item.href === '#') {
                                                                 e.preventDefault();
                                                                 handleCopy(item.value, item.id);
+                                                                return;
+                                                            }
+                                                            if (item.external) {
+                                                                trackExternalLink(item.href, item.label);
                                                             }
                                                         }}
                                                         className={`text-base text-zinc-900 dark:text-zinc-100 font-semibold truncate block transition-colors font-sans
@@ -221,6 +226,7 @@ export default function Contact({ contactData }: ContactProps) {
                                                             href={item.href}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
+                                                            onClick={() => trackExternalLink(item.href, `${item.label}_icon`)}
                                                             className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                                                             title="打开"
                                                             aria-label={`打开 ${item.label}`}

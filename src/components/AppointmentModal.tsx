@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, Mail, User, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import { trackAppointmentSubmit } from '@/lib/analytics';
 
 interface AppointmentModalProps {
     isOpen: boolean;
@@ -67,6 +68,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
         e.preventDefault();
         // Placeholder: In production, integrate with EmailJS or similar
         console.log('Appointment form submitted:', formData);
+        trackAppointmentSubmit(true);
         setIsSubmitted(true);
         setTimeout(() => {
             setIsSubmitted(false);

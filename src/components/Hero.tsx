@@ -21,6 +21,9 @@ interface HeroProps {
     data: HeroData;
     contactData?: ContactData;
     isEditorActive?: boolean;
+    onTitleChange?: (value: string) => void;
+    onSubtitleChange?: (value: string) => void;
+    onBulletChange?: (index: number, field: 'title' | 'description', value: string) => void;
 }
 
 const fadeIn = {
@@ -32,7 +35,13 @@ const fadeIn = {
     }
 };
 
-export default function Hero({ data, isEditorActive = false }: HeroProps) {
+export default function Hero({
+    data,
+    isEditorActive = false,
+    onTitleChange,
+    onSubtitleChange,
+    onBulletChange,
+}: HeroProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const resumeFileName = formatResumeFileName(data.title, data.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
@@ -71,7 +80,7 @@ export default function Hero({ data, isEditorActive = false }: HeroProps) {
                                 <EditableText
                                     id="hero-title"
                                     value={data.title}
-                                    onChange={() => { }}
+                                    onChange={(_, value) => onTitleChange?.(value)}
                                     isEditorActive={isEditorActive}
                                 />
                             </motion.h1>
@@ -88,7 +97,7 @@ export default function Hero({ data, isEditorActive = false }: HeroProps) {
                                     <EditableText
                                         id="hero-subtitle"
                                         value={data.subtitle}
-                                        onChange={() => { }}
+                                        onChange={(_, value) => onSubtitleChange?.(value)}
                                         isEditorActive={isEditorActive}
                                     />
                                 </motion.p>
@@ -107,7 +116,11 @@ export default function Hero({ data, isEditorActive = false }: HeroProps) {
                             </motion.p>
 
                             {/* Bullets */}
-                            <HeroBullets bullets={data.bullets} isEditorActive={isEditorActive} />
+                            <HeroBullets
+                                bullets={data.bullets}
+                                isEditorActive={isEditorActive}
+                                onBulletChange={onBulletChange}
+                            />
 
                             {/* CTAs */}
                             <HeroCTA

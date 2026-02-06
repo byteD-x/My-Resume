@@ -28,6 +28,13 @@ export const InfiniteScroll = ({
     const prefersReducedMotion = useReducedMotion();
     const [start, setStart] = React.useState(false);
 
+    const clearClonedItems = React.useCallback(() => {
+        if (!scrollerRef.current) return;
+        scrollerRef.current
+            .querySelectorAll<HTMLElement>('[data-cloned="true"]')
+            .forEach((node) => node.remove());
+    }, []);
+
     // 设置动画方向
     const setDirection = React.useCallback((dir: 'left' | 'right') => {
         if (containerRef.current) {
@@ -53,10 +60,13 @@ export const InfiniteScroll = ({
     // 添加动画
     const addAnimation = React.useCallback(() => {
         if (containerRef.current && scrollerRef.current) {
+            clearClonedItems();
             const scrollerContent = Array.from(scrollerRef.current.children);
 
             scrollerContent.forEach((item) => {
-                const duplicatedItem = item.cloneNode(true);
+                const duplicatedItem = item.cloneNode(true) as HTMLElement;
+                duplicatedItem.setAttribute('data-cloned', 'true');
+                duplicatedItem.setAttribute('aria-hidden', 'true');
                 if (scrollerRef.current) {
                     scrollerRef.current.appendChild(duplicatedItem);
                 }
@@ -66,13 +76,21 @@ export const InfiniteScroll = ({
             setSpeed(speed);
             setStart(true);
         }
-    }, [direction, speed, setDirection, setSpeed]);
+    }, [clearClonedItems, direction, speed, setDirection, setSpeed]);
 
     React.useEffect(() => {
-        if (!prefersReducedMotion) {
-            addAnimation();
+        if (prefersReducedMotion) {
+            clearClonedItems();
+            setStart(false);
+            return;
         }
-    }, [addAnimation, prefersReducedMotion]);
+
+        addAnimation();
+        return () => {
+            clearClonedItems();
+            setStart(false);
+        };
+    }, [addAnimation, clearClonedItems, items.length, prefersReducedMotion]);
 
     // 如果用户偏好减少动画，使用静态布局
     if (prefersReducedMotion) {

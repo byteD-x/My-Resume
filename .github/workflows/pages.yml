@@ -53,7 +53,6 @@ jobs:
 
       - name: Run Playwright tests
         run: npm run test:e2e
-        continue-on-error: true
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -64,7 +63,7 @@ jobs:
           retention-days: 30
 
   build:
-    needs: [lint]
+    needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

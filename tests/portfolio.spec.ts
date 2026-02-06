@@ -1,4 +1,14 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+const openMobileMenuIfNeeded = async (page: Page) => {
+    const viewport = page.viewportSize();
+    if (!viewport || viewport.width >= 768) return;
+
+    const openMenuButton = page.getByRole('button', { name: /打开菜单/i });
+    if (await openMenuButton.isVisible()) {
+        await openMenuButton.click();
+    }
+};
 
 test.describe('Portfolio E2E Tests', () => {
     test.beforeEach(async ({ page }) => {
@@ -21,8 +31,11 @@ test.describe('Portfolio E2E Tests', () => {
             const downloadButton = page.getByRole('link', { name: /下载 PDF 简历/i });
             await expect(downloadButton).toBeVisible();
 
-            // Check href points to resume.pdf
-            await expect(downloadButton).toHaveAttribute('href', '/resume.pdf');
+            // Server mode uses /api/resume?filename=..., static export uses /resume.pdf
+            await expect(downloadButton).toHaveAttribute(
+                'href',
+                /^\/(?:api\/resume(?:\?filename=.+)?|resume\.pdf)$/
+            );
         });
 
         test('should open appointment modal on CTA click', async ({ page }) => {
@@ -87,11 +100,15 @@ test.describe('Portfolio E2E Tests', () => {
             const navbar = page.locator('nav');
             await expect(navbar).toBeVisible();
 
+            await openMobileMenuIfNeeded(page);
+
             // Check for navigation items
             await expect(page.getByRole('button', { name: /量化成果|职业履历|技术栈|联系我/i }).first()).toBeVisible();
         });
 
         test('should scroll to sections on nav click', async ({ page }) => {
+            await openMobileMenuIfNeeded(page);
+
             // Click on a navigation link
             await page.getByRole('button', { name: /联系我/i }).click();
 

@@ -32,6 +32,8 @@ interface GitHubApiResponse {
     totalStars?: number;
 }
 
+const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+
 // Animation config
 const cardVariants = {
     initial: { opacity: 0, y: 20 },
@@ -77,9 +79,12 @@ export default function HighlightDeck({
     }, [items]);
 
     React.useEffect(() => {
+        if (isStaticExport) return;
+
+        const controller = new AbortController();
         const fetchStats = async () => {
             try {
-                const res = await fetch('/api/github');
+                const res = await fetch('/api/github', { signal: controller.signal });
                 if (!res.ok) return;
                 const data: GitHubApiResponse = await res.json();
 
@@ -108,11 +113,14 @@ export default function HighlightDeck({
                         return item;
                     }));
                 }
-            } catch {
+            } catch (error) {
+                if ((error as Error).name === 'AbortError') return;
                 // Ignore errors, keep static data
             }
         };
         fetchStats();
+
+        return () => controller.abort();
     }, []);
 
     return (

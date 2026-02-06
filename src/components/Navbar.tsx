@@ -9,6 +9,7 @@ import { Container } from '@/components/ui/Container';
 import { ProgressBar } from '@/components/ProgressBar';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { createResumeDownloadHandler, formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
+import { trackCTAClick, trackExternalLink, trackResumeDownload } from '@/lib/analytics';
 
 interface NavbarProps {
     heroData: HeroData;
@@ -29,6 +30,21 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     const resumeFileName = formatResumeFileName(heroData.title, heroData.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
     const resumeDownloadHandler = createResumeDownloadHandler(resumeFileName, resumeDownloadUrl);
+
+    const handleResumeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        trackCTAClick('resume_download', 'navbar');
+        trackResumeDownload();
+        resumeDownloadHandler?.(event);
+    };
+
+    const handleContactClick = () => {
+        trackCTAClick('contact', 'navbar');
+        scrollTo('#contact');
+    };
+
+    const handleGithubClick = () => {
+        trackExternalLink(contactData.github, 'navbar_github');
+    };
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -129,6 +145,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             href={contactData.github}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={handleGithubClick}
                             className="p-3 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors"
                             aria-label="访问我的 GitHub 主页"
                         >
@@ -138,7 +155,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         <a
                             href={resumeDownloadUrl}
                             download={resumeFileName}
-                            onClick={resumeDownloadHandler}
+                            onClick={handleResumeClick}
                             className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
                             aria-label="下载简历 PDF"
                         >
@@ -146,7 +163,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             简历 PDF
                         </a>
                         <button
-                            onClick={() => scrollTo('#contact')}
+                            onClick={handleContactClick}
                             className="btn btn-primary gap-2 px-5 py-2.5 text-sm font-semibold"
                             aria-label="立即联系"
                         >
@@ -203,7 +220,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             </div>
                             <div className="p-5 border-t border-slate-100 space-y-3">
                                 <button
-                                    onClick={() => scrollTo('#contact')}
+                                    onClick={handleContactClick}
                                     className="btn btn-primary w-full py-3.5 font-bold"
                                 >
                                     <Mail size={18} />
@@ -212,7 +229,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                 <a
                                     href={resumeDownloadUrl}
                                     download={resumeFileName}
-                                    onClick={resumeDownloadHandler}
+                                    onClick={handleResumeClick}
                                     className="btn btn-secondary w-full py-3.5 font-semibold"
                                 >
                                     下载简历 PDF
@@ -222,6 +239,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                         href={contactData.github}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        onClick={handleGithubClick}
                                         className="p-3 bg-slate-100 rounded-full text-slate-600"
                                         aria-label="访问 GitHub"
                                     >

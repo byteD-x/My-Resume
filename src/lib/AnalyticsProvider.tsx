@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation';
 import {
     initGA,
     trackPageView,
-    trackScrollDepth
+    trackScrollDepth,
+    trackSectionView,
 } from './analytics';
 
 interface AnalyticsProviderProps {
@@ -20,6 +21,7 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
     const pathname = usePathname();
     const initializedRef = useRef(false);
     const scrollMilestonesRef = useRef<Set<number>>(new Set());
+    const sectionSeenRef = useRef<Set<string>>(new Set());
 
     // Initialize GA4 once
     useEffect(() => {
@@ -40,6 +42,7 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
     const handleScroll = useCallback(() => {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        if (docHeight <= 0) return;
         const scrollPercent = Math.round((scrollTop / docHeight) * 100);
 
         // Track milestones: 25%, 50%, 75%, 100%
@@ -71,6 +74,28 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
             clearTimeout(timeoutId);
         };
     }, [pathname, handleScroll]);
+
+    useEffect(() => {
+        sectionSeenRef.current.clear();
+        const sectionIds = ['impact', 'experience', 'projects', 'skills', 'contact'];
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const sectionId = entry.target.id;
+                if (!sectionId || sectionSeenRef.current.has(sectionId)) return;
+
+                sectionSeenRef.current.add(sectionId);
+                trackSectionView(sectionId);
+            });
+        }, { threshold: 0.4 });
+
+        sectionIds.forEach((id) => {
+            const section = document.getElementById(id);
+            if (section) observer.observe(section);
+        });
+
+        return () => observer.disconnect();
+    }, [pathname]);
 
     return <>{children}</>;
 }

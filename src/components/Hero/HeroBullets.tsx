@@ -8,6 +8,7 @@ import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
 interface HeroBulletsProps {
     bullets: HeroBullet[];
     isEditorActive?: boolean;
+    onBulletChange?: (index: number, field: 'title' | 'description', value: string) => void;
 }
 
 const fadeIn = {
@@ -23,7 +24,11 @@ const fadeIn = {
  * Hero 能力要点组件
  * 显示3个核心能力点
  */
-export function HeroBullets({ bullets, isEditorActive = false }: HeroBulletsProps) {
+export function HeroBullets({
+    bullets,
+    isEditorActive = false,
+    onBulletChange,
+}: HeroBulletsProps) {
     return (
         <motion.div
             {...fadeIn}
@@ -41,7 +46,7 @@ export function HeroBullets({ bullets, isEditorActive = false }: HeroBulletsProp
                             <EditableText
                                 id={`hero-bullet-${index}-title`}
                                 value={bullet.title}
-                                onChange={() => { }}
+                                onChange={(_, value) => onBulletChange?.(index, 'title', value)}
                                 as="span"
                                 isEditorActive={isEditorActive}
                             />
@@ -49,7 +54,7 @@ export function HeroBullets({ bullets, isEditorActive = false }: HeroBulletsProp
                         <EditableText
                             id={`hero-bullet-${index}-desc`}
                             value={bullet.description}
-                            onChange={() => { }}
+                            onChange={(_, value) => onBulletChange?.(index, 'description', value)}
                             as="span"
                             isEditorActive={isEditorActive}
                         />
