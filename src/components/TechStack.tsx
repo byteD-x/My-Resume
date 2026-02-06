@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { SkillCategory, VibeCodingData } from '@/types';
 import { TechTag } from './ui/TechTag';
 import { Container } from './ui/Container';

@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import { motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
+import { m as motion, useMotionValueEvent, useScroll, useSpring, useTransform } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useLowPerformanceMode } from '@/hooks/useLowPerformanceMode';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ScrollProgressBarProps {
     className?: string;
@@ -13,8 +15,11 @@ interface ScrollProgressBarProps {
  * Shows the current scroll depth as a gradient-filled bar.
  */
 export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
+    const prefersReducedMotion = useReducedMotion();
+    const isLowPerformanceMode = useLowPerformanceMode();
     const { scrollYProgress } = useScroll();
     const [progressValue, setProgressValue] = React.useState(0);
+    const lastA11yValueRef = React.useRef(0);
 
     // Smooth spring animation for natural feel
     const smoothProgress = useSpring(scrollYProgress, {
@@ -25,12 +30,21 @@ export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
 
     // Transform progress to scaleY (0 to 1)
     const scaleY = useTransform(smoothProgress, [0, 1], [0, 1]);
+    const glowY = useTransform(smoothProgress, [0, 1], ['100%', '0%']);
+    const labelY = useTransform(smoothProgress, [0, 1], ['48px', '-48px']);
     const progressText = `${progressValue}%`;
 
     useMotionValueEvent(smoothProgress, 'change', (latest) => {
         const nextValue = Math.round(latest * 100);
-        setProgressValue(nextValue);
+        const delta = Math.abs(nextValue - lastA11yValueRef.current);
+        if (delta < 2 && nextValue !== 0 && nextValue !== 100) return;
+        lastA11yValueRef.current = nextValue;
+        setProgressValue((prev) => (prev === nextValue ? prev : nextValue));
     });
+
+    if (prefersReducedMotion || isLowPerformanceMode) {
+        return null;
+    }
 
     return (
         <div
@@ -56,18 +70,14 @@ export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
                 {/* Glow effect on progress */}
                 <motion.div
                     className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-blue-500/50 blur-sm"
-                    style={{
-                        y: useTransform(smoothProgress, [0, 1], ['100%', '0%'])
-                    }}
+                    style={{ y: glowY }}
                 />
             </div>
 
             {/* Percentage indicator (optional - shows on hover) */}
             <motion.div
                 className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity pointer-events-none"
-                style={{
-                    y: useTransform(smoothProgress, [0, 1], ['48px', '-48px'])
-                }}
+                style={{ y: labelY }}
             >
                 <motion.span
                     className="text-xs font-mono font-medium text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-2 py-1 rounded shadow-sm"

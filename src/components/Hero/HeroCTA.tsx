@@ -1,14 +1,15 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Download, Calendar as CalendarIcon } from 'lucide-react';
-import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
-import type { ResumeDownloadClickEvent } from '@/lib/resume';
+import { m as motion } from 'framer-motion';
+import { Calendar as CalendarIcon, Download } from 'lucide-react';
+import { EASING_CURVES, HERO_ANIMATION } from '@/config/animation';
+import { useHydrated } from '@/hooks/useHydrated';
 import {
     trackAppointmentModalOpen,
     trackCTAClick,
     trackResumeDownload,
 } from '@/lib/analytics';
+import type { ResumeDownloadClickEvent } from '@/lib/resume';
 
 interface HeroCTAProps {
     onOpenModal: () => void;
@@ -20,17 +21,15 @@ interface HeroCTAProps {
 const fadeIn = {
     initial: { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
-    transition: { 
-        duration: HERO_ANIMATION.FADE_IN.duration, 
-        ease: EASING_CURVES.OUT_EXPO 
-    }
+    transition: {
+        duration: HERO_ANIMATION.FADE_IN.duration,
+        ease: EASING_CURVES.OUT_EXPO,
+    },
 };
 
-/**
- * Hero CTA 按钮组组件
- * 显示下载简历和预约面谈按钮
- */
-export function HeroCTA({ onOpenModal, downloadName: resumeFileName, downloadUrl, onDownloadClick }: HeroCTAProps) {
+export function HeroCTA({ onOpenModal, downloadName, downloadUrl, onDownloadClick }: HeroCTAProps) {
+    const isHydrated = useHydrated();
+
     const handleDownloadClick = (event: ResumeDownloadClickEvent) => {
         trackCTAClick('resume_download', 'hero');
         trackResumeDownload();
@@ -46,31 +45,34 @@ export function HeroCTA({ onOpenModal, downloadName: resumeFileName, downloadUrl
     return (
         <motion.div
             {...fadeIn}
-            transition={{ 
+            transition={{
                 ...fadeIn.transition,
-                delay: HERO_ANIMATION.DELAY_CTA 
+                delay: HERO_ANIMATION.DELAY_CTA,
             }}
             className="flex flex-wrap gap-4"
             data-print="hide"
         >
             <a
                 href={downloadUrl}
-                download={resumeFileName}
+                download={downloadName}
                 onClick={handleDownloadClick}
                 data-print="hide"
                 className="btn btn-primary px-8 py-3.5 text-base font-bold"
-                aria-label="下载 PDF 简历"
+                aria-label="Download resume PDF"
             >
                 <Download size={20} className="mr-2.5" />
-                下载 PDF 简历
+                Download Resume PDF
             </a>
+
             <button
+                type="button"
                 onClick={handleOpenModal}
-                className="btn btn-secondary px-8 py-3.5 text-base font-semibold"
-                aria-label="预约面谈"
+                disabled={!isHydrated}
+                className="btn btn-secondary px-8 py-3.5 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+                aria-label="Appointment / 预约面谈"
             >
                 <CalendarIcon size={20} className="mr-2.5" />
-                预约面谈
+                Book Interview
             </button>
         </motion.div>
     );

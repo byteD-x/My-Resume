@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { Layout, Bot, Zap, Workflow } from 'lucide-react';
 import { ServiceItem } from '@/types';
 import { Section } from './ui/Section';

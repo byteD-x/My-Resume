@@ -1,14 +1,13 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { TimelineItem as TimelineItemType } from '@/types';
 import { TimelineItem } from './TimelineItem';
 import { cn } from '@/lib/utils';
 
 interface TimelineProps {
     items: TimelineItemType[];
-    isEditorActive?: boolean;
 }
 
 // 简单的淡入动画变体

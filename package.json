@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "next build && npm run optimize:images",
+    "build": "next build",
     "optimize:images": "node scripts/optimize-images.js",
     "build:pages": "node scripts/build-pages.js",
     "start": "next start",
@@ -25,10 +25,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-ga4": "^2.1.0",
-    "react-intersection-observer": "^10.0.0",
     "tailwind-merge": "^3.4.0",
-    "web-vitals": "^5.1.0",
-    "zod": "^4.3.5"
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.1.1",
@@ -37,11 +35,11 @@
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
     "cross-env": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "16.1.1",
     "next-image-export-optimizer": "^1.20.1",
+    "prettier": "^3.8.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

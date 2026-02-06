@@ -1,7 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { X, Calendar, MapPin, Building, Globe, Github } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { TimelineItem, ProjectItem } from '../types';
@@ -25,7 +25,7 @@ export function ExperienceModal({ item, variant = 'overlay' }: ExperienceModalPr
 
     // Hooks for a11y & ux
     useScrollLock(isOverlay);
-    const containerRef = useFocusTrap(true);
+    const containerRef = useFocusTrap<HTMLDivElement>(true);
 
     const closeModal = () => {
         if (isOverlay && typeof window !== 'undefined' && window.history.length > 1) {

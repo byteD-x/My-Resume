@@ -1,9 +1,10 @@
-'use client';
+﻿'use client';
 
-import React, { useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink } from 'lucide-react';
+import React, { useCallback, useRef } from 'react';
+import { AnimatePresence, m as motion } from 'framer-motion';
+import { ExternalLink, X } from 'lucide-react';
 import { ImpactItem, TimelineItem } from '@/types';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 interface MetricDrawerProps {
     isOpen: boolean;
@@ -12,55 +13,42 @@ interface MetricDrawerProps {
     linkedExperience?: TimelineItem | null;
 }
 
+const splitDetailsToList = (value: string) =>
+    value
+        .split('\n')
+        .map((line) => line.trim())
+        .filter(Boolean);
+
 export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience }: MetricDrawerProps) {
-    const drawerRef = useRef<HTMLDivElement>(null);
     const closeButtonRef = useRef<HTMLButtonElement>(null);
+    const drawerRef = useFocusTrap<HTMLDivElement>(isOpen, {
+        onEscape: onClose,
+        initialFocusRef: closeButtonRef,
+        lockBodyScroll: true,
+    });
 
-    // Focus trap and ESC handler
-    useEffect(() => {
-        if (!isOpen) return;
-
-        // Focus the close button when drawer opens
-        closeButtonRef.current?.focus();
-
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
+    const handleBackdropClick = useCallback(
+        (e: React.MouseEvent) => {
+            if (e.target === e.currentTarget) {
                 onClose();
             }
+        },
+        [onClose],
+    );
 
-            // Focus trap
-            if (e.key === 'Tab' && drawerRef.current) {
-                const focusableElements = drawerRef.current.querySelectorAll(
-                    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-                );
-                const firstElement = focusableElements[0] as HTMLElement;
-                const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+    const jumpToLinkedExperience = useCallback(() => {
+        if (!linkedExperience) return;
 
-                if (e.shiftKey && document.activeElement === firstElement) {
-                    e.preventDefault();
-                    lastElement?.focus();
-                } else if (!e.shiftKey && document.activeElement === lastElement) {
-                    e.preventDefault();
-                    firstElement?.focus();
-                }
+        onClose();
+        window.setTimeout(() => {
+            const target =
+                document.getElementById(`timeline-${linkedExperience.id}`) ??
+                document.getElementById(linkedExperience.id);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
-        };
-
-        // Prevent body scroll when drawer is open
-        document.body.style.overflow = 'hidden';
-        document.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            document.body.style.overflow = '';
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [isOpen, onClose]);
-
-    const handleBackdropClick = useCallback((e: React.MouseEvent) => {
-        if (e.target === e.currentTarget) {
-            onClose();
-        }
-    }, [onClose]);
+        }, 220);
+    }, [linkedExperience, onClose]);
 
     if (!metric) return null;
 
@@ -70,7 +58,6 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -82,63 +69,33 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                         aria-hidden="true"
                     />
 
-                    {/* Drawer - Right side on desktop, bottom on mobile */}
                     <motion.div
                         ref={drawerRef}
                         role="dialog"
                         aria-modal="true"
                         aria-labelledby="drawer-title"
-                        className="fixed z-50 bg-white overflow-y-auto
-                            inset-x-0 bottom-0 max-h-[85vh] rounded-t-2xl
-                            md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-lg md:rounded-none md:rounded-l-2xl md:max-h-none"
-                        initial={{
-                            y: '100%',
-                            x: 0,
-                        }}
-                        animate={{
-                            y: 0,
-                            x: 0,
-                        }}
-                        exit={{
-                            y: '100%',
-                            x: 0,
-                        }}
-                        transition={{
-                            type: 'spring',
-                            damping: 30,
-                            stiffness: 300
-                        }}
-                        style={{
-                            boxShadow: 'var(--shadow-xl)',
-                        }}
+                        className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-lg md:max-h-none md:rounded-none md:rounded-l-2xl"
+                        initial={{ y: '100%', x: 0 }}
+                        animate={{ y: 0, x: 0 }}
+                        exit={{ y: '100%', x: 0 }}
+                        transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+                        style={{ boxShadow: 'var(--shadow-xl)' }}
                     >
-                        {/* Handle bar for mobile */}
-                        <div className="md:hidden flex justify-center pt-3 pb-2">
-                            <div
-                                className="w-10 h-1 rounded-full"
-                                style={{ backgroundColor: 'var(--border-strong)' }}
-                            />
+                        <div className="flex justify-center pb-2 pt-3 md:hidden">
+                            <div className="h-1 w-10 rounded-full" style={{ backgroundColor: 'var(--border-strong)' }} />
                         </div>
 
-                        {/* Header */}
                         <div
-                            className="sticky top-0 z-10 flex items-center justify-between p-4 md:p-6 border-b"
-                            style={{
-                                backgroundColor: 'var(--bg-surface)',
-                                borderColor: 'var(--border-default)'
-                            }}
+                            className="sticky top-0 z-10 flex items-center justify-between border-b p-4 md:p-6"
+                            style={{ backgroundColor: 'var(--bg-surface)', borderColor: 'var(--border-default)' }}
                         >
-                            <h2
-                                id="drawer-title"
-                                className="text-lg md:text-xl font-semibold"
-                                style={{ color: 'var(--text-primary)' }}
-                            >
+                            <h2 id="drawer-title" className="text-lg font-semibold text-slate-900 md:text-xl">
                                 {metric.title}
                             </h2>
                             <button
                                 ref={closeButtonRef}
                                 onClick={onClose}
-                                className="p-2 rounded-lg transition-colors"
+                                className="rounded-lg p-2 transition-colors"
                                 style={{ color: 'var(--text-tertiary)' }}
                                 aria-label="关闭"
                             >
@@ -146,121 +103,64 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                             </button>
                         </div>
 
-                        {/* Content */}
-                        <div className="p-4 md:p-6 space-y-6">
-                            {/* Metric highlight */}
-                            <div
-                                className="p-6 rounded-xl text-center"
-                                style={{ backgroundColor: 'var(--bg-muted)' }}
-                            >
-                                <div
-                                    className="text-4xl md:text-5xl font-bold mb-2"
-                                    style={{ color: 'var(--color-primary)' }}
-                                >
+                        <div className="space-y-6 p-4 md:p-6">
+                            <div className="rounded-xl p-6 text-center" style={{ backgroundColor: 'var(--bg-muted)' }}>
+                                <div className="mb-2 text-4xl font-bold md:text-5xl" style={{ color: 'var(--color-primary)' }}>
                                     {metric.value}
                                 </div>
-                                <div
-                                    className="text-sm font-medium"
-                                    style={{ color: 'var(--text-secondary)' }}
-                                >
+                                <div className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                                     {metric.label}
                                 </div>
                             </div>
 
-                            {/* Description */}
                             {metric.description && (
                                 <div>
-                                    <h3
-                                        className="text-sm font-semibold mb-2 uppercase tracking-wide"
-                                        style={{ color: 'var(--text-tertiary)' }}
-                                    >
-                                        概述
-                                    </h3>
-                                    <p style={{ color: 'var(--text-secondary)' }}>
-                                        {metric.description}
-                                    </p>
+                                    <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">概述</h3>
+                                    <p style={{ color: 'var(--text-secondary)' }}>{metric.description}</p>
                                 </div>
                             )}
 
-                            {/* Linked experience details */}
                             {details && (
                                 <>
-                                    {/* Background */}
                                     {details.background && (
                                         <div>
-                                            <h3
-                                                className="text-sm font-semibold mb-2 uppercase tracking-wide"
-                                                style={{ color: 'var(--text-tertiary)' }}
-                                            >
-                                                背景
-                                            </h3>
-                                            <p style={{ color: 'var(--text-secondary)' }}>
-                                                {details.background}
-                                            </p>
+                                            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">背景</h3>
+                                            <p style={{ color: 'var(--text-secondary)' }}>{details.background}</p>
                                         </div>
                                     )}
 
-                                    {/* Solution / Actions */}
                                     {details.solution && (
                                         <div>
-                                            <h3
-                                                className="text-sm font-semibold mb-2 uppercase tracking-wide"
-                                                style={{ color: 'var(--text-tertiary)' }}
-                                            >
-                                                我的行动
-                                            </h3>
+                                            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">我的行动</h3>
                                             <ul className="space-y-2">
-                                                {details.solution.split('；').filter(Boolean).map((action, i) => (
-                                                    <li
-                                                        key={i}
-                                                        className="flex items-start gap-2"
-                                                    >
+                                                {splitDetailsToList(details.solution).map((action, i) => (
+                                                    <li key={i} className="flex items-start gap-2">
                                                         <span
-                                                            className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
+                                                            className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
                                                             style={{ backgroundColor: 'var(--color-primary)' }}
                                                         />
-                                                        <span style={{ color: 'var(--text-secondary)' }}>
-                                                            {action.trim()}
-                                                        </span>
+                                                        <span style={{ color: 'var(--text-secondary)' }}>{action}</span>
                                                     </li>
                                                 ))}
                                             </ul>
                                         </div>
                                     )}
 
-                                    {/* Result */}
                                     {details.result && (
                                         <div>
-                                            <h3
-                                                className="text-sm font-semibold mb-2 uppercase tracking-wide"
-                                                style={{ color: 'var(--text-tertiary)' }}
-                                            >
-                                                成果
-                                            </h3>
-                                            <p
-                                                className="font-medium"
-                                                style={{ color: 'var(--text-primary)' }}
-                                            >
+                                            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">成果</h3>
+                                            <p className="font-medium" style={{ color: 'var(--text-primary)' }}>
                                                 {details.result}
                                             </p>
                                         </div>
                                     )}
 
-                                    {/* Tech Stack */}
                                     {details.techStack && details.techStack.length > 0 && (
                                         <div>
-                                            <h3
-                                                className="text-sm font-semibold mb-3 uppercase tracking-wide"
-                                                style={{ color: 'var(--text-tertiary)' }}
-                                            >
-                                                技术要点
-                                            </h3>
+                                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">技术要点</h3>
                                             <div className="flex flex-wrap gap-2">
                                                 {details.techStack.map((tech, i) => (
-                                                    <span
-                                                        key={i}
-                                                        className="tag"
-                                                    >
+                                                    <span key={i} className="tag">
                                                         {tech}
                                                     </span>
                                                 ))}
@@ -268,15 +168,9 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                                         </div>
                                     )}
 
-                                    {/* Links */}
                                     {details.links && details.links.length > 0 && (
                                         <div>
-                                            <h3
-                                                className="text-sm font-semibold mb-3 uppercase tracking-wide"
-                                                style={{ color: 'var(--text-tertiary)' }}
-                                            >
-                                                查看证据
-                                            </h3>
+                                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">查看证据</h3>
                                             <div className="flex flex-wrap gap-2">
                                                 {details.links.map((link, i) => (
                                                     <a
@@ -296,30 +190,16 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                                 </>
                             )}
 
-                            {/* Company info if linked */}
                             {linkedExperience && (
-                                <div
-                                    className="pt-4 border-t"
-                                    style={{ borderColor: 'var(--border-default)' }}
-                                >
-                                    <div
-                                        className="text-xs uppercase tracking-wide mb-1"
-                                        style={{ color: 'var(--text-tertiary)' }}
-                                    >
-                                        来源
-                                    </div>
-                                    <div
-                                        className="font-medium"
-                                        style={{ color: 'var(--text-primary)' }}
-                                    >
-                                        {linkedExperience.company}
-                                    </div>
-                                    <div
-                                        className="text-sm"
-                                        style={{ color: 'var(--text-secondary)' }}
-                                    >
+                                <div className="border-t pt-4" style={{ borderColor: 'var(--border-default)' }}>
+                                    <div className="mb-1 text-xs uppercase tracking-wide text-slate-500">来源</div>
+                                    <div className="font-medium text-slate-900">{linkedExperience.company}</div>
+                                    <div className="text-sm text-slate-600">
                                         {linkedExperience.role} · {linkedExperience.year}
                                     </div>
+                                    <button type="button" className="btn btn-secondary mt-3" onClick={jumpToLinkedExperience}>
+                                        定位到对应经历
+                                    </button>
                                 </div>
                             )}
                         </div>

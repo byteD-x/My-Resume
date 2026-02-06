@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Mail, User, MessageSquare, Send, CheckCircle } from 'lucide-react';
+import React, { useCallback, useRef, useState } from 'react';
+import { AnimatePresence, m as motion } from 'framer-motion';
+import { Calendar, CheckCircle, Mail, MessageSquare, Send, User, X } from 'lucide-react';
 import { trackAppointmentSubmit } from '@/lib/analytics';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 interface AppointmentModalProps {
     isOpen: boolean;
@@ -11,8 +12,12 @@ interface AppointmentModalProps {
 }
 
 export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
-    const modalRef = useRef<HTMLDivElement>(null);
     const firstFocusableRef = useRef<HTMLInputElement>(null);
+    const modalRef = useFocusTrap<HTMLDivElement>(isOpen, {
+        onEscape: onClose,
+        initialFocusRef: firstFocusableRef,
+        lockBodyScroll: true,
+    });
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -20,73 +25,30 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
         message: '',
     });
 
-    // Focus trap
-    useEffect(() => {
-        if (!isOpen) return;
+    const handleSubmit = useCallback(
+        (e: React.FormEvent) => {
+            e.preventDefault();
+            trackAppointmentSubmit(true);
+            setIsSubmitted(true);
 
-        const modal = modalRef.current;
-        if (!modal) return;
-
-        // Focus first input when modal opens
-        setTimeout(() => {
-            firstFocusableRef.current?.focus();
-        }, 100);
-
-        const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
+            window.setTimeout(() => {
+                setIsSubmitted(false);
+                setFormData({ name: '', email: '', message: '' });
                 onClose();
-                return;
-            }
-
-            if (e.key !== 'Tab') return;
-
-            const focusableElements = modal.querySelectorAll<HTMLElement>(
-                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-            );
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
-
-            if (e.shiftKey && document.activeElement === firstElement) {
-                e.preventDefault();
-                lastElement?.focus();
-            } else if (!e.shiftKey && document.activeElement === lastElement) {
-                e.preventDefault();
-                firstElement?.focus();
-            }
-        };
-
-        document.addEventListener('keydown', handleKeyDown);
-        document.body.style.overflow = 'hidden';
-
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-            document.body.style.overflow = '';
-        };
-    }, [isOpen, onClose]);
-
-    const handleSubmit = useCallback((e: React.FormEvent) => {
-        e.preventDefault();
-        // Placeholder: In production, integrate with EmailJS or similar
-        console.log('Appointment form submitted:', formData);
-        trackAppointmentSubmit(true);
-        setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
-            setFormData({ name: '', email: '', message: '' });
-            onClose();
-        }, 2000);
-    }, [formData, onClose]);
+            }, 2000);
+        },
+        [onClose],
+    );
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData((prev) => ({ ...prev, [name]: value }));
     }, []);
 
     return (
         <AnimatePresence>
             {isOpen && (
                 <>
-                    {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -97,7 +59,6 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                         aria-hidden="true"
                     />
 
-                    {/* Modal */}
                     <motion.div
                         ref={modalRef}
                         role="dialog"
@@ -109,43 +70,37 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                         className="fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white p-6 shadow-2xl dark:bg-zinc-900"
                     >
-                        {/* Close Button */}
                         <button
                             onClick={onClose}
-                            className="absolute right-4 top-4 p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+                            className="absolute right-4 top-4 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-zinc-800"
                             aria-label="关闭对话框"
                         >
                             <X size={20} />
                         </button>
 
-                        {/* Header */}
                         <div className="mb-6">
-                            <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4">
-                                <Calendar className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/30">
+                                <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <h2
-                                id="appointment-modal-title"
-                                className="text-xl font-bold text-slate-900 dark:text-white"
-                            >
+                            <h2 id="appointment-modal-title" className="text-xl font-bold text-slate-900 dark:text-white">
                                 预约面谈
                             </h2>
-                            <p className="text-slate-600 dark:text-slate-400 mt-1">
+                            <p className="mt-1 text-slate-600 dark:text-slate-400">
                                 留下您的联系方式，我会尽快与您取得联系。
                             </p>
                         </div>
 
-                        {/* Form */}
                         {!isSubmitted ? (
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
                                     <label
                                         htmlFor="name"
-                                        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                                        className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
                                     >
                                         您的姓名
                                     </label>
                                     <div className="relative">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                        <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                                         <input
                                             ref={firstFocusableRef}
                                             type="text"
@@ -154,7 +109,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
                                             placeholder="请输入姓名"
                                         />
                                     </div>
@@ -163,12 +118,12 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                 <div>
                                     <label
                                         htmlFor="appointment-email"
-                                        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                                        className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
                                     >
                                         您的邮箱地址
                                     </label>
                                     <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                        <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                                         <input
                                             type="email"
                                             id="appointment-email"
@@ -176,7 +131,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                            className="w-full rounded-xl border border-slate-200 bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
                                             placeholder="your@email.com"
                                         />
                                     </div>
@@ -185,28 +140,25 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                 <div>
                                     <label
                                         htmlFor="message"
-                                        className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5"
+                                        className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300"
                                     >
                                         留言（可选）
                                     </label>
                                     <div className="relative">
-                                        <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
+                                        <MessageSquare className="absolute top-3 left-3 h-5 w-5 text-slate-400" />
                                         <textarea
                                             id="message"
                                             name="message"
                                             value={formData.message}
                                             onChange={handleChange}
                                             rows={3}
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                                            className="w-full resize-none rounded-xl border border-slate-200 bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
                                             placeholder="请简要说明您的需求或想了解的内容..."
                                         />
                                     </div>
                                 </div>
 
-                                <button
-                                    type="submit"
-                                    className="w-full btn btn-primary py-3.5 text-base font-bold mt-2"
-                                >
+                                <button type="submit" className="btn btn-primary mt-2 w-full py-3.5 text-base font-bold">
                                     <Send size={18} className="mr-2" />
                                     发送预约请求
                                 </button>
@@ -217,15 +169,11 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="py-8 text-center"
                             >
-                                <div className="w-16 h-16 rounded-full bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center mx-auto mb-4">
-                                    <CheckCircle className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-900/30">
+                                    <CheckCircle className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                                 </div>
-                                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                                    预约成功！
-                                </h3>
-                                <p className="text-slate-600 dark:text-slate-400">
-                                    感谢您的预约，我会尽快与您联系。
-                                </p>
+                                <h3 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">预约成功！</h3>
+                                <p className="text-slate-600 dark:text-slate-400">感谢您的预约，我会尽快与您联系。</p>
                             </motion.div>
                         )}
                     </motion.div>

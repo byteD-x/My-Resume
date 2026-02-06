@@ -1,23 +1,10 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
+import { MotionProvider } from "@/lib/MotionProvider";
 import { WebVitals } from "@/lib/performance";
 import { SkipToContent } from "@/components/SkipToContent";
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space",
-  display: "swap",
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
-  weight: ["400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-ibm",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -90,19 +77,18 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${spaceGrotesk.variable} ${ibmPlexSans.variable} antialiased`}
-        style={{
-          fontFamily: "var(--font-ibm), 'IBM Plex Sans SC', system-ui, sans-serif"
-        }}
+        className="antialiased"
         suppressHydrationWarning
       >
         <AnalyticsProvider>
-          <WebVitals />
-          <SkipToContent />
-          <div id="main-content">
-            {children}
-          </div>
-          {modal}
+          <MotionProvider>
+            <WebVitals />
+            <SkipToContent />
+            <div id="main-content">
+              {children}
+            </div>
+            {modal}
+          </MotionProvider>
         </AnalyticsProvider>
       </body>
     </html>

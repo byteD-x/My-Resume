@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { Mail, Globe, Phone, Copy, Check, ExternalLink, MessageSquare } from 'lucide-react';
 import { ContactData } from '@/types';
 import { ToastTrigger } from './Toast';

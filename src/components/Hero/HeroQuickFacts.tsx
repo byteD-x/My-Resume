@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m as motion } from 'framer-motion';
 import { Briefcase, Calendar } from 'lucide-react';
 import { HeroData } from '@/types';
 import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';

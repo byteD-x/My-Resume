@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useState, lazy, Suspense } from 'react';
-import { motion } from 'framer-motion';
+import React, { Suspense, lazy, useState } from 'react';
+import { m as motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
-import { HeroData, ContactData } from '@/types';
-import EditableText from './EditableText';
+import { HeroData } from '@/types';
 import { Container } from './ui/Container';
 import { AppointmentModal } from './AppointmentModal';
 import { HeroStatusBadges } from './Hero/HeroStatusBadges';
@@ -14,34 +13,22 @@ import { HeroCTA } from './Hero/HeroCTA';
 import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
 import { createResumeDownloadHandler, formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
 
-// 懒加载背景动画组件，减少首屏负担
 const HeroBackground = lazy(() => import('./HeroBackground'));
 
 interface HeroProps {
     data: HeroData;
-    contactData?: ContactData;
-    isEditorActive?: boolean;
-    onTitleChange?: (value: string) => void;
-    onSubtitleChange?: (value: string) => void;
-    onBulletChange?: (index: number, field: 'title' | 'description', value: string) => void;
 }
 
 const fadeIn = {
     initial: { opacity: 0, y: 24 },
     animate: { opacity: 1, y: 0 },
-    transition: { 
-        duration: HERO_ANIMATION.FADE_IN.duration, 
-        ease: EASING_CURVES.OUT_EXPO 
-    }
+    transition: {
+        duration: HERO_ANIMATION.FADE_IN.duration,
+        ease: EASING_CURVES.OUT_EXPO,
+    },
 };
 
-export default function Hero({
-    data,
-    isEditorActive = false,
-    onTitleChange,
-    onSubtitleChange,
-    onBulletChange,
-}: HeroProps) {
+export default function Hero({ data }: HeroProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const resumeFileName = formatResumeFileName(data.title, data.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
@@ -49,80 +36,60 @@ export default function Hero({
 
     return (
         <>
-            <section className="relative pt-20 pb-20 min-[380px]:pt-24 md:pt-32 lg:pt-48 md:pb-32 overflow-hidden hero-grid noise-layer">
-                {/* Background Decor - 懒加载减少首屏负担 */}
-                <Suspense fallback={
-                    <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-                        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-blue-100/40 to-purple-100/40 dark:from-blue-900/20 dark:to-purple-900/20 rounded-full blur-3xl opacity-40 translate-x-1/3 -translate-y-1/4" />
-                        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100/40 to-teal-100/40 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-full blur-3xl opacity-40 -translate-x-1/4 translate-y-1/4" />
-                    </div>
-                }>
+            <section className="hero-grid noise-layer relative overflow-hidden pt-20 pb-20 min-[380px]:pt-24 md:pt-32 md:pb-32 lg:pt-48">
+                <Suspense
+                    fallback={
+                        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+                            <div className="absolute top-0 right-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/4 rounded-full bg-gradient-to-br from-blue-100/40 to-purple-100/40 opacity-40 blur-3xl dark:from-blue-900/20 dark:to-purple-900/20" />
+                            <div className="absolute bottom-0 left-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-gradient-to-tr from-emerald-100/40 to-teal-100/40 opacity-40 blur-3xl dark:from-emerald-900/20 dark:to-teal-900/20" />
+                        </div>
+                    }
+                >
                     <HeroBackground />
                 </Suspense>
 
                 <Container className="relative">
-                    <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-start">
-
-                        {/* Left Content */}
-                        <div className="lg:col-span-7 flex flex-col items-start">
-                            {/* Status Badges */}
+                    <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-8">
+                        <div className="flex flex-col items-start lg:col-span-7">
                             <HeroStatusBadges location={data.location} />
 
-                            {/* Heading */}
                             <motion.h1
                                 {...fadeIn}
-                                transition={{ 
+                                transition={{
                                     ...fadeIn.transition,
-                                    delay: HERO_ANIMATION.DELAY_TITLE 
+                                    delay: HERO_ANIMATION.DELAY_TITLE,
                                 }}
-                                className="text-3xl min-[380px]:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1] text-balance"
+                                className="mb-6 text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 min-[380px]:text-4xl md:text-5xl lg:text-6xl"
                             >
-                                <EditableText
-                                    id="hero-title"
-                                    value={data.title}
-                                    onChange={(_, value) => onTitleChange?.(value)}
-                                    isEditorActive={isEditorActive}
-                                />
+                                {data.title}
                             </motion.h1>
 
                             {data.subtitle && (
                                 <motion.p
                                     {...fadeIn}
-                                    transition={{ 
+                                    transition={{
                                         ...fadeIn.transition,
-                                        delay: HERO_ANIMATION.DELAY_PROPOSITION 
+                                        delay: HERO_ANIMATION.DELAY_PROPOSITION,
                                     }}
-                                    className="text-sm md:text-base text-slate-500 mb-4 max-w-2xl"
+                                    className="mb-4 max-w-2xl text-sm text-slate-500 md:text-base"
                                 >
-                                    <EditableText
-                                        id="hero-subtitle"
-                                        value={data.subtitle}
-                                        onChange={(_, value) => onSubtitleChange?.(value)}
-                                        isEditorActive={isEditorActive}
-                                    />
+                                    {data.subtitle}
                                 </motion.p>
                             )}
 
-                            {/* Value Proposition */}
                             <motion.p
                                 {...fadeIn}
-                                transition={{ 
+                                transition={{
                                     ...fadeIn.transition,
-                                    delay: HERO_ANIMATION.DELAY_PROPOSITION 
+                                    delay: HERO_ANIMATION.DELAY_PROPOSITION,
                                 }}
-                                className="text-lg md:text-xl text-slate-600 mb-8 max-w-2xl"
+                                className="mb-8 max-w-2xl text-lg text-slate-600 md:text-xl"
                             >
                                 打造高性能、可访问的全栈产品
                             </motion.p>
 
-                            {/* Bullets */}
-                            <HeroBullets
-                                bullets={data.bullets}
-                                isEditorActive={isEditorActive}
-                                onBulletChange={onBulletChange}
-                            />
+                            <HeroBullets bullets={data.bullets} />
 
-                            {/* CTAs */}
                             <HeroCTA
                                 onOpenModal={() => setIsModalOpen(true)}
                                 downloadName={resumeFileName}
@@ -131,30 +98,24 @@ export default function Hero({
                             />
                         </div>
 
-                        {/* Right Card (Quick Facts) */}
-                        <div className="lg:col-span-5 w-full relative">
+                        <div className="relative w-full lg:col-span-5">
                             <HeroQuickFacts quickFacts={data.quickFacts} />
                         </div>
                     </div>
 
-                    {/* Scroll Hint */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: HERO_ANIMATION.DELAY_SCROLL }}
-                        className="absolute bottom-4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-slate-400"
+                        className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-slate-400 md:flex"
                     >
-                        <span className="text-xs font-medium tracking-widest uppercase">向下探索</span>
+                        <span className="text-xs font-medium uppercase tracking-widest">向下探索</span>
                         <ChevronDown className="animate-bounce" />
                     </motion.div>
                 </Container>
             </section>
 
-            {/* Appointment Modal */}
-            <AppointmentModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-            />
+            <AppointmentModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </>
     );
 }

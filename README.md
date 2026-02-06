@@ -33,6 +33,7 @@
 - **Google Analytics 4** - 完整的用户行为追踪
 - **滚动深度追踪** - 25%, 50%, 75%, 100%
 - **事件追踪** - CTA 点击、简历下载、表单提交
+- **Engineering Command Center** - 实时展示 Web Vitals、开源指标与工程指纹
 
 ### ⚡ 高性能
 - **动态导入** - 代码分割与懒加载
@@ -113,6 +114,19 @@ npm run start
 NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 ```
 
+工程实力中枢与部署链路相关环境变量：
+
+```bash
+# 构建模式（GitHub Pages 导出时由脚本自动注入）
+NEXT_PUBLIC_STATIC_EXPORT=true
+NEXT_PUBLIC_BASE_PATH=your-repo-name
+# 站点绝对地址（推荐在 CI 中显式设置，避免 sitemap/robots 指向错误域名）
+NEXT_PUBLIC_SITE_URL=https://your-domain-or-pages-url
+
+# GitHub 指标（可选，避免 API rate limit）
+GITHUB_TOKEN=ghp_xxx
+```
+
 **支持的事件追踪：**
 - 页面浏览 (Page View)
 - 滚动深度 (25%, 50%, 75%, 100%)
@@ -171,7 +185,7 @@ src/
 │   ├── Navbar.tsx           # 导航栏
 │   ├── Footer.tsx           # 页脚
 │   ├── ScrollProgressBar.tsx# 滚动进度条
-│   ├── EditorToolbar.tsx    # 可编辑模式工具栏
+│   ├── EngineeringCommandCenter.tsx # 工程实力中枢
 │   └── ui/                  # 基础 UI 组件库
 │       ├── Button.tsx
 │       ├── Badge.tsx
@@ -182,7 +196,8 @@ src/
 ├── lib/
 │   ├── analytics.ts         # GA4 工具函数
 │   ├── AnalyticsProvider.tsx# 分析上下文
-│   ├── useEditableContent.ts# 可编辑内容 Hook
+│   ├── runtime-metrics-store.ts # 运行时指标存储
+│   ├── scroll-observer.ts   # 统一滚动观察器
 │   ├── utils.ts             # 工具函数
 │   └── motion.ts            # 动画常量
 ├── hooks/
@@ -209,8 +224,25 @@ src/
 | Content-Security-Policy | 限制资源加载来源 |
 | X-Content-Type-Options | 防止 MIME 类型嗅探 |
 | X-Frame-Options | 防止点击劫持 |
-| X-XSS-Protection | XSS 过滤 |
 | Referrer-Policy | 控制 Referer 发送 |
+| Permissions-Policy | 限制浏览器高风险能力 |
+| Cross-Origin-Opener-Policy | 跨源窗口隔离 |
+| Cross-Origin-Resource-Policy | 跨源资源访问控制 |
+
+---
+
+## 📦 包体分析建议
+
+建议在发布前执行：
+
+```bash
+npm run analyze
+```
+
+并重点关注：
+- `app/page` 相关 chunk 是否异常增长
+- `framer-motion` 与图标库是否被无意重复打包
+- 首屏关键交互是否保持延迟加载
 
 ---
 
@@ -243,3 +275,4 @@ MIT License
 - 📧 Email: 2041487752dxj@gmail.com
 - 💻 GitHub: [@icefunicu](https://github.com/icefunicu)
 - 🌐 Website: [https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
+

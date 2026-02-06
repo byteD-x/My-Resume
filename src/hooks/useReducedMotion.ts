@@ -1,23 +1,53 @@
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
+
+const MEDIA_QUERY = '(prefers-reduced-motion: reduce)';
+let shouldReduceMotion = false;
+let mediaQuery: MediaQueryList | null = null;
+const listeners = new Set<() => void>();
+
+const emit = () => {
+    listeners.forEach((listener) => listener());
+};
+
+const handleChange = () => {
+    if (!mediaQuery) return;
+    const next = mediaQuery.matches;
+    if (next === shouldReduceMotion) return;
+    shouldReduceMotion = next;
+    emit();
+};
+
+const startListening = () => {
+    if (typeof window === 'undefined' || mediaQuery) return;
+    mediaQuery = window.matchMedia(MEDIA_QUERY);
+    const next = mediaQuery.matches;
+    if (next !== shouldReduceMotion) {
+        shouldReduceMotion = next;
+        emit();
+    }
+    mediaQuery.addEventListener('change', handleChange);
+};
+
+const stopListening = () => {
+    if (!mediaQuery) return;
+    mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery = null;
+};
+
+const subscribe = (listener: () => void) => {
+    listeners.add(listener);
+    startListening();
+
+    return () => {
+        listeners.delete(listener);
+        if (listeners.size === 0) {
+            stopListening();
+        }
+    };
+};
+
+const getSnapshot = () => shouldReduceMotion;
 
 export function useReducedMotion() {
-    const [shouldReduceMotion, setShouldReduceMotion] = useState(() => {
-        if (typeof window === 'undefined') return false;
-        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    });
-
-    useEffect(() => {
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        const handleChange = () => {
-            setShouldReduceMotion(mediaQuery.matches);
-        };
-
-        mediaQuery.addEventListener('change', handleChange);
-        // Clean up
-        return () => {
-            mediaQuery.removeEventListener('change', handleChange);
-        };
-    }, []);
-
-    return shouldReduceMotion;
+    return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }

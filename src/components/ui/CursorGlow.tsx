@@ -1,20 +1,21 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m as motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useLowPerformanceMode } from '@/hooks/useLowPerformanceMode';
 
-// 默认配置常量
+// 榛樿閰嶇疆甯搁噺
 const DEFAULT_SIZE = 300;
 const DEFAULT_COLOR = 'rgba(59, 130, 246, 0.15)';
 const MOBILE_BREAKPOINT = 768;
 
 interface CursorGlowProps {
-    size?: number;           // 光斑大小
-    color?: string;          // 光斑颜色
-    blendMode?: string;      // 混合模式
-    enabled?: boolean;       // 是否启用
-    hideOnMobile?: boolean;  // 移动端隐藏
+    size?: number;           // 鍏夋枒澶у皬
+    color?: string;          // 鍏夋枒棰滆壊
+    blendMode?: string;      // 娣峰悎妯″紡
+    enabled?: boolean;       // 鏄惁鍚敤
+    hideOnMobile?: boolean;  // 绉诲姩绔殣钘?
 }
 
 export function CursorGlow({
@@ -29,10 +30,11 @@ export function CursorGlow({
     const [isMobile, setIsMobile] = useState(false);
     const [isPageHidden, setIsPageHidden] = useState(false);
     const prefersReducedMotion = useReducedMotion();
+    const isLowPerformanceMode = useLowPerformanceMode();
     const rafIdRef = useRef<number | null>(null);
     const lastMousePos = useRef({ x: 0, y: 0 });
 
-    // 检测移动端
+    // 妫€娴嬬Щ鍔ㄧ
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches ||
@@ -43,7 +45,7 @@ export function CursorGlow({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // 检测页面可见性 - 页面不可见时禁用动画
+    // 妫€娴嬮〉闈㈠彲瑙佹€?- 椤甸潰涓嶅彲瑙佹椂绂佺敤鍔ㄧ敾
     useEffect(() => {
         const handleVisibilityChange = () => {
             setIsPageHidden(document.hidden);
@@ -53,7 +55,7 @@ export function CursorGlow({
         return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
     }, []);
 
-    // 使用 RAF 节流的鼠标移动处理 - 添加节流优化
+    // 浣跨敤 RAF 鑺傛祦鐨勯紶鏍囩Щ鍔ㄥ鐞?- 娣诲姞鑺傛祦浼樺寲
     const handleMouseMove = useCallback((e: MouseEvent) => {
         if (isPageHidden) return;
 
@@ -70,7 +72,7 @@ export function CursorGlow({
     const handleMouseEnter = useCallback(() => setIsVisible(true), []);
     const handleMouseLeave = useCallback(() => {
         setIsVisible(false);
-        // 清理 RAF
+        // 娓呯悊 RAF
         if (rafIdRef.current !== null) {
             cancelAnimationFrame(rafIdRef.current);
             rafIdRef.current = null;
@@ -78,7 +80,7 @@ export function CursorGlow({
     }, []);
 
     useEffect(() => {
-        if (!enabled || prefersReducedMotion || (hideOnMobile && isMobile)) return;
+        if (!enabled || prefersReducedMotion || isLowPerformanceMode || (hideOnMobile && isMobile)) return;
 
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseenter', handleMouseEnter);
@@ -88,16 +90,25 @@ export function CursorGlow({
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseenter', handleMouseEnter);
             document.removeEventListener('mouseleave', handleMouseLeave);
-            // 清理 RAF
+            // 娓呯悊 RAF
             if (rafIdRef.current !== null) {
                 cancelAnimationFrame(rafIdRef.current);
                 rafIdRef.current = null;
             }
         };
-    }, [enabled, prefersReducedMotion, hideOnMobile, isMobile, handleMouseMove, handleMouseEnter, handleMouseLeave]);
+    }, [
+        enabled,
+        prefersReducedMotion,
+        isLowPerformanceMode,
+        hideOnMobile,
+        isMobile,
+        handleMouseMove,
+        handleMouseEnter,
+        handleMouseLeave,
+    ]);
 
-    // 移动端、禁用、或页面隐藏时不渲染
-    if (!enabled || prefersReducedMotion || (hideOnMobile && isMobile) || isPageHidden) {
+    // 绉诲姩绔€佺鐢ㄣ€佹垨椤甸潰闅愯棌鏃朵笉娓叉煋
+    if (!enabled || prefersReducedMotion || isLowPerformanceMode || (hideOnMobile && isMobile) || isPageHidden) {
         return null;
     }
 
@@ -142,7 +153,7 @@ export function CursorGlow({
     );
 }
 
-// 暗色模式专用的光标光晕
+// Dark-mode specific cursor glow wrapper.
 export function DarkModeCursorGlow() {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -156,7 +167,7 @@ export function DarkModeCursorGlow() {
 
         checkDarkMode();
 
-        // 监听主题变化
+        // 鐩戝惉涓婚鍙樺寲
         const observer = new MutationObserver(checkDarkMode);
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
@@ -176,3 +187,4 @@ export function DarkModeCursorGlow() {
         />
     );
 }
+

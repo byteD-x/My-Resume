@@ -152,13 +152,3 @@ export interface PortfolioData {
   contact: ContactData;
 }
 
-// ==========================================
-// Editor State Types
-// ==========================================
-
-export interface EditorState {
-  isEditorEnabled: boolean;  // 是否启用编辑功能（环境变量控制）
-  isEditing: boolean;        // 当前是否处于编辑模式
-  isDirty: boolean;          // 是否有未保存的更改
-  lastSaved?: Date;          // 上次保存时间
-}

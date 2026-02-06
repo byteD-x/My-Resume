@@ -78,8 +78,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build server target
+        run: npm run build
+
       - name: Build static export
         run: npm run build:pages -- My-Resume
+        env:
+          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/My-Resume
+
+      - name: Check links
+        run: npm run check:links
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

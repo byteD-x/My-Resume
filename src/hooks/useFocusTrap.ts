@@ -1,59 +1,78 @@
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
-export function useFocusTrap(isActive: boolean) {
-    const containerRef = useRef<HTMLDivElement>(null);
+interface UseFocusTrapOptions {
+    onEscape?: () => void;
+    initialFocusRef?: RefObject<HTMLElement | null>;
+    lockBodyScroll?: boolean;
+}
+
+const FOCUSABLE_SELECTOR =
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+export function useFocusTrap<T extends HTMLElement>(
+    isActive: boolean,
+    options: UseFocusTrapOptions = {},
+) {
+    const containerRef = useRef<T>(null);
+    const previousFocusRef = useRef<HTMLElement | null>(null);
+    const { onEscape, initialFocusRef, lockBodyScroll = false } = options;
 
     useEffect(() => {
         if (!isActive || !containerRef.current) return;
 
         const container = containerRef.current;
+        previousFocusRef.current = document.activeElement as HTMLElement | null;
 
-        // Find all focusable elements
-        const focusableElements = container.querySelectorAll(
-            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-
-        const firstElement = focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-        // Focus immediately on the first element if possible
-        if (firstElement) {
-            firstElement.focus();
-        }
-
-        const handleTabKey = (e: KeyboardEvent) => {
-            if (e.key !== 'Tab') return;
-
-            if (e.shiftKey) {
-                // Shift + Tab
-                if (document.activeElement === firstElement) {
-                    e.preventDefault();
-                    lastElement.focus();
-                }
-            } else {
-                // Tab
-                if (document.activeElement === lastElement) {
-                    e.preventDefault();
-                    firstElement.focus();
-                }
+        const focusInitialElement = () => {
+            if (initialFocusRef?.current) {
+                initialFocusRef.current.focus();
+                return;
             }
+
+            const elements = container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+            elements[0]?.focus();
         };
+
+        focusInitialElement();
+
+        const previousOverflow = document.body.style.overflow;
+        if (lockBodyScroll) {
+            document.body.style.overflow = 'hidden';
+        }
 
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
-                // Optional: You could expose an onEscape callback here if needed, 
-                // but usually the Modal component handles the generic keydown listener for Escape.
+                onEscape?.();
+                return;
             }
-            handleTabKey(e);
+
+            if (e.key !== 'Tab') return;
+
+            const elements = container.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+            if (elements.length === 0) return;
+
+            const firstElement = elements[0];
+            const lastElement = elements[elements.length - 1];
+
+            if (e.shiftKey && document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            } else if (!e.shiftKey && document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
         };
 
-        container.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('keydown', handleKeyDown);
 
         return () => {
-            container.removeEventListener('keydown', handleKeyDown);
-            // Optional: restore focus to previously focused element logic can go here
+            document.removeEventListener('keydown', handleKeyDown);
+            if (lockBodyScroll) {
+                document.body.style.overflow = previousOverflow;
+            }
+            previousFocusRef.current?.focus();
         };
-    }, [isActive]);
+    }, [isActive, initialFocusRef, lockBodyScroll, onEscape]);
 
     return containerRef;
 }
