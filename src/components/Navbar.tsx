@@ -7,7 +7,6 @@ import { ContactData, HeroData } from '@/types';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/ui/Container';
 import { ProgressBar } from '@/components/ProgressBar';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { createResumeDownloadHandler, formatResumeFileName, getResumeDownloadUrl } from '@/lib/resume';
 import { trackCTAClick, trackExternalLink, trackResumeDownload } from '@/lib/analytics';
 
@@ -151,7 +150,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         >
                             <Github size={20} />
                         </a>
-                        <ThemeToggle />
+
                         <a
                             href={resumeDownloadUrl}
                             download={resumeFileName}
@@ -245,7 +244,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     >
                                         <Github size={20} />
                                     </a>
-                                    <ThemeToggle className="bg-slate-100" />
+
                                 </div>
                             </div>
                         </motion.div>

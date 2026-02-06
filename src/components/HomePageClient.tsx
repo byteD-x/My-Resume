@@ -210,7 +210,7 @@ export default function HomePageClient() {
             {!isEditorEnabled && (
                 <button
                     onClick={toggleDemoMode}
-                    className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-slate-900 text-white shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group"
+                    className="fixed bottom-24 right-6 z-40 p-3 rounded-full bg-slate-900 text-white shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group"
                     title="开启演示模式"
                 >
                     <div className="absolute inset-0 rounded-full bg-blue-500/30 animate-ping" />

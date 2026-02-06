@@ -161,25 +161,74 @@
   --stagger-delay: 50ms;
 }
 
+/* Dark mode override */
+/* Dark mode override - Refined for better eye comfort and visibility */
+.dark {
+  /* Text - Softer white, not pure white to reduce eye strain, but high enough contrast */
+  --text-primary: #E2E8F0;
+  /* Slate 200 */
+  --text-secondary: #94A3B8;
+  /* Slate 400 */
+  --text-tertiary: #64748B;
+  /* Slate 500 */
+  --text-inverse: #0F172A;
+  /* Slate 900 */
+
+  /* Backgrounds - Deep blue-grey instead of pitch black, better hierarchy */
+  --bg-page: #020617;
+  /* Slate 950 - Darker base */
+  --bg-surface: #0F172A;
+  /* Slate 900 - Slightly lighter card bg */
+  --bg-muted: #1E293B;
+  /* Slate 800 - Muted areas */
+  --bg-elevated: #1E293B;
+  /* Slate 800 - Dialogs/Dropdowns */
+
+  /* Glass effects - more opaque in dark mode for readability */
+  --bg-glass: rgba(15, 23, 42, 0.85);
+  --bg-grid: rgba(226, 232, 240, 0.04);
+
+  /* Gradients - Subtler in dark mode to avoid "muddy" look */
+  --page-gradient:
+    radial-gradient(1200px circle at top center, rgba(37, 99, 235, 0.08), transparent 70%),
+    radial-gradient(800px circle at bottom right, rgba(139, 92, 246, 0.05), transparent 60%);
+
+  /* Borders - Visible but subtle */
+  --border-default: #1E293B;
+  /* Slate 800 */
+  --border-strong: #334155;
+  /* Slate 700 */
+  --border-muted: #1E293B;
+  /* Slate 800 */
+}
+
+/* Also support system preference if no class is present - optional, next-themes handles this usually but good for fallback */
+/* Also support system preference if no class is present - optional, next-themes handles this usually but good for fallback */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --text-primary: #F1F5F9;
-    --text-secondary: #CBD5E1;
+  :root:not([class~="light"]) {
+    /* Text */
+    --text-primary: #E2E8F0;
+    --text-secondary: #94A3B8;
     --text-tertiary: #64748B;
     --text-inverse: #0F172A;
 
-    --bg-page: #0F172A;
-    --bg-surface: #111827;
-    --bg-muted: #1F2937;
-    --bg-elevated: #111827;
-    --bg-glass: rgba(15, 23, 42, 0.72);
-    --bg-grid: rgba(148, 163, 184, 0.08);
-    --page-gradient: radial-gradient(1200px circle at 0% 0%, rgba(37, 99, 235, 0.2), transparent 60%),
-      radial-gradient(900px circle at 100% 10%, rgba(14, 165, 233, 0.12), transparent 55%);
+    /* Backgrounds */
+    --bg-page: #020617;
+    --bg-surface: #0F172A;
+    --bg-muted: #1E293B;
+    --bg-elevated: #1E293B;
 
-    --border-default: #334155;
-    --border-strong: #475569;
-    --border-muted: #1F2937;
+    /* Effects */
+    --bg-glass: rgba(15, 23, 42, 0.85);
+    --bg-grid: rgba(226, 232, 240, 0.04);
+    --page-gradient:
+      radial-gradient(1200px circle at top center, rgba(37, 99, 235, 0.08), transparent 70%),
+      radial-gradient(800px circle at bottom right, rgba(139, 92, 246, 0.05), transparent 60%);
+
+    /* Borders */
+    --border-default: #1E293B;
+    --border-strong: #334155;
+    --border-muted: #1E293B;
   }
 }
 
@@ -353,6 +402,7 @@ h2 {
 
 /* 性能优化：只对可见元素启用动画 */
 @media (prefers-reduced-motion: reduce) {
+
   .animate-optimized,
   .transform-only,
   .animation-safe {
@@ -364,11 +414,12 @@ h2 {
 
 /* 移动端性能优化 - 简化动画 */
 @media (max-width: 768px) {
+
   .animate-optimized,
   .transform-only {
     will-change: transform;
   }
-  
+
   .glass,
   .glass-light,
   .glass-dark {
@@ -455,11 +506,11 @@ h2 {
       border-color var(--duration-fast) ease,
       color var(--duration-fast) ease;
   }
-  
+
   .btn:hover {
     transform: none;
   }
-  
+
   .btn:active {
     transform: scale(0.98);
   }
@@ -835,6 +886,7 @@ h2 {
 
 /* 性能优化：在减少动画模式下禁用所有装饰性动画 */
 @media (prefers-reduced-motion: reduce) {
+
   .btn-ripple::before,
   .animate-gradient,
   .animate-shimmer,
@@ -847,6 +899,7 @@ h2 {
 
 /* 移动端性能优化 - 禁用复杂动画 */
 @media (max-width: 768px) {
+
   .animate-shimmer,
   .animate-pulse-glow,
   .animate-float {
