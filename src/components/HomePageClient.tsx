@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { defaultPortfolioData } from '@/data';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import AudienceHub from '@/components/AudienceHub';
 import HighlightDeck from '@/components/HighlightDeck';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Section } from '@/components/ui/Section';
@@ -88,6 +89,9 @@ export default function HomePageClient() {
             {!isLowPerformanceMode && <DarkModeCursorGlow />}
 
             <Hero data={data.hero} />
+            <MotionWrapper delay={0.08}>
+                <AudienceHub cards={data.audienceCards} />
+            </MotionWrapper>
 
             <MotionWrapper delay={0.1}>
                 <Section id="impact" className="scroll-mt-20">
@@ -95,10 +99,6 @@ export default function HomePageClient() {
                         <HighlightDeck items={data.impact} timeline={data.timeline} />
                     </Container>
                 </Section>
-            </MotionWrapper>
-
-            <MotionWrapper delay={0.2}>
-                <Services services={data.services} />
             </MotionWrapper>
 
             <MotionWrapper delay={0.2}>
@@ -127,6 +127,10 @@ export default function HomePageClient() {
                         <ProjectList items={data.projects} />
                     </Container>
                 </Section>
+            </MotionWrapper>
+
+            <MotionWrapper delay={0.2}>
+                <Services services={data.services} />
             </MotionWrapper>
 
             <MotionWrapper delay={0.2}>

@@ -30,10 +30,20 @@ export const defaultPortfolioData: PortfolioData = {
             role: "全栈工程师（后端性能 / 交付效率）",
             availability: "可立即入职｜远程优先｜Base 深圳（可到岗南京/杭州/成都）",
             techStack: ["Java", "Spring Boot", "Python", "React", "Next.js", "CI/CD"]
+        },
+        roleSnapshot: {
+            primaryRole: "全栈工程师（工程效率方向）",
+            secondaryRole: "后端 / AI 工程",
+            availability: "可立即入职",
+            location: "深圳（支持远程，南京/杭州/成都可到岗）",
+            updatedAt: "2026-02-10"
         }
     },
 
-    about: "2025届计算机专业毕业生，专注于后端架构与 AI 应用开发。AI 原生开发践行者，擅长使用 Cursor/Windsurf 等工具极速交付高质量全栈应用。从复杂后端架构到精美前端交互，皆可独立完成。",
+    about: {
+        zh: "已完成计算机专业本科学习，专注后端架构与 AI 应用工程化。擅长以可验证结果驱动交付：从性能治理、自动化流程到全栈产品上线，均以指标和证据闭环。",
+        en: "Backend-focused full-stack engineer with AI engineering delivery experience, emphasizing evidence-backed outcomes in performance, automation, and product shipping."
+    },
 
     impact: [
         {
@@ -46,7 +56,15 @@ export const defaultPortfolioData: PortfolioData = {
             icon: "Star",
             colSpan: "md:col-span-1",
             bg: "bg-indigo-50",
-            githubRepo: "icefunicu/wechat-bot"
+            githubRepo: "icefunicu/wechat-bot",
+            verification: {
+                sourceType: "repo",
+                sourceLabel: "GitHub Stars",
+                sourceUrl: "https://github.com/icefunicu/wechat-bot",
+                verifiedAt: "2026-02-10",
+                confidence: "high",
+                level: "strict"
+            }
         },
         {
             id: "impact-2",
@@ -57,7 +75,14 @@ export const defaultPortfolioData: PortfolioData = {
             linkedExperienceId: "exp-unicom",
             icon: "Zap",
             colSpan: "md:col-span-1",
-            bg: "bg-blue-50"
+            bg: "bg-blue-50",
+            verification: {
+                sourceType: "experience",
+                sourceLabel: "联通项目性能优化记录",
+                verifiedAt: "2026-02-10",
+                confidence: "high",
+                level: "strict"
+            }
         },
         {
             id: "impact-3",
@@ -68,7 +93,14 @@ export const defaultPortfolioData: PortfolioData = {
             linkedExperienceId: "exp-chinasoft",
             icon: "Users",
             colSpan: "md:col-span-1",
-            bg: "bg-rose-50"
+            bg: "bg-rose-50",
+            verification: {
+                sourceType: "experience",
+                sourceLabel: "教育平台项目交付记录",
+                verifiedAt: "2026-02-10",
+                confidence: "medium",
+                level: "strict"
+            }
         },
         {
             id: "impact-4",
@@ -79,7 +111,14 @@ export const defaultPortfolioData: PortfolioData = {
             icon: "Code2",
             colSpan: "md:col-span-2",
             rowSpan: "md:row-span-2",
-            isFocal: true
+            isFocal: true,
+            verification: {
+                sourceType: "manual",
+                sourceLabel: "项目合集与履历交叉验证",
+                verifiedAt: "2026-02-10",
+                confidence: "medium",
+                level: "strict"
+            }
         },
         {
             id: "impact-5",
@@ -90,7 +129,14 @@ export const defaultPortfolioData: PortfolioData = {
             linkedExperienceId: "exp-unicom",
             icon: "Gauge",
             colSpan: "md:col-span-1",
-            bg: "bg-emerald-50"
+            bg: "bg-emerald-50",
+            verification: {
+                sourceType: "experience",
+                sourceLabel: "数据中台迁移记录",
+                verifiedAt: "2026-02-10",
+                confidence: "high",
+                level: "strict"
+            }
         }
     ],
 
@@ -109,6 +155,25 @@ export const defaultPortfolioData: PortfolioData = {
                 "GitHub/Gitee Enhancer 提供 6 项功能开关，缓存过期 24h",
                 "Email Ad Cleaner 覆盖 8 个邮箱入口与规则库（18 域名词/21 发件人词/8 退订词）",
                 "Bookmark Organizer 并发 3、限速 5 req/s、重试 3 次"
+            ],
+            audienceTags: ["jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "以最小权限和稳定注入提升浏览器生产力，降低重复操作成本。",
+                en: "Improves browser productivity with stable injection and minimal-permission design."
+            },
+            engineeringDepth: {
+                zh: "展示 SPA 注入治理、并发限速控制和 AI 失败回退等工程手法。",
+                en: "Demonstrates SPA reinjection control, concurrency throttling, and AI fallback design."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "GitHub 仓库与发布记录",
+                    sourceUrl: "https://github.com/icefunicu?tab=repositories",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
             ],
             expandedDetails: {
                 background: "为提升开发效率与浏览体验，整理浏览器扩展与用户脚本工具集，覆盖书签整理、术语侧边栏、邮箱广告清理、代码托管平台增强与沉浸式阅读。",
@@ -130,6 +195,25 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Python", "Quart", "Asyncio", "Electron", "SQLite", "ChromaDB", "SSE"],
             highlighted: true,
             keyOutcomes: ["API 吞吐量提升 5x+", "日志读取内存 <10MB", "Token 成本降低 40%"],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "在保持稳定性的前提下降低运行成本并提升可用性。",
+                en: "Improves stability while reducing runtime cost and failure rate."
+            },
+            engineeringDepth: {
+                zh: "覆盖异步 I/O 解耦、日志流式处理、多模态成本优化等关键工程点。",
+                en: "Covers async I/O decoupling, streaming logs, and multimodal cost optimization."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "wechat-bot 仓库与变更记录",
+                    sourceUrl: "https://github.com/icefunicu/wechat-bot",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "微信自动化需要同时处理消息轮询、模型调用与管理端操作，且日志与多模态输入会带来额外 I/O 与成本压力。",
                 problem: "阻塞 I/O 导致 API 超时与卡顿；日志文件膨胀引发内存/磁盘压力；多模态 Token 成本高且易触发图片限制。",
@@ -150,6 +234,24 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Python", "自动化", "端到端交付"],
             highlighted: true,
             keyOutcomes: ["端到端交付 IPA 系统", "按期通过客户验收"],
+            audienceTags: ["partner", "client"],
+            businessValue: {
+                zh: "短周期完成可验收原型，验证技术可行性并降低项目不确定性。",
+                en: "Delivered an acceptable prototype quickly to reduce solution uncertainty."
+            },
+            engineeringDepth: {
+                zh: "强调端到端链路打通与交付节奏控制。",
+                en: "Focuses on end-to-end integration and delivery cadence control."
+            },
+            verification: [
+                {
+                    sourceType: "experience",
+                    sourceLabel: "项目验收结果",
+                    verifiedAt: "2026-02-10",
+                    confidence: "medium",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "南方科技大学研究项目需要智能流程自动化（IPA）系统原型来验证技术方案。",
                 problem: "需要在短时间内完成从数据采集、处理到可视化的完整链路。",
@@ -169,6 +271,24 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Java", "Spring Boot", "MySQL", "Redis", "Docker", "CI/CD"],
             highlighted: true,
             keyOutcomes: ["关键接口耗时降低 60%+", "建立慢查询治理流程", "规范 CI/CD 交付"],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "降低关键接口响应时延并减少发布风险，提高系统稳定交付能力。",
+                en: "Reduced latency and release risk, improving predictable delivery."
+            },
+            engineeringDepth: {
+                zh: "体现 SQL 治理方法、缓存策略和 CI/CD 工程实践。",
+                en: "Shows SQL governance, caching strategy, and CI/CD practices."
+            },
+            verification: [
+                {
+                    sourceType: "experience",
+                    sourceLabel: "中软项目性能优化记录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "企业级系统关键接口响应时间过长，影响用户体验。",
                 problem: "SQL 慢查询普遍、缺乏统一的性能监控与优化机制，发布流程不规范导致风险高。",
@@ -188,6 +308,24 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["后端", "AI搜索", "小程序", "订阅推送"],
             highlighted: false,
             keyOutcomes: ["构建智能论文检索架构", "打造个性化推送服务"],
+            audienceTags: ["hr", "jobSeeker"],
+            businessValue: {
+                zh: "缩短专家检索论文所需时间，提升科研信息获取效率。",
+                en: "Reduced research retrieval time for medical experts."
+            },
+            engineeringDepth: {
+                zh: "突出 AI 检索与后端架构协同。",
+                en: "Highlights collaboration between AI retrieval and backend architecture."
+            },
+            verification: [
+                {
+                    sourceType: "experience",
+                    sourceLabel: "项目交付记录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "medium",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "医学专家需要高效的论文检索与追踪工具来跟进领域前沿。",
                 problem: "传统检索方式效率低，难以满足专家对精准性和时效性的需求。",
@@ -207,6 +345,24 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Java", "ClickHouse", "MySQL", "性能优化", "数据迁移"],
             highlighted: false,
             keyOutcomes: ["接口性能提升 5x (20s→4s)", "迁移 300+ 百万级数据表", "实现 ClickHouse 毫秒级查询"],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "通过性能治理与数据迁移显著提升业务查询效率。",
+                en: "Improved business query efficiency via performance tuning and data migration."
+            },
+            engineeringDepth: {
+                zh: "体现 ClickHouse 迁移、查询优化与批处理调度经验。",
+                en: "Demonstrates ClickHouse migration, query optimization, and scheduling experience."
+            },
+            verification: [
+                {
+                    sourceType: "experience",
+                    sourceLabel: "联通数字化部项目记录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "陕西联通数字化部门需要建设统一的运营平台与数据中台。",
                 problem: "活动查询接口响应时间超过 20 秒，数据分散在多个 MySQL 实例中难以统一分析。",
@@ -226,6 +382,24 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["计算机科学", "大数据", "项目实践"],
             highlighted: false,
             keyOutcomes: ["GPA 3.8/4.5 (Top 5%)", "交付校地合作小程序"],
+            audienceTags: ["hr"],
+            businessValue: {
+                zh: "形成数据与工程复合背景，为后续项目交付打基础。",
+                en: "Built a strong data + engineering foundation for delivery work."
+            },
+            engineeringDepth: {
+                zh: "体现系统性学习与项目实践能力。",
+                en: "Represents structured learning and project execution ability."
+            },
+            verification: [
+                {
+                    sourceType: "manual",
+                    sourceLabel: "教育经历与荣誉记录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "medium",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "本科阶段系统学习计算机科学与大数据技术。",
                 result: "GPA 3.8/4.5，获校级三好学生、优秀学生干部、院级奖学金等多项荣誉。",
@@ -259,6 +433,25 @@ export const defaultPortfolioData: PortfolioData = {
                 "Email Ad Cleaner 覆盖 8 个邮箱入口与规则库（18 域名词/21 发件人词/8 退订词）",
                 "Bookmark Organizer 并发 3、限速 5 req/s、重试 3 次"
             ],
+            audienceTags: ["jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "用最小权限与稳定注入降低高频重复操作成本。",
+                en: "Cuts repetitive workflow cost through minimal-permission browser automation."
+            },
+            engineeringDepth: {
+                zh: "包含 Worker 下沉、注入重试、限速重试等可复用工程模式。",
+                en: "Includes reusable patterns for worker offloading, reinjection, and retry throttling."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "仓库代码与功能清单",
+                    sourceUrl: "https://github.com/icefunicu?tab=repositories",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "为提升开发效率与浏览体验，整理浏览器扩展与用户脚本工具集，覆盖书签整理、术语侧边栏、邮箱广告清理、代码托管平台增强与沉浸式阅读。",
                 problem: "需要在不同站点与 SPA 路由下稳定注入，同时控制权限与外部请求成本，并在 AI 不稳定时保持可用。",
@@ -286,6 +479,25 @@ export const defaultPortfolioData: PortfolioData = {
                 "【多模态优化】Pillow 压缩 + Context Trimming + `lru_cache`，Token 成本降低 40%，图片上传成功率 99%+"
             ],
             keyOutcomes: ["API 吞吐量提升 5x+", "日志读取稳定 10ms 级", "Token 成本降低 40%"],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "提高自动化助手稳定性并显著降低模型调用成本。",
+                en: "Improves assistant reliability while significantly lowering model cost."
+            },
+            engineeringDepth: {
+                zh: "体现异步架构改造、I/O 解耦与多模态成本治理。",
+                en: "Demonstrates async architecture migration and multimodal cost governance."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "wechat-bot 提交记录与文档",
+                    sourceUrl: "https://github.com/icefunicu/wechat-bot",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "微信自动化机器人需要长期稳定运行，涉及消息轮询、模型调用、日志管理与多模态输入。",
                 problem: "阻塞 I/O 与大日志读取拖慢响应；多模态 Token 成本高且图片限制影响可用性。",
@@ -312,6 +524,24 @@ export const defaultPortfolioData: PortfolioData = {
                 "【云服务】集成微信支付、阿里云短信、OSS 对象存储"
             ],
             keyOutcomes: ["支持视频点播", "支付功能上线"],
+            audienceTags: ["jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "提供课程、支付、内容服务一体化能力，支撑校内业务运营。",
+                en: "Delivers integrated learning, payment, and content workflows for campus usage."
+            },
+            engineeringDepth: {
+                zh: "体现鉴权网关、缓存一致性与业务模块化设计。",
+                en: "Shows gateway auth, cache consistency, and modular service design."
+            },
+            verification: [
+                {
+                    sourceType: "manual",
+                    sourceLabel: "项目交付与上线记录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "medium",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "校园内缺乏一个集课程点播、直播、互动于一体的综合性学习平台。",
                 problem: "现有平台功能单一，无法满足学生多样化的学习需求，且并发性能较差。",
@@ -339,6 +569,25 @@ export const defaultPortfolioData: PortfolioData = {
                 "【社交登录】提供多元化登录方式"
             ],
             keyOutcomes: ["实现文件秒传", "支持视频在线倍速播放"],
+            audienceTags: ["jobSeeker", "partner"],
+            businessValue: {
+                zh: "构建可分享、可播放、可扩展的文件服务体验。",
+                en: "Builds a shareable and scalable file service experience."
+            },
+            engineeringDepth: {
+                zh: "体现文件去重、转码链路与缓存性能优化。",
+                en: "Demonstrates deduplication, transcoding pipeline, and cache optimization."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "easyCloudPan 仓库",
+                    sourceUrl: "https://github.com/icefunicu/easyCloudPan",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
             expandedDetails: {
                 background: "个人文件存储与分享在局域网/公网环境下需求大，但商业网盘限速严重。",
                 problem: "自建网盘往往功能简陋，缺乏视频转码、断点续传等高级功能。",
@@ -392,7 +641,8 @@ export const defaultPortfolioData: PortfolioData = {
             description: "从高性能后端架构到流畅的前端交互，构建企业级 Web 应用。擅长 Spring Boot + React/Next.js 技术栈，确保高可用与安全性。",
             icon: "Layout",
             techStack: ["React/Next.js", "Spring Boot", "PostgreSQL"],
-            gradient: "from-blue-500/10 to-indigo-500/10"
+            gradient: "from-blue-500/10 to-indigo-500/10",
+            milestones: ["需求澄清", "技术方案", "里程碑交付", "联调验收"]
         },
         {
             id: "svc-ai-integration",
@@ -400,7 +650,8 @@ export const defaultPortfolioData: PortfolioData = {
             description: "将 LLM 能力（GPT-4/Claude）集成到现有业务流中。提供 RAG 知识库搭建、Agent 智能代理开发及 Prompt 优化服务。",
             icon: "Bot",
             techStack: ["LangChain", "LLM APIs", "RAG", "Vector DB"],
-            gradient: "from-purple-500/10 to-fuchsia-500/10"
+            gradient: "from-purple-500/10 to-fuchsia-500/10",
+            milestones: ["场景梳理", "PoC 验证", "成本评估", "灰度上线"]
         },
         {
             id: "svc-performance",
@@ -408,7 +659,8 @@ export const defaultPortfolioData: PortfolioData = {
             description: "诊断并解决系统瓶颈。包括 SQL 慢查询治理、接口响应提速、JVM 调优及高并发场景下的架构改进。",
             icon: "Zap",
             techStack: ["MySQL Tuning", "Redis", "System Design"],
-            gradient: "from-amber-500/10 to-orange-500/10"
+            gradient: "from-amber-500/10 to-orange-500/10",
+            milestones: ["基线采样", "瓶颈定位", "方案实施", "压测复核"]
         },
         {
             id: "svc-automation",
@@ -416,7 +668,8 @@ export const defaultPortfolioData: PortfolioData = {
             description: "构建自动化脚本与数据管道，提升业务效率。包含爬虫数据采集、ETL 数据清洗及各类办公流程自动化。",
             icon: "Workflow",
             techStack: ["Python", "Pandas", "Automation", "ETL"],
-            gradient: "from-emerald-500/10 to-teal-500/10"
+            gradient: "from-emerald-500/10 to-teal-500/10",
+            milestones: ["流程评估", "自动化设计", "试运行", "稳定运维"]
         }
     ],
 
@@ -435,6 +688,56 @@ export const defaultPortfolioData: PortfolioData = {
         ],
         resumeButtonText: "下载简历 PDF",
         ctaText: "开始合作",
-        wechat: "w2041487752"
-    }
+        wechat: "w2041487752",
+        responseSlaText: "通常在 24 小时内回复（工作日更快）",
+        visibility: {
+            defaultExpanded: false,
+            showPhoneByDefault: false,
+            showWechatByDefault: false
+        },
+        consultationChecklist: [
+            "业务目标与上线时间",
+            "当前系统或技术栈现状",
+            "预算范围与协作方式"
+        ]
+    },
+
+    audienceCards: [
+        {
+            id: "hr",
+            title: "HR",
+            focus: "快速判断岗位匹配度与候选人稳定性",
+            targetSection: "experience",
+            primaryCTA: "查看履历证据",
+            secondaryCTA: "下载简历 PDF",
+            highlightMetrics: ["可立即入职", "关键指标可复核", "履历与项目闭环"]
+        },
+        {
+            id: "jobSeeker",
+            title: "求职者",
+            focus: "理解技术成长路径与工程方法复用",
+            targetSection: "projects",
+            primaryCTA: "查看项目拆解",
+            secondaryCTA: "查看技术取舍",
+            highlightMetrics: ["STAR 叙事", "性能/成本指标", "工程化实践"]
+        },
+        {
+            id: "partner",
+            title: "合作伙伴",
+            focus: "确认协作模式、边界与交付节奏",
+            targetSection: "services",
+            primaryCTA: "查看合作能力",
+            secondaryCTA: "查看里程碑",
+            highlightMetrics: ["PoC 到交付", "需求澄清机制", "可验收里程碑"]
+        },
+        {
+            id: "client",
+            title: "客户",
+            focus: "直达业务价值、风险控制与沟通入口",
+            targetSection: "contact",
+            primaryCTA: "进入联系通道",
+            secondaryCTA: "查看沟通准备项",
+            highlightMetrics: ["性能与成本收益", "上线风险可控", "响应 SLA 明确"]
+        }
+    ]
 };

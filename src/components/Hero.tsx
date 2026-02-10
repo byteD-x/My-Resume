@@ -125,7 +125,7 @@ export default function Hero({ data }: HeroProps) {
                     </div>
 
                     <div className="relative w-full lg:col-span-5">
-                        <HeroQuickFacts quickFacts={data.quickFacts} />
+                        <HeroQuickFacts quickFacts={data.quickFacts} roleSnapshot={data.roleSnapshot} />
                     </div>
                 </div>
 

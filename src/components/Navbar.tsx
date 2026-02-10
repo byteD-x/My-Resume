@@ -22,6 +22,7 @@ interface NavbarProps {
 }
 
 const navItems = [
+    { name: '角色入口', href: '#audience' },
     { name: '影响力', href: '#impact' },
     { name: '经历', href: '#experience' },
     { name: '技能', href: '#skills' },

@@ -4,6 +4,25 @@
 // Shared Types
 // ==========================================
 
+export type AudienceType = 'hr' | 'jobSeeker' | 'partner' | 'client';
+export type EvidenceLevel = 'strict' | 'estimated';
+
+export interface VerificationInfo {
+  sourceType: 'repo' | 'experience' | 'manual';
+  sourceLabel: string;
+  sourceUrl?: string;
+  verifiedAt: string;
+  confidence: 'high' | 'medium';
+  level: EvidenceLevel;
+  confidenceBasis?: string[]; // Optional explicit basis for confidence judgement.
+  confidenceReason?: string; // Optional explicit reason for confidence judgement.
+}
+
+export interface BilingualText {
+  zh: string;
+  en: string;
+}
+
 export interface ExperienceDetail {
   background?: string;     // 背景
   problem?: string;        // 问题
@@ -29,6 +48,10 @@ export interface BaseExperienceItem {
   keyOutcomes?: string[];  // 核心结果
   link?: string;           // Project link
   demoLink?: string;       // Project demo link
+  audienceTags?: AudienceType[]; // 面向角色
+  businessValue?: BilingualText; // 面向业务/客户视角
+  engineeringDepth?: BilingualText; // 面向工程/求职视角
+  verification?: VerificationInfo[]; // 证据来源
 }
 
 // ==========================================
@@ -65,6 +88,7 @@ export interface ImpactItem {
   bg?: string;
   isFocal?: boolean;
   githubRepo?: string;     // Optional: GitHub repo name (e.g. "icefunicu/wechat-bot") for dynamic stats
+  verification?: VerificationInfo;
 }
 
 // ==========================================
@@ -83,6 +107,14 @@ export interface QuickFacts {
   techStack: string[];
 }
 
+export interface RoleSnapshot {
+  primaryRole: string;
+  secondaryRole?: string;
+  availability: string;
+  location: string;
+  updatedAt: string;
+}
+
 export interface HeroData {
   name: string;
   title: string;           // 主标题
@@ -90,6 +122,7 @@ export interface HeroData {
   location?: string;       // 地点/远程说明
   bullets: HeroBullet[];   // 3 个核心能力点
   quickFacts?: QuickFacts; // "Quick Facts" 卡片数据
+  roleSnapshot?: RoleSnapshot; // 岗位匹配快照
 }
 
 // ==========================================
@@ -119,6 +152,7 @@ export interface ServiceItem {
   icon: string; // lucide icon name
   techStack?: string[]; // Optional tech stack badges
   gradient?: string; // Optional custom gradient for the card
+  milestones?: string[]; // 协作里程碑
 }
 
 // ==========================================
@@ -134,6 +168,23 @@ export interface ContactData {
   resumeButtonText?: string;  // 下载简历按钮文案
   ctaText?: string;           // CTA 文案
   wechat?: string;            // 微信号
+  responseSlaText?: string;   // 响应承诺文案
+  visibility?: {
+    defaultExpanded?: boolean;
+    showPhoneByDefault?: boolean;
+    showWechatByDefault?: boolean;
+  };
+  consultationChecklist?: string[]; // 咨询前准备项
+}
+
+export interface AudienceCard {
+  id: AudienceType;
+  title: string;
+  focus: string;
+  targetSection: 'experience' | 'projects' | 'services' | 'contact';
+  primaryCTA: string;
+  secondaryCTA?: string;
+  highlightMetrics: string[];
 }
 
 // ==========================================
@@ -142,7 +193,7 @@ export interface ContactData {
 
 export interface PortfolioData {
   hero: HeroData;
-  about: string;
+  about: BilingualText;
   impact: ImpactItem[];
   timeline: TimelineItem[];
   projects: ProjectItem[];
@@ -150,5 +201,6 @@ export interface PortfolioData {
   services: ServiceItem[];
   vibeCoding: VibeCodingData;
   contact: ContactData;
+  audienceCards: AudienceCard[];
 }
 

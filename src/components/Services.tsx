@@ -38,6 +38,15 @@ export default function Services({ services }: ServicesProps) {
                         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl">
                             以工程化思维解决复杂问题，提供从架构设计到落地的全栈解决方案。
                         </p>
+                        <div className="mt-4 inline-flex flex-wrap items-center gap-2 rounded-xl border border-slate-200/80 bg-white/80 px-3 py-2 text-xs font-semibold text-slate-600 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-300">
+                            <span>协作模式：需求澄清</span>
+                            <span>→</span>
+                            <span>PoC 验证</span>
+                            <span>→</span>
+                            <span>里程碑交付</span>
+                            <span>→</span>
+                            <span>验收复盘</span>
+                        </div>
                     </motion.div>
                 </div>
 
@@ -79,6 +88,19 @@ export default function Services({ services }: ServicesProps) {
                                                     {tech}
                                                 </span>
                                             ))}
+                                        </div>
+                                    )}
+
+                                    {service.milestones && service.milestones.length > 0 && (
+                                        <div className="mt-4 border-t border-slate-100 pt-4 text-xs text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                                            <div className="mb-2 font-semibold uppercase tracking-wider">里程碑</div>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {service.milestones.map((step) => (
+                                                    <span key={step} className="rounded-md bg-slate-100 px-2 py-1 dark:bg-slate-900/50">
+                                                        {step}
+                                                    </span>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
                                 </div>

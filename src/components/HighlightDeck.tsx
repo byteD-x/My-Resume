@@ -38,10 +38,15 @@ export default function HighlightDeck({ items, timeline = [] }: HighlightDeckPro
         return timeline.find((item) => item.id === selectedMetric.linkedExperienceId) ?? null;
     }, [selectedMetric, timeline]);
 
-    const displayItems = useMemo(() => {
-        if (!githubStats) return items;
+    const strictCoreItems = useMemo(() => {
+        const strictItems = items.filter((item) => item.verification?.level === 'strict');
+        return strictItems.length > 0 ? strictItems : items;
+    }, [items]);
 
-        return items.map((item) => {
+    const displayItems = useMemo(() => {
+        if (!githubStats) return strictCoreItems;
+
+        return strictCoreItems.map((item) => {
             if (item.githubRepo && githubStats.specificRepos) {
                 const repoName = item.githubRepo.split('/')[1] || item.githubRepo;
                 const matched = githubStats.specificRepos.find((repo) => repo.name === repoName);
@@ -56,7 +61,7 @@ export default function HighlightDeck({ items, timeline = [] }: HighlightDeckPro
 
             return item;
         });
-    }, [githubStats, items]);
+    }, [githubStats, strictCoreItems]);
 
     useEffect(() => {
         if (isStaticExport) return;
@@ -180,6 +185,13 @@ export default function HighlightDeck({ items, timeline = [] }: HighlightDeckPro
                                             >
                                                 {item.description}
                                             </p>
+                                        )}
+
+                                        {item.verification && (
+                                            <div className="mb-3 inline-flex items-center gap-1 rounded-full border border-emerald-200/70 bg-emerald-50/90 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:border-emerald-800/70 dark:bg-emerald-900/20 dark:text-emerald-300">
+                                                已验证
+                                                <span className="opacity-70">· {item.verification.verifiedAt}</span>
+                                            </div>
                                         )}
 
                                         <div

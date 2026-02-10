@@ -7,8 +7,10 @@ const rootDir = path.join(__dirname, '..');
 const appDir = path.join(rootDir, 'src', 'app');
 const modalDir = path.join(appDir, '@modal');
 const interceptDir = path.join(modalDir, '(.)experiences');
+const interceptSlugDir = path.join(interceptDir, '[slug]');
 const stashDir = path.join(rootDir, 'src', '__app_disabled__');
 const stashInterceptDir = path.join(stashDir, '(.)experiences');
+const stashInterceptSlugDir = path.join(stashDir, 'intercept-slug');
 const nextDir = path.join(rootDir, '.next');
 const outDir = path.join(rootDir, 'out');
 
@@ -42,23 +44,43 @@ if (!env.NEXT_PUBLIC_SITE_URL && inferredSiteUrl) {
 function moveModalOut() {
     if (!fs.existsSync(interceptDir)) {
         console.log('No intercepting route directory found. Skipping removal.');
-        return false;
+        return { mode: 'none' };
     }
-    if (fs.existsSync(stashInterceptDir)) {
+    if (fs.existsSync(stashInterceptDir) || fs.existsSync(stashInterceptSlugDir)) {
         throw new Error('Stash directory already exists. Restore it before building.');
     }
     fs.mkdirSync(stashDir, { recursive: true });
-    fs.renameSync(interceptDir, stashInterceptDir);
-    console.log('Temporarily moved intercepting routes for export.');
-    return true;
+
+    try {
+        fs.renameSync(interceptDir, stashInterceptDir);
+        console.log('Temporarily moved intercepting routes for export.');
+        return { mode: 'dir' };
+    } catch (error) {
+        const isPermissionIssue = error && error.code === 'EPERM';
+        if (!isPermissionIssue || !fs.existsSync(interceptSlugDir)) {
+            throw error;
+        }
+
+        // Windows fallback: when top-level intercept dir cannot be renamed, disable by moving nested route.
+        fs.renameSync(interceptSlugDir, stashInterceptSlugDir);
+        console.log('Fallback: moved intercepting [slug] route for export.');
+        return { mode: 'slug' };
+    }
 }
 
 function restoreModal(moved) {
-    if (!moved) return;
-    if (fs.existsSync(stashInterceptDir)) {
+    if (!moved || moved.mode === 'none') return;
+
+    if (moved.mode === 'dir' && fs.existsSync(stashInterceptDir)) {
         fs.renameSync(stashInterceptDir, interceptDir);
         console.log('Restored intercepting routes after export build.');
     }
+
+    if (moved.mode === 'slug' && fs.existsSync(stashInterceptSlugDir)) {
+        fs.renameSync(stashInterceptSlugDir, interceptSlugDir);
+        console.log('Restored intercepting [slug] route after export build.');
+    }
+
     if (fs.existsSync(stashDir) && fs.readdirSync(stashDir).length === 0) {
         fs.rmdirSync(stashDir);
     }

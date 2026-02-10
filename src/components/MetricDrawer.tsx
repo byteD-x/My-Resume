@@ -5,6 +5,7 @@ import { AnimatePresence, m as motion } from 'framer-motion';
 import { ExternalLink, X } from 'lucide-react';
 import { ImpactItem, TimelineItem } from '@/types';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { evaluateVerificationConfidence } from '@/lib/verification';
 
 interface MetricDrawerProps {
     isOpen: boolean;
@@ -53,6 +54,9 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
     if (!metric) return null;
 
     const details = linkedExperience?.expandedDetails;
+    const verificationAssessment = metric.verification
+        ? evaluateVerificationConfidence(metric.verification)
+        : null;
 
     return (
         <AnimatePresence>
@@ -117,6 +121,48 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                                 <div>
                                     <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">概述</h3>
                                     <p style={{ color: 'var(--text-secondary)' }}>{metric.description}</p>
+                                </div>
+                            )}
+
+                            {metric.verification && (
+                                <div className="rounded-xl border border-emerald-200/70 bg-emerald-50/70 p-4 dark:border-emerald-900/50 dark:bg-emerald-900/10">
+                                    <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+                                        证据口径
+                                    </h3>
+                                    <p className="text-sm text-emerald-800 dark:text-emerald-200">{metric.verification.sourceLabel}</p>
+                                    <p className="mt-1 text-xs text-emerald-700/80 dark:text-emerald-300/80">
+                                        置信度：{verificationAssessment?.confidenceText} · 验证时间：{metric.verification.verifiedAt}
+                                    </p>
+                                    {verificationAssessment && verificationAssessment.basis.length > 0 && (
+                                        <div className="mt-3">
+                                            <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">判定依据</p>
+                                            <ul className="mt-1 space-y-1 text-xs text-emerald-800/90 dark:text-emerald-200/90">
+                                                {verificationAssessment.basis.map((basisItem, index) => (
+                                                    <li key={`${basisItem}-${index}`} className="flex items-start gap-1.5">
+                                                        <span className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-emerald-600/90 dark:bg-emerald-300/90" />
+                                                        <span>{basisItem}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {verificationAssessment && (
+                                        <p className="mt-2 text-xs leading-relaxed text-emerald-800/90 dark:text-emerald-200/90">
+                                            <span className="font-semibold">判定原因：</span>
+                                            {verificationAssessment.reason}
+                                        </p>
+                                    )}
+                                    {metric.verification.sourceUrl && (
+                                        <a
+                                            href={metric.verification.sourceUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline dark:text-emerald-300"
+                                        >
+                                            查看来源
+                                            <ExternalLink size={12} />
+                                        </a>
+                                    )}
                                 </div>
                             )}
 

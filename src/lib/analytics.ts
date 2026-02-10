@@ -71,6 +71,67 @@ export const trackCTAClick = (ctaName: string, ctaLocation: string): void => {
     }
 };
 
+// Track audience-path routing behavior
+export const trackAudiencePathSelect = (
+    audience: 'hr' | 'jobSeeker' | 'partner' | 'client',
+    targetSection: string,
+    success: boolean,
+): void => {
+    if (!analyticsEnabled) return;
+    try {
+        ReactGA.event({
+            category: 'AudiencePath',
+            action: success ? 'navigate_success' : 'navigate_failed',
+            label: `${audience}:${targetSection}`,
+            nonInteraction: false,
+            transport: 'beacon',
+        });
+
+        ReactGA.event('select_content', {
+            content_type: 'audience_path',
+            item_id: audience,
+            content_id: targetSection,
+            success,
+        });
+    } catch {
+        // Never block user interactions due to analytics errors.
+    }
+};
+
+// Track role specific section exposure
+export const trackRoleSectionView = (
+    role: 'hr' | 'jobSeeker' | 'partner' | 'client',
+    sectionId: string,
+): void => {
+    if (!analyticsEnabled) return;
+    try {
+        ReactGA.event({
+            category: 'AudiencePath',
+            action: 'section_view',
+            label: `${role}:${sectionId}`,
+            nonInteraction: true,
+        });
+    } catch {
+        // Never block user interactions due to analytics errors.
+    }
+};
+
+// Track reveal action for private contact channels
+export const trackContactReveal = (channel: 'phone' | 'wechat' | 'all'): void => {
+    if (!analyticsEnabled) return;
+    try {
+        ReactGA.event({
+            category: 'Contact',
+            action: 'reveal_private_channel',
+            label: channel,
+            nonInteraction: false,
+            transport: 'beacon',
+        });
+    } catch {
+        // Never block user interactions due to analytics errors.
+    }
+};
+
 // Track project evidence CTA clicks
 export const trackProjectEvidenceClick = (ctaLocation: string): void => {
     if (!analyticsEnabled) return;

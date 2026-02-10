@@ -7,13 +7,14 @@ import { HERO_ANIMATION, EASING_CURVES } from '@/config/animation';
 
 interface HeroQuickFactsProps {
     quickFacts?: HeroData['quickFacts'];
+    roleSnapshot?: HeroData['roleSnapshot'];
 }
 
 /**
  * Hero 快速信息卡片组件
  * 显示角色、入职时间、技术栈等核心信息
  */
-export function HeroQuickFacts({ quickFacts }: HeroQuickFactsProps) {
+export function HeroQuickFacts({ quickFacts, roleSnapshot }: HeroQuickFactsProps) {
     const defaultQuickFacts = {
         role: "后端 / 全栈 / AI 工程",
         availability: "可立即入职",
@@ -45,7 +46,10 @@ export function HeroQuickFacts({ quickFacts }: HeroQuickFactsProps) {
                     </div>
                     <div>
                         <div className="text-xs uppercase text-slate-400 font-semibold mb-1">岗位方向</div>
-                        <div className="text-lg font-bold text-slate-900">{facts.role}</div>
+                        <div className="text-lg font-bold text-slate-900">{roleSnapshot?.primaryRole || facts.role}</div>
+                        {roleSnapshot?.secondaryRole && (
+                            <div className="mt-1 text-sm text-slate-500">{roleSnapshot.secondaryRole}</div>
+                        )}
                     </div>
                 </div>
 
@@ -55,7 +59,10 @@ export function HeroQuickFacts({ quickFacts }: HeroQuickFactsProps) {
                     </div>
                     <div>
                         <div className="text-xs uppercase text-slate-400 font-semibold mb-1">入职时间</div>
-                        <div className="text-lg font-bold text-emerald-600">{facts.availability}</div>
+                        <div className="text-lg font-bold text-emerald-600">{roleSnapshot?.availability || facts.availability}</div>
+                        {roleSnapshot?.location && (
+                            <div className="mt-1 text-xs text-slate-500">{roleSnapshot.location}</div>
+                        )}
                     </div>
                 </div>
 
@@ -72,6 +79,12 @@ export function HeroQuickFacts({ quickFacts }: HeroQuickFactsProps) {
                         ))}
                     </div>
                 </div>
+
+                {roleSnapshot?.updatedAt && (
+                    <div className="pt-4 border-t border-slate-100 text-xs text-slate-400">
+                        数据更新：{roleSnapshot.updatedAt}
+                    </div>
+                )}
             </div>
         </motion.div>
     );

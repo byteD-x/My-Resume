@@ -4,9 +4,9 @@ const envSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || '').trim().replace(/\/+$
 
 export const siteConfig = {
     name: "杜旭嘉",
-    role: "后端工程师",
+    role: "全栈工程师（工程效率方向）",
     siteUrl: envSiteUrl || defaultSiteUrl,
-    description: "后端工程师 · AI 工程化 · 全栈开发 | 专注高并发架构与 LLM 应用落地",
+    description: "全栈工程师（工程效率方向）· AI 工程化 · 后端性能优化 | 专注可验证交付与业务价值落地",
     email: "2041487752dxj@gmail.com",
     ogImagePath: "/og.png",
 } as const;
