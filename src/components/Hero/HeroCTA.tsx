@@ -57,10 +57,10 @@ export function HeroCTA({ onViewProjects, downloadName, downloadUrl, onDownloadC
                 download={downloadName}
                 onClick={handleDownloadClick}
                 data-print="hide"
-                className="btn btn-primary px-8 py-3.5 text-base font-bold"
+                className="btn btn-primary whitespace-nowrap px-8 py-3.5 text-base font-bold"
                 aria-label="Download resume PDF"
             >
-                <Download size={20} className="mr-2.5" />
+                <Download size={20} className="shrink-0" />
                 下载简历 PDF
             </a>
 
@@ -68,10 +68,10 @@ export function HeroCTA({ onViewProjects, downloadName, downloadUrl, onDownloadC
                 type="button"
                 onClick={handleViewProjects}
                 disabled={!isHydrated}
-                className="btn btn-secondary px-8 py-3.5 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-60"
+                className="btn btn-secondary whitespace-nowrap px-8 py-3.5 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-60"
                 aria-label="View project evidence / 查看项目证据"
             >
-                <ArrowDownToLine size={20} className="mr-2.5" />
+                <ArrowDownToLine size={20} className="shrink-0" />
                 查看项目证据
             </button>
         </motion.div>

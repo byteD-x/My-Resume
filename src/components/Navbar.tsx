@@ -206,30 +206,30 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={handleGithubClick}
-                            className="rounded-full p-3 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-100 hover:text-slate-900"
                             aria-label="访问 GitHub 主页"
                         >
-                            <Github size={20} />
+                            <Github size={18} className="shrink-0" />
                         </a>
 
                         <a
                             href={resumeDownloadUrl}
                             download={resumeFileName}
                             onClick={handleResumeClick}
-                            className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
+                            className="btn btn-secondary gap-2 whitespace-nowrap px-5 py-2.5 text-sm font-semibold"
                             aria-label="下载简历 PDF"
                         >
-                            <Download size={16} />
+                            <Download size={18} className="shrink-0" />
                             下载简历
                         </a>
 
                         <button
                             type="button"
                             onClick={handleContactClick}
-                            className="btn btn-primary gap-2 px-5 py-2.5 text-sm font-semibold"
+                            className="btn btn-primary gap-2 whitespace-nowrap px-5 py-2.5 text-sm font-semibold"
                             aria-label="联系我"
                         >
-                            <Mail size={16} />
+                            <Mail size={18} className="shrink-0" />
                             联系我
                         </button>
                     </div>
@@ -335,7 +335,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     }}
                                     className="btn btn-primary w-full py-3.5 font-bold"
                                 >
-                                    <Mail size={18} />
+                                    <Mail size={18} className="shrink-0" />
                                     联系我
                                 </button>
 
@@ -345,6 +345,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     onClick={handleResumeClick}
                                     className="btn btn-secondary w-full py-3.5 font-semibold"
                                 >
+                                    <Download size={18} className="shrink-0" />
                                     下载简历
                                 </a>
 
@@ -354,10 +355,10 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         onClick={handleGithubClick}
-                                        className="rounded-full bg-slate-100 p-3 text-slate-600"
+                                        className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-600"
                                         aria-label="打开 GitHub"
                                     >
-                                        <Github size={20} />
+                                        <Github size={18} className="shrink-0" />
                                     </a>
                                 </div>
                             </div>

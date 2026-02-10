@@ -66,6 +66,7 @@ const stopListening = () => {
         window.cancelAnimationFrame(frameId);
         frameId = null;
     }
+    state = initialState;
 };
 
 export function subscribeScrollObserver(listener: () => void): () => void {
@@ -97,7 +98,8 @@ export function useScrollObserverState(): ScrollObserverState {
  * This avoids re-rendering UI on every scroll frame for simple show/hide states.
  */
 export function useScrollPastThreshold(threshold: number): boolean {
-    const [isPast, setIsPast] = useState(() => getScrollObserverSnapshot().y > threshold);
+    // Keep SSR and first client render deterministic to avoid hydration mismatch.
+    const [isPast, setIsPast] = useState(false);
 
     useEffect(() => {
         const syncThreshold = () => {
@@ -105,8 +107,9 @@ export function useScrollPastThreshold(threshold: number): boolean {
             setIsPast((prev) => (prev === next ? prev : next));
         };
 
+        const unsubscribe = subscribeScrollObserver(syncThreshold);
         syncThreshold();
-        return subscribeScrollObserver(syncThreshold);
+        return unsubscribe;
     }, [threshold]);
 
     return isPast;

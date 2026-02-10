@@ -178,13 +178,13 @@ export default function Contact({ contactData }: ContactProps) {
                                         </p>
                                     </div>
 
-                                    <div className="flex flex-col items-center justify-center gap-4 sm:flex-row md:justify-start">
-                                        <div className="flex flex-col items-center gap-3 sm:flex-row">
+                                    <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap md:justify-start">
+                                        <div className="flex shrink-0 flex-col items-center gap-3 sm:flex-row">
                                             <a
                                                 href={mailtoHref}
-                                                className="inline-flex items-center gap-2.5 rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                                className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 dark:bg-blue-600 dark:hover:bg-blue-500"
                                             >
-                                                <Mail size={18} className="text-white" />
+                                                <Mail size={18} className="shrink-0 text-white" />
                                                 <span>发送邮件</span>
                                             </a>
                                             <button
@@ -193,10 +193,10 @@ export default function Contact({ contactData }: ContactProps) {
                                                     trackAppointmentModalOpen();
                                                     setIsAppointmentOpen(true);
                                                 }}
-                                                className="inline-flex items-center gap-2.5 rounded-xl border border-blue-200 bg-blue-50 px-6 py-3.5 text-base font-semibold text-blue-700 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100 active:translate-y-0 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:border-blue-700 dark:hover:bg-blue-900/50"
+                                                className="inline-flex items-center gap-2.5 whitespace-nowrap rounded-xl border border-blue-200 bg-blue-50 px-6 py-3.5 text-base font-semibold text-blue-700 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100 active:translate-y-0 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:border-blue-700 dark:hover:bg-blue-900/50"
                                                 aria-label="预约沟通"
                                             >
-                                                <Calendar size={18} />
+                                                <Calendar size={18} className="shrink-0" />
                                                 <span>预约沟通</span>
                                             </button>
                                         </div>
