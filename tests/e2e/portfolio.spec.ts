@@ -24,22 +24,30 @@ test.describe('Portfolio E2E', () => {
         await expect(page.locator('#contact')).toBeVisible();
     });
 
+    test('hero should present positioning and quantified outcomes', async ({ page }) => {
+        await expect(page.getByRole('heading', { level: 1, name: '全栈工程师（工程效率方向）' })).toBeVisible();
+        await expect(page.getByText('关键查询 20s → 4s（性能提升 5x）')).toBeVisible();
+        await expect(page.getByText('异步改造后 API 吞吐提升 5x+，日志内存 <10MB')).toBeVisible();
+        await expect(page.getByText('多模态链路优化后 Token 成本下降 40%，图片上传成功率 99%+')).toBeVisible();
+        await expect(page.getByRole('button', { name: /查看项目证据|project evidence/i })).toBeVisible();
+        await expect(page.getByText('以上指标均可在项目详情与仓库中复核。')).toBeVisible();
+    });
+
     test('resume download link should be valid', async ({ page }) => {
         const downloadLink = page.getByRole('link', { name: /下载|简历|resume|pdf/i }).first();
         await expect(downloadLink).toBeVisible();
         await expect(downloadLink).toHaveAttribute('href', /^\/(?:api\/resume(?:\?filename=.+)?|resume\.pdf)$/);
     });
 
-    test('appointment modal should open and close with escape', async ({ page }) => {
-        const appointmentButton = page.getByRole('button', { name: /预约|面谈|appointment|interview/i }).first();
-        await expect(appointmentButton).toBeVisible();
+    test('hero project evidence cta should scroll to projects section', async ({ page }) => {
+        const projectsSection = page.locator('#projects');
+        await expect(projectsSection).not.toBeInViewport();
 
-        await appointmentButton.click();
-        const modal = page.getByRole('dialog').first();
-        await expect(modal).toBeVisible();
+        const projectEvidenceButton = page.getByRole('button', { name: /查看项目证据|project evidence/i }).first();
+        await expect(projectEvidenceButton).toBeVisible();
+        await projectEvidenceButton.click();
 
-        await page.keyboard.press('Escape');
-        await expect(modal).not.toBeVisible();
+        await expect(projectsSection).toBeInViewport({ timeout: 5000 });
     });
 
     test('legacy editor entry points should not exist', async ({ page }) => {

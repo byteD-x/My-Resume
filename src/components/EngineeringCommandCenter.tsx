@@ -16,6 +16,7 @@ import {
     RuntimeMetric,
     subscribeRuntimeSnapshot,
 } from '@/lib/runtime-metrics-store';
+import staticGithubTelemetry from '@/data/github-telemetry.json';
 
 type TelemetryState = 'idle' | 'loading' | 'ready' | 'error';
 
@@ -81,8 +82,10 @@ const deployTargetLabelMap: Record<string, string> = {
 
 export default function EngineeringCommandCenter() {
     const [isOpen, setIsOpen] = useState(false);
-    const [githubTelemetry, setGithubTelemetry] = useState<GitHubTelemetryPayload>(fallbackGithubTelemetry);
-    const [telemetryState, setTelemetryState] = useState<TelemetryState>('idle');
+    const [githubTelemetry, setGithubTelemetry] = useState<GitHubTelemetryPayload>(
+        isStaticExport ? (staticGithubTelemetry as GitHubTelemetryPayload) : fallbackGithubTelemetry
+    );
+    const [telemetryState, setTelemetryState] = useState<TelemetryState>(isStaticExport ? 'ready' : 'idle');
     const isHydrated = useHydrated();
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const panelRef = useFocusTrap<HTMLDivElement>(isOpen, {
@@ -99,11 +102,14 @@ export default function EngineeringCommandCenter() {
 
     const fetchTelemetry = useCallback(async (options?: { force?: boolean }) => {
         if (isStaticExport) {
-            setTelemetryState('error');
-            setGithubTelemetry({
-                ...fallbackGithubTelemetry,
-                message: '静态导出模式不包含实时 GitHub 接口。',
-            });
+            // In static export, we use build-time data.
+            // We can optionally try to fetch fresh data if force is true, but usually static is static.
+            if (options?.force) {
+                // Try to fetch, but if it fails (CORS/404), revert to static data usually.
+                // For now, just keep using static data to avoid error messages.
+                setTelemetryState('ready');
+                setGithubTelemetry(staticGithubTelemetry as GitHubTelemetryPayload);
+            }
             return;
         }
 

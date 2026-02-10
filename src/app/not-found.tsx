@@ -34,12 +34,14 @@ export default function NotFound() {
 
                     {/* 错误信息 */}
                     <h2 className="text-2xl font-bold text-slate-900 mb-3">
-                        页面未找到
+                        页面被垃圾回收了 (GC)
                     </h2>
-                    <p className="text-slate-600 mb-8 leading-relaxed">
-                        抱歉，您访问的页面不存在或已被移动。
+                    <p className="text-slate-600 mb-8 leading-relaxed font-mono text-sm bg-slate-100 p-4 rounded-lg text-left">
+                        {`> Error: 404 Not Found`}
                         <br />
-                        请检查 URL 是否正确，或返回首页继续浏览。
+                        {`> Reason: Object reference not set to an instance of an object.`}
+                        <br />
+                        {`> Solution: Return to safe execution context (Home).`}
                     </p>
 
                     {/* 操作按钮 */}

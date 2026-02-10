@@ -71,6 +71,28 @@ export const trackCTAClick = (ctaName: string, ctaLocation: string): void => {
     }
 };
 
+// Track project evidence CTA clicks
+export const trackProjectEvidenceClick = (ctaLocation: string): void => {
+    if (!analyticsEnabled) return;
+    try {
+        ReactGA.event({
+            category: 'CTA',
+            action: 'click',
+            label: 'project_evidence',
+            nonInteraction: false,
+            transport: 'beacon',
+        });
+
+        ReactGA.event('select_content', {
+            content_type: 'project_evidence',
+            item_id: 'project_evidence_click',
+            content_id: ctaLocation,
+        });
+    } catch {
+        // Never block user interactions due to analytics errors.
+    }
+};
+
 // Track scroll depth milestones
 export const trackScrollDepth = (percentage: number): void => {
     if (!analyticsEnabled) return;

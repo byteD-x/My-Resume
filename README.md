@@ -59,7 +59,24 @@
 | **动画** | Framer Motion 12+ |
 | **UI 组件** | Lucide React |
 | **分析** | React GA4 |
-| **测试** | Playwright |
+| **测试** | Playwright (E2E), Vitest (Unit) |
+
+---
+
+## 🧠 技术决策 (Technical Decisions)
+
+### 为什么选择 Next.js 16 (App Router)?
+虽然 Next.js 16 较新，但其 Server Components (RSC) 架构为静态导出提供了极佳的性能基础。本项目采用 **Static Export** 模式，配合 RSC，既享受了 React 的组件化开发体验，又最终生成了轻量级的静态 HTML，确保 GitHub Pages 的加载速度达到极致 (LCP < 1s)。
+
+### 为什么选择 Tailwind CSS v4?
+Tailwind v4 带来了显著的构建速度提升（基于 Rust 的引擎）和更小的 CSS 包体积。虽然处于早期阶段，但对于追求“工程前沿”的个人作品集来说，这是一个展示对新技术敏感度的绝佳机会。
+
+### 为什么采用各种“过度设计” (Engineering Command Center)?
+项目中的 **工程实力中枢** 并非仅为了展示数据，而是为了演示：
+1. **复杂状态管理**：处理实时/静态数据的降级策略。
+2. **构建时与运行时分离**：在静态构建中注入数据。
+3. **可访问性细节**：全键盘导航支持与无障碍标签。
+这也是作为后端/全栈工程师，对“系统可观测性”的一种前端映射。
 
 ---
 
@@ -132,7 +149,7 @@ GITHUB_TOKEN=ghp_xxx
 - 滚动深度 (25%, 50%, 75%, 100%)
 - CTA 按钮点击
 - 简历下载
-- 预约表单提交
+- 项目证据按钮点击
 - 外链点击
 
 ---
@@ -155,7 +172,7 @@ npm run test:e2e:ui
 **测试覆盖范围：**
 - Hero 区域加载与渲染
 - CTA 按钮交互
-- 预约模态框打开/关闭
+- 首屏“查看项目证据”按钮跳转
 - 导航链接功能
 - 滚动进度条响应
 - 可访问性检查 (WCAG)
@@ -275,4 +292,3 @@ MIT License
 - 📧 Email: 2041487752dxj@gmail.com
 - 💻 GitHub: [@icefunicu](https://github.com/icefunicu)
 - 🌐 Website: [https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
-

@@ -33,6 +33,9 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Check formatting
+        run: npm run format:check
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -53,6 +56,9 @@ jobs:
 
       - name: Run Playwright tests
         run: npm run test:e2e
+
+      - name: Run Unit Tests
+        run: npm run test:unit
 
       - name: Upload test results
         uses: actions/upload-artifact@v4

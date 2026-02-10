@@ -101,7 +101,7 @@ export function ExperienceCard({ item, type, hideDate = false }: ExperienceCardP
                                     }}
                                     className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all hover:scale-105"
                                     aria-label="GitHub"
-                                    title="View Source"
+                                    title="查看源码"
                                 >
                                     <Github size={16} strokeWidth={2} />
                                 </button>
@@ -116,7 +116,7 @@ export function ExperienceCard({ item, type, hideDate = false }: ExperienceCardP
                                     }}
                                     className="p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all hover:scale-105"
                                     aria-label="Live Demo"
-                                    title="View Demo"
+                                    title="查看演示"
                                 >
                                     <ExternalLink size={16} strokeWidth={2} />
                                 </button>

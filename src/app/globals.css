@@ -692,7 +692,17 @@ h2 {
   footer,
   .no-print,
   .fixed,
-  .sticky {
+  .sticky,
+  button,
+  .btn,
+  /* Hide specific floating elements */
+  [aria-label="Engineering Command Center / 打开工程实力中枢"],
+  [aria-label="下载简历"],
+  /* Hide decorative blobs */
+  .blur-3xl,
+  .blur-2xl,
+  .blur-xl,
+  .pointer-events-none {
     display: none !important;
     visibility: hidden !important;
   }
@@ -703,6 +713,8 @@ h2 {
     text-shadow: none !important;
     filter: none !important;
     backdrop-filter: none !important;
+    transition: none !important;
+    animation: none !important;
   }
 
   /* Force all text to black for readability */
@@ -721,16 +733,29 @@ h2 {
   strong,
   em,
   b,
-  i {
+  i,
+  time {
     color: #000 !important;
     background: transparent !important;
   }
 
   /* Links - black with underline for print readability */
-  a,
-  a:visited {
+  a {
+    text-decoration: none !important;
     color: #000 !important;
-    text-decoration: underline !important;
+  }
+  
+  /* Show URL after links (optional, but good for handouts) */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555 !important;
+  }
+
+  /* Don't show URL for internal links or simple UI links */
+  a[href^="/"]::after,
+  a[href^="#"]::after {
+    content: "";
   }
 
   /* Container - full width for print */
@@ -738,15 +763,19 @@ h2 {
     max-width: 100% !important;
     padding: 0 !important;
     margin: 0 !important;
+    width: 100% !important;
   }
 
   /* Remove decorative backgrounds */
   section,
   article,
   main,
-  div {
-    background: transparent !important;
-    background-color: transparent !important;
+  div,
+  body,
+  html {
+    background: #fff !important;
+    background-color: #fff !important;
+    background-image: none !important;
   }
 
   /* Page break control */
@@ -755,6 +784,8 @@ h2 {
   .card {
     page-break-inside: avoid;
     break-inside: avoid;
+    margin-bottom: 20px;
+    border: none !important;
   }
 
   h1,
@@ -763,13 +794,9 @@ h2 {
   h4 {
     page-break-after: avoid;
     break-after: avoid;
-  }
-
-  /* Hide purely decorative blur backgrounds */
-  .blur-3xl,
-  .blur-2xl,
-  .blur-xl {
-    display: none !important;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-top: 20px;
   }
 }
 

@@ -22,10 +22,10 @@ interface NavbarProps {
 }
 
 const navItems = [
-    { name: 'Impact', href: '#impact' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Contact', href: '#contact' },
+    { name: '影响力', href: '#impact' },
+    { name: '经历', href: '#experience' },
+    { name: '技能', href: '#skills' },
+    { name: '联系', href: '#contact' },
 ];
 
 export default function Navbar({ heroData, contactData }: NavbarProps) {
@@ -139,7 +139,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                 <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.15)] animate-pulse" />
                                 Available
                             </div>
-                            <div className="text-xs font-medium text-slate-500">Backend / AI Engineer</div>
+                            <div className="text-xs font-medium text-slate-500">后端 / AI 工程师</div>
                         </div>
                     </button>
 
@@ -185,7 +185,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             aria-label="Download resume PDF"
                         >
                             <Download size={16} />
-                            Resume PDF
+                            下载简历
                         </a>
 
                         <button
@@ -195,7 +195,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             aria-label="Contact"
                         >
                             <Mail size={16} />
-                            Contact
+                            联系我
                         </button>
                     </div>
 
@@ -214,7 +214,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             )}
                         >
                             <Mail size={18} />
-                            <span className="sr-only">Contact</span>
+                            <span className="sr-only">联系</span>
                         </button>
 
                         <button
@@ -249,7 +249,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             className="fixed bottom-0 right-0 top-0 z-50 flex w-3/4 max-w-sm flex-col bg-white shadow-2xl md:hidden"
                         >
                             <div className="flex items-center justify-between border-b border-slate-100 p-5">
-                                <span className="text-lg font-bold text-slate-800">Menu</span>
+                                <span className="text-lg font-bold text-slate-800">菜单</span>
                                 <button
                                     type="button"
                                     onClick={() => setIsOpen(false)}
@@ -283,7 +283,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     className="btn btn-primary w-full py-3.5 font-bold"
                                 >
                                     <Mail size={18} />
-                                    Contact
+                                    联系我
                                 </button>
 
                                 <a
@@ -292,7 +292,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                     onClick={handleResumeClick}
                                     className="btn btn-secondary w-full py-3.5 font-semibold"
                                 >
-                                    Resume PDF
+                                    下载简历
                                 </a>
 
                                 <div className="flex justify-center gap-4">

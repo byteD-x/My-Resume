@@ -1,18 +1,18 @@
 'use client';
 
 import { m as motion } from 'framer-motion';
-import { Calendar as CalendarIcon, Download } from 'lucide-react';
+import { ArrowDownToLine, Download } from 'lucide-react';
 import { EASING_CURVES, HERO_ANIMATION } from '@/config/animation';
 import { useHydrated } from '@/hooks/useHydrated';
 import {
-    trackAppointmentModalOpen,
+    trackProjectEvidenceClick,
     trackCTAClick,
     trackResumeDownload,
 } from '@/lib/analytics';
 import type { ResumeDownloadClickEvent } from '@/lib/resume';
 
 interface HeroCTAProps {
-    onOpenModal: () => void;
+    onViewProjects: () => void;
     downloadName: string;
     downloadUrl: string;
     onDownloadClick?: (event: ResumeDownloadClickEvent) => void;
@@ -27,7 +27,7 @@ const fadeIn = {
     },
 };
 
-export function HeroCTA({ onOpenModal, downloadName, downloadUrl, onDownloadClick }: HeroCTAProps) {
+export function HeroCTA({ onViewProjects, downloadName, downloadUrl, onDownloadClick }: HeroCTAProps) {
     const isHydrated = useHydrated();
 
     const handleDownloadClick = (event: ResumeDownloadClickEvent) => {
@@ -36,10 +36,10 @@ export function HeroCTA({ onOpenModal, downloadName, downloadUrl, onDownloadClic
         onDownloadClick?.(event);
     };
 
-    const handleOpenModal = () => {
-        trackCTAClick('appointment_modal_open', 'hero');
-        trackAppointmentModalOpen();
-        onOpenModal();
+    const handleViewProjects = () => {
+        trackCTAClick('project_evidence_click', 'hero');
+        trackProjectEvidenceClick('hero');
+        onViewProjects();
     };
 
     return (
@@ -61,18 +61,18 @@ export function HeroCTA({ onOpenModal, downloadName, downloadUrl, onDownloadClic
                 aria-label="Download resume PDF"
             >
                 <Download size={20} className="mr-2.5" />
-                Download Resume PDF
+                下载简历 PDF
             </a>
 
             <button
                 type="button"
-                onClick={handleOpenModal}
+                onClick={handleViewProjects}
                 disabled={!isHydrated}
                 className="btn btn-secondary px-8 py-3.5 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-60"
-                aria-label="Appointment / 预约面谈"
+                aria-label="View project evidence / 查看项目证据"
             >
-                <CalendarIcon size={20} className="mr-2.5" />
-                Book Interview
+                <ArrowDownToLine size={20} className="mr-2.5" />
+                查看项目证据
             </button>
         </motion.div>
     );
