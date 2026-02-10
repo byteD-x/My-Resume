@@ -2,12 +2,13 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { m as motion } from 'framer-motion';
-import { Mail, Globe, Phone, Copy, Check, ExternalLink, MessageSquare, Eye } from 'lucide-react';
+import { Mail, Globe, Phone, Copy, Check, ExternalLink, MessageSquare, Eye, Calendar } from 'lucide-react';
 import { ContactData } from '@/types';
 import { ToastTrigger } from './Toast';
+import { AppointmentModal } from './AppointmentModal';
 import { Section } from './ui/Section';
 import { Container } from './ui/Container';
-import { trackContactReveal, trackExternalLink } from '@/lib/analytics';
+import { trackAppointmentModalOpen, trackContactReveal, trackExternalLink } from '@/lib/analytics';
 
 const GithubIcon = ({ size = 24, className }: { size?: number; className?: string }) => (
     <svg
@@ -43,6 +44,7 @@ interface ContactItem {
 
 export default function Contact({ contactData }: ContactProps) {
     const [copiedField, setCopiedField] = useState<string | null>(null);
+    const [isAppointmentOpen, setIsAppointmentOpen] = useState(false);
     const [showPrivateChannels, setShowPrivateChannels] = useState(
         contactData.visibility?.defaultExpanded ?? false,
     );
@@ -63,6 +65,12 @@ export default function Contact({ contactData }: ContactProps) {
             : contactData.website
               ? [contactData.website]
               : [];
+
+    const getWebsiteLabel = (url: string, index: number): string => {
+        if (url.includes('vercel.app')) return '在线简历（Vercel）';
+        if (url.includes('github.io')) return '在线简历（GitHub Pages）';
+        return websiteUrls.length > 1 ? `在线简历 ${index + 1}` : '在线简历';
+    };
 
     const emailSubject = '合作咨询 / 岗位沟通 - 杜旭嘉';
     const resumeLinks = websiteUrls.map((url) => `在线简历: ${url}`).join('\n');
@@ -95,7 +103,7 @@ export default function Contact({ contactData }: ContactProps) {
         ...websiteUrls.map((url, index) => ({
             id: `website-${index + 1}`,
             icon: Globe,
-            label: '在线简历',
+            label: getWebsiteLabel(url, index),
             value: url.replace(/^https?:\/\//, ''),
             href: url,
             external: true,
@@ -152,7 +160,7 @@ export default function Contact({ contactData }: ContactProps) {
                             />
 
                             <div className="pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/10 blur-3xl dark:bg-blue-500/10" />
-                            <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-indigo-400/10 blur-3xl dark:bg-indigo-500/10" />
+                            <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-sky-400/10 blur-3xl dark:bg-sky-500/10" />
 
                             <div className="relative z-10 flex flex-col items-center gap-12 md:flex-row">
                                 <div className="flex-1 space-y-8 text-center md:text-left">
@@ -160,7 +168,7 @@ export default function Contact({ contactData }: ContactProps) {
                                         <div className="absolute top-0 bottom-0 -left-6 hidden w-1 bg-gradient-to-b from-blue-500/0 via-blue-500/50 to-blue-500/0 opacity-50 md:block" />
                                         <h2 className="mb-4 text-3xl leading-tight font-bold text-zinc-900 font-heading md:text-4xl dark:text-white">
                                             准备好一起
-                                            <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">
+                                            <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-cyan-400">
                                                 {' '}创造价值
                                             </span>
                                             了吗
@@ -171,13 +179,27 @@ export default function Contact({ contactData }: ContactProps) {
                                     </div>
 
                                     <div className="flex flex-col items-center justify-center gap-4 sm:flex-row md:justify-start">
-                                        <a
-                                            href={mailtoHref}
-                                            className="inline-flex items-center gap-2.5 rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 dark:bg-blue-600 dark:hover:bg-blue-500"
-                                        >
-                                            <Mail size={18} className="text-white" />
-                                            <span>发送邮件</span>
-                                        </a>
+                                        <div className="flex flex-col items-center gap-3 sm:flex-row">
+                                            <a
+                                                href={mailtoHref}
+                                                className="inline-flex items-center gap-2.5 rounded-xl bg-blue-600 px-6 py-3.5 text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/30 active:translate-y-0 dark:bg-blue-600 dark:hover:bg-blue-500"
+                                            >
+                                                <Mail size={18} className="text-white" />
+                                                <span>发送邮件</span>
+                                            </a>
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    trackAppointmentModalOpen();
+                                                    setIsAppointmentOpen(true);
+                                                }}
+                                                className="inline-flex items-center gap-2.5 rounded-xl border border-blue-200 bg-blue-50 px-6 py-3.5 text-base font-semibold text-blue-700 transition-all hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-100 active:translate-y-0 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:border-blue-700 dark:hover:bg-blue-900/50"
+                                                aria-label="预约沟通"
+                                            >
+                                                <Calendar size={18} />
+                                                <span>预约沟通</span>
+                                            </button>
+                                        </div>
                                         <div className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2 font-mono text-sm whitespace-nowrap text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800/50 dark:text-zinc-400">
                                             <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
                                             {contactData.responseSlaText || '通常在 24 小时内回复'}
@@ -298,6 +320,11 @@ export default function Contact({ contactData }: ContactProps) {
                 message="已复制到剪贴板！"
                 type="success"
                 onHide={() => setCopiedField(null)}
+            />
+
+            <AppointmentModal
+                isOpen={isAppointmentOpen}
+                onClose={() => setIsAppointmentOpen(false)}
             />
         </>
     );

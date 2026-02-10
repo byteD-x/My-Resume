@@ -63,7 +63,7 @@ export default function Services({ services }: ServicesProps) {
                                 className="group relative bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/50 dark:border-slate-700 hover:border-blue-500/20 dark:hover:border-blue-500/30 flex flex-col h-full"
                             >
                                 {/* Background Gradient Hover Effect */}
-                                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient || 'from-blue-500/5 to-indigo-500/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
+                                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${service.gradient || 'from-blue-500/5 to-cyan-500/5'} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
 
                                 <div className="relative z-10 flex flex-col h-full">
                                     <div className="w-12 h-12 rounded-xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center mb-6 text-slate-700 dark:text-slate-300 group-hover:scale-110 group-hover:bg-white dark:group-hover:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 transition-all duration-300">

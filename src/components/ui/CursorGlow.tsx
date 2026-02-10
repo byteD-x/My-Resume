@@ -5,17 +5,17 @@ import { m as motion, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useLowPerformanceMode } from '@/hooks/useLowPerformanceMode';
 
-// 榛樿閰嶇疆甯搁噺
+// 默认配置常量
 const DEFAULT_SIZE = 300;
 const DEFAULT_COLOR = 'rgba(59, 130, 246, 0.15)';
 const MOBILE_BREAKPOINT = 768;
 
 interface CursorGlowProps {
-    size?: number;           // 鍏夋枒澶у皬
-    color?: string;          // 鍏夋枒棰滆壊
-    blendMode?: string;      // 娣峰悎妯″紡
-    enabled?: boolean;       // 鏄惁鍚敤
-    hideOnMobile?: boolean;  // 绉诲姩绔殣钘?
+    size?: number;           // 光斑大小
+    color?: string;          // 光斑颜色
+    blendMode?: string;      // 混合模式
+    enabled?: boolean;       // 是否启用
+    hideOnMobile?: boolean;  // 移动端隐藏
 }
 
 export function CursorGlow({
@@ -34,7 +34,7 @@ export function CursorGlow({
     const rafIdRef = useRef<number | null>(null);
     const lastMousePos = useRef({ x: 0, y: 0 });
 
-    // 妫€娴嬬Щ鍔ㄧ
+    // 检测移动端
     useEffect(() => {
         const checkMobile = () => {
             setIsMobile(window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches ||
@@ -45,7 +45,7 @@ export function CursorGlow({
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // 妫€娴嬮〉闈㈠彲瑙佹€?- 椤甸潰涓嶅彲瑙佹椂绂佺敤鍔ㄧ敾
+    // 检测页面可见性 - 页面不可见时禁用动画
     useEffect(() => {
         const handleVisibilityChange = () => {
             setIsPageHidden(document.hidden);
@@ -55,7 +55,7 @@ export function CursorGlow({
         return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
     }, []);
 
-    // 浣跨敤 RAF 鑺傛祦鐨勯紶鏍囩Щ鍔ㄥ鐞?- 娣诲姞鑺傛祦浼樺寲
+    // 使用 RAF 节流鼠标移动处理 - 添加节流优化
     const handleMouseMove = useCallback((e: MouseEvent) => {
         if (isPageHidden) return;
 
@@ -72,7 +72,7 @@ export function CursorGlow({
     const handleMouseEnter = useCallback(() => setIsVisible(true), []);
     const handleMouseLeave = useCallback(() => {
         setIsVisible(false);
-        // 娓呯悊 RAF
+        // 清理 RAF
         if (rafIdRef.current !== null) {
             cancelAnimationFrame(rafIdRef.current);
             rafIdRef.current = null;
@@ -90,7 +90,7 @@ export function CursorGlow({
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseenter', handleMouseEnter);
             document.removeEventListener('mouseleave', handleMouseLeave);
-            // 娓呯悊 RAF
+            // 清理 RAF
             if (rafIdRef.current !== null) {
                 cancelAnimationFrame(rafIdRef.current);
                 rafIdRef.current = null;
@@ -107,7 +107,7 @@ export function CursorGlow({
         handleMouseLeave,
     ]);
 
-    // 绉诲姩绔€佺鐢ㄣ€佹垨椤甸潰闅愯棌鏃朵笉娓叉煋
+    // 移动端、禁用、或页面隐藏时不渲染
     if (!enabled || prefersReducedMotion || isLowPerformanceMode || (hideOnMobile && isMobile) || isPageHidden) {
         return null;
     }
@@ -167,7 +167,7 @@ export function DarkModeCursorGlow() {
 
         checkDarkMode();
 
-        // 鐩戝惉涓婚鍙樺寲
+        // 监听主题变化
         const observer = new MutationObserver(checkDarkMode);
         observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 

@@ -8,7 +8,7 @@ export const defaultPortfolioData: PortfolioData = {
         name: "杜旭嘉",
         title: "全栈工程师（工程效率方向）",
         subtitle: "后端驱动全栈交付：把慢系统变快，把手工流程变流水线，把 Demo 变可发布产品。",
-        location: "远程办公 (优先) ｜ Base：深圳 ｜ 可到岗：南京 / 杭州 / 成都",
+        location: "远程优先 ｜ 可到岗：深圳 / 南京 / 杭州 / 成都",
         bullets: [
             {
                 id: "bullet-1",
@@ -28,14 +28,14 @@ export const defaultPortfolioData: PortfolioData = {
         ],
         quickFacts: {
             role: "全栈工程师（后端性能 / 交付效率）",
-            availability: "可立即入职｜远程优先｜Base 深圳（可到岗南京/杭州/成都）",
+            availability: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
             techStack: ["Java", "Spring Boot", "Python", "React", "Next.js", "CI/CD"]
         },
         roleSnapshot: {
             primaryRole: "全栈工程师（工程效率方向）",
             secondaryRole: "后端 / AI 工程",
-            availability: "可立即入职",
-            location: "深圳（支持远程，南京/杭州/成都可到岗）",
+            availability: "远程优先",
+            location: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
             updatedAt: "2026-02-10"
         }
     },
@@ -55,7 +55,7 @@ export const defaultPortfolioData: PortfolioData = {
             linkedExperienceId: "exp-wechat-bot",
             icon: "Star",
             colSpan: "md:col-span-1",
-            bg: "bg-indigo-50",
+            bg: "bg-sky-50",
             githubRepo: "icefunicu/wechat-bot",
             verification: {
                 sourceType: "repo",
@@ -373,6 +373,96 @@ export const defaultPortfolioData: PortfolioData = {
             }
         },
         {
+            id: "exp-cloudpan",
+            year: "2024.01 - 2024.02",
+            role: "全栈开发 · 个人项目",
+            company: "EasyCloudPan（仿百度网盘）",
+            location: "开源项目",
+            summary: "全栈网盘系统，打通大文件分片上传、MD5 秒传去重、异步视频转码、分享与回收站完整链路。",
+            techTags: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "Vite", "FFmpeg", "HLS"],
+            highlighted: true,
+            keyOutcomes: [
+                "支持 GB 级文件分片上传与断点续传",
+                "基于 MD5 与索引实现重复文件秒传去重",
+                "通过 afterCommit + @Async 解耦上传与视频转码流程"
+            ],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
+            businessValue: {
+                zh: "将上传、转码、分享、回收站等高频能力整合为可维护闭环，提升文件服务可用性。",
+                en: "Delivers a maintainable end-to-end file workflow across upload, transcoding, sharing, and recovery."
+            },
+            engineeringDepth: {
+                zh: "覆盖分片上传、事务后异步任务、AOP 鉴权校验、Redis 配额治理与生命周期建模。",
+                en: "Covers chunked uploads, post-commit async processing, AOP guards, Redis quota control, and lifecycle modeling."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "easyCloudPan 仓库与 STAR_REPO_HIGHLIGHTS 文档",
+                    sourceUrl: "https://github.com/icefunicu/easyCloudPan",
+                    verifiedAt: "2026-02-10",
+                    confidence: "high",
+                    level: "strict"
+                }
+            ],
+            expandedDetails: {
+                background: "针对大文件上传与在线预览场景，目标是实现接近商用网盘体验的可运行系统。",
+                problem: "单请求上传在大文件场景下稳定性差，视频转码耗时会阻塞响应，接口层鉴权与参数校验易重复与遗漏。",
+                solution: "前端采用 SparkMD5 + 分片上传，后端在 uploadFile/union 链路合并分片并结合 idx_md5 实现秒传；通过 TransactionSynchronizationManager.afterCommit 触发 @Async transferFile，使用 FFmpeg 生成缩略图与 HLS 切片；使用 @GlobalInterceptor/@VerifyParam + AOP 统一处理鉴权与参数校验，Redis 管理空间配额与缓存。",
+                result: "形成上传、去重、转码、分享、回收站完整链路，核心能力可通过仓库代码与索引设计直接复核。",
+                role: "全栈开发（后端、前端、数据库与工程化）",
+                techStack: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "Vite", "FFmpeg", "HLS"],
+                links: [{ label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" }]
+            }
+        },
+        {
+            id: "exp-jzt-shuttle-path",
+            year: "2023.05 - 2023.07",
+            role: "项目经理 / 算法研发与系统原型开发",
+            company: "九州通四向穿梭车路径规划系统",
+            location: "本地项目",
+            summary: "面向医药物流仓储的路径规划原型，覆盖 A* 寻路、多车并发、冲突检测/消解与 PyQt5 可视化调试。",
+            techTags: ["Python", "A* 路径规划", "CBS 冲突搜索", "PyQt5", "ThreadPoolExecutor", "multiprocessing", "并发调度"],
+            highlighted: false,
+            keyOutcomes: [
+                "在 27x42（1134 格）仓储地图上完成路径搜索与可视化验证",
+                "实现双车同步路径规划与路径区分展示",
+                "实现冲突检测与等待避让策略（并发收益为定性推断，待压测补充）"
+            ],
+            audienceTags: ["hr", "jobSeeker", "partner"],
+            businessValue: {
+                zh: "将仓储调度从人工经验迁移到可复用算法原型，为自动化调度系统提供验证基础。",
+                en: "Moves dispatching from manual heuristics to a reusable algorithmic prototype for warehouse automation."
+            },
+            engineeringDepth: {
+                zh: "体现路径规划算法、并发任务编排、冲突消解策略与 GUI 可视化调试工具链整合。",
+                en: "Demonstrates integration of planning algorithms, concurrent scheduling, conflict resolution, and GUI-based debugging."
+            },
+            verification: [
+                {
+                    sourceType: "manual",
+                    sourceLabel: "STAR_REPO_STAR.md 与 A-star 代码目录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "medium",
+                    level: "strict",
+                    confidenceBasis: [
+                        "可在本地目录复核 A_Search、Vehicle、has_conflict 等实现",
+                        "map.txt 可解析为 27x42 共 1134 格地图",
+                        "当前缺少公开仓库链接与量化压测报告"
+                    ],
+                    confidenceReason: "判定为中置信度：关键实现可在本地代码复核，但缺少公开链接与量化性能数据。"
+                }
+            ],
+            expandedDetails: {
+                background: "医药物流四向穿梭车需要在高密度仓储地图中进行自动路径规划，并支持可视化调试与演示。",
+                problem: "需统一处理单车寻路、多车并发和冲突避让，并在载货/空车差异化通行规则下保持可解释性。",
+                solution: "基于 Python 实现 A* 搜索核心（A_Search、F_Min、getAroundPoint、process/yield）；使用 Vehicle 封装多车任务并实验线程池/进程池并发；通过 has_conflict 与优先级等待策略处理时间同步冲突；基于 PyQt5 构建可视化回放界面。",
+                result: "完成仓储地图路径规划、双车协同与冲突消解原型验证，为后续扩展到更大规模调度提供技术基线。",
+                role: "项目经理 / 算法研发与系统原型开发",
+                techStack: ["Python", "A*", "CBS", "PyQt5", "ThreadPoolExecutor", "multiprocessing"]
+            }
+        },
+        {
             id: "exp-education",
             year: "2021.09 - 2025.06",
             role: "本科 · 数据科学与大数据技术",
@@ -554,34 +644,39 @@ export const defaultPortfolioData: PortfolioData = {
         },
         {
             id: "proj-cloudpan",
-            year: "2024",
-            name: "个人云盘",
+            year: "2024.01 - 2024.02",
+            name: "EasyCloudPan（仿百度网盘）",
             link: "https://github.com/icefunicu/easyCloudPan",
             demoLink: "",
-            tech: ["Spring Boot", "Vue.js", "Redis", "FFmpeg"],
-            techTags: ["Spring Boot", "Vue.js", "Redis", "FFmpeg"],
-            summary: "仿百度网盘 Web 端，支持文件秒传、视频转码、分享链接。",
-            impact: "个人项目",
+            tech: ["Spring Boot", "Vue.js", "Redis", "FFmpeg", "MySQL"],
+            techTags: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "Vite", "FFmpeg", "HLS"],
+            summary: "全栈网盘系统，支持大文件分片上传、MD5 秒传去重、异步视频转码与分享/回收站完整生命周期。",
+            impact: "文件服务与流媒体链路工程化",
             details: [
-                "【极速秒传】基于 MD5 生成唯一文件 ID，实现文件秒传功能",
-                "【视频处理】集成 FFmpeg 实现视频索引生成、切片及转码",
-                "【缓存优化】Redis 存储高频链接与分享码",
-                "【社交登录】提供多元化登录方式"
+                "【分片上传 + 秒传】前端 `SparkMD5` + 5MB 分片，后端按分片落盘并在 `union()` 合并；基于 `idx_md5` 实现重复文件秒传。",
+                "【异步转码】`uploadFile` 中通过 `afterCommit` 触发 `@Async transferFile`，集成 FFmpeg 生成缩略图与 HLS 切片，避免上传请求阻塞。",
+                "【统一鉴权校验】`@GlobalInterceptor` + `@VerifyParam` + AOP 切面集中处理登录/管理员权限与参数校验，减少 Controller 重复逻辑。",
+                "【缓存与配额】Redis 分层缓存系统配置、用户空间与分片临时大小，上传阶段可实时预判并阻断超额写入。",
+                "【分享与回收站】支持提取码与有效期分享、匿名访问、转存、回收站恢复/彻底删除等完整状态流转。"
             ],
-            keyOutcomes: ["实现文件秒传", "支持视频在线倍速播放"],
-            audienceTags: ["jobSeeker", "partner"],
+            keyOutcomes: [
+                "支持 GB 级文件断点续传与 MD5 秒传去重（代码路径可复核）",
+                "上传与转码解耦：事务提交后异步处理视频切片与状态流转",
+                "数据库索引覆盖高频场景（含 `idx_md5`、`idx_del_flag`、`idx_recovery_time`）"
+            ],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
-                zh: "构建可分享、可播放、可扩展的文件服务体验。",
-                en: "Builds a shareable and scalable file service experience."
+                zh: "把上传、转码、分享、回收站等高频网盘能力打通为可维护闭环，提升文件服务可用性与可扩展性。",
+                en: "Delivers an end-to-end, maintainable file-service workflow from upload and transcoding to sharing and recovery."
             },
             engineeringDepth: {
-                zh: "体现文件去重、转码链路与缓存性能优化。",
-                en: "Demonstrates deduplication, transcoding pipeline, and cache optimization."
+                zh: "覆盖分片上传、事务后异步任务、AOP 权限校验、Redis 配额治理与分享生命周期建模。",
+                en: "Covers chunked uploads, post-commit async jobs, AOP-based guards, Redis quota control, and share lifecycle modeling."
             },
             verification: [
                 {
                     sourceType: "repo",
-                    sourceLabel: "easyCloudPan 仓库",
+                    sourceLabel: "easyCloudPan 仓库与 STAR_REPO_HIGHLIGHTS 文档",
                     sourceUrl: "https://github.com/icefunicu/easyCloudPan",
                     verifiedAt: "2026-02-10",
                     confidence: "high",
@@ -589,13 +684,67 @@ export const defaultPortfolioData: PortfolioData = {
                 }
             ],
             expandedDetails: {
-                background: "个人文件存储与分享在局域网/公网环境下需求大，但商业网盘限速严重。",
-                problem: "自建网盘往往功能简陋，缺乏视频转码、断点续传等高级功能。",
-                solution: "仿照商业网盘架构，实现基于 MD5 的秒传去重；后端集成 FFmpeg 自动转码视频以支持 HLS 播放。",
-                result: "实现了核心网盘功能，作为个人作品集展示。",
-                role: "独立开发者",
-                techStack: ["Spring Boot", "Vue.js", "Redis", "FFmpeg", "MySQL"],
+                background: "针对大文件上传、在线预览与分享协作的个人云盘场景，目标是做出接近商用网盘体验的可运行系统。",
+                problem: "传统单请求上传在大文件场景不稳定，重复上传浪费带宽；视频播放兼容性与转码耗时会拖慢响应；权限校验与参数校验在多接口场景下容易重复且遗漏。",
+                solution: "前端采用 SparkMD5 + 分片上传，后端 `uploadFile` 落盘并在 `union()` 合并分片，结合 `idx_md5` 实现秒传；通过 `TransactionSynchronizationManager.afterCommit` 触发 `@Async transferFile`，用 FFmpeg 生成缩略图与 HLS 切片；以 `@GlobalInterceptor`/`@VerifyParam` + AOP 统一处理鉴权与参数校验；Redis 管理用户空间、临时分片体积与系统配置缓存。",
+                result: "形成上传、去重、转码、分享、回收站的完整链路，核心能力可通过仓库代码与数据库索引直接复核。",
+                role: "全栈开发（后端、前端、数据库与工程化）",
+                techStack: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "Vite", "FFmpeg", "HLS"],
                 links: [{ label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" }]
+            },
+            highlighted: true
+        },
+        {
+            id: "proj-jzt-shuttle-path",
+            year: "2023",
+            name: "九州通四向穿梭车路径规划系统",
+            tech: ["Python", "A*", "CBS", "PyQt5", "multiprocessing"],
+            techTags: ["Python", "A* 路径规划", "CBS 冲突搜索", "PyQt5", "ThreadPoolExecutor", "multiprocessing", "并发调度"],
+            summary: "面向医药物流仓储的四向穿梭车路径规划原型，覆盖单车寻路、多车并发、冲突检测/消解与可视化调试。",
+            impact: "仓储自动化算法原型",
+            details: [
+                "【A* 引擎】实现 `A_Search`（open/close 管理、F/G/H 评估、曼哈顿启发），并用 `yield` 将搜索过程可视化逐步回放。",
+                "【业务规则建模】在 `getAroundPoint` 中区分空车/载货通行规则；地图支持道路、墙壁、无货货架、有货货架四类地形。",
+                "【多车并发】通过 `Vehicle` 封装车辆搜索任务，实验 `ThreadPoolExecutor` 与 `multiprocessing.Pool` 两种并发方案。",
+                "【冲突消解】实现 `has_conflict()` 节点冲突检测，并在优先级策略中通过插入等待动作进行时间同步避让。",
+                "【可视化调试】基于 PyQt5 `QMainWindow` + `QBasicTimer` 绘制 open/close/path，支持地图编辑与回放。"
+            ],
+            keyOutcomes: [
+                "在 27x42（1134 格）仓储地图上完成路径搜索与可视化验证",
+                "完成双车路径规划与路径区分展示，验证多车协同流程",
+                "实现冲突检测与等待避让机制；并发加速收益为定性推断（待压测补充）"
+            ],
+            audienceTags: ["hr", "jobSeeker", "partner"],
+            businessValue: {
+                zh: "把仓储调度从人工经验迁移到可复用算法原型，为后续自动化调度系统提供验证基础。",
+                en: "Moves warehouse dispatching from manual heuristics to a reusable algorithmic prototype for future automation."
+            },
+            engineeringDepth: {
+                zh: "体现 A* 路径规划、并发任务编排、冲突消解策略与 GUI 可视化调试工具链整合。",
+                en: "Demonstrates integration of A* planning, concurrent task orchestration, conflict resolution, and GUI-based debugging."
+            },
+            verification: [
+                {
+                    sourceType: "repo",
+                    sourceLabel: "本地项目文档 STAR_REPO_STAR.md 与 A-star 代码目录",
+                    verifiedAt: "2026-02-10",
+                    confidence: "medium",
+                    level: "strict",
+                    confidenceBasis: [
+                        "可在本地目录复核 A_Search、Vehicle、has_conflict 等实现",
+                        "map.txt 可解析为 27x42 共 1134 格地图",
+                        "当前缺少公开仓库链接与压测报告"
+                    ],
+                    confidenceReason: "判定为中置信度：核心算法与结构可在本地代码复核，但缺少公开链接与量化压测结果。"
+                }
+            ],
+            expandedDetails: {
+                background: "医药物流四向穿梭车在高密度货架环境中需要自动规划路径，并通过可视化手段提升调试与演示效率。",
+                problem: "单车寻路、多车并发和冲突避让需要统一建模；同时要支持载货与空车的差异化通行规则，且能在图形界面中复盘算法过程。",
+                solution: "基于 Python 实现 A* 搜索核心（A_Search、F_Min、getAroundPoint、process/yield），在 PyQt5 中构建 GameBoard 可视化；引入 Vehicle 封装多车任务并实验线程池/进程池并发搜索；通过 has_conflict 与优先级等待策略处理多车同节点冲突。",
+                result: "完成仓储地图（27x42）上的路径规划、双车协同与冲突消解原型验证；性能提升幅度目前为工程定性推断，待补充压测量化结果。",
+                role: "项目经理 / 算法研发与系统原型开发",
+                techStack: ["Python", "A*", "CBS", "PyQt5", "ThreadPoolExecutor", "multiprocessing"]
             },
             highlighted: false
         }
@@ -641,7 +790,7 @@ export const defaultPortfolioData: PortfolioData = {
             description: "从高性能后端架构到流畅的前端交互，构建企业级 Web 应用。擅长 Spring Boot + React/Next.js 技术栈，确保高可用与安全性。",
             icon: "Layout",
             techStack: ["React/Next.js", "Spring Boot", "PostgreSQL"],
-            gradient: "from-blue-500/10 to-indigo-500/10",
+            gradient: "from-blue-500/10 to-cyan-500/10",
             milestones: ["需求澄清", "技术方案", "里程碑交付", "联调验收"]
         },
         {
@@ -650,7 +799,7 @@ export const defaultPortfolioData: PortfolioData = {
             description: "将 LLM 能力（GPT-4/Claude）集成到现有业务流中。提供 RAG 知识库搭建、Agent 智能代理开发及 Prompt 优化服务。",
             icon: "Bot",
             techStack: ["LangChain", "LLM APIs", "RAG", "Vector DB"],
-            gradient: "from-purple-500/10 to-fuchsia-500/10",
+            gradient: "from-sky-500/10 to-cyan-500/10",
             milestones: ["场景梳理", "PoC 验证", "成本评估", "灰度上线"]
         },
         {
@@ -675,7 +824,7 @@ export const defaultPortfolioData: PortfolioData = {
 
     vibeCoding: {
         title: "Vibe Coding · AI 原生开发者",
-        description: "熟练运用 AI 作为核心生产力工具，主要使用 Codex（GPT-5.2-codex）与 Antigravity （ Claude 与 Gemini3pro ），并灵活驾驭 Cursor、Windsurf、Claude、ChatGPT、Gemini 等主流 AI 工具进行全栈开发。从需求分析、架构设计、代码实现到调试优化，AI 贯穿开发全流程。无论是后端 Java/Python、前端 Vue/React，还是数据处理、自动化脚本，皆可通过 AI 辅助快速交付高质量代码。不设技术栈边界，以问题为导向，以 AI 为杠杆，极速实现产品落地。"
+        description: "以 AI 作为工程杠杆，常用 Codex、Cursor、Windsurf、Claude、ChatGPT、Gemini 等工具贯穿需求澄清、架构设计、编码、测试与优化全流程。擅长在 Java/Python 后端、Vue/React 前端与自动化脚本场景中快速交付可维护代码，并通过评审、测试与指标追踪控制质量与成本。"
     },
 
     contact: {
@@ -710,7 +859,7 @@ export const defaultPortfolioData: PortfolioData = {
             targetSection: "experience",
             primaryCTA: "查看履历证据",
             secondaryCTA: "下载简历 PDF",
-            highlightMetrics: ["可立即入职", "关键指标可复核", "履历与项目闭环"]
+            highlightMetrics: ["远程优先", "关键指标可复核", "履历与项目闭环"]
         },
         {
             id: "jobSeeker",

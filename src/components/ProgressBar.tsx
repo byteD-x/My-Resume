@@ -19,7 +19,7 @@ export function ProgressBar({ className }: ProgressBarProps) {
   return (
     <motion.div
       className={cn(
-        'absolute left-0 top-0 h-0.5 w-full origin-left bg-gradient-to-r from-blue-500 via-cyan-400 to-indigo-500',
+        'absolute left-0 top-0 h-0.5 w-full origin-left bg-gradient-to-r from-blue-500 via-cyan-400 to-sky-500',
         className
       )}
       style={{ scaleX }}

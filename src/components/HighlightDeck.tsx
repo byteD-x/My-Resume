@@ -132,12 +132,12 @@ export default function HighlightDeck({ items, timeline = [] }: HighlightDeckPro
                                 >
                                     {!isFocal && (
                                         <>
-                                            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100" />
+                                            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-sky-500/5 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100" />
                                             <div className="pointer-events-none absolute inset-0 rounded-2xl border border-blue-500/0 transition-colors duration-300 ease-out group-hover:border-blue-500/20" />
                                         </>
                                     )}
                                     {isFocal && (
-                                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-purple-600/20 opacity-50 transition-opacity duration-300 ease-out group-hover:opacity-70" />
+                                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-sky-600/20 opacity-50 transition-opacity duration-300 ease-out group-hover:opacity-70" />
                                     )}
 
                                     <div className="relative z-10 mb-4">

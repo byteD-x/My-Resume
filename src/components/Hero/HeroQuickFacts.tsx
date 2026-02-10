@@ -12,12 +12,12 @@ interface HeroQuickFactsProps {
 
 /**
  * Hero 快速信息卡片组件
- * 显示角色、入职时间、技术栈等核心信息
+ * 显示角色、在岗状态、技术栈等核心信息
  */
 export function HeroQuickFacts({ quickFacts, roleSnapshot }: HeroQuickFactsProps) {
     const defaultQuickFacts = {
         role: "后端 / 全栈 / AI 工程",
-        availability: "可立即入职",
+        availability: "远程优先",
         techStack: ['Java', 'Spring', 'Python', 'LLM API', 'MySQL', 'Redis']
     };
 
@@ -58,7 +58,7 @@ export function HeroQuickFacts({ quickFacts, roleSnapshot }: HeroQuickFactsProps
                         <Calendar size={20} />
                     </div>
                     <div>
-                        <div className="text-xs uppercase text-slate-400 font-semibold mb-1">入职时间</div>
+                        <div className="text-xs uppercase text-slate-400 font-semibold mb-1">在岗状态</div>
                         <div className="text-lg font-bold text-emerald-600">{roleSnapshot?.availability || facts.availability}</div>
                         {roleSnapshot?.location && (
                             <div className="mt-1 text-xs text-slate-500">{roleSnapshot.location}</div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, m as motion } from 'framer-motion';
 import { Download, Github, Mail, Menu, X } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
@@ -24,34 +24,45 @@ interface NavbarProps {
 const navItems = [
     { name: '角色入口', href: '#audience' },
     { name: '影响力', href: '#impact' },
-    { name: '经历', href: '#experience' },
+    { name: '履历', href: '#experience' },
+    { name: '项目', href: '#projects' },
+    { name: '服务', href: '#services' },
     { name: '技能', href: '#skills' },
     { name: '联系', href: '#contact' },
 ];
+const MOBILE_MENU_ID = 'mobile-navigation-drawer';
 
 export default function Navbar({ heroData, contactData }: NavbarProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('');
     const scrolled = useScrollPastThreshold(50);
     const isHydrated = useHydrated();
+    const menuToggleButtonRef = useRef<HTMLButtonElement>(null);
+    const menuCloseButtonRef = useRef<HTMLButtonElement>(null);
 
     const resumeFileName = formatResumeFileName(heroData.title, heroData.name);
     const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
     const resumeDownloadHandler = createResumeDownloadHandler(resumeFileName, resumeDownloadUrl);
+
+    const getPreferredScrollBehavior = (): ScrollBehavior => {
+        if (typeof window === 'undefined') return 'auto';
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        return prefersReducedMotion || coarsePointer ? 'auto' : 'smooth';
+    };
 
     const scrollTo = (href: string) => {
         setIsOpen(false);
         if (typeof window === 'undefined') return;
 
         const targetId = href.startsWith('#') ? href.slice(1) : href;
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
-        const scrollBehavior: ScrollBehavior = prefersReducedMotion || coarsePointer ? 'auto' : 'smooth';
+        const scrollBehavior = getPreferredScrollBehavior();
         const maxAttempts = 6;
         const attemptScroll = (attempt: number) => {
             const target = document.getElementById(targetId);
             if (target) {
                 target.scrollIntoView({ behavior: scrollBehavior, block: 'start' });
+                setActiveSection(targetId);
                 if (window.location.hash !== href) {
                     window.history.replaceState(null, '', href);
                 }
@@ -79,6 +90,28 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     const handleGithubClick = () => {
         trackExternalLink(contactData.github, 'navbar_github');
     };
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const originalOverflow = document.body.style.overflow;
+        const toggleButton = menuToggleButtonRef.current;
+        document.body.style.overflow = 'hidden';
+        menuCloseButtonRef.current?.focus();
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = originalOverflow;
+            toggleButton?.focus();
+        };
+    }, [isOpen]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -123,12 +156,13 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                 <div className="flex items-center justify-between">
                     <button
                         type="button"
-                        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                        onClick={() => window.scrollTo({ top: 0, behavior: getPreferredScrollBehavior() })}
                         className="group flex items-center gap-3"
+                        aria-label="返回顶部"
                     >
                         <div
                             className={cn(
-                                'flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 via-indigo-500 to-purple-500 text-sm font-bold text-white shadow-md ring-1 ring-white/30 transition-transform group-hover:scale-105',
+                                'flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-slate-900 via-sky-800 to-sky-600 text-sm font-bold text-white shadow-md ring-1 ring-white/30 transition-transform group-hover:scale-105',
                                 scrolled && 'scale-90',
                             )}
                         >
@@ -138,7 +172,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             <div className="mb-1 font-semibold leading-none text-slate-800">{heroData.name}</div>
                             <div className="flex items-center gap-2 text-xs font-medium text-emerald-600">
                                 <span className="inline-flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.15)] animate-pulse" />
-                                Available
+                                远程优先
                             </div>
                             <div className="text-xs font-medium text-slate-500">后端 / AI 工程师</div>
                         </div>
@@ -173,7 +207,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             rel="noopener noreferrer"
                             onClick={handleGithubClick}
                             className="rounded-full p-3 text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900"
-                            aria-label="Visit GitHub profile"
+                            aria-label="访问 GitHub 主页"
                         >
                             <Github size={20} />
                         </a>
@@ -183,7 +217,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             download={resumeFileName}
                             onClick={handleResumeClick}
                             className="btn btn-secondary gap-2 px-5 py-2.5 text-sm font-semibold"
-                            aria-label="Download resume PDF"
+                            aria-label="下载简历 PDF"
                         >
                             <Download size={16} />
                             下载简历
@@ -193,7 +227,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                             type="button"
                             onClick={handleContactClick}
                             className="btn btn-primary gap-2 px-5 py-2.5 text-sm font-semibold"
-                            aria-label="Contact"
+                            aria-label="联系我"
                         >
                             <Mail size={16} />
                             联系我
@@ -208,7 +242,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                 scrollTo('#contact');
                             }}
                             disabled={!isHydrated}
-                            aria-label="Contact"
+                            aria-label="联系我"
                             className={cn(
                                 'inline-flex rounded-full border border-slate-200 bg-white p-2.5 text-slate-600 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-60',
                                 isOpen && 'hidden',
@@ -220,10 +254,14 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
 
                         <button
                             type="button"
+                            ref={menuToggleButtonRef}
                             className="p-3 text-slate-600"
                             disabled={!isHydrated}
-                            onClick={() => setIsOpen(true)}
-                            aria-label="Open menu"
+                            onClick={() => setIsOpen((value) => !value)}
+                            aria-label="打开菜单 / Open menu"
+                            aria-haspopup="dialog"
+                            aria-expanded={isOpen}
+                            aria-controls={MOBILE_MENU_ID}
                         >
                             <Menu size={24} />
                         </button>
@@ -243,35 +281,49 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                         />
 
                         <motion.div
+                            id={MOBILE_MENU_ID}
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                             className="fixed bottom-0 right-0 top-0 z-50 flex w-3/4 max-w-sm flex-col bg-white shadow-2xl md:hidden"
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="移动端导航菜单"
                         >
                             <div className="flex items-center justify-between border-b border-slate-100 p-5">
                                 <span className="text-lg font-bold text-slate-800">菜单</span>
                                 <button
                                     type="button"
+                                    ref={menuCloseButtonRef}
                                     onClick={() => setIsOpen(false)}
                                     className="p-2 text-slate-400 hover:text-slate-600"
-                                    aria-label="Close menu"
+                                    aria-label="关闭菜单 / Close menu"
                                 >
                                     <X size={24} />
                                 </button>
                             </div>
 
                             <div className="flex-1 space-y-2 overflow-y-auto p-4">
-                                {navItems.map((item) => (
-                                    <button
-                                        key={item.href}
-                                        type="button"
-                                        onClick={() => scrollTo(item.href)}
-                                        className="w-full rounded-xl px-4 py-4 text-left text-base font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-blue-600"
-                                    >
-                                        {item.name}
-                                    </button>
-                                ))}
+                                {navItems.map((item) => {
+                                    const isActive = activeSection === item.href.slice(1);
+                                    return (
+                                        <button
+                                            key={item.href}
+                                            type="button"
+                                            onClick={() => scrollTo(item.href)}
+                                            aria-current={isActive ? 'page' : undefined}
+                                            className={cn(
+                                                'w-full rounded-xl px-4 py-4 text-left text-base font-medium transition-colors',
+                                                isActive
+                                                    ? 'bg-blue-50 text-blue-700'
+                                                    : 'text-slate-600 hover:bg-slate-50 hover:text-blue-600',
+                                            )}
+                                        >
+                                            {item.name}
+                                        </button>
+                                    );
+                                })}
                             </div>
 
                             <div className="space-y-3 border-t border-slate-100 p-5">
@@ -303,7 +355,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                                         rel="noopener noreferrer"
                                         onClick={handleGithubClick}
                                         className="rounded-full bg-slate-100 p-3 text-slate-600"
-                                        aria-label="Open GitHub"
+                                        aria-label="打开 GitHub"
                                     >
                                         <Github size={20} />
                                     </a>

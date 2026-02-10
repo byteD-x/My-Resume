@@ -71,7 +71,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                     />
                     <InfiniteScroll
                         items={secondRow.map(skill => (
-                            <span key={skill} className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+                            <span key={skill} className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-600">
                                 {skill}
                             </span>
                         ))}
@@ -88,13 +88,13 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 >
-                    <div className="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-indigo-500/30 transition-colors duration-500" />
+                    <div className="bg-gradient-to-br from-slate-900 to-sky-900 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-sky-500/30 transition-colors duration-500" />
 
                         <div className="relative z-10">
                             <div className="flex items-center gap-3 mb-4">
                                 <motion.div
-                                    className="p-2 bg-indigo-500/20 rounded-lg text-indigo-300"
+                                    className="p-2 rounded-lg bg-sky-500/20 text-sky-200"
                                     whileHover={{ scale: 1.1, rotate: 5 }}
                                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
                                 >
@@ -102,7 +102,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                                 </motion.div>
                                 <h3 className="text-xl font-bold">{vibeCoding.title}</h3>
                             </div>
-                            <p className="text-indigo-100/80 leading-relaxed max-w-4xl text-pretty">
+                            <p className="max-w-4xl leading-relaxed text-pretty text-sky-100/80">
                                 {vibeCoding.description}
                             </p>
                         </div>

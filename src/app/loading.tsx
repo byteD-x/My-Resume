@@ -6,7 +6,12 @@ import { Container } from '@/components/ui/Container';
  */
 export default function Loading() {
     return (
-        <main className="min-h-screen bg-slate-50/30">
+        <div
+            className="min-h-screen bg-slate-50/30"
+            role="status"
+            aria-live="polite"
+            aria-label="页面加载中"
+        >
             {/* Navbar 骨架 */}
             <div className="h-16 border-b border-slate-200 bg-white/80 backdrop-blur-sm">
                 <Container>
@@ -64,6 +69,6 @@ export default function Loading() {
                     </div>
                 </Container>
             </section>
-        </main>
+        </div>
     );
 }

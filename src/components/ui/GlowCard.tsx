@@ -90,10 +90,10 @@ export function GlowCard({
 // 预设颜色主题
 export const glowThemes = {
     blue: 'rgba(59, 130, 246, 0.5)',
-    purple: 'rgba(139, 92, 246, 0.5)',
+    sky: 'rgba(14, 165, 233, 0.5)',
     cyan: 'rgba(6, 182, 212, 0.5)',
     emerald: 'rgba(16, 185, 129, 0.5)',
     rose: 'rgba(244, 63, 94, 0.5)',
     amber: 'rgba(245, 158, 11, 0.5)',
-    gradient: 'rgba(99, 102, 241, 0.4)',
+    gradient: 'rgba(14, 165, 233, 0.4)',
 };
