@@ -5,6 +5,7 @@ import { m as motion } from 'framer-motion';
 import { TimelineItem as TimelineItemType } from '@/types';
 import { TimelineItem } from './TimelineItem';
 import { cn } from '@/lib/utils';
+import { useHydrated } from '@/hooks/useHydrated';
 
 interface TimelineProps {
     items: TimelineItemType[];
@@ -15,30 +16,36 @@ const POPULAR_TAG_LIMIT = 10;
 const RECENT_TAG_LIMIT = 5;
 const RECENT_TAG_STORAGE_KEY = 'portfolio.timeline.recent_tags';
 
+function readRecentTagsFromStorage(): string[] {
+    if (typeof window === 'undefined') return [];
+
+    try {
+        const raw = window.localStorage.getItem(RECENT_TAG_STORAGE_KEY);
+        if (!raw) return [];
+
+        const parsed = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+
+        return Array.from(
+            new Set(parsed.filter((tag): tag is string => typeof tag === 'string')),
+        ).slice(0, RECENT_TAG_LIMIT);
+    } catch {
+        return [];
+    }
+}
+
 const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
 };
 
 export function Timeline({ items }: TimelineProps) {
+    const isHydrated = useHydrated();
     const [activeTag, setActiveTag] = useState<string>(TAG_ALL);
     const [tagKeyword, setTagKeyword] = useState('');
     const [isTagExpanded, setIsTagExpanded] = useState(false);
-    const [recentTags, setRecentTags] = useState<string[]>(() => {
-        if (typeof window === 'undefined') return [];
-        try {
-            const raw = window.localStorage.getItem(RECENT_TAG_STORAGE_KEY);
-            if (!raw) return [];
-            const parsed = JSON.parse(raw);
-            if (!Array.isArray(parsed)) return [];
-
-            return Array.from(
-                new Set(parsed.filter((tag): tag is string => typeof tag === 'string')),
-            ).slice(0, RECENT_TAG_LIMIT);
-        } catch {
-            return [];
-        }
-    });
+    const [recentTags, setRecentTags] = useState<string[]>(() => readRecentTagsFromStorage());
+    const effectiveRecentTags = useMemo(() => (isHydrated ? recentTags : []), [isHydrated, recentTags]);
 
     const tagStats = useMemo(() => {
         const tagCount = new Map<string, number>();
@@ -63,10 +70,10 @@ export function Timeline({ items }: TimelineProps) {
         const matchedTagNames = matchedTags.map(([tag]) => tag);
         if (tagKeyword.trim().length > 0) return matchedTagNames;
 
-        const recentMatched = recentTags.filter((tag) => matchedTagNames.includes(tag));
+        const recentMatched = effectiveRecentTags.filter((tag) => matchedTagNames.includes(tag));
         const remaining = matchedTagNames.filter((tag) => !recentMatched.includes(tag));
         return [...recentMatched, ...remaining];
-    }, [matchedTags, recentTags, tagKeyword]);
+    }, [matchedTags, effectiveRecentTags, tagKeyword]);
 
     const visibleTags = useMemo(() => {
         const coreTags =
@@ -83,8 +90,10 @@ export function Timeline({ items }: TimelineProps) {
 
     const recentDisplayTags = useMemo(() => {
         if (tagKeyword.trim().length > 0) return [];
-        return orderedTagNames.filter((tag) => recentTags.includes(tag)).slice(0, RECENT_TAG_LIMIT);
-    }, [orderedTagNames, recentTags, tagKeyword]);
+        return orderedTagNames
+            .filter((tag) => effectiveRecentTags.includes(tag))
+            .slice(0, RECENT_TAG_LIMIT);
+    }, [orderedTagNames, effectiveRecentTags, tagKeyword]);
 
     const filteredItems = useMemo(() => {
         if (activeTag === TAG_ALL) return items;

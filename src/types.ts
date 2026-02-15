@@ -23,6 +23,11 @@ export interface BilingualText {
   en: string;
 }
 
+export interface DualLensCopy {
+  business: string;
+  engineering: string;
+}
+
 export interface ExperienceDetail {
   background?: string;     // 背景
   problem?: string;        // 问题
@@ -81,6 +86,7 @@ export interface ImpactItem {
   value: string;
   label: string;
   description?: string;    // 口径/场景/方法说明
+  details?: string;        // Optional: longer markdown to show in the metric drawer.
   linkedExperienceId?: string;  // 关联的经历 ID，点击跳转
   icon: string;            // lucide icon 名称
   colSpan?: string;
@@ -194,6 +200,7 @@ export interface AudienceCard {
 export interface PortfolioData {
   hero: HeroData;
   about: BilingualText;
+  aboutLenses?: DualLensCopy;
   impact: ImpactItem[];
   timeline: TimelineItem[];
   projects: ProjectItem[];

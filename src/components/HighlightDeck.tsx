@@ -2,7 +2,18 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { m as motion } from 'framer-motion';
-import { ArrowRight, Code2, Gauge, Star, TrendingUp, Users, Zap, type LucideIcon } from 'lucide-react';
+import {
+    ArrowRight,
+    Code2,
+    Database,
+    Gauge,
+    Star,
+    TrendingDown,
+    TrendingUp,
+    Users,
+    Zap,
+    type LucideIcon,
+} from 'lucide-react';
 import { ImpactItem, TimelineItem } from '@/types';
 import { getGithubTelemetry, type GitHubTelemetryPayload } from '@/lib/github-telemetry';
 import MetricDrawer from './MetricDrawer';
@@ -13,6 +24,8 @@ const iconMap: Record<string, LucideIcon> = {
     Zap,
     Gauge,
     Code2,
+    Database,
+    TrendingDown,
     TrendingUp,
 };
 
@@ -53,10 +66,6 @@ export default function HighlightDeck({ items, timeline = [] }: HighlightDeckPro
                 if (matched) {
                     return { ...item, value: `${matched.stars}+` };
                 }
-            }
-
-            if (item.id === 'impact-1' && !item.githubRepo && githubStats.totalStars !== undefined) {
-                return { ...item, value: `${githubStats.totalStars}+` };
             }
 
             return item;
@@ -188,7 +197,7 @@ export default function HighlightDeck({ items, timeline = [] }: HighlightDeckPro
                                         )}
 
                                         {item.verification && (
-                                            <div className="mb-3 inline-flex items-center gap-1 rounded-full border border-emerald-200/70 bg-emerald-50/90 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:border-emerald-800/70 dark:bg-emerald-900/20 dark:text-emerald-300">
+                                            <div className="mb-3 inline-flex w-fit self-start items-center gap-1 rounded-full border border-emerald-200/70 bg-emerald-50/90 px-2.5 py-1 text-[11px] font-semibold text-emerald-700 dark:border-emerald-800/70 dark:bg-emerald-900/20 dark:text-emerald-300">
                                                 已验证
                                                 <span className="opacity-70">· {item.verification.verifiedAt}</span>
                                             </div>

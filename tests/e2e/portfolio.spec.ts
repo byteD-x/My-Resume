@@ -26,10 +26,12 @@ test.describe('Portfolio E2E', () => {
     });
 
     test('hero should present positioning and quantified outcomes', async ({ page }) => {
-        await expect(page.getByRole('heading', { level: 1, name: '全栈工程师（工程效率方向）' })).toBeVisible();
-        await expect(page.getByText('关键查询 20s → 4s（性能提升 5x）')).toBeVisible();
-        await expect(page.getByText('异步改造后 API 吞吐提升 5x+，日志内存 <10MB')).toBeVisible();
-        await expect(page.getByText('多模态链路优化后 Token 成本下降 40%，图片上传成功率 99%+')).toBeVisible();
+        await expect(
+            page.getByRole('heading', { level: 1, name: '全栈工程师（工程效率与交付方向）' }),
+        ).toBeVisible();
+        await expect(page.getByText('核心接口查询 20s → 4s')).toBeVisible();
+        await expect(page.getByText('多模态 Token 成本降低 40%')).toBeVisible();
+        await expect(page.getByText('构建自动化工作流与 CI/CD')).toBeVisible();
         await expect(page.getByRole('button', { name: /查看项目证据|project evidence/i })).toBeVisible();
         await expect(page.getByText('以上指标均可在项目详情与仓库中复核。')).toBeVisible();
     });

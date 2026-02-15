@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import AudienceHub from '@/components/AudienceHub';
 import HighlightDeck from '@/components/HighlightDeck';
+import AboutSection from '@/components/AboutSection';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
@@ -89,6 +90,9 @@ export default function HomePageClient() {
             {!isLowPerformanceMode && <DarkModeCursorGlow />}
 
             <Hero data={data.hero} />
+            <MotionWrapper delay={0.06}>
+                <AboutSection lenses={data.aboutLenses} />
+            </MotionWrapper>
             <MotionWrapper delay={0.08}>
                 <AudienceHub cards={data.audienceCards} />
             </MotionWrapper>

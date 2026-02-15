@@ -14,14 +14,18 @@ import {
 const categoryIcons: Record<string, React.ElementType> = {
     "Backend": Code2,
     "后端开发": Code2,
+    "后端架构": Code2,
     "Data": Database,
     "数据存储": Database,
+    "数据与中间件": Database,
     "AI Engineering": BrainCircuit,
     "AI 工程化": BrainCircuit,
     "Engineering": Terminal,
     "工程 & 运维": Terminal,
+    "DevOps 与云原生": Terminal,
     "Frontend": Layout,
-    "前端 & 全栈": Layout
+    "前端 & 全栈": Layout,
+    "前端与全栈": Layout,
 };
 
 interface TechStackProps {
@@ -54,7 +58,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                         技术栈与工具箱
                     </h2>
                     <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
-                        不设技术边界，以解决问题为核心。熟练运用 AI 辅助开发，实现极速交付。
+                        不设技术边界，以解决问题为核心；用 AI 提效，但用工程门禁保证质量。
                     </p>
                 </div>
 

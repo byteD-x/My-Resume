@@ -7,7 +7,43 @@ const GITHUB_USERNAME = 'icefunicu'; // Replace with actual username from config
 const OUTPUT_FILE = path.join(import.meta.dirname, '../src/data/github-telemetry.json');
 const SPECIFIC_REPOS = ['My-Resume', 'portfolio']; // repos to track specifically
 
+const shouldSkipFetch = () => {
+    const raw = process.env.SKIP_GITHUB_FETCH;
+    return raw === '1' || raw === 'true';
+};
+
 async function fetchGitHubData() {
+    if (shouldSkipFetch()) {
+        console.log('Skipping GitHub fetch (SKIP_GITHUB_FETCH enabled).');
+        if (fs.existsSync(OUTPUT_FILE)) {
+            console.log(`Using existing telemetry file: ${OUTPUT_FILE}`);
+            return;
+        }
+
+        const dir = path.dirname(OUTPUT_FILE);
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        fs.writeFileSync(
+            OUTPUT_FILE,
+            JSON.stringify(
+                {
+                    followers: null,
+                    public_repos: null,
+                    totalStars: null,
+                    specificRepos: [],
+                    source: 'fallback',
+                    isPartial: true,
+                    message: '已跳过构建时 GitHub 数据抓取（使用降级数据）。',
+                },
+                null,
+                2,
+            ),
+        );
+        console.log(`Fallback GitHub telemetry written to ${OUTPUT_FILE}`);
+        return;
+    }
+
     console.log('Fetching GitHub data...');
 
     try {

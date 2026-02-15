@@ -6,6 +6,7 @@ import { ExternalLink, X } from 'lucide-react';
 import { ImpactItem, TimelineItem } from '@/types';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { evaluateVerificationConfidence } from '@/lib/verification';
+import { MarkdownRenderer } from './ui/MarkdownRenderer';
 
 interface MetricDrawerProps {
     isOpen: boolean;
@@ -14,11 +15,7 @@ interface MetricDrawerProps {
     linkedExperience?: TimelineItem | null;
 }
 
-const splitDetailsToList = (value: string) =>
-    value
-        .split('\n')
-        .map((line) => line.trim())
-        .filter(Boolean);
+
 
 export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience }: MetricDrawerProps) {
     const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -120,7 +117,18 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                             {metric.description && (
                                 <div>
                                     <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">概述</h3>
-                                    <p style={{ color: 'var(--text-secondary)' }}>{metric.description}</p>
+                                    <div style={{ color: 'var(--text-secondary)' }}>
+                                        <MarkdownRenderer inline>{metric.description}</MarkdownRenderer>
+                                    </div>
+                                </div>
+                            )}
+
+                            {metric.details && (
+                                <div>
+                                    <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">方法拆解</h3>
+                                    <div style={{ color: 'var(--text-secondary)' }}>
+                                        <MarkdownRenderer tone="muted">{metric.details}</MarkdownRenderer>
+                                    </div>
                                 </div>
                             )}
 
@@ -171,33 +179,23 @@ export default function MetricDrawer({ isOpen, onClose, metric, linkedExperience
                                     {details.background && (
                                         <div>
                                             <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">背景</h3>
-                                            <p style={{ color: 'var(--text-secondary)' }}>{details.background}</p>
+                                            <div style={{ color: 'var(--text-secondary)' }}>
+                                                <MarkdownRenderer tone="muted">{details.background}</MarkdownRenderer>
+                                            </div>
                                         </div>
                                     )}
 
                                     {details.solution && (
                                         <div>
                                             <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">我的行动</h3>
-                                            <ul className="space-y-2">
-                                                {splitDetailsToList(details.solution).map((action, i) => (
-                                                    <li key={i} className="flex items-start gap-2">
-                                                        <span
-                                                            className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full"
-                                                            style={{ backgroundColor: 'var(--color-primary)' }}
-                                                        />
-                                                        <span style={{ color: 'var(--text-secondary)' }}>{action}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
+                                            <MarkdownRenderer>{details.solution}</MarkdownRenderer>
                                         </div>
                                     )}
 
                                     {details.result && (
                                         <div>
                                             <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">成果</h3>
-                                            <p className="font-medium" style={{ color: 'var(--text-primary)' }}>
-                                                {details.result}
-                                            </p>
+                                            <MarkdownRenderer tone="default">{details.result}</MarkdownRenderer>
                                         </div>
                                     )}
 

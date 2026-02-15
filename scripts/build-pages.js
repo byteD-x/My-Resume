@@ -88,11 +88,32 @@ function restoreModal(moved) {
 
 function clearBuildArtifacts() {
     if (fs.existsSync(nextDir)) {
-        fs.rmSync(nextDir, { recursive: true, force: true });
+        try {
+            fs.rmSync(nextDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 150 });
+        } catch (error) {
+            const code = error && error.code;
+            if (code === 'ENOTEMPTY' || code === 'EPERM' || code === 'EBUSY') {
+                throw new Error(
+                    `Failed to remove ".next" (${code}). ` +
+                        'Make sure no `next dev` server is running (e.g. stop `npm run dev` / Playwright webServer) and retry.',
+                );
+            }
+            throw error;
+        }
         console.log('Removed .next for a clean export build.');
     }
     if (fs.existsSync(outDir)) {
-        fs.rmSync(outDir, { recursive: true, force: true });
+        try {
+            fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 150 });
+        } catch (error) {
+            const code = error && error.code;
+            if (code === 'ENOTEMPTY' || code === 'EPERM' || code === 'EBUSY') {
+                throw new Error(
+                    `Failed to remove "out" (${code}). Close any file watchers locking the folder and retry.`,
+                );
+            }
+            throw error;
+        }
         console.log('Removed out for a clean export build.');
     }
 }

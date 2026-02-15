@@ -5,6 +5,7 @@ import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 import { TimelineItem, ProjectItem } from '../types';
 import { TechTag } from './ui/TechTag';
 import { saveScrollRestore, ScrollRestoreSection } from '@/lib/scroll-restore';
+import { MarkdownRenderer } from './ui/MarkdownRenderer';
 
 interface ExperienceCardProps {
     item: TimelineItem | ProjectItem;
@@ -75,9 +76,9 @@ export function ExperienceCard({ item, type, hideDate = false }: ExperienceCardP
                     )}
                 </div>
 
-                <p className="text-sm text-zinc-600 dark:text-zinc-300 mb-6 line-clamp-3 leading-relaxed relative z-10">
-                    {item.summary}
-                </p>
+                <div className="text-sm text-zinc-600 dark:text-zinc-300 mb-6 line-clamp-3 leading-relaxed relative z-10">
+                    <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
+                </div>
 
                 <div className="flex flex-wrap items-end gap-2 mt-auto pt-2 relative z-10">
                     <div className="flex flex-wrap gap-2 flex-1">
