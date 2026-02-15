@@ -63,8 +63,8 @@ export default function Contact({ contactData }: ContactProps) {
         contactData.websites && contactData.websites.length > 0
             ? contactData.websites
             : contactData.website
-              ? [contactData.website]
-              : [];
+                ? [contactData.website]
+                : [];
 
     const getWebsiteLabel = (url: string, index: number): string => {
         if (url.includes('vercel.app')) return '在线简历（Vercel）';
@@ -254,11 +254,10 @@ export default function Contact({ contactData }: ContactProps) {
                                                                 trackExternalLink(item.href, item.label);
                                                             }
                                                         }}
-                                                        className={`block truncate font-sans text-base font-semibold text-zinc-900 transition-colors dark:text-zinc-100 ${
-                                                            item.href === '#'
+                                                        className={`block truncate font-sans text-base font-semibold text-zinc-900 transition-colors dark:text-zinc-100 ${item.href === '#'
                                                                 ? 'cursor-pointer hover:text-green-600 dark:hover:text-green-500'
                                                                 : 'hover:text-blue-600 dark:hover:text-blue-400'
-                                                        }`}
+                                                            }`}
                                                         title={item.href === '#' ? '点击复制' : ''}
                                                     >
                                                         {item.value}

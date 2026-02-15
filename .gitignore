@@ -30,3 +30,5 @@ logs/
 
 # macOS
 .DS_Store
+
+agent_runs/

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { m as motion, AnimatePresence } from 'framer-motion';
+import { m as motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useLowPerformanceMode } from '@/hooks/useLowPerformanceMode';
 
@@ -25,14 +25,25 @@ export function CursorGlow({
     enabled = true,
     hideOnMobile = true,
 }: CursorGlowProps) {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    // 使用 useMotionValue 替代 useState，避免因为坐标变化导致组件重渲染
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // 平滑弹簧动画配置
+    const springConfig = { damping: 30, stiffness: 400, mass: 0.8 };
+    const springX = useSpring(mouseX, springConfig);
+    const springY = useSpring(mouseY, springConfig);
+
+    // 将坐标转换为 transform 能够直接使用的值 (居中)
+    const x = useTransform(springX, (value) => value - size / 2);
+    const y = useTransform(springY, (value) => value - size / 2);
+
     const [isVisible, setIsVisible] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [isPageHidden, setIsPageHidden] = useState(false);
     const prefersReducedMotion = useReducedMotion();
     const isLowPerformanceMode = useLowPerformanceMode();
     const rafIdRef = useRef<number | null>(null);
-    const lastMousePos = useRef({ x: 0, y: 0 });
 
     // 检测移动端
     useEffect(() => {
@@ -55,29 +66,18 @@ export function CursorGlow({
         return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
     }, []);
 
-    // 使用 RAF 节流鼠标移动处理 - 添加节流优化
+    // 直接更新 MotionValue，不触发 React Render
     const handleMouseMove = useCallback((e: MouseEvent) => {
         if (isPageHidden) return;
 
-        lastMousePos.current = { x: e.clientX, y: e.clientY };
-
-        if (rafIdRef.current === null) {
-            rafIdRef.current = requestAnimationFrame(() => {
-                setMousePosition(lastMousePos.current);
-                rafIdRef.current = null;
-            });
-        }
-    }, [isPageHidden]);
+        // 直接设置 MotionValue，这就是性能优化的关键点
+        // React 不会因为这行代码而重新渲染组件
+        mouseX.set(e.clientX);
+        mouseY.set(e.clientY);
+    }, [isPageHidden, mouseX, mouseY]);
 
     const handleMouseEnter = useCallback(() => setIsVisible(true), []);
-    const handleMouseLeave = useCallback(() => {
-        setIsVisible(false);
-        // 清理 RAF
-        if (rafIdRef.current !== null) {
-            cancelAnimationFrame(rafIdRef.current);
-            rafIdRef.current = null;
-        }
-    }, []);
+    const handleMouseLeave = useCallback(() => setIsVisible(false), []);
 
     useEffect(() => {
         if (!enabled || prefersReducedMotion || isLowPerformanceMode || (hideOnMobile && isMobile)) return;
@@ -90,11 +90,6 @@ export function CursorGlow({
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseenter', handleMouseEnter);
             document.removeEventListener('mouseleave', handleMouseLeave);
-            // 清理 RAF
-            if (rafIdRef.current !== null) {
-                cancelAnimationFrame(rafIdRef.current);
-                rafIdRef.current = null;
-            }
         };
     }, [
         enabled,
@@ -102,7 +97,7 @@ export function CursorGlow({
         isLowPerformanceMode,
         hideOnMobile,
         isMobile,
-        handleMouseMove,
+        handleMouseMove, // 现在 handleMouseMove 依赖很少变化
         handleMouseEnter,
         handleMouseLeave,
     ]);
@@ -122,29 +117,21 @@ export function CursorGlow({
                     transition={{ duration: 0.2 }}
                     className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden"
                     aria-hidden="true"
-                    style={{ 
+                    style={{
                         mixBlendMode: blendMode as React.CSSProperties['mixBlendMode'],
-                        contain: 'strict' 
+                        contain: 'strict'
                     }}
                 >
                     <motion.div
                         className="absolute rounded-full"
-                        animate={{
-                            x: mousePosition.x - size / 2,
-                            y: mousePosition.y - size / 2,
-                        }}
-                        transition={{
-                            type: 'spring',
-                            stiffness: 400,
-                            damping: 30,
-                            mass: 0.8,
-                        }}
                         style={{
                             width: size,
                             height: size,
+                            x, //直接绑定 MotionValue
+                            y, //直接绑定 MotionValue
                             background: `radial-gradient(circle, ${color} 0%, transparent 70%)`,
                             willChange: 'transform',
-                            transform: 'translateZ(0)',
+                            transform: 'translateZ(0)', // Force GPU layer
                         }}
                     />
                 </motion.div>
@@ -187,4 +174,3 @@ export function DarkModeCursorGlow() {
         />
     );
 }
-

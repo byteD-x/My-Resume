@@ -5,19 +5,14 @@ import { useEffect } from 'react';
 import { defaultPortfolioData } from '@/data';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import AudienceHub from '@/components/AudienceHub';
-import HighlightDeck from '@/components/HighlightDeck';
-import AboutSection from '@/components/AboutSection';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
 import { Section } from '@/components/ui/Section';
 import { Container } from '@/components/ui/Container';
-import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import FloatingResumeButton from '@/components/FloatingResumeButton';
 import { MotionWrapper } from '@/components/ui/MotionWrapper';
 import { DarkModeCursorGlow } from '@/components/ui/CursorGlow';
 import { clearScrollRestore, readScrollRestore } from '@/lib/scroll-restore';
-import EngineeringCommandCenter from '@/components/EngineeringCommandCenter';
 import { useLowPerformanceMode } from '@/hooks/useLowPerformanceMode';
 
 const Services = dynamic(() => import('@/components/Services'), {
@@ -54,6 +49,28 @@ const Timeline = dynamic(
         ),
     },
 );
+
+// Lazy loaded components
+const AboutSection = dynamic(() => import('@/components/AboutSection'), {
+    loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
+});
+
+const AudienceHub = dynamic(() => import('@/components/AudienceHub'), {
+    loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
+});
+
+const HighlightDeck = dynamic(() => import('@/components/HighlightDeck'), {
+    loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
+});
+
+const Contact = dynamic(() => import('@/components/Contact'), {
+    loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
+});
+
+const EngineeringCommandCenter = dynamic(() => import('@/components/EngineeringCommandCenter'), {
+    ssr: false,
+    loading: () => null,
+});
 
 export default function HomePageClient() {
     const data = defaultPortfolioData;

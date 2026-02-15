@@ -41,6 +41,7 @@ export function ProjectList({ items }: ProjectListProps) {
                         }
                     }}
                     className="h-full"
+                    style={{ willChange: 'opacity, transform' }}
                 >
                     <ExperienceCard item={item} type="project" />
                 </motion.div>

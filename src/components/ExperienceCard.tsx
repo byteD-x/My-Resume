@@ -1,5 +1,6 @@
 'use client';
 
+import React, { memo } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 import { TimelineItem, ProjectItem } from '../types';
@@ -13,7 +14,7 @@ interface ExperienceCardProps {
     hideDate?: boolean;
 }
 
-export function ExperienceCard({ item, type, hideDate = false }: ExperienceCardProps) {
+export const ExperienceCard = memo(function ExperienceCard({ item, type, hideDate = false }: ExperienceCardProps) {
     const title = 'role' in item ? item.role : item.name;
     const subtitle = 'company' in item ? item.company : '';
     const date = item.year;
@@ -132,4 +133,4 @@ export function ExperienceCard({ item, type, hideDate = false }: ExperienceCardP
             </div>
         </Link>
     );
-}
+});

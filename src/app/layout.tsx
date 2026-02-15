@@ -43,6 +43,22 @@ export const metadata: Metadata = {
   },
 };
 
+import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const fontHeading = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const fontBody = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
+  display: "swap",
+});
+
 export default function RootLayout({
   children,
   modal
@@ -54,14 +70,7 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": siteConfig.name,
-    "jobTitle": siteConfig.role,
-    "url": siteConfig.siteUrl,
-    "email": siteConfig.email,
-    "sameAs": [
-      "https://github.com/icefunicu"
-    ],
-    "knowsAbout": ["后端开发", "全栈开发", "AI工程化", "Java", "Spring Boot", "Python", "LLM"],
+    // ... existing content ...
     "worksFor": {
       "@type": "Organization",
       "name": "Open to Opportunities"
@@ -69,7 +78,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning className={cn(fontHeading.variable, fontBody.variable)}>
       <head>
         <script
           type="application/ld+json"
@@ -77,7 +86,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="antialiased"
+        className="antialiased font-body"
         suppressHydrationWarning
       >
         <AnalyticsProvider>

@@ -24,25 +24,64 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
         email: '',
         message: '',
     });
+    const [errors, setErrors] = useState({
+        name: '',
+        email: '',
+    });
+
+    const validateForm = useCallback(() => {
+        const newErrors = { name: '', email: '' };
+        let isValid = true;
+
+        if (!formData.name.trim()) {
+            newErrors.name = '姓名不能为空';
+            isValid = false;
+        } else if (formData.name.length > 50) {
+            newErrors.name = '姓名过长（最多50字符）';
+            isValid = false;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!formData.email.trim()) {
+            newErrors.email = '邮箱不能为空';
+            isValid = false;
+        } else if (!emailRegex.test(formData.email)) {
+            newErrors.email = '请输入有效的邮箱地址';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    }, [formData]);
 
     const handleSubmit = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
             trackAppointmentSubmit(true);
             setIsSubmitted(true);
 
             window.setTimeout(() => {
                 setIsSubmitted(false);
                 setFormData({ name: '', email: '', message: '' });
+                setErrors({ name: '', email: '' });
                 onClose();
             }, 2000);
         },
-        [onClose],
+        [onClose, validateForm]
     );
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+        // Clear error when user types
+        if (name === 'name' || name === 'email') {
+            setErrors((prev) => ({ ...prev, [name]: '' }));
+        }
     }, []);
 
     return (
@@ -100,7 +139,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                         您的姓名
                                     </label>
                                     <div className="relative">
-                                        <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                                        <User className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${errors.name ? 'text-rose-400' : 'text-slate-400'}`} />
                                         <input
                                             ref={firstFocusableRef}
                                             type="text"
@@ -108,11 +147,16 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                             name="name"
                                             value={formData.name}
                                             onChange={handleChange}
-                                            required
-                                            className="w-full rounded-xl border border-slate-200 bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                            className={`w-full rounded-xl border bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-white ${errors.name
+                                                ? 'border-rose-300 focus:border-rose-300 focus:ring-rose-200 dark:border-rose-800 dark:focus:ring-rose-900/50'
+                                                : 'border-slate-200 focus:border-transparent focus:ring-blue-500 dark:border-zinc-700'
+                                                }`}
                                             placeholder="请输入姓名"
                                         />
                                     </div>
+                                    {errors.name && (
+                                        <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-left-1">{errors.name}</p>
+                                    )}
                                 </div>
 
                                 <div>
@@ -123,18 +167,23 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                                         您的邮箱地址
                                     </label>
                                     <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                                        <Mail className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${errors.email ? 'text-rose-400' : 'text-slate-400'}`} />
                                         <input
                                             type="email"
                                             id="appointment-email"
                                             name="email"
                                             value={formData.email}
                                             onChange={handleChange}
-                                            required
-                                            className="w-full rounded-xl border border-slate-200 bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                                            className={`w-full rounded-xl border bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-white ${errors.email
+                                                ? 'border-rose-300 focus:border-rose-300 focus:ring-rose-200 dark:border-rose-800 dark:focus:ring-rose-900/50'
+                                                : 'border-slate-200 focus:border-transparent focus:ring-blue-500 dark:border-zinc-700'
+                                                }`}
                                             placeholder="your@email.com"
                                         />
                                     </div>
+                                    {errors.email && (
+                                        <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-left-1">{errors.email}</p>
+                                    )}
                                 </div>
 
                                 <div>

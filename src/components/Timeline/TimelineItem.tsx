@@ -11,7 +11,7 @@ interface TimelineItemProps {
     isHighlighted?: boolean;
 }
 
-export function TimelineItem({
+export const TimelineItem = React.memo(function TimelineItem({
     item,
     isLast,
     isHighlighted = false
@@ -68,6 +68,6 @@ export function TimelineItem({
             </div>
         </div>
     );
-}
+});
 
 export default TimelineItem;

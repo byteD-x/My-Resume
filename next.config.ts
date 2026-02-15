@@ -59,15 +59,15 @@ const securityHeaders = [
 const headersConfig = isStaticExport
     ? {}
     : {
-          async headers() {
-              return [
-                  {
-                      source: '/(.*)',
-                      headers: securityHeaders,
-                  },
-              ];
-          },
-      };
+        async headers() {
+            return [
+                {
+                    source: '/(.*)',
+                    headers: securityHeaders,
+                },
+            ];
+        },
+    };
 
 const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP ?? new Date().toISOString();
 
@@ -78,7 +78,7 @@ const nextConfig: NextConfig = {
         tsconfigPath: './tsconfig.next.json',
     },
     experimental: {
-        optimizePackageImports: ['lucide-react'],
+        optimizePackageImports: ['lucide-react', 'framer-motion'],
     },
     images: {
         loader: 'custom',

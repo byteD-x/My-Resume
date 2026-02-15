@@ -20,6 +20,8 @@ import staticGithubTelemetry from '@/data/github-telemetry.json';
 
 type TelemetryState = 'idle' | 'loading' | 'ready' | 'error';
 
+import { Tooltip } from '@/components/ui/Tooltip';
+
 const metricOrder: RuntimeMetric['name'][] = ['LCP', 'INP', 'CLS', 'FCP', 'TTFB'];
 const metricUnitMap: Record<RuntimeMetric['name'], string> = {
     LCP: 'ms',
@@ -35,6 +37,14 @@ const metricLabelMap: Record<RuntimeMetric['name'], string> = {
     CLS: '累计布局偏移 (CLS)',
     FCP: '首次内容绘制 (FCP)',
     TTFB: '首字节到达时间 (TTFB)',
+};
+
+const metricDescriptionMap: Record<RuntimeMetric['name'], string> = {
+    LCP: '主要内容加载完成所需时间，反映页面加载速度。',
+    INP: '用户交互（点击/按键）后的响应延迟，反映页面流畅度。',
+    CLS: '页面布局在加载过程中的稳定性，反映视觉抖动程度。',
+    FCP: '浏览器首次渲染内容的时间点，反映首屏感知速度。',
+    TTFB: '服务器响应首个字节的时间，反映网络及后端处理速度。',
 };
 
 const ratingClassMap = {
@@ -79,6 +89,41 @@ const deployTargetLabelMap: Record<string, string> = {
     server: '服务端',
     'static-export': '静态导出',
 };
+
+// Extract MetricCard to prevent re-renders of the whole list
+import React from 'react';
+const MetricCard = React.memo(({ metric }: { metric: RuntimeMetric }) => {
+    const rating = metric.value === null ? 'pending' : metric.rating;
+    return (
+        <article
+            className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+        >
+            <div className="w-fit">
+                <Tooltip content={metricDescriptionMap[metric.name]} position="top">
+                    <p className="cursor-help border-b border-dashed border-slate-300 text-xs font-medium text-slate-500 transition-colors hover:border-slate-500 hover:text-slate-700">
+                        {metricLabelMap[metric.name]}
+                    </p>
+                </Tooltip>
+            </div>
+            <div className="mt-2 flex items-end justify-between">
+                <p className="text-2xl font-bold text-slate-900">
+                    {formatMetricValue(metric)}
+                    {metric.value !== null && metricUnitMap[metric.name] && (
+                        <span className="ml-1 text-sm font-medium text-slate-500">
+                            {metricUnitMap[metric.name]}
+                        </span>
+                    )}
+                </p>
+                <span
+                    className={`rounded-full px-2 py-1 text-xs font-semibold ${ratingClassMap[rating]}`}
+                >
+                    {ratingLabelMap[rating]}
+                </span>
+            </div>
+        </article>
+    );
+});
+MetricCard.displayName = 'MetricCard';
 
 export default function EngineeringCommandCenter() {
     const [isOpen, setIsOpen] = useState(false);
@@ -201,32 +246,9 @@ export default function EngineeringCommandCenter() {
                                         实时性能指标
                                     </h3>
                                     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                                        {metricCards.map((metric) => {
-                                            const rating = metric.value === null ? 'pending' : metric.rating;
-                                            return (
-                                                <article
-                                                    key={metric.name}
-                                                    className="rounded-xl border border-slate-200 bg-slate-50 p-4"
-                                                >
-                                                    <p className="text-xs font-medium text-slate-500">{metricLabelMap[metric.name]}</p>
-                                                    <div className="mt-2 flex items-end justify-between">
-                                                        <p className="text-2xl font-bold text-slate-900">
-                                                            {formatMetricValue(metric)}
-                                                            {metric.value !== null && metricUnitMap[metric.name] && (
-                                                                <span className="ml-1 text-sm font-medium text-slate-500">
-                                                                    {metricUnitMap[metric.name]}
-                                                                </span>
-                                                            )}
-                                                        </p>
-                                                        <span
-                                                            className={`rounded-full px-2 py-1 text-xs font-semibold ${ratingClassMap[rating]}`}
-                                                        >
-                                                            {ratingLabelMap[rating]}
-                                                        </span>
-                                                    </div>
-                                                </article>
-                                            );
-                                        })}
+                                        {metricCards.map((metric) => (
+                                            <MetricCard key={metric.name} metric={metric} />
+                                        ))}
                                     </div>
                                     <p className="mt-3 text-xs text-slate-500">
                                         注：INP 需发生用户交互后才会出现；LCP/FCP/CLS 会在页面生命周期内逐步上报。
