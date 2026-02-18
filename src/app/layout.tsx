@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+import { defaultPortfolioData } from "@/data";
 import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
 import { MotionProvider } from "@/lib/MotionProvider";
 import { WebVitals } from "@/lib/performance";
@@ -66,15 +67,44 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
-  // JSON-LD structured data for Person schema
+  // Generate SoftwareSourceCode schema for GitHub projects
+  const softwareProjects = defaultPortfolioData.projects
+    .filter(p => p.link && p.link.includes('github.com'))
+    .map(p => ({
+      "@type": "SoftwareSourceCode",
+      "name": p.name,
+      "description": p.summary,
+      "codeRepository": p.link,
+      "programmingLanguage": p.techTags.join(", "),
+      "author": {
+        "@type": "Person",
+        "name": siteConfig.name
+      },
+      "datePublished": p.year
+    }));
+
+  // JSON-LD structured data with Graph
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
-    // ... existing content ...
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Open to Opportunities"
-    }
+    "@graph": [
+      {
+        "@type": "Person",
+        "name": siteConfig.name,
+        "url": siteConfig.siteUrl,
+        "jobTitle": siteConfig.role,
+        "description": siteConfig.description,
+        "image": `${siteConfig.siteUrl}/og.png`,
+        "sameAs": [
+          "https://github.com/icefunicu",
+          siteConfig.siteUrl
+        ],
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Open to Opportunities"
+        }
+      },
+      ...softwareProjects
+    ]
   };
 
   return (

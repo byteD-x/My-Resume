@@ -602,16 +602,9 @@ export const defaultPortfolioData: PortfolioData = {
             name: "浏览器生产力套件",
             link: "https://github.com/icefunicu?tab=repositories",
             demoLink: "",
-            tech: ["JavaScript", "Chrome Extension", "Web Worker", "CSS Highlight API"],
             techTags: ["Chrome Extension", "Web Worker", "MutationObserver", "CSS Highlight API", "Trie"],
             summary: "一套浏览器生产力工具：术语实时高亮、Git 平台增强、广告/噪音净化（Web Worker + CSS Highlight API，零 DOM 污染渲染）。",
             impact: "浏览器插件与用户脚本合集",
-            details: [
-                "【术语侧边栏】Worker 线程处理匹配，CSS Highlight API 渲染，支持 2200+ 术语实时高亮，无卡顿。",
-                "【Git 增强】通过 History API 劫持与 MutationObserver 监听，完美适配 GitHub/Gitee 单页应用路由切换。",
-                "【智能净化】结合 AI 语义分析与规则引擎，精准拦截网页广告与推广邮件，准确率达 95%。",
-                "【性能治理】书签工具引入漏桶算法控制并发 (5 req/s)，避免触发站点反爬策略。"
-            ],
             keyOutcomes: [
                 "覆盖 2200+ 双语术语，实现毫秒级响应",
                 "解决 SPA 站点插件失效难题",
@@ -653,16 +646,9 @@ export const defaultPortfolioData: PortfolioData = {
             name: "WeChat AI Bot",
             link: "https://github.com/icefunicu/wechat-bot",
             demoLink: "",
-            tech: ["Python", "Quart", "Asyncio", "RAG", "Electron"],
             techTags: ["Python", "Quart", "Asyncio", "RAG", "Electron", "SQLite", "ChromaDB"],
             summary: "微信 AI 助手：异步架构提升并发能力，RAG 提供长期记忆，Electron 管理端便于运维（成本与体验兼顾）。",
             impact: "异步架构 + RAG 记忆",
-            details: [
-                "【异步核心】使用 `asyncio` 重写消息轮询与处理逻辑，API 吞吐量提升 5 倍，支持高并发对话。",
-                "【分层记忆】集成 ChromaDB 向量库，实现基于语义的长短期记忆检索，让机器人具备‘记忆’。",
-                "【桌面终端】Electron + React 构建跨平台管理界面，通过 SSE 实时监控运行状态与日志流。",
-                "【成本优化】引入 Context Trimming 与 Token 压缩策略，使长文本对话成本降低 40%。"
-            ],
             keyOutcomes: [
                 "API 吞吐量提升 5x+ (异步 I/O)",
                 "日志内存占用 <10MB (流式处理)",
@@ -702,16 +688,9 @@ export const defaultPortfolioData: PortfolioData = {
             id: "proj-lexue",
             year: "2024",
             name: "乐学网",
-            tech: ["Spring Boot", "Redis", "Spring Security", "Vue.js"],
             techTags: ["Spring Boot", "Redis", "Spring Security", "Vue.js", "MySQL"],
             summary: "面向校内选课/考试高峰的教育平台：视频点播、支付、实时互动一体化（Redis 缓存 + RBAC + WebSocket）。",
             impact: "校内应用",
-            details: [
-                "【高并发架构】使用 Redis 缓存热点课程数据，削峰填谷，保障系统在高负载下稳定运行。",
-                "【支付集成】对接微信支付 API，实现订单创建、回调处理与对账流程的闭环，确保资金安全。",
-                "【安全防护】基于 Spring Security 实现细粒度的 RBAC 权限控制与接口限流，防止恶意刷课。",
-                "【实时互动】基于 WebSocket 实现直播弹幕与在线答疑功能。"
-            ],
             keyOutcomes: [
                 "上线校内支付功能，流水稳定",
                 "支持数百人并发在线考试",
@@ -738,7 +717,7 @@ export const defaultPortfolioData: PortfolioData = {
             expandedDetails: {
                 background: "校园需要自有知识付费与在线学习平台。",
                 problem: "现有系统功能单一，不支持支付与高并发。",
-                solution: "构建全栈微服务化应用，引入 Redis 与支付网关。",
+                solution: "构建全栈微服务化应用，引入 Redis 与支付网关。\n- **高并发架构**：使用 Redis 缓存热点课程数据，削峰填谷。\n- **支付集成**：对接微信支付 API，实现订单/回调/对账闭环。\n- **安全防护**：基于 Spring Security 实现细粒度 RBAC 权限控制与接口限流。\n- **实时互动**：基于 WebSocket 实现直播弹幕与在线答疑。",
                 result: "平台上线并稳定运行，满足校内高峰期使用需求。",
                 role: "全栈开发",
                 techStack: ["Spring Boot", "Redis", "Vue.js"],
@@ -751,16 +730,9 @@ export const defaultPortfolioData: PortfolioData = {
             name: "EasyCloudPan",
             link: "https://github.com/icefunicu/easyCloudPan",
             demoLink: "",
-            tech: ["Spring Boot", "Vue 3", "Redis", "FFmpeg", "MySQL"],
             techTags: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "Vite", "FFmpeg", "HLS"],
             summary: "企业级网盘系统：支持 GB 级大文件传输与在线播放；分片秒传、异步转码、回收站机制完整闭环。",
             impact: "文件服务与流媒体链路工程化",
-            details: [
-                "【极速传输】SparkMD5 前端计算指纹，后端并行接收分片并利用 `Sendfile` (逻辑层面) 实现高效合并；MD5 索引实现秒传。",
-                "【媒体中心】上传视频后，事务提交钩子自动触发 FFmpeg 异步转码，生成 HLS 切片以适应不同带宽播放。",
-                "【资源治理】基于 AOP 切面统一校验用户配额，利用 Redis Lua 脚本保证空间扣减原子性。",
-                "【完整生命周期】实现了文件的分享（有效期/提取码）、转存、回收站恢复及彻底删除的完整状态流转。"
-            ],
             keyOutcomes: [
                 "GB 级文件稳定传输 (分片 + 断点续传)",
                 "视频在线秒播 (HLS 切片)",
@@ -788,7 +760,7 @@ export const defaultPortfolioData: PortfolioData = {
             expandedDetails: {
                 background: "打造个人与小团队可用的高性能网盘。",
                 problem: "大文件传输难，视频播放难，权限管理难。",
-                solution: "分片上传，异步转码，RBAC 权限。",
+                solution: "- **传输优化**：SparkMD5 计算文件指纹，分片并行上传，后端自动合并 (Sendfile 零拷贝逻辑思路)。\n- **媒体处理**：事务提交后异步触发 FFmpeg 转码，生成 HLS 流实现多码率适配。\n- **资源与权限**：基于 AOP 实现统一鉴权，利用 Redis Lua 脚本保证配额扣减原子性。",
                 result: "功能完备，体验流畅，代码规范。",
                 role: "全栈开发",
                 techStack: ["Spring Boot", "FFmpeg", "Vue 3"],
@@ -800,16 +772,9 @@ export const defaultPortfolioData: PortfolioData = {
             id: "proj-jzt-shuttle-path",
             year: "2023",
             name: "九州通四向穿梭车路径规划系统",
-            tech: ["Python", "A*", "CBS", "PyQt5", "multiprocessing"],
-            techTags: ["Python", "A* 路径规划", "CBS 冲突搜索", "PyQt5", "ThreadPoolExecutor", "Concurrent"],
+            techTags: ["Python", "A*", "CBS", "PyQt5", "ThreadPoolExecutor", "Concurrent"],
             summary: "面向密集仓储的多车路径规划原型：基于 A* + CBS 解决协同避让与死锁，并提供可视化仿真调试平台。",
             impact: "仓储自动化算法原型",
-            details: [
-                "【路径引擎】定制 A* 启发式函数，综合考虑曼哈顿距离与拥堵权重，规划最优路径。",
-                "【冲突检测】建立时空预留表，实时检测多车路径的时间片冲突并计算避让策略 (CBS)。",
-                "【仿真平台】基于 PyQt5 `QPainter` 构建可视化调试环境，支持单步回放算法运行过程，直观验证逻辑。",
-                "【并发调度】利用 `multiprocessing` 多进程加速路径搜索，提升系统在大规模地图下的响应速度。"
-            ],
             keyOutcomes: [
                 "1000+ 格点地图路径秒级规划",
                 "多车协同无死锁运行",
@@ -836,7 +801,7 @@ export const defaultPortfolioData: PortfolioData = {
             expandedDetails: {
                 background: "仓储自动化需要智能调度算法。",
                 problem: "路径规划复杂，冲突难处理。",
-                solution: "A* 算法 + 冲突搜索策略 + 可视化仿真。",
+                solution: "- **路径引擎**：定制 A* 启发式函数，综合考虑曼哈顿距离与拥堵权重。\n- **冲突检测**：建立时空预留表，实时检测多车路径冲突 (CBS)。\n- **并发与仿真**：利用 `multiprocessing` 加速搜索，基于 PyQt5 构建可视化调试环境刷。",
                 result: "算法有效，仿真直观，验证了方案可行性。",
                 role: "算法研发",
                 techStack: ["Python", "A*", "PyQt5"],

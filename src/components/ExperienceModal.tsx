@@ -255,23 +255,6 @@ export function ExperienceModal({ item, variant = 'overlay' }: ExperienceModalPr
                                     )}
                                 </div>
                             </section>
-
-                            {/* Key Bullets (from data structure) */}
-                            {('details' in item && item.details) && (
-                                <section>
-                                    <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">核心详情</h4>
-                                    <ul className="space-y-2">
-                                        {item.details.map((detail, idx) => (
-                                            <li key={idx} className="flex gap-2 text-sm text-zinc-600 dark:text-zinc-300">
-                                                <span className="text-blue-500 mt-1.5">•</span>
-                                                <div className="flex-1">
-                                                    <MarkdownRenderer inline>{detail}</MarkdownRenderer>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </section>
-                            )}
                         </>
                     )}
 

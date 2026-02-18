@@ -71,8 +71,6 @@ export interface TimelineItem extends BaseExperienceItem {
 
 export interface ProjectItem extends BaseExperienceItem {
   name: string;
-  tech: string[]; // Keep for backward compatibility, mapped to techTags
-  details: string[]; // Keep for backward compatibility
   impact?: string; // string format impact
 }
 
@@ -119,6 +117,7 @@ export interface RoleSnapshot {
   availability: string;
   location: string;
   updatedAt: string;
+  // stats?: { ... }
 }
 
 export interface HeroData {
@@ -210,4 +209,3 @@ export interface PortfolioData {
   contact: ContactData;
   audienceCards: AudienceCard[];
 }
-
