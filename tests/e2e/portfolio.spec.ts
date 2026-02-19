@@ -10,6 +10,42 @@ const openMobileMenuIfNeeded = async (page: Page) => {
     }
 };
 
+const scrollSectionIntoView = async (page: Page, selector: string) => {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+        try {
+            const section = page.locator(selector).first();
+            await expect(section).toBeVisible({ timeout: 5000 });
+            await section.evaluate((element: HTMLElement) => {
+                element.scrollIntoView({ behavior: 'auto', block: 'start' });
+            });
+            await expect(section).toBeInViewport({ timeout: 3000 });
+            return;
+        } catch (error) {
+            if (attempt === 2) {
+                throw error;
+            }
+            await page.waitForTimeout(120);
+        }
+    }
+};
+
+const isLowPerformanceEnvironment = async (page: Page) =>
+    page.evaluate(() => {
+        const nav = navigator as Navigator & {
+            deviceMemory?: number;
+            connection?: { saveData?: boolean };
+        };
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        const noHover = window.matchMedia('(hover: none)').matches;
+        const lowCoreCount = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
+        const lowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
+        const saveDataEnabled = Boolean(nav.connection?.saveData);
+
+        return prefersReducedMotion || saveDataEnabled || lowCoreCount || lowMemory || (coarsePointer && noHover);
+    });
+
 test.describe('Portfolio E2E', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('/');
@@ -207,8 +243,7 @@ test.describe('Portfolio E2E', () => {
     });
 
     test('contact private channels should be reveal-on-demand', async ({ page }) => {
-        const contactSection = page.locator('#contact');
-        await contactSection.scrollIntoViewIfNeeded();
+        await scrollSectionIntoView(page, '#contact');
 
         await expect(page.getByText('15035925107')).toHaveCount(0);
         const revealButton = page.getByRole('button', { name: /展开更多联系方式/i });
@@ -227,6 +262,12 @@ test.describe('Portfolio E2E', () => {
     test('scroll progress bar should be visible after scrolling (desktop)', async ({ page }) => {
         const viewport = page.viewportSize();
         test.skip(!viewport || viewport.width < 768, 'desktop only');
+
+        const lowPerformanceMode = await isLowPerformanceEnvironment(page);
+        if (lowPerformanceMode) {
+            await expect(page.locator('[role="progressbar"]')).toHaveCount(0);
+            return;
+        }
 
         await page.evaluate(() => window.scrollTo(0, 600));
         await page.waitForTimeout(250);

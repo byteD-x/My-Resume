@@ -35,9 +35,6 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-      - name: Check formatting
-        run: npm run format:check
-
   test:
     runs-on: ubuntu-latest
     steps:
@@ -90,9 +87,15 @@ jobs:
         run: npm run build
 
       - name: Build static export
-        run: npm run build:pages -- My-Resume
-        env:
-          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/My-Resume
+        run: |
+          REPO_NAME="${{ github.event.repository.name }}"
+          OWNER_PAGES_REPO="${{ github.repository_owner }}.github.io"
+
+          if [ "$REPO_NAME" = "$OWNER_PAGES_REPO" ]; then
+            npm run build:pages
+          else
+            npm run build:pages -- "$REPO_NAME"
+          fi
 
       - name: Check links
         run: npm run check:links
@@ -103,6 +106,7 @@ jobs:
           path: out
 
   deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment:

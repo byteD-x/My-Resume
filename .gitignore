@@ -32,3 +32,13 @@ logs/
 .DS_Store
 
 agent_runs/
+
+# Playwright artifacts
+playwright-report/
+test-results/
+
+# Vercel local state
+.vercel/
+
+# Local scratch files
+.tmp-*
