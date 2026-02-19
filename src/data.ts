@@ -7,29 +7,29 @@ export const defaultPortfolioData: PortfolioData = {
     hero: {
         name: "杜旭嘉",
         title: "全栈工程师（工程效率与交付方向）",
-        subtitle: "把慢系统做快，把手工流程做成流水线，把原型做成可上线产品。以指标与证据闭环交付。",
+        subtitle: "全栈通用定位：后端性能 + AI 工程化 + 交付确定性。把慢系统做快，把流程做成流水线，且关键指标均可复核。",
         location: "远程优先 ｜ 可到岗：深圳 / 南京 / 杭州 / 成都",
         bullets: [
             {
                 id: "bullet-1",
                 title: "性能倍增",
-                description: "核心接口查询 20s → 4s (5x)，日志处理延迟 <10ms"
+                description: "核心接口查询 20s → 4s (5x)，通过 SQL 改写与 OLTP/OLAP 分离支撑高频运营决策"
             },
             {
                 id: "bullet-2",
                 title: "成本与稳定性",
-                description: "多模态 Token 成本降低 40%，图片上传成功率 >99%"
+                description: "多模态 Token 成本降低 40%，图片上传成功率 >99%，在体验不下降前提下降本"
             },
             {
                 id: "bullet-3",
                 title: "工程化交付",
-                description: "构建自动化工作流与 CI/CD，显著减少重复劳动与交付风险"
+                description: "构建自动化工作流与 CI/CD，建立 lint/build/test/e2e 门禁与回滚预案，降低发布风险"
             }
         ],
         quickFacts: {
-            role: "全栈工程师（后端性能 / 交付效率）",
+            role: "全栈工程师（后端性能 / AI 工程化 / 交付效率）",
             availability: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
-            techStack: ["Java", "Spring Boot", "Python", "React", "Next.js", "CI/CD"]
+            techStack: ["Java/Spring Boot", "Python/Asyncio", "MySQL/Redis/ClickHouse", "React/Next.js", "RAG/LLM", "CI/CD"]
         },
         roleSnapshot: {
             primaryRole: "全栈工程师（工程效率与交付方向）",
@@ -41,31 +41,30 @@ export const defaultPortfolioData: PortfolioData = {
     },
 
     about: {
-        zh: "具备全栈交付能力的工程师，专注于后端架构与 AI 应用落地。擅长通过异步架构、性能调优和自动化工具解决复杂工程问题。在多个项目中通过技术手段实现了显著的降本增效，包括 5 倍性能提升与 40% 成本节约。致力于以可验证的数据和代码交付业务价值。",
-        en: "Full-stack engineer specializing in backend architecture and AI engineering. Expert in solving complex engineering challenges through async architecture, performance tuning, and automation. Delivered measurable business value across multiple projects, including 5x performance gains and 40% cost reduction. Committed to shipping high-quality, verifiable software solutions."
+        zh: "全栈工程师，主攻后端性能优化、AI 工程化落地与可回滚交付；在真实项目中实现接口 5x 提速与 AI 成本 40% 降低，并坚持以可复核证据交付结果。",
+        en: "Full-stack engineer focused on backend performance, AI engineering, and deterministic delivery, with 5x API acceleration and 40% AI cost reduction backed by verifiable evidence."
     },
 
     aboutLenses: {
         business: [
-            "**我能带来的结果（业务可读）**",
-            "- 报表/接口：20s+ → 4s（5x）",
-            "- AI 成本：-40%（Token 压缩 + 缓存）",
-            "- 交付：CI/CD + 回滚，降低发布风险",
+            "**6 秒看结果（全栈通用）**",
+            "- 性能：活动统计/报表接口 20s+ → 4s（5x，联通项目）",
+            "- 成本：WeChat AI Bot 推理成本 -40%（Token 压缩 + 缓存）",
+            "- 交付确定性：CI/CD + 质量门禁 + 回滚预案（中软项目）",
             "",
-            "**我怎么做（方法论）**",
-            "- 先做基线（压测/监控/日志），再动手优化",
-            "- 每一步都有证据：指标、PR、仓库、脚本、验收记录",
+            "**口径说明（严格可复核）**",
+            "- 关键数字统一按“指标名-起点-终点-时间窗-来源”管理",
+            "- 无法给出完整口径的数据降级为定性描述，不作为核心卖点",
         ].join("\n"),
         engineering: [
-            "**擅长的工程问题（技术可读）**",
-            "- SQL/索引/执行计划，OLTP/OLAP 分离（ClickHouse）",
-            "- 异步 I/O 与解耦：Quart/asyncio、SSE、流式日志",
-            "- 大文件/媒体链路：分片、秒传、FFmpeg/HLS",
-            "- 工程化：lint/build/test/e2e、静态导出、可观测性、回滚",
+            "**ATS 关键词（前半页优先）**",
+            "- Java / Spring Boot / MySQL / Redis / ClickHouse",
+            "- Python / Asyncio / Quart / RAG / ChromaDB",
+            "- React / Next.js / TypeScript / CI/CD / Docker",
             "",
-            "**差异点**",
-            "- “快”不是拍脑袋：基线 → 优化 → 复核",
-            "- “能交付”不止能写完：部署、监控、回滚一并考虑",
+            "**工程方法（可追问）**",
+            "- 基线压测 -> 瓶颈定位 -> 方案实施 -> 指标复核",
+            "- 需求拆解 -> 质量门禁 -> 发布回滚 -> 监控告警",
         ].join("\n"),
     },
 
@@ -243,9 +242,9 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Chrome Extension", "Web Worker", "MutationObserver", "CSS Highlight API", "Trie"],
             highlighted: true,
             keyOutcomes: [
-                "2200+ 术语实时高亮：Worker 计算 + Highlight API 渲染，零 DOM 污染",
-                "SPA 稳定注入：History API + MutationObserver，路由切换不丢功能",
-                "并发与容错：请求节流 (3 req/s) + 重试；规则引擎结合 AI 兜底"
+                "将术语匹配下沉至 Web Worker 并改用 CSS Highlight API，在 GitHub/Gitee 场景实现 2200+ 术语实时高亮，减少检索与复制成本。",
+                "通过 History API 重写 + MutationObserver 重注入，保证 SPA 路由切换后插件能力不丢失，提升持续可用性。",
+                "引入节流（3 req/s）与重试兜底机制，稳定处理高频请求并降低错误中断对使用体验的影响。"
             ],
             audienceTags: ["jobSeeker", "partner", "client"],
             businessValue: {
@@ -286,9 +285,9 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Python", "Quart", "Asyncio", "RAG", "Electron", "SQLite", "ChromaDB"],
             highlighted: true,
             keyOutcomes: [
-                "吞吐提升 5x：Quart + asyncio，消息处理不阻塞",
-                "长期记忆：ChromaDB + SQLite 分层存储，支持多轮上下文",
-                "成本降低 40%：Token 压缩 + 缓存；日志流式处理 <10MB"
+                "将同步调用改为 Quart + asyncio 异步链路，消息处理吞吐提升 5x，并支撑高并发场景稳定响应。",
+                "使用 ChromaDB + SQLite 构建分层记忆，支持多轮上下文检索，提升复杂对话连续性。",
+                "采用 Token 压缩与缓存策略，将推理成本降低 40%，并通过流式日志控制内存占用 <10MB。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
@@ -327,10 +326,10 @@ export const defaultPortfolioData: PortfolioData = {
             location: "深圳",
             summary: "独立承接并交付智能流程自动化 (IPA) 原型：从需求澄清到可演示系统闭环，帮助客户快速验证可行性。",
             techTags: ["Python", "Automation", "Full Stack", "End-to-End Delivery"],
-            highlighted: true,
+            highlighted: false,
             keyOutcomes: [
-                "交付能力: 2 周内完成从需求到可演示原型的全流程，按期通过客户验收",
-                "技术验证: 验证了自动化脚本与 Web 系统的通讯可行性，为后续工程落地奠定基础"
+                "在需求不清晰且周期受限场景下，以敏捷迭代完成 IPA 原型交付，并按期通过客户验收。",
+                "完成自动化脚本与 Web 系统通信验证，为后续工程化立项提供可行性依据。"
             ],
             audienceTags: ["partner", "client"],
             businessValue: {
@@ -369,9 +368,9 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Java", "Spring Boot", "MySQL Performance", "CI/CD", "Redis"],
             highlighted: true,
             keyOutcomes: [
-                "接口秒开：核心聚合查询 10s+ → 500ms（执行计划/索引/缓存）",
-                "交付标准化：引入 CI/CD + 质量门禁，减少人工发布事故",
-                "慢查询治理：建立 Top SQL 监控与优化闭环，清理 20+ 隐患"
+                "重写聚合 SQL 并补充覆盖索引与缓存，将核心查询从 10s+ 降至 500ms，明显改善关键接口体验。",
+                "搭建 CI/CD + lint/build/test 门禁与回滚链路，发布耗时从 30 分钟降至 5 分钟，降低人工发布风险。",
+                "建立 Top SQL 监控与优化闭环，持续清理 20+ 慢查询隐患，提升系统稳定性。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner"],
             businessValue: {
@@ -410,9 +409,9 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Backend Architecture", "AI Search", "WeChat Mini Program", "System Design"],
             highlighted: false,
             keyOutcomes: [
-                "架构设计: 设计并实现高可用后端架构，支撑小程序稳定运行",
-                "业务价值: 将专家检索文献的平均耗时从小时级缩短至分钟级",
-                "AI 集成: 对接外部 AI 搜索 API，实现自然语言查文献"
+                "设计并实现高可用后端架构，支撑医学检索小程序稳定运行。",
+                "整合 AI 搜索与订阅推送，将文献检索时延从小时级降至分钟级，提升科研效率。",
+                "对接自然语言检索能力，降低专家检索门槛并提升结果相关性。"
             ],
             audienceTags: ["hr", "jobSeeker"],
             businessValue: {
@@ -451,9 +450,9 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Java", "ClickHouse", "MySQL", "Data Migration", "Performance Tuning"],
             highlighted: true,
             keyOutcomes: [
-                "报表秒开：活动统计 20s+ → 4s (5x)，关键聚合秒级呈现",
-                "OLAP 落地：ClickHouse 承载分析负载，解耦 MySQL 事务库",
-                "迁移与校对：300+ 表、数亿记录无损迁移，脚本化一致性校验"
+                "推动 OLTP/OLAP 分离并引入 ClickHouse，将活动统计接口从 20s+ 优化到 4s（5x），支撑高频运营分析。",
+                "落地 MySQL 到 ClickHouse 增量同步与 SQL 改写，承接聚合分析负载并缓解事务库压力。",
+                "完成 300+ 表、3亿+ 记录迁移与一致性校验，保障数据中台升级可追溯、可回滚。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner"],
             businessValue: {
@@ -492,9 +491,9 @@ export const defaultPortfolioData: PortfolioData = {
             techTags: ["Spring Boot", "Vue 3", "Redis", "FFmpeg", "File Systems"],
             highlighted: true,
             keyOutcomes: [
-                "核心上传: 实现 GB 级文件分片断点续传，结合 MD5 索引实现秒级去重",
-                "异步处理: 事务提交后异步触发 FFmpeg 视频转码与切片，解耦核心链路",
-                "全栈闭环: 实现了文件预览、分享有效期、回收站恢复等完整状态机管理"
+                "实现 GB 级分片断点续传与 MD5 去重，提升大文件上传成功率与传输效率。",
+                "通过事务后异步触发 FFmpeg 转码与 HLS 切片，解耦上传主链路并提升在线播放体验。",
+                "构建预览、分享、回收站状态机与鉴权机制，形成可维护的文件服务闭环。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner"],
             businessValue: {
@@ -606,9 +605,9 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "一套浏览器生产力工具：术语实时高亮、Git 平台增强、广告/噪音净化（Web Worker + CSS Highlight API，零 DOM 污染渲染）。",
             impact: "浏览器插件与用户脚本合集",
             keyOutcomes: [
-                "覆盖 2200+ 双语术语，实现毫秒级响应",
-                "解决 SPA 站点插件失效难题",
-                "构建了可扩展的浏览器脚本工程体系"
+                "将术语匹配计算下沉至 Web Worker，并以 CSS Highlight API 渲染，实现 2200+ 术语实时高亮。",
+                "通过 History API + MutationObserver 适配 SPA 路由，保持插件在 GitHub/Gitee 场景稳定生效。",
+                "构建可扩展的脚本工程结构与容错机制，降低功能迭代风险。"
             ],
             audienceTags: ["jobSeeker", "partner", "client"],
             businessValue: {
@@ -650,9 +649,9 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "微信 AI 助手：异步架构提升并发能力，RAG 提供长期记忆，Electron 管理端便于运维（成本与体验兼顾）。",
             impact: "异步架构 + RAG 记忆",
             keyOutcomes: [
-                "API 吞吐量提升 5x+ (异步 I/O)",
-                "日志内存占用 <10MB (流式处理)",
-                "Token 成本降低 40% (压缩策略)"
+                "基于 Quart + asyncio 改造消息链路，API 吞吐提升 5x+ 并降低阻塞风险。",
+                "采用日志流式处理与缓存策略，将运行期内存占用控制在 <10MB。",
+                "通过 Token 压缩与响应缓存，将模型调用成本降低 40%。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
@@ -692,9 +691,9 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "面向校内选课/考试高峰的教育平台：视频点播、支付、实时互动一体化（Redis 缓存 + RBAC + WebSocket）。",
             impact: "校内应用",
             keyOutcomes: [
-                "上线校内支付功能，流水稳定",
-                "支持数百人并发在线考试",
-                "视频点播流畅无卡顿"
+                "落地支付、课程、互动链路一体化交付，形成校内教学与付费闭环。",
+                "通过 Redis 缓存与 RBAC 权限治理，支撑高峰时段在线考试并保持稳定。",
+                "使用 WebSocket 实现实时互动，提升教学场景响应效率与参与度。"
             ],
             audienceTags: ["jobSeeker", "partner", "client"],
             businessValue: {
@@ -734,9 +733,9 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "企业级网盘系统：支持 GB 级大文件传输与在线播放；分片秒传、异步转码、回收站机制完整闭环。",
             impact: "文件服务与流媒体链路工程化",
             keyOutcomes: [
-                "GB 级文件稳定传输 (分片 + 断点续传)",
-                "视频在线秒播 (HLS 切片)",
-                "存储空间利用率提升 (MD5 去重)"
+                "实现 GB 级分片断点续传与秒传去重，保障大文件传输稳定性。",
+                "通过异步 FFmpeg 转码 + HLS 切片，实现视频在线播放与多码率适配。",
+                "以 AOP 鉴权 + Redis Lua 配额控制，保证权限与资源扣减一致性。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
@@ -776,9 +775,9 @@ export const defaultPortfolioData: PortfolioData = {
             summary: "面向密集仓储的多车路径规划原型：基于 A* + CBS 解决协同避让与死锁，并提供可视化仿真调试平台。",
             impact: "仓储自动化算法原型",
             keyOutcomes: [
-                "1000+ 格点地图路径秒级规划",
-                "多车协同无死锁运行",
-                "可视化工具提升调试效率 10 倍"
+                "构建 A* + CBS 路径规划引擎，解决密集仓储多车协同冲突问题。",
+                "建立时空预留与冲突检测机制，保障多车路径规划稳定运行。",
+                "开发 PyQt5 可视化仿真工具，显著提升算法调试与演示效率。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner"],
             businessValue: {
@@ -812,34 +811,40 @@ export const defaultPortfolioData: PortfolioData = {
 
     skills: [
         {
-            id: "skill-backend",
-            category: "后端架构",
-            description: "以性能与可用性为核心，能从 SQL/缓存/异步架构到可观测性打通闭环。",
-            items: ["Java (Spring Boot / Cloud)", "Python (Quart / Asyncio / Django)", "Go", "Microservices", "JVM Tuning", "High Concurrency"]
+            id: "skill-primary",
+            category: "主力（可独立负责）",
+            description: "与核心经历强绑定，可独立承担方案设计、实施和指标复核。",
+            items: [
+                "Java / Spring Boot（性能优化、接口治理、CI/CD）",
+                "Python / Asyncio / Quart（异步 I/O、任务解耦）",
+                "MySQL / Redis / ClickHouse（OLTP+OLAP、查询提速）",
+                "RAG / ChromaDB / LLM 成本治理",
+                "React / Next.js / TypeScript（全栈交付与静态导出）",
+            ]
         },
         {
-            id: "skill-data",
-            category: "数据与中间件",
-            description: "擅长海量数据存储与查询优化：索引、分库分表、OLAP/OLTP 分离与数据迁移。",
-            items: ["MySQL (Index / Optimization)", "Redis (Cluster / Lua)", "ClickHouse (OLAP)", "Elasticsearch", "Kafka / RabbitMQ", "MinIO"]
+            id: "skill-proficient",
+            category: "熟练（可独立交付）",
+            description: "可在项目中独立落地，并与主力能力形成交付闭环。",
+            items: [
+                "Docker / Linux Shell / Nginx",
+                "Jenkins / GitLab CI（质量门禁与回滚）",
+                "Vue 3 / Electron / Chrome Extension",
+                "WebSocket / SSE / FFmpeg-HLS",
+                "DataX / ETL / 数据一致性校验脚本",
+            ]
         },
         {
-            id: "skill-ai",
-            category: "AI 工程化",
-            description: "把 LLM 能力接入真实业务：RAG、工具调用、成本控制与可观测性。",
-            items: ["RAG (LangChain / LlamaIndex)", "Prompt Engineering", "Agent Design", "Vector DB (Chroma / Milvus)", "LLM API Integration", "Function Calling"]
-        },
-        {
-            id: "skill-devops",
-            category: "DevOps 与云原生",
-            description: "关注交付确定性：CI/CD、容器化、监控告警与回滚方案，减少线上风险。",
-            items: ["Docker / Kubernetes", "CI/CD (GitLab / Jenkins)", "Nginx / OpenResty", "Prometheus / Grafana", "Linux Shell", "AWS / Aliyun"]
-        },
-        {
-            id: "skill-frontend",
-            category: "前端与全栈",
-            description: "能把后端能力产品化：复杂交互、性能优化、跨端（Web/Electron/Extension）。",
-            items: ["Vue 3 / Nuxt.js", "React / Next.js", "TypeScript", "TailwindCSS", "Chrome Extension", "Electron"]
+            id: "skill-familiar",
+            category: "了解（可协作落地）",
+            description: "具备实践基础，可在团队协作中快速接手和扩展。",
+            items: [
+                "Go（服务开发基础）",
+                "Kubernetes（部署与资源编排基础）",
+                "Kafka / RabbitMQ（消息队列基础）",
+                "Elasticsearch / MinIO（检索与对象存储基础）",
+                "AWS / Aliyun（云资源基础）",
+            ]
         }
     ],
 

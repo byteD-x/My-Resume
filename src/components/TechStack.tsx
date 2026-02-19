@@ -15,14 +15,17 @@ const categoryIcons: Record<string, React.ElementType> = {
     "Backend": Code2,
     "后端开发": Code2,
     "后端架构": Code2,
+    "主力（可独立负责）": Code2,
     "Data": Database,
     "数据存储": Database,
     "数据与中间件": Database,
+    "了解（可协作落地）": Database,
     "AI Engineering": BrainCircuit,
     "AI 工程化": BrainCircuit,
     "Engineering": Terminal,
     "工程 & 运维": Terminal,
     "DevOps 与云原生": Terminal,
+    "熟练（可独立交付）": Terminal,
     "Frontend": Layout,
     "前端 & 全栈": Layout,
     "前端与全栈": Layout,
@@ -50,14 +53,14 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
     const secondRow = allSkills.slice(Math.ceil(allSkills.length / 2));
 
     return (
-        <Section className="bg-slate-50/50" id="skills">
+        <Section className="bg-slate-50" id="skills">
             <Container>
                 {/* Header */}
                 <div className="max-w-3xl mb-12 md:mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
                         技术栈与工具箱
                     </h2>
-                    <p className="text-lg text-slate-600 max-w-2xl leading-relaxed">
+                    <p className="text-lg text-slate-700 max-w-2xl leading-relaxed">
                         不设技术边界，以解决问题为核心；用 AI 提效，但用工程门禁保证质量。
                     </p>
                 </div>
@@ -134,11 +137,10 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                                     ease: [0.16, 1, 0.3, 1]
                                 }}
                                 whileHover={{
-                                    y: -4,
-                                    boxShadow: '0 20px 40px -16px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(59, 130, 246, 0.08)'
+                                    boxShadow: '0 20px 40px -16px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(59, 130, 246, 0.14)',
+                                    borderColor: 'rgba(59, 130, 246, 0.28)',
                                 }}
-                                className="bg-white rounded-xl border border-slate-200 p-6 flex flex-col"
-                                style={{ willChange: 'transform' }}
+                                className="bg-white rounded-xl border border-slate-200 p-6 flex flex-col shadow-sm"
                             >
                                 <div className="flex items-center gap-3 mb-4">
                                     <motion.div
@@ -153,7 +155,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                                     </h3>
                                 </div>
 
-                                <p className="text-sm text-slate-500 mb-6 min-h-[40px]">
+                                <p className="text-sm text-slate-700 mb-6 min-h-[40px]">
                                     {category.description}
                                 </p>
 

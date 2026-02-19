@@ -54,7 +54,6 @@ test.describe('Portfolio E2E', () => {
     test('home page should render key structure', async ({ page }) => {
         await expect(page.locator('main')).toBeVisible();
         await expect(page.locator('h1')).toHaveCount(1);
-        await expect(page.locator('#audience')).toBeVisible();
         await expect(page.locator('#impact')).toBeVisible();
         await expect(page.locator('#experience')).toBeVisible();
         await expect(page.locator('#projects')).toBeVisible();
@@ -89,44 +88,13 @@ test.describe('Portfolio E2E', () => {
         await expect(projectsSection).toBeInViewport({ timeout: 5000 });
     });
 
-    test('audience hub should render four role paths', async ({ page }) => {
-        await expect(page.locator('#audience')).toBeVisible();
-        await expect(page.getByRole('heading', { name: 'HR' })).toBeVisible();
-        await expect(page.getByRole('heading', { name: '求职者' })).toBeVisible();
-        await expect(page.getByRole('heading', { name: '合作伙伴' })).toBeVisible();
-        await expect(page.getByRole('heading', { name: '客户' })).toBeVisible();
-    });
-
-    test('audience customer path should scroll to contact section', async ({ page }) => {
-        const contactSection = page.locator('#contact');
-        await expect(contactSection).not.toBeInViewport();
-
-        const customerPath = page.getByRole('button', { name: /客户\s*快速路径/i }).first();
-        await expect(customerPath).toBeVisible();
-        await customerPath.click();
-
-        try {
-            await expect(contactSection).toBeInViewport({ timeout: 5000 });
-        } catch {
-            await customerPath.evaluate((el: HTMLButtonElement) => el.click());
-            await expect(contactSection).toBeInViewport({ timeout: 10000 });
-        }
-    });
-
-    test('audience hr path should scroll to experience section', async ({ page }) => {
-        const experienceSection = page.locator('#experience');
-        await expect(experienceSection).not.toBeInViewport();
-
-        const hrPath = page.getByRole('button', { name: /HR\s*快速路径/i }).first();
-        await expect(hrPath).toBeVisible();
-        await hrPath.click();
-
-        try {
-            await expect(experienceSection).toBeInViewport({ timeout: 5000 });
-        } catch {
-            await hrPath.evaluate((el: HTMLButtonElement) => el.click());
-            await expect(experienceSection).toBeInViewport({ timeout: 10000 });
-        }
+    test('about and audience quick-entry sections should not render', async ({ page }) => {
+        await expect(page.locator('#about')).toHaveCount(0);
+        await expect(page.locator('#audience')).toHaveCount(0);
+        await expect(page.getByRole('heading', { name: '你可以快速怎么读我' })).toHaveCount(0);
+        await expect(page.getByRole('heading', { name: '按角色快速进入' })).toHaveCount(0);
+        await expect(page.getByRole('button', { name: /HR\s*快速路径/i })).toHaveCount(0);
+        await expect(page.getByRole('button', { name: /客户\s*快速路径/i })).toHaveCount(0);
     });
 
     test('legacy editor entry points should not exist', async ({ page }) => {

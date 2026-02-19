@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { defaultPortfolioData } from '@/data';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -50,15 +50,6 @@ const Timeline = dynamic(
     },
 );
 
-// Lazy loaded components
-const AboutSection = dynamic(() => import('@/components/AboutSection'), {
-    loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
-});
-
-const AudienceHub = dynamic(() => import('@/components/AudienceHub'), {
-    loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
-});
-
 const HighlightDeck = dynamic(() => import('@/components/HighlightDeck'), {
     loading: () => <div className="h-96 w-full animate-pulse bg-slate-50/50" />,
 });
@@ -72,9 +63,25 @@ const EngineeringCommandCenter = dynamic(() => import('@/components/EngineeringC
     loading: () => null,
 });
 
+function extractTimelineSortKey(period: string): number {
+    const match = period.match(/(\d{4})(?:\.(\d{1,2}))?/);
+    if (!match) return Number.NEGATIVE_INFINITY;
+
+    const year = Number(match[1]);
+    const month = Number(match[2] ?? '1');
+    if (!Number.isFinite(year) || !Number.isFinite(month)) {
+        return Number.NEGATIVE_INFINITY;
+    }
+
+    return year * 100 + Math.min(Math.max(month, 1), 12);
+}
+
 export default function HomePageClient() {
     const data = defaultPortfolioData;
     const isLowPerformanceMode = useLowPerformanceMode();
+    const timelineByDate = useMemo(() => {
+        return [...data.timeline].sort((a, b) => extractTimelineSortKey(b.year) - extractTimelineSortKey(a.year));
+    }, [data.timeline]);
 
     useEffect(() => {
         const state = readScrollRestore();
@@ -107,17 +114,11 @@ export default function HomePageClient() {
             {!isLowPerformanceMode && <DarkModeCursorGlow />}
 
             <Hero data={data.hero} />
-            <MotionWrapper delay={0.06}>
-                <AboutSection lenses={data.aboutLenses} />
-            </MotionWrapper>
-            <MotionWrapper delay={0.08}>
-                <AudienceHub cards={data.audienceCards} />
-            </MotionWrapper>
 
             <MotionWrapper delay={0.1}>
                 <Section id="impact" className="scroll-mt-20">
                     <Container>
-                        <HighlightDeck items={data.impact} timeline={data.timeline} />
+                        <HighlightDeck items={data.impact} timeline={timelineByDate} />
                     </Container>
                 </Section>
             </MotionWrapper>
@@ -128,10 +129,10 @@ export default function HomePageClient() {
                         <div className="mb-16">
                             <h2 className="mb-4 text-3xl font-bold text-slate-900">职业履历</h2>
                             <p className="max-w-2xl text-lg text-slate-600">
-                                从独立开发到企业级项目交付的完整路径。
+                                优先展示 5 段核心经历，其余经历作为补充背景，便于快速判断岗位匹配度。
                             </p>
                         </div>
-                        <Timeline items={data.timeline} />
+                        <Timeline items={timelineByDate} />
                     </Container>
                 </Section>
             </MotionWrapper>

@@ -116,7 +116,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="antialiased font-body"
+        className="subpixel-antialiased font-body"
         suppressHydrationWarning
       >
         <AnalyticsProvider>

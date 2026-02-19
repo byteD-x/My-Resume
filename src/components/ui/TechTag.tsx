@@ -28,14 +28,13 @@ export function TechTag({
       {...interactiveProps}
       className={cn(
         'group inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition-all',
-        'hover:-translate-y-0.5 hover:shadow-sm active:translate-y-0',
+        'hover:shadow-sm',
         className
       )}
       style={{
-        // Add transparency to the background for a modern, subtle look
-        backgroundColor: colors.bg + '80',
+        backgroundColor: colors.bg,
         color: colors.text,
-        // Remove border color
+        border: `1px solid ${colors.border}`,
       }}
     >
       {icon}
