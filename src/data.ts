@@ -483,44 +483,44 @@ export const defaultPortfolioData: PortfolioData = {
         },
         {
             id: "exp-cloudpan",
-            year: "2024.01 - 2024.02",
-            role: "全栈开发 · 个人项目",
+            year: "2024.04 - 2026.02",
+            role: "全栈开发 · 开源项目",
             company: "EasyCloudPan",
-            location: "开源项目",
-            summary: "从零开发企业级网盘：分片断点续传、秒传去重、异步转码与回收站全链路（Spring Boot + Redis + FFmpeg）。",
-            techTags: ["Spring Boot", "Vue 3", "Redis", "FFmpeg", "File Systems"],
+            location: "开源项目（本地 + Docker）",
+            summary: "将 EasyCloudPan 从网盘原型迭代为企业级文件平台：多租户、分片秒传、对象存储、JWT 双 Token 与监控告警一体化（Java 21 + Spring Boot 3.2 + Vue 3）。",
+            techTags: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose"],
             highlighted: true,
             keyOutcomes: [
-                "实现 GB 级分片断点续传与 MD5 去重，提升大文件上传成功率与传输效率。",
-                "通过事务后异步触发 FFmpeg 转码与 HLS 切片，解耦上传主链路并提升在线播放体验。",
-                "构建预览、分享、回收站状态机与鉴权机制，形成可维护的文件服务闭环。"
+                "落地分片上传/断点续传/秒传与 NIO 零拷贝分片合并，支撑 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
+                "构建 Caffeine + Redis 多级缓存、布隆过滤器与随机 TTL，缓存命中率 >90%，并显著降低数据库峰值压力。",
+                "打通 JWT 双 Token + 黑名单、AOP 文件访问控制与 Magic Number 校验，配套 Prometheus/Grafana 告警形成可运维闭环。"
             ],
-            audienceTags: ["hr", "jobSeeker", "partner"],
+            audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
-                zh: "构建了高可用、可扩展的文件存储解决方案，具备商用网盘的核心特性。",
-                en: "Built a highly available, scalable file storage solution with core features of commercial cloud storage."
+                zh: "形成可私有化部署的一体化网盘系统，在高并发文件服务场景下兼顾性能、安全与可观测性。",
+                en: "Delivered a privately deployable cloud-drive platform that balances performance, security, and observability."
             },
             engineeringDepth: {
-                zh: "深入实践了文件分块算法、Redis 资源配额管理、AOP 权限切面及异步任务调度。",
-                en: "Deep practice in chunking algorithms, Redis quota management, AOP auth aspects, and async task scheduling."
+                zh: "覆盖虚拟线程并发、多级缓存治理、对象存储容灾与多租户隔离，并通过脚本化验收矩阵保证可验证交付。",
+                en: "Covers virtual-thread concurrency, layered cache governance, object-storage resilience, and tenant isolation with script-based verification."
             },
             verification: [
                 {
                     sourceType: "repo",
-                    sourceLabel: "GitHub 仓库",
+                    sourceLabel: "GitHub 仓库与验收文档",
                     sourceUrl: "https://github.com/icefunicu/easyCloudPan",
-                    verifiedAt: "2026-02-15",
+                    verifiedAt: "2026-02-23",
                     confidence: "high",
                     level: "strict"
                 }
             ],
             expandedDetails: {
-                background: "为了深入掌握大文件处理与全栈架构，从零构建网盘系统。",
-                problem: "大文件上传占用带宽且易失败；视频在线播放转码复杂；多用户权限管理繁琐。",
-                solution: "- **传输优化**：SparkMD5 计算文件指纹，分片并行上传，后端自动合并。\n- **媒体处理**：利用 FFmpeg 生成 HLS 流，支持流畅在线播放。\n- **权限控制**：基于 AOP 实现统一的鉴权与参数校验拦截器。",
-                result: "系统稳定运行，核心上传下载功能流畅，代码结构清晰，易于扩展。",
-                role: "全栈开发",
-                techStack: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "FFmpeg"]
+                background: "项目从基础网盘原型持续演进，需要在同一系统内同时满足高并发上传、多租户隔离、安全鉴权与运维可视化。",
+                problem: "大文件链路受网络抖动影响易失败；热点查询与深分页导致性能衰减；认证与文件访问缺少统一安全边界。",
+                solution: "- **并发与传输**：基于 Java 21 虚拟线程重构 I/O 链路，结合分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并。\n- **数据与缓存**：采用 PostgreSQL + 游标分页，配套 Caffeine L1 + Redis L2 + 布隆过滤器 + 随机 TTL，抑制穿透与雪崩。\n- **安全与租户**：实现 JWT 双 Token、Token 黑名单、`@FileAccessCheck` 权限切面、Magic Number 文件校验与 `X-Tenant-Id` 租户上下文隔离。\n- **观测与交付**：接入 Actuator/Micrometer、Prometheus/Grafana，并以 `scripts/api_smoke_test.ps1` 固化核心验收链路。",
+                result: "形成“本地一键启动 + Docker 全栈部署”的可交付系统，验收矩阵 P0/P1 核心项完成，性能与稳定性达到 README 指标口径。",
+                role: "全栈开发（架构设计、后端核心、前端联调、部署验收）",
+                techStack: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose", "Prometheus", "Grafana"]
             }
         },
         {
@@ -725,45 +725,48 @@ export const defaultPortfolioData: PortfolioData = {
         },
         {
             id: "proj-cloudpan",
-            year: "2024.01 - 2024.02",
+            year: "2024.04 - 2026.02",
             name: "EasyCloudPan",
             link: "https://github.com/icefunicu/easyCloudPan",
             demoLink: "",
-            techTags: ["Spring Boot", "MyBatis", "MySQL", "Redis", "Vue 3", "Vite", "FFmpeg", "HLS"],
-            summary: "企业级网盘系统：支持 GB 级大文件传输与在线播放；分片秒传、异步转码、回收站机制完整闭环。",
-            impact: "文件服务与流媒体链路工程化",
+            techTags: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose", "Prometheus"],
+            summary: "企业级一体化网盘系统：覆盖认证、上传下载、分享转存、回收站、文件预览、多租户与监控告警，支持本地与 Docker 全栈部署。",
+            impact: "企业级文件平台与可观测性工程化",
             keyOutcomes: [
-                "实现 GB 级分片断点续传与秒传去重，保障大文件传输稳定性。",
-                "通过异步 FFmpeg 转码 + HLS 切片，实现视频在线播放与多码率适配。",
-                "以 AOP 鉴权 + Redis Lua 配额控制，保证权限与资源扣减一致性。"
+                "落地分片上传/断点续传/秒传与零拷贝分片合并，支撑 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
+                "完成 JWT 双 Token + 黑名单 + AOP 文件权限 + Magic Number 校验，覆盖认证与文件访问主链路安全。",
+                "建设 Prometheus 指标、Grafana 仪表盘与脚本化验收矩阵，核心 P0/P1 链路可复现验证。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
-                zh: "构建了私有化部署的高性能文件存储与协作中心。",
-                en: "Built a high-performance private cloud storage and collaboration hub."
+                zh: "提供可私有化部署的文件协作平台，降低大文件场景的运维与安全风险。",
+                en: "Provides a privately deployable file collaboration platform with lower operational and security risks."
             },
             engineeringDepth: {
-                zh: "深入解析了断点续传协议、视音频编解码流程及分布式锁的应用。",
-                en: "Deep analysis of resumable upload protocols, AV transcoding, and distributed locks."
+                zh: "融合虚拟线程、对象存储、多级缓存、游标分页与可观测性体系，形成可扩展工程基线。",
+                en: "Combines virtual threads, object storage, layered caching, cursor pagination, and observability into an extensible engineering baseline."
             },
             verification: [
                 {
                     sourceType: "repo",
-                    sourceLabel: "GitHub 仓库",
+                    sourceLabel: "GitHub 仓库、README 与验收矩阵",
                     sourceUrl: "https://github.com/icefunicu/easyCloudPan",
-                    verifiedAt: "2026-02-15",
+                    verifiedAt: "2026-02-23",
                     confidence: "high",
                     level: "strict"
                 }
             ],
             expandedDetails: {
-                background: "打造个人与小团队可用的高性能网盘。",
-                problem: "大文件传输难，视频播放难，权限管理难。",
-                solution: "- **传输优化**：SparkMD5 计算文件指纹，分片并行上传，后端自动合并 (Sendfile 零拷贝逻辑思路)。\n- **媒体处理**：事务提交后异步触发 FFmpeg 转码，生成 HLS 流实现多码率适配。\n- **资源与权限**：基于 AOP 实现统一鉴权，利用 Redis Lua 脚本保证配额扣减原子性。",
-                result: "功能完备，体验流畅，代码规范。",
-                role: "全栈开发",
-                techStack: ["Spring Boot", "FFmpeg", "Vue 3"],
-                links: [{ label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" }]
+                background: "项目目标是将网盘能力升级为可企业内部署的一体化文件平台，并兼顾安全、性能与可运维性。",
+                problem: "需要同时解决大文件链路稳定性、热点查询性能、安全鉴权一致性与上线后观测闭环。",
+                solution: "- **高并发上传链路**：分片上传、断点续传、秒传、令牌桶限流与零拷贝合并，提升传输稳定性。\n- **性能治理**：PostgreSQL 复合索引 + 游标分页，配合 Caffeine/Redis 多级缓存与布隆过滤器降低回源压力。\n- **安全体系**：JWT 双 Token + 黑名单，`@FileAccessCheck` 文件权限切面，Magic Number 文件类型校验。\n- **可观测与验收**：接入 Actuator/Micrometer、Prometheus/Grafana，使用验收矩阵和脚本化 smoke test 固化 P0/P1 主链路。",
+                result: "实现本地联调与 Docker 部署双链路可用，核心业务与鉴权链路可复现验证，系统可持续迭代。",
+                role: "全栈开发（主导）",
+                techStack: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose", "Prometheus", "Grafana"],
+                links: [
+                    { label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" },
+                    { label: "README", url: "https://github.com/icefunicu/easyCloudPan#readme" }
+                ]
             },
             highlighted: true
         },
