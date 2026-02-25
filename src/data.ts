@@ -487,40 +487,40 @@ export const defaultPortfolioData: PortfolioData = {
             role: "全栈开发 · 开源项目",
             company: "EasyCloudPan",
             location: "开源项目（本地 + Docker）",
-            summary: "将 EasyCloudPan 从网盘原型迭代为企业级文件平台：多租户、分片秒传、对象存储、JWT 双 Token 与监控告警一体化（Java 21 + Spring Boot 3.2 + Vue 3）。",
-            techTags: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose"],
+            summary: "面向企业内网部署的前后端分离网盘系统：支持本地一键启动与 Docker 全栈部署，覆盖认证、上传下载、分享转存、回收站、文件预览、多租户、安全通信、OAuth 登录与监控告警。",
+            techTags: ["Java 21", "Spring Boot 3.2", "Spring Security", "OAuth2", "MyBatis-Flex", "Flyway", "PostgreSQL", "Redis", "MinIO/S3", "Vue 3", "Docker Compose", "Prometheus/Grafana"],
             highlighted: true,
             keyOutcomes: [
-                "落地分片上传/断点续传/秒传与 NIO 零拷贝分片合并，支撑 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
-                "构建 Caffeine + Redis 多级缓存、布隆过滤器与随机 TTL，缓存命中率 >90%，并显著降低数据库峰值压力。",
-                "打通 JWT 双 Token + 黑名单、AOP 文件访问控制与 Magic Number 校验，配套 Prometheus/Grafana 告警形成可运维闭环。"
+                "构建“分片上传 + 秒传 + 断点续传 + SSE 状态回传”主链路，结合 `FileChannel.transferTo()` 零拷贝合并与并发控制，支持 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
+                "落地请求签名防重放（HMAC-SHA256 + timestamp + nonce）与 JWT 双 Token + 黑名单治理，兼容 query token 退场；叠加 `@FileAccessCheck`、Magic Number 与多租户校验形成安全闭环。",
+                "建立“本地一键启动 + 健康检查 + 日志分层 + 监控告警 + Web Vitals 入库”工程基线，按 README 口径达到 API P95 <500ms、P99 <1s、缓存命中率 >90%。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
-                zh: "形成可私有化部署的一体化网盘系统，在高并发文件服务场景下兼顾性能、安全与可观测性。",
+                zh: "提供可私有化部署的一体化文件平台，兼顾高并发上传、安全治理、可观测与工程交付，降低企业文件服务的稳定性与安全风险。",
                 en: "Delivered a privately deployable cloud-drive platform that balances performance, security, and observability."
             },
             engineeringDepth: {
-                zh: "覆盖虚拟线程并发、多级缓存治理、对象存储容灾与多租户隔离，并通过脚本化验收矩阵保证可验证交付。",
-                en: "Covers virtual-thread concurrency, layered cache governance, object-storage resilience, and tenant isolation with script-based verification."
+                zh: "覆盖虚拟线程并发、上传状态机、签名防重放、OAuth 扩展接入、多租户隔离、Web Vitals 采集与脚本化验收，具备可回归验证的工程交付能力。",
+                en: "Covers virtual-thread concurrency, upload-state governance, signature replay protection, OAuth extensibility, tenant isolation, and observability with script-based verification."
             },
             verification: [
                 {
                     sourceType: "repo",
-                    sourceLabel: "GitHub 仓库与验收文档",
+                    sourceLabel: "GitHub 仓库、README、RESUME_EasyCloudPan 文档与代码锚点",
                     sourceUrl: "https://github.com/icefunicu/easyCloudPan",
-                    verifiedAt: "2026-02-23",
+                    verifiedAt: "2026-02-24",
                     confidence: "high",
                     level: "strict"
                 }
             ],
             expandedDetails: {
-                background: "项目从基础网盘原型持续演进，需要在同一系统内同时满足高并发上传、多租户隔离、安全鉴权与运维可视化。",
-                problem: "大文件链路受网络抖动影响易失败；热点查询与深分页导致性能衰减；认证与文件访问缺少统一安全边界。",
-                solution: "- **并发与传输**：基于 Java 21 虚拟线程重构 I/O 链路，结合分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并。\n- **数据与缓存**：采用 PostgreSQL + 游标分页，配套 Caffeine L1 + Redis L2 + 布隆过滤器 + 随机 TTL，抑制穿透与雪崩。\n- **安全与租户**：实现 JWT 双 Token、Token 黑名单、`@FileAccessCheck` 权限切面、Magic Number 文件校验与 `X-Tenant-Id` 租户上下文隔离。\n- **观测与交付**：接入 Actuator/Micrometer、Prometheus/Grafana，并以 `scripts/api_smoke_test.ps1` 固化核心验收链路。",
-                result: "形成“本地一键启动 + Docker 全栈部署”的可交付系统，验收矩阵 P0/P1 核心项完成，性能与稳定性达到 README 指标口径。",
+                background: "项目目标是把网盘能力沉淀为可企业内部署的文件平台，并保持本地一键启动与 Docker 全栈部署两条链路一致可用。",
+                problem: "需要同时解决大文件上传稳定性、热点查询与深分页性能、安全鉴权一致性、第三方登录接入复杂度，以及上线后的监控与告警闭环。",
+                solution: "- **传输链路**：Java 21 虚拟线程 + 分片上传/断点续传/秒传 + `FileChannel.transferTo()` 零拷贝合并，配合上传限流、分片并发控制与 SSE 状态推送。\n- **数据性能**：PostgreSQL 复合索引 + 游标分页，结合 Caffeine(L1)/Redis(L2)、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **安全与隔离**：请求签名防重放（HMAC-SHA256 + timestamp + nonce）+ JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number、`X-Tenant-Id` 多租户上下文隔离。\n- **身份接入**：通过 `OAuthController` + `OAuthLoginService` 接入 GitHub/Google/Microsoft 三方登录，并与既有 QQ 登录兼容。\n- **观测与交付**：Actuator/Micrometer + Prometheus/Grafana + 结构化日志；前端 Web Vitals 上报到 `AnalyticsController` 入库，结合脚本化 smoke test 固化 P0/P1 验收链路。",
+                result: "形成可私有化部署的一体化文件平台：API P95 <500ms、P99 <1s、数据库查询 P95 <100ms、慢查询减少 80%、缓存命中率 >90%、上传成功率 >99.5%（README 指标口径）。",
                 role: "全栈开发（架构设计、后端核心、前端联调、部署验收）",
-                techStack: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose", "Prometheus", "Grafana"]
+                techStack: ["Java 21", "Spring Boot 3.2", "Spring Security", "OAuth2", "MyBatis-Flex", "Flyway", "PostgreSQL", "Redis", "MinIO/S3", "Vue 3", "Docker Compose", "Prometheus", "Grafana"]
             }
         },
         {
@@ -729,40 +729,40 @@ export const defaultPortfolioData: PortfolioData = {
             name: "EasyCloudPan",
             link: "https://github.com/icefunicu/easyCloudPan",
             demoLink: "",
-            techTags: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose", "Prometheus"],
-            summary: "企业级一体化网盘系统：覆盖认证、上传下载、分享转存、回收站、文件预览、多租户与监控告警，支持本地与 Docker 全栈部署。",
-            impact: "企业级文件平台与可观测性工程化",
+            techTags: ["Java 21", "Spring Boot 3.2", "Spring Security", "OAuth2", "MyBatis-Flex", "Flyway", "PostgreSQL", "Redis", "MinIO/S3", "Vue 3", "Docker Compose", "Prometheus", "Grafana"],
+            summary: "前后端分离的一体化网盘系统：覆盖认证、上传下载、分享转存、回收站、文件预览、多租户、安全通信、OAuth 登录与监控告警，支持本地一键启动与 Docker 全栈部署。",
+            impact: "企业级文件平台（私有化部署 + 安全基线 + 可观测）",
             keyOutcomes: [
-                "落地分片上传/断点续传/秒传与零拷贝分片合并，支撑 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
-                "完成 JWT 双 Token + 黑名单 + AOP 文件权限 + Magic Number 校验，覆盖认证与文件访问主链路安全。",
-                "建设 Prometheus 指标、Grafana 仪表盘与脚本化验收矩阵，核心 P0/P1 链路可复现验证。"
+                "构建“分片上传 + 秒传 + 断点续传 + SSE 状态回传”主链路，结合零拷贝分片合并，支持 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
+                "完成 PostgreSQL 复合索引 + 游标分页 + Caffeine/Redis 多级缓存治理，API P95 <500ms、P99 <1s、数据库查询 P95 <100ms、缓存命中率 >90%。",
+                "构建请求签名防重放 + JWT 双 Token + 黑名单 + 多租户隔离 + OAuth 多提供方登录，并接入 Prometheus/Grafana 与 Web Vitals 入库，核心 P0/P1 流程可复现验证。"
             ],
             audienceTags: ["hr", "jobSeeker", "partner", "client"],
             businessValue: {
-                zh: "提供可私有化部署的文件协作平台，降低大文件场景的运维与安全风险。",
+                zh: "为团队提供可私有化部署的文件协作底座，兼顾高并发上传、安全治理、身份接入扩展、监控告警与脚本化验收。",
                 en: "Provides a privately deployable file collaboration platform with lower operational and security risks."
             },
             engineeringDepth: {
-                zh: "融合虚拟线程、对象存储、多级缓存、游标分页与可观测性体系，形成可扩展工程基线。",
-                en: "Combines virtual threads, object storage, layered caching, cursor pagination, and observability into an extensible engineering baseline."
+                zh: "落地虚拟线程、零拷贝、签名防重放、OAuth 扩展接入、索引优化、多级缓存、游标分页与可观测体系，并在本地/容器双部署链路下保持一致交付。",
+                en: "Combines virtual threads, zero-copy transfer, signature replay protection, OAuth extensibility, layered caching, cursor pagination, and observability into an extensible engineering baseline."
             },
             verification: [
                 {
                     sourceType: "repo",
-                    sourceLabel: "GitHub 仓库、README 与验收矩阵",
+                    sourceLabel: "GitHub 仓库、README、RESUME_EasyCloudPan 文档与代码锚点",
                     sourceUrl: "https://github.com/icefunicu/easyCloudPan",
-                    verifiedAt: "2026-02-23",
+                    verifiedAt: "2026-02-24",
                     confidence: "high",
                     level: "strict"
                 }
             ],
             expandedDetails: {
-                background: "项目目标是将网盘能力升级为可企业内部署的一体化文件平台，并兼顾安全、性能与可运维性。",
-                problem: "需要同时解决大文件链路稳定性、热点查询性能、安全鉴权一致性与上线后观测闭环。",
-                solution: "- **高并发上传链路**：分片上传、断点续传、秒传、令牌桶限流与零拷贝合并，提升传输稳定性。\n- **性能治理**：PostgreSQL 复合索引 + 游标分页，配合 Caffeine/Redis 多级缓存与布隆过滤器降低回源压力。\n- **安全体系**：JWT 双 Token + 黑名单，`@FileAccessCheck` 文件权限切面，Magic Number 文件类型校验。\n- **可观测与验收**：接入 Actuator/Micrometer、Prometheus/Grafana，使用验收矩阵和脚本化 smoke test 固化 P0/P1 主链路。",
-                result: "实现本地联调与 Docker 部署双链路可用，核心业务与鉴权链路可复现验证，系统可持续迭代。",
+                background: "目标是在前后端分离架构下交付可企业内部署的文件平台，同时兼容本地一键启动与 Docker 全栈部署。",
+                problem: "需同时满足高并发上传稳定性、深分页与热点查询性能、安全鉴权一致性、第三方登录扩展能力和上线后可观测闭环。",
+                solution: "- **上传与下载链路**：分片上传、断点续传、秒传、令牌桶限流与零拷贝合并（`FileChannel.transferTo()`），并通过 SSE 回传转码状态。\n- **数据与缓存治理**：PostgreSQL 复合索引 + 游标分页，配套 Caffeine/Redis 多级缓存、布隆过滤器与分级 TTL。\n- **安全体系**：请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 文件校验、敏感配置加密与日志脱敏。\n- **身份接入**：`OAuthController` + `OAuthLoginService` 统一接入 GitHub/Google/Microsoft，并与 QQ 登录兼容。\n- **可观测与验收**：Actuator/Micrometer 指标、Prometheus/Grafana 仪表板与告警规则；前端 Web Vitals 通过 `AnalyticsController` 入库，脚本化 smoke test 覆盖核心 P0/P1 流程。",
+                result: "形成可持续迭代的交付基线：API P95 <500ms、P99 <1s、缓存命中率 >90%、上传成功率 >99.5%，并支持本地与 Docker 双链路部署（README 指标口径）。",
                 role: "全栈开发（主导）",
-                techStack: ["Java 21", "Spring Boot 3.2", "MyBatis-Flex", "PostgreSQL", "Redis", "MinIO", "Vue 3", "Docker Compose", "Prometheus", "Grafana"],
+                techStack: ["Java 21", "Spring Boot 3.2", "Spring Security", "OAuth2", "MyBatis-Flex", "Flyway", "PostgreSQL", "Redis", "MinIO/S3", "Vue 3", "Docker Compose", "Prometheus", "Grafana"],
                 links: [
                     { label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" },
                     { label: "README", url: "https://github.com/icefunicu/easyCloudPan#readme" }
