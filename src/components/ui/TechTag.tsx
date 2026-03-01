@@ -1,6 +1,6 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { getTechColor } from '@/config/techColors';
+import React from "react";
+import { cn } from "@/lib/utils";
+import { getTechColor } from "@/config/techColors";
 
 interface TechTagProps {
   name: string;
@@ -18,18 +18,18 @@ export function TechTag({
   className,
 }: TechTagProps) {
   const colors = getTechColor(name);
-  const Comp = expandable ? 'button' : 'span';
+  const Comp = expandable ? "button" : "span";
   const interactiveProps = expandable
-    ? { type: 'button' as const, onClick: onExpand }
+    ? { type: "button" as const, onClick: onExpand }
     : {};
 
   return (
     <Comp
       {...interactiveProps}
       className={cn(
-        'group inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition-all',
-        'hover:shadow-sm',
-        className
+        "group inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold transition-all",
+        "hover:shadow-sm",
+        className,
       )}
       style={{
         backgroundColor: colors.bg,

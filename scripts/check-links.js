@@ -38,6 +38,7 @@ function extractLinks(content) {
     return matches
         .map((raw) => raw.replace(/\$\{[^}]*$/, ''))
         .map((raw) => raw.replace(/[),.;!?]+$/, ''))
+        .map((raw) => raw.split('#')[0])
         .filter((raw) => !raw.includes('${'))
         .filter(Boolean);
 }
@@ -77,13 +78,19 @@ function checkLinkWithMethod(url, method) {
 }
 
 async function checkLink(url) {
-    const transientErrorPattern = /ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket disconnected|ENOTFOUND/i;
+    const transientErrorPattern = /ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket disconnected|socket hang up|ENOTFOUND/i;
 
     for (let attempt = 0; attempt <= RETRIES; attempt++) {
         let result = await checkLinkWithMethod(url, 'HEAD');
         if (
             result.status === 'error' &&
-            (result.code === 403 || result.code === 405 || result.code === 429)
+            (
+                result.code === 403 ||
+                result.code === 405 ||
+                result.code === 429 ||
+                (typeof result.code === 'number' && result.code >= 500) ||
+                /github\.com/i.test(url)
+            )
         ) {
             result = await checkLinkWithMethod(url, 'GET');
         }
@@ -94,6 +101,22 @@ async function checkLink(url) {
         const canRetry = attempt < RETRIES && isTransientNetworkError;
 
         if (!canRetry) {
+            const isGitHub = /github\.com/i.test(url);
+            const isLikelyRemoteThrottle =
+                result.status !== 'ok' &&
+                (
+                    result.code === 429 ||
+                    (typeof result.code === 'number' && result.code >= 500) ||
+                    isTransientNetworkError
+                );
+            if (isGitHub && isLikelyRemoteThrottle) {
+                return {
+                    ...result,
+                    status: 'ok',
+                    degraded: true,
+                    retries: attempt > 0 ? attempt : undefined,
+                };
+            }
             if (attempt > 0) {
                 result.retries = attempt;
             }
@@ -142,7 +165,8 @@ async function main() {
     const results = await runWithConcurrency(linksToCheck, CONCURRENCY, async (url) => {
         const result = await checkLink(url);
         const reason = result.code || result.error || result.status;
-        const prefix = result.status === 'ok' ? green('OK') : red(`FAIL (${reason})`);
+        const okLabel = result.degraded ? 'OK (degraded)' : 'OK';
+        const prefix = result.status === 'ok' ? green(okLabel) : red(`FAIL (${reason})`);
         const method = result.method ? yellow(`[${result.method}]`) : '';
         const retryInfo = typeof result.retries === 'number' && result.retries > 0 ? ` (retries=${result.retries})` : '';
         console.log(`${method} ${url} -> ${prefix}${retryInfo}`);

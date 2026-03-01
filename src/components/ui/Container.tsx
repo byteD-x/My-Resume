@@ -1,18 +1,15 @@
-import React from 'react';
-import { cn } from '@/lib/utils'; // Assuming cn exists, if not I will handle it
+import React from "react";
+import { cn } from "@/lib/utils"; // Assuming cn exists, if not I will handle it
 
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-    children: React.ReactNode;
-    className?: string;
+  children: React.ReactNode;
+  className?: string;
 }
 
 export function Container({ children, className, ...props }: ContainerProps) {
-    return (
-        <div
-            className={cn("container", className)}
-            {...props}
-        >
-            {children}
-        </div>
-    );
+  return (
+    <div className={cn("container", className)} {...props}>
+      {children}
+    </div>
+  );
 }

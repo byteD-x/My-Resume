@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { m as motion, useScroll, useSpring } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { m as motion, useScroll, useSpring } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface ProgressBarProps {
   className?: string;
@@ -19,8 +19,8 @@ export function ProgressBar({ className }: ProgressBarProps) {
   return (
     <motion.div
       className={cn(
-        'absolute left-0 top-0 h-0.5 w-full origin-left bg-gradient-to-r from-blue-500 via-cyan-400 to-sky-500',
-        className
+        "absolute left-0 top-0 h-0.5 w-full origin-left bg-gradient-to-r from-blue-500 via-cyan-400 to-sky-500",
+        className,
       )}
       style={{ scaleX }}
       aria-hidden="true"

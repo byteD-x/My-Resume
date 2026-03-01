@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import type { ReactNode } from 'react';
-import { LazyMotion, domAnimation } from 'framer-motion';
+import type { ReactNode } from "react";
+import { LazyMotion, domAnimation } from "framer-motion";
 
 interface MotionProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export function MotionProvider({ children }: MotionProviderProps) {
-    return <LazyMotion features={domAnimation}>{children}</LazyMotion>;
+  return <LazyMotion features={domAnimation}>{children}</LazyMotion>;
 }

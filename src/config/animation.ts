@@ -25,14 +25,14 @@ export const MOBILE_CONFIG = {
 
 /** 检测是否为触控设备 (需在客户端调用) */
 export const isTouchDevice = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return 'ontouchstart' in window;
+  if (typeof window === "undefined") return false;
+  return "ontouchstart" in window;
 };
 
 /** 检测是否应该启用高性能动画模式 */
 export const shouldEnableHighPerformance = (): boolean => {
-  if (typeof window === 'undefined') return false;
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (typeof window === "undefined") return false;
+  return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 };
 
 /** 动画性能等级 */
@@ -68,13 +68,13 @@ export const CURSOR_GLOW_CONFIG = {
   /** 默认光斑大小 (px) */
   SIZE: 300,
   /** 默认光斑颜色 */
-  COLOR_LIGHT: 'rgba(59, 130, 246, 0.15)',
-  COLOR_DARK: 'rgba(99, 102, 241, 0.2)',
+  COLOR_LIGHT: "rgba(59, 130, 246, 0.15)",
+  COLOR_DARK: "rgba(99, 102, 241, 0.2)",
   /** 暗色模式增大尺寸 */
   SIZE_DARK: 350,
   SIZE_LIGHT: 250,
   /** 混合模式 */
-  BLEND_MODE: 'normal',
+  BLEND_MODE: "normal",
   /** 节流间隔 (ms) - 减少更新频率 */
   THROTTLE_MS: 16,
   /** 动画延迟 (ms) */
@@ -120,7 +120,7 @@ export const TILT_CONFIG = {
     defaultPosition: 50,
   },
   /** 缓动曲线 - 使用更平滑的曲线 */
-  EASING: 'cubic-bezier(0.16, 1, 0.3, 1)',
+  EASING: "cubic-bezier(0.16, 1, 0.3, 1)",
   /** 是否启用 GPU 加速 */
   GPU_ACCELERATED: true,
 } as const;
@@ -169,7 +169,7 @@ export const HERO_ANIMATION = {
   BACKGROUND: {
     duration: 10,
     repeat: Infinity,
-    ease: 'easeInOut',
+    ease: "easeInOut",
     paused: false,
   },
   /** 第二个背景装饰延迟 */

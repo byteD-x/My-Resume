@@ -1,8 +1,8 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs));
 }
 
 /**
@@ -10,24 +10,26 @@ export function cn(...inputs: ClassValue[]) {
  * @param callback 位置更新回调
  * @returns 节流后的处理函数
  */
-export function useRafThrottle<T extends (e: MouseEvent) => void>(callback: T): T {
-    let rafId: number | null = null;
-    let lastEvent: MouseEvent | null = null;
+export function useRafThrottle<T extends (e: MouseEvent) => void>(
+  callback: T,
+): T {
+  let rafId: number | null = null;
+  let lastEvent: MouseEvent | null = null;
 
-    const throttled = function (e: MouseEvent) {
-        lastEvent = e;
+  const throttled = function (e: MouseEvent) {
+    lastEvent = e;
 
-        if (rafId === null) {
-            rafId = requestAnimationFrame(() => {
-                if (lastEvent) {
-                    callback(lastEvent);
-                }
-                rafId = null;
-            });
+    if (rafId === null) {
+      rafId = requestAnimationFrame(() => {
+        if (lastEvent) {
+          callback(lastEvent);
         }
-    } as T;
+        rafId = null;
+      });
+    }
+  } as T;
 
-    return throttled;
+  return throttled;
 }
 
 /**
@@ -36,33 +38,33 @@ export function useRafThrottle<T extends (e: MouseEvent) => void>(callback: T): 
  * @returns 节流后的处理函数和清理函数
  */
 export function createRafThrottle<T>(callback: (value: T) => void): {
-    throttled: (value: T) => void;
-    cancel: () => void;
+  throttled: (value: T) => void;
+  cancel: () => void;
 } {
-    let rafId: number | null = null;
-    let pendingValue: T | null = null;
+  let rafId: number | null = null;
+  let pendingValue: T | null = null;
 
-    const throttled = (value: T) => {
-        pendingValue = value;
+  const throttled = (value: T) => {
+    pendingValue = value;
 
-        if (rafId === null) {
-            rafId = requestAnimationFrame(() => {
-                if (pendingValue !== null) {
-                    callback(pendingValue);
-                }
-                pendingValue = null;
-                rafId = null;
-            });
-        }
-    };
-
-    const cancel = () => {
-        if (rafId !== null) {
-            cancelAnimationFrame(rafId);
-            rafId = null;
+    if (rafId === null) {
+      rafId = requestAnimationFrame(() => {
+        if (pendingValue !== null) {
+          callback(pendingValue);
         }
         pendingValue = null;
-    };
+        rafId = null;
+      });
+    }
+  };
 
-    return { throttled, cancel };
+  const cancel = () => {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+      rafId = null;
+    }
+    pendingValue = null;
+  };
+
+  return { throttled, cancel };
 }

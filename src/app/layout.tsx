@@ -14,7 +14,17 @@ export const metadata: Metadata = {
     default: `${siteConfig.name} - ${siteConfig.role}`,
   },
   description: siteConfig.description,
-  keywords: ["后端工程师", "全栈开发", "AI工程", "Java", "Spring Boot", "Python", "LLM", "Resume", "Portfolio"],
+  keywords: [
+    "后端工程师",
+    "全栈开发",
+    "AI工程",
+    "Java",
+    "Spring Boot",
+    "Python",
+    "LLM",
+    "Resume",
+    "Portfolio",
+  ],
   authors: [{ name: siteConfig.name }],
   openGraph: {
     title: `${siteConfig.name} - ${siteConfig.role}`,
@@ -62,25 +72,25 @@ const fontBody = IBM_Plex_Sans({
 
 export default function RootLayout({
   children,
-  modal
+  modal,
 }: Readonly<{
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
   // Generate SoftwareSourceCode schema for GitHub projects
   const softwareProjects = defaultPortfolioData.projects
-    .filter(p => p.link && p.link.includes('github.com'))
-    .map(p => ({
+    .filter((p) => p.link && p.link.includes("github.com"))
+    .map((p) => ({
       "@type": "SoftwareSourceCode",
-      "name": p.name,
-      "description": p.summary,
-      "codeRepository": p.link,
-      "programmingLanguage": p.techTags.join(", "),
-      "author": {
+      name: p.name,
+      description: p.summary,
+      codeRepository: p.link,
+      programmingLanguage: p.techTags.join(", "),
+      author: {
         "@type": "Person",
-        "name": siteConfig.name
+        name: siteConfig.name,
       },
-      "datePublished": p.year
+      datePublished: p.year,
     }));
 
   // JSON-LD structured data with Graph
@@ -89,43 +99,39 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "Person",
-        "name": siteConfig.name,
-        "url": siteConfig.siteUrl,
-        "jobTitle": siteConfig.role,
-        "description": siteConfig.description,
-        "image": `${siteConfig.siteUrl}/og.png`,
-        "sameAs": [
-          "https://github.com/icefunicu",
-          siteConfig.siteUrl
-        ],
-        "worksFor": {
+        name: siteConfig.name,
+        url: siteConfig.siteUrl,
+        jobTitle: siteConfig.role,
+        description: siteConfig.description,
+        image: `${siteConfig.siteUrl}/og.png`,
+        sameAs: ["https://github.com/icefunicu", siteConfig.siteUrl],
+        worksFor: {
           "@type": "Organization",
-          "name": "Open to Opportunities"
-        }
+          name: "Open to Opportunities",
+        },
       },
-      ...softwareProjects
-    ]
+      ...softwareProjects,
+    ],
   };
 
   return (
-    <html lang="zh-CN" suppressHydrationWarning className={cn(fontHeading.variable, fontBody.variable)}>
+    <html
+      lang="zh-CN"
+      suppressHydrationWarning
+      className={cn(fontHeading.variable, fontBody.variable)}
+    >
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body
-        className="subpixel-antialiased font-body"
-        suppressHydrationWarning
-      >
+      <body className="subpixel-antialiased font-body" suppressHydrationWarning>
         <AnalyticsProvider>
           <MotionProvider>
             <WebVitals />
             <SkipToContent />
-            <div id="main-content">
-              {children}
-            </div>
+            <div id="main-content">{children}</div>
             {modal}
           </MotionProvider>
         </AnalyticsProvider>
