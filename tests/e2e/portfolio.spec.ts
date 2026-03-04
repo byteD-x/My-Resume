@@ -167,8 +167,7 @@ test.describe('Portfolio E2E', () => {
     });
 
     test('impact card should not auto-jump, and jump only when explicitly requested', async ({ page }) => {
-        const impactSection = page.locator('#impact');
-        await impactSection.scrollIntoViewIfNeeded();
+        await scrollSectionIntoView(page, '#impact');
         await page.waitForTimeout(150);
 
         const firstCard = page.locator('#impact button[aria-label]').first();
