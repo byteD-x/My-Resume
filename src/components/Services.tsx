@@ -6,6 +6,7 @@ import { Layout, Bot, Zap, Workflow } from "lucide-react";
 import { ServiceItem } from "@/types";
 import { Section } from "./ui/Section";
 import { Container } from "./ui/Container";
+import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 
 // Map icon strings to components
 const IconMap: Record<
@@ -23,6 +24,9 @@ interface ServicesProps {
 }
 
 export default function Services({ services }: ServicesProps) {
+  const isLowPerformanceMode = useLowPerformanceMode();
+  const shouldAnimateInView = !isLowPerformanceMode;
+
   if (!services || services.length === 0) return null;
 
   return (
@@ -30,9 +34,10 @@ export default function Services({ services }: ServicesProps) {
       <Container>
         <div className="mb-12 md:mb-16">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={shouldAnimateInView ? { opacity: 0, y: 20 } : false}
+            whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
+            animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
+            viewport={shouldAnimateInView ? { once: true } : undefined}
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-4">
@@ -59,9 +64,10 @@ export default function Services({ services }: ServicesProps) {
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                initial={shouldAnimateInView ? { opacity: 0, y: 20 } : false}
+                whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
+                animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
+                viewport={shouldAnimateInView ? { once: true } : undefined}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
                 className="group relative bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/50 dark:border-slate-700 hover:border-blue-500/20 dark:hover:border-blue-500/30 flex flex-col h-full"
               >

@@ -6,6 +6,7 @@ import { ArrowUpDown, Search, Sparkles } from "lucide-react";
 import { ProjectItem } from "@/types";
 import { ExperienceCard } from "./ExperienceCard";
 import { cn } from "@/lib/utils";
+import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 
 interface ProjectListProps {
   items: ProjectItem[];
@@ -29,6 +30,8 @@ function extractSortKey(period: string): number {
 }
 
 export function ProjectList({ items }: ProjectListProps) {
+  const isLowPerformanceMode = useLowPerformanceMode();
+  const shouldAnimateInView = !isLowPerformanceMode;
   const [query, setQuery] = useState("");
   const [activeTech, setActiveTech] = useState<string>("all");
   const [sortMode, setSortMode] = useState<SortMode>("highlight");
@@ -76,9 +79,10 @@ export function ProjectList({ items }: ProjectListProps) {
   return (
     <div className="space-y-6">
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
+        whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
+        animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
+        viewport={shouldAnimateInView ? { once: true } : undefined}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="rounded-2xl border border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur-md md:p-5"
       >
@@ -186,9 +190,10 @@ export function ProjectList({ items }: ProjectListProps) {
       ) : (
         <motion.div
           className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-10%" }}
+          initial={shouldAnimateInView ? "hidden" : false}
+          whileInView={shouldAnimateInView ? "show" : undefined}
+          animate={!shouldAnimateInView ? "show" : undefined}
+          viewport={shouldAnimateInView ? { once: true, margin: "-10%" } : undefined}
           variants={{
             hidden: { opacity: 0 },
             show: {

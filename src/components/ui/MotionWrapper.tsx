@@ -2,6 +2,7 @@
 
 import { m as motion, Variants, Transition } from "framer-motion";
 import { ReactNode } from "react";
+import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 // 动画预设类型
@@ -82,7 +83,9 @@ export const MotionWrapper = ({
   disableOnReducedMotion = true,
 }: MotionWrapperProps) => {
   const prefersReducedMotion = useReducedMotion();
-  const shouldAnimate = !prefersReducedMotion || !disableOnReducedMotion;
+  const isLowPerformanceMode = useLowPerformanceMode();
+  const shouldAnimate =
+    (!prefersReducedMotion || !disableOnReducedMotion) && !isLowPerformanceMode;
 
   const variants = presetVariants[preset];
 
@@ -130,6 +133,7 @@ export const StaggerContainer = ({
   staggerDelay = 0.1,
 }: StaggerContainerProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isLowPerformanceMode = useLowPerformanceMode();
 
   const containerVariants: Variants = {
     initial: {},
@@ -141,7 +145,7 @@ export const StaggerContainer = ({
     },
   };
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || isLowPerformanceMode) {
     return <div className={className}>{children}</div>;
   }
 
@@ -172,9 +176,10 @@ export const StaggerItem = ({
   preset = "fade-up",
 }: StaggerItemProps) => {
   const prefersReducedMotion = useReducedMotion();
+  const isLowPerformanceMode = useLowPerformanceMode();
   const variants = presetVariants[preset];
 
-  if (prefersReducedMotion) {
+  if (prefersReducedMotion || isLowPerformanceMode) {
     return <div className={className}>{children}</div>;
   }
 

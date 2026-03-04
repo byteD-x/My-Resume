@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   m as motion,
   AnimatePresence,
@@ -49,7 +49,6 @@ export function CursorGlow({
   const [isPageHidden, setIsPageHidden] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const isLowPerformanceMode = useLowPerformanceMode();
-  const rafIdRef = useRef<number | null>(null);
 
   // 检测移动端
   useEffect(() => {

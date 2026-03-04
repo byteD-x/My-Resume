@@ -291,6 +291,13 @@ body {
   body {
     background-attachment: scroll;
   }
+
+  /* Mobile browsers can misreport viewport intersection for content-visibility:auto,
+     which causes in-view driven sections to stay hidden until a manual viewport resize. */
+  .content-auto {
+    content-visibility: visible !important;
+    contain-intrinsic-size: auto !important;
+  }
 }
 
 /* ========================================

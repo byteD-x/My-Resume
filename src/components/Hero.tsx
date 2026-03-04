@@ -9,7 +9,6 @@ import { HeroStatusBadges } from "./Hero/HeroStatusBadges";
 import { HeroQuickFacts } from "./Hero/HeroQuickFacts";
 import { HeroBullets } from "./Hero/HeroBullets";
 import { HeroCTA } from "./Hero/HeroCTA";
-import { HERO_ANIMATION, EASING_CURVES } from "@/config/animation";
 import {
   createResumeDownloadHandler,
   formatResumeFileName,
@@ -21,15 +20,6 @@ const HeroBackground = lazy(() => import("./HeroBackground"));
 interface HeroProps {
   data: HeroData;
 }
-
-const fadeIn = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: {
-    duration: HERO_ANIMATION.FADE_IN.duration,
-    ease: EASING_CURVES.OUT_EXPO,
-  },
-};
 
 export default function Hero({ data }: HeroProps) {
   const resumeFileName = formatResumeFileName(data.title, data.name);
@@ -48,10 +38,24 @@ export default function Hero({ data }: HeroProps) {
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    target.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
-      block: "start",
-    });
+    const scrollToProjects = (behavior: ScrollBehavior) => {
+      target.scrollIntoView({
+        behavior,
+        block: "start",
+      });
+    };
+
+    scrollToProjects(prefersReducedMotion ? "auto" : "smooth");
+
+    // Dynamic section payloads can shift layout after first scroll on mobile.
+    // Re-align once layout settles so the anchor remains in viewport.
+    window.setTimeout(() => {
+      const rect = target.getBoundingClientRect();
+      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!isInViewport) {
+        scrollToProjects("auto");
+      }
+    }, 450);
 
     const hash = `#${targetId}`;
     if (window.location.hash !== hash) {

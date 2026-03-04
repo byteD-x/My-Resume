@@ -1,7 +1,6 @@
 "use client";
 
 import { m as motion, useReducedMotion } from "framer-motion";
-import { HERO_ANIMATION } from "@/config/animation";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 
 /**

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { m as motion } from "framer-motion";
+import { m as motion, useMotionValue } from "framer-motion";
 import { useScrollObserverState } from "@/lib/scroll-observer";
 import { cn } from "@/lib/utils";
 
@@ -33,7 +33,7 @@ export default function SectionRail({ sections }: SectionRailProps) {
   const [activeSection, setActiveSection] = useState<string>(
     sections[0]?.id ?? "",
   );
-  const [railProgress, setRailProgress] = useState(0);
+  const railProgress = useMotionValue(0.02);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -98,8 +98,8 @@ export default function SectionRail({ sections }: SectionRailProps) {
       interpolatedVal = 1;
     }
 
-    setRailProgress(Math.min(Math.max(interpolatedVal, 0), 1));
-  }, [y, activeSection, sections]);
+    railProgress.set(Math.max(Math.min(Math.max(interpolatedVal, 0), 1), 0.02));
+  }, [y, activeSection, sections, railProgress]);
 
   if (sections.length === 0) return null;
 
@@ -113,10 +113,10 @@ export default function SectionRail({ sections }: SectionRailProps) {
           <div className="absolute left-1/2 top-1 -z-10 h-[calc(100%-0.5rem)] w-px -translate-x-1/2 bg-slate-200/70" />
           <motion.div
             className="absolute left-1/2 top-1 -z-10 h-[calc(100%-0.5rem)] w-px origin-top -translate-x-1/2 bg-gradient-to-b from-blue-500 via-cyan-500 to-sky-400"
-            style={{ scaleY: Math.max(railProgress, 0.02) }}
+            style={{ scaleY: railProgress }}
           />
 
-          {sections.map((section, index) => {
+          {sections.map((section) => {
             const isActive = section.id === activeSection;
             return (
               <button
