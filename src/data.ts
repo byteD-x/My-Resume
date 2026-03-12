@@ -1,4 +1,4 @@
-import { PortfolioData } from "./types";
+﻿import { PortfolioData } from "./types";
 
 // ==========================================
 // 默认内容 JSON（用于 reset）
@@ -6,62 +6,65 @@ import { PortfolioData } from "./types";
 export const defaultPortfolioData: PortfolioData = {
   hero: {
     name: "杜旭嘉",
-    title: "全栈工程师（工程效率与交付方向）",
+    title: "AI 应用工程师（RAG / Agent / 智能客服）",
     subtitle:
-      "全栈通用定位：后端性能 + AI 工程化 + 交付确定性。把慢系统做快，把流程做成流水线，且关键指标均可复核。",
+      "主攻检索增强、工作流编排、多模态接入与业务系统集成。做过企业知识问答、智能客服运行时和成本治理，强调可恢复、可评测、可复核交付。",
     location: "远程优先 ｜ 可到岗：深圳 / 南京 / 杭州 / 成都",
     bullets: [
       {
         id: "bullet-1",
-        title: "性能倍增",
+        title: "检索与编排",
         description:
-          "核心接口查询 20s → 4s (5x)，通过 SQL 改写与 OLTP/OLAP 分离支撑高频运营决策",
+          "混合检索 + LangGraph 运行时，支持 citations / grounding_score / interrupt-resume / step_events",
       },
       {
         id: "bullet-2",
-        title: "成本与稳定性",
+        title: "业务集成",
         description:
-          "多模态 Token 成本降低 40%，图片上传成功率 >99%，在体验不下降前提下降本",
+          "文本 / 语音 / RTC 三通道接入，支持 Auth Bridge、业务工具、转人工与租户级插件扩展",
       },
       {
         id: "bullet-3",
-        title: "工程化交付",
+        title: "成本与交付",
         description:
-          "构建自动化工作流与 CI/CD，建立 lint/build/test/e2e 门禁与回滚预案，降低发布风险",
+          "做过 5x 提速与 40% 成本下降，并用 lint / build / test / e2e / regression gate 约束交付质量",
       },
     ],
     quickFacts: {
-      role: "全栈工程师（后端性能 / AI 工程化 / 交付效率）",
+      role: "AI 应用工程师（RAG / Agent / 智能客服）",
       availability: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
       techStack: [
         "Java/Spring Boot",
-        "Python/Asyncio",
-        "MySQL/Redis/ClickHouse",
-        "React/Next.js",
-        "RAG/LLM",
-        "CI/CD",
+        "Python/FastAPI/AsyncIO",
+        "Quart/OpenAI",
+        "LangGraph/RAG/Qdrant",
+        "OpenAI/ASR/TTS/RTC",
+        "PostgreSQL/Redis/ClickHouse",
+        "Next.js/Vue 3/TypeScript",
+        "Docker/CI/CD",
       ],
     },
     roleSnapshot: {
-      primaryRole: "全栈工程师（工程效率与交付方向）",
-      secondaryRole: "后端 / AI 工程",
+      primaryRole: "AI 应用工程师（RAG / Agent / 智能客服）",
+      secondaryRole: "后端 / 全栈工程交付",
       availability: "远程优先",
       location: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
-      updatedAt: "2026-02-15",
+      updatedAt: "2026-03-13",
     },
   },
 
   about: {
-    zh: "全栈工程师，主攻后端性能优化、AI 工程化落地与可回滚交付；在真实项目中实现接口 5x 提速与 AI 成本 40% 降低，并坚持以可复核证据交付结果。",
-    en: "Full-stack engineer focused on backend performance, AI engineering, and deterministic delivery, with 5x API acceleration and 40% AI cost reduction backed by verifiable evidence.",
+    zh: "AI 应用工程师，主攻 RAG 检索增强、Agent/工作流编排、多模态客服与业务系统集成；能把 Demo 做成可恢复、可评测、可接入真实业务的系统，并坚持用仓库、测试与指标证明结果。",
+    en: "AI application engineer focused on RAG, workflow orchestration, multimodal customer service, and business-system integration, with a bias toward recoverable, testable, and evidence-backed delivery.",
   },
 
   aboutLenses: {
     business: [
-      "**6 秒看结果（全栈通用）**",
-      "- 性能：活动统计/报表接口 20s+ → 4s（5x，联通项目）",
-      "- 成本：WeChat AI Bot 推理成本 -40%（Token 压缩 + 缓存）",
-      "- 交付确定性：CI/CD + 质量门禁 + 回滚预案（中软项目）",
+      "**6 秒看结果（AI 应用工程师）**",
+      "- 问答可信：支持 citations、grounding_score、trace_id，回答可追溯而不是只给结论",
+      "- 运行时能力：支持 checkpoint、interrupt/resume、人工澄清与回归门禁，不靠“重跑试试”",
+      "- 业务接入：文本 / 语音 / RTC + Auth Bridge + Business Tool，AI 不只会答文档",
+      "- 成本与性能：做过 40% 推理降本，也做过 20s+ → 4s 的后端性能治理",
       "",
       "**口径说明（严格可复核）**",
       "- 关键数字统一按“指标名-起点-终点-时间窗-来源”管理",
@@ -69,13 +72,14 @@ export const defaultPortfolioData: PortfolioData = {
     ].join("\n"),
     engineering: [
       "**ATS 关键词（前半页优先）**",
-      "- Java / Spring Boot / MySQL / Redis / ClickHouse",
-      "- Python / Asyncio / Quart / RAG / ChromaDB",
-      "- React / Next.js / TypeScript / CI/CD / Docker",
+      "- Python / FastAPI / AsyncIO / LangGraph / RAG / Qdrant",
+      "- OpenAI / Tool Calling / ASR / TTS / RTC / WebSocket / SSE",
+      "- PostgreSQL / Redis / ClickHouse / Docker / CI/CD",
+      "- Next.js / Vue 3 / TypeScript",
       "",
       "**工程方法（可追问）**",
-      "- 基线压测 -> 瓶颈定位 -> 方案实施 -> 指标复核",
-      "- 需求拆解 -> 质量门禁 -> 发布回滚 -> 监控告警",
+      "- Query rewrite -> hybrid retrieval -> rerank -> grounded answer -> evidence review",
+      "- Checkpoint -> interrupt/resume -> eval/regression -> release guardrails",
     ].join("\n"),
   },
 
@@ -134,6 +138,35 @@ export const defaultPortfolioData: PortfolioData = {
         sourceLabel: "GitHub Stars",
         sourceUrl: "https://github.com/icefunicu/wechat-bot",
         verifiedAt: "2026-02-15",
+        confidence: "high",
+        level: "strict",
+      },
+    },
+    {
+      id: "impact-customer-ai",
+      title: "客服运行时",
+      value: "7+",
+      label: "插件扩展点",
+      description:
+        "Customer AI Runtime：智能客服运行时参考实现，覆盖文本/语音/RTC、宿主挂载、插件扩展与多租户知识库",
+      details: [
+        "**对非技术**：把 AI 客服从“只会答文档”升级为“能接业务、能转人工、能嵌入宿主系统”的运行时。",
+        "",
+        "**关键做法（技术）**",
+        "- 分层架构：渠道接入/宿主桥接/核心引擎/业务增强/插件平台/提供商适配六层解耦",
+        "- 智能路由：route_confidence 分层 + intent_stack 上下文追踪，低置信度主动澄清或转人工",
+        "- 插件化架构：7 大扩展点（路由/工具/行业/鉴权/上下文/回复处理/人工协同）",
+        "- 多租户知识库：版本管理、切片优化、健康巡检、效果分析与反馈闭环",
+      ].join("\n"),
+      linkedExperienceId: "exp-customer-ai-runtime",
+      icon: "Bot",
+      colSpan: "md:col-span-1",
+      bg: "bg-teal-50",
+      verification: {
+        sourceType: "repo",
+        sourceLabel: "README / docs / tests",
+        sourceUrl: "https://github.com/icefunicu/customer-ai-runtime",
+        verifiedAt: "2026-03-13",
         confidence: "high",
         level: "strict",
       },
@@ -383,6 +416,78 @@ export const defaultPortfolioData: PortfolioData = {
       },
     },
     {
+      id: "exp-customer-ai-runtime",
+      year: "2026.02 - 至今",
+      role: "独立开发者 · 开源项目",
+      company: "Customer AI Runtime",
+      location: "开源项目",
+      summary:
+        "智能客服运行时参考实现：支持文本/语音/RTC、RAG 知识增强、业务工具调用、宿主系统挂载与人工协同（FastAPI + AsyncIO + 插件架构）。",
+      techTags: [
+        "Python",
+        "FastAPI",
+        "AsyncIO",
+        "RAG",
+        "Plugin Architecture",
+        "OpenAI",
+        "Voice / RTC",
+        "Qdrant",
+        "Multi-tenant",
+        "Auth Bridge",
+      ],
+      highlighted: true,
+      keyOutcomes: [
+        "搭建文本 / 语音 / RTC 三通道统一运行时，覆盖 Voice API、RTC WebSocket 与宿主挂载接入。",
+        "实现路由决策链路，结合 route_confidence、intent_stack、page_context、business_objects 做澄清/转人工分流。",
+        "构建 7 类插件扩展点与 Auth Bridge / 管理 API，支持租户级插件启停、宿主鉴权复用和业务工具接入。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把 AI 客服从单纯知识问答扩展为可挂载、可接业务、可转人工的运行时能力，便于宿主系统低改造接入。",
+        en: "Turned AI customer service from simple knowledge Q&A into a mountable runtime that can connect business tools and human handoff.",
+      },
+      engineeringDepth: {
+        zh: "展示了分层架构、插件注册中心、Auth Bridge、多提供商适配、语音/RTC 链路与多租户边界控制的完整工程能力。",
+        en: "Showcases layered architecture, plugin registry, auth bridging, provider adaptation, voice/RTC runtime, and multi-tenant boundary control.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel: "GitHub 仓库 README / docs / tests",
+          sourceUrl: "https://github.com/icefunicu/customer-ai-runtime",
+          verifiedAt: "2026-03-13",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "很多 AI 客服 Demo 只能回答静态知识，难以兼顾实时业务查询、多通道接入、宿主系统复用与人工协同。",
+        problem:
+          "缺乏统一运行时：文本/语音/RTC 链路分散，宿主系统不愿重建鉴权，业务工具接入与转人工流程也容易写死在主流程里。",
+        solution:
+          "- **分层架构**：渠道接入层、宿主桥接层、核心引擎层、业务增强层、插件平台层、提供商适配层六层解耦。\n- **统一运行时**：同一套会话与路由能力覆盖文本、Voice API、RTC WebSocket 与宿主挂载模式。\n- **插件化扩展**：7 大扩展点（Route/BusinessTool/Handoff/Industry/AuthBridge/Context/Response），支持注册、启停与范围过滤。\n- **业务与知识增强**：结合 page_context、business_objects、intent_stack 做动态路由，多租户知识库支持版本、健康巡检、切片优化与效果分析。\n- **运维与管理**：管理 API 支持插件状态、provider health、session monitor、feedback summary 与知识库健康报告。",
+        result:
+          "形成可独立运行或宿主挂载的智能客服运行时参考实现，覆盖多通道接入、业务查询、转人工、租户隔离与插件化扩展。",
+        role: "独立开发者（架构设计与核心开发）",
+        techStack: [
+          "Python 3.13",
+          "FastAPI",
+          "AsyncIO",
+          "Pydantic",
+          "OpenAI",
+          "Qdrant",
+          "阿里云/腾讯云语音",
+        ],
+        links: [
+          {
+            label: "GitHub Repo",
+            url: "https://github.com/icefunicu/customer-ai-runtime",
+          },
+        ],
+      },
+    },
+    {
       id: "exp-sustech",
       year: "2025.11 - 2025.12",
       role: "外包技术顾问",
@@ -428,51 +533,76 @@ export const defaultPortfolioData: PortfolioData = {
       id: "exp-chinasoft",
       year: "2025.04 - 2025.09",
       role: "后端/全栈工程师",
-      company: "中软国际（项目制）",
+      company: "中软国际",
       location: "西安",
       summary:
-        "负责企业级系统性能治理与工程化落地：慢查询专项 + CI/CD 流水线，把“卡顿接口”变成“秒开体验”。",
-      techTags: ["Java", "Spring Boot", "MySQL Performance", "CI/CD", "Redis"],
+        "企业知识问答系统研发：把多源文档接入、混合检索、LangGraph 可恢复运行时、引用溯源与评测回归做成一条完整链路。",
+      techTags: [
+        "FastAPI",
+        "LangGraph",
+        "PostgreSQL",
+        "Qdrant",
+        "RAG",
+        "Vue 3",
+        "FastEmbed",
+        "Docker",
+        "LangChain",
+      ],
       highlighted: true,
       keyOutcomes: [
-        "重写聚合 SQL 并补充覆盖索引与缓存，将核心查询从 10s+ 降至 500ms，明显改善关键接口体验。",
-        "搭建 CI/CD + lint/build/test 门禁与回滚链路，发布耗时从 30 分钟降至 5 分钟，降低人工发布风险。",
-        "建立 Top SQL 监控与优化闭环，持续清理 20+ 慢查询隐患，提升系统稳定性。",
+        "搭建结构检索 + 全文检索 + 向量检索三路召回，结合加权 RRF 融合与 rerank，支持 citations、grounding_score 与 trace_id 返回。",
+        "把 Gateway 问答链路与 KB 检索链路都改成 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 step_events。",
+        "补齐 ingest 与治理工作台：支持多知识库、多源连接器、chunk 拆分/合并/禁用、retrieve/debug，以及 smoke-eval / regression gate。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "显著提升了系统的响应速度与用户体验，规范了研发流程，降低了线上故障率。",
-        en: "Improved system responsiveness and UX, standardized R&D processes, and reduced production incidents.",
+        zh: "将分散文档沉淀为可持续同步、可追溯引用的企业知识问答能力，降低资料检索与答复成本，并为后续连接器扩展和运营审计打下基础。",
+        en: "Turned scattered documents into an enterprise knowledge QA capability with continuous sync and traceable citations.",
       },
       engineeringDepth: {
-        zh: "深入实践了 MySQL 索引调优、执行计划分析及企业级 CI/CD 流程设计。",
-        en: "Deep dive into MySQL index tuning, execution plan analysis, and enterprise CI/CD design.",
+        zh: "体现了混合检索、LangGraph 工作流编排、知识治理、连接器安全边界与评测回归体系的一体化工程能力。",
+        en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, knowledge governance, connector boundaries, and evaluation baselines.",
       },
       verification: [
         {
           sourceType: "experience",
-          sourceLabel: "性能测试报告",
-          verifiedAt: "2026-02-15",
+          sourceLabel: "中软国际项目归档",
+          verifiedAt: "2026-03-13",
+          confidence: "medium",
+          level: "strict",
+        },
+        {
+          sourceType: "repo",
+          sourceLabel: "GitHub 仓库 README / docs/reference / tests",
+          sourceUrl: "https://github.com/icefunicu/rag-qa-system",
+          verifiedAt: "2026-03-13",
           confidence: "high",
           level: "strict",
         },
       ],
       expandedDetails: {
         background:
-          "随着数据量增长，系统部分核心接口变慢，且部署流程依赖人工，容易出错。",
+          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步的知识库问答系统。",
         problem:
-          "复杂 SQL 导致数据库 CPU 飙升；手动打包部署效率低且无回滚机制。",
+          "传统单路检索对标题、关键词、语义混合场景覆盖不足，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
         solution:
-          "- **SQL 优化**：重写关联查询，添加覆盖索引，引入 Redis 缓存热点配置数据。\n- **DevOps**：编写 Dockerfile 与 Pipeline 脚本，实现提交即构建，一键部署。",
+          "- **混合检索**：结构、全文、向量三路召回，配合 query rewrite、加权 RRF 与 rerank。\n- **可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、step_events 与人工澄清。\n- **知识治理与评测**：落地多知识库、多源连接器、chunk 治理、retrieve/debug、审计、smoke-eval 与 regression gate。",
         result:
-          "核心接口实现秒开，发布耗时从 30 分钟缩短至 5 分钟，且回滚可控。",
-        role: "核心开发",
+          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备可持续回归验证能力。",
+        role: "后端/AI 应用工程师",
         techStack: [
-          "Java",
-          "Spring Boot",
-          "MySQL",
-          "Redis",
-          "Jenkins/GitLab CI",
+          "FastAPI",
+          "LangGraph",
+          "Vue 3",
+          "PostgreSQL",
+          "Qdrant",
+          "FastEmbed",
+        ],
+        links: [
+          {
+            label: "GitHub Repo",
+            url: "https://github.com/icefunicu/rag-qa-system",
+          },
         ],
       },
     },
@@ -532,33 +662,36 @@ export const defaultPortfolioData: PortfolioData = {
       company: "中国联通陕西省分公司",
       location: "西安 · 数字化部",
       summary:
-        "参与运营平台与数据中台建设：报表从 20s+ 到 4s，ClickHouse 承载 OLAP，完成 300+ 表迁移与校对。",
+        "参与运营平台与数据中台建设：报表从 20s+ 到 4s，完成 300+ 表迁移与校对，并补齐慢查询治理与 CI/CD 发布链路。",
       techTags: [
         "Java",
         "ClickHouse",
         "MySQL",
+        "Redis",
         "Data Migration",
         "Performance Tuning",
+        "CI/CD",
       ],
       highlighted: true,
       keyOutcomes: [
         "推动 OLTP/OLAP 分离并引入 ClickHouse，将活动统计接口从 20s+ 优化到 4s（5x），支撑高频运营分析。",
-        "落地 MySQL 到 ClickHouse 增量同步与 SQL 改写，承接聚合分析负载并缓解事务库压力。",
         "完成 300+ 表、3亿+ 记录迁移与一致性校验，保障数据中台升级可追溯、可回滚。",
+        "重写聚合 SQL 并补充覆盖索引与缓存，将部分核心查询从 10s+ 降至 500ms，持续清理 20+ 慢查询隐患。",
+        "搭建 CI/CD + lint/build/test 门禁与回滚链路，将发布耗时从 30 分钟缩短至 5 分钟，降低人工发布风险。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "解决了数据中台的性能瓶颈，支持了业务部门对运营数据的实时分析需求。",
-        en: "Resolved performance bottlenecks in data platform, enabling real-time analytics for business ops.",
+        zh: "同时解决了报表分析、接口性能与发布流程的多重瓶颈，既支撑业务实时分析，也降低了线上变更风险。",
+        en: "Resolved analytics, API latency, and release-process bottlenecks to improve both operations efficiency and delivery stability.",
       },
       engineeringDepth: {
-        zh: "掌握了海量数据处理、OLAP 数据库应用及异构数据迁移的实战经验。",
-        en: "Mastered massive data processing, OLAP DB application, and heterogeneous data migration.",
+        zh: "覆盖了 OLAP 架构落地、海量数据迁移、MySQL 性能调优、缓存治理与 CI/CD 工程化的组合型实战经验。",
+        en: "Combines OLAP architecture, large-scale migration, MySQL tuning, cache strategy, and CI/CD engineering practice.",
       },
       verification: [
         {
           sourceType: "experience",
-          sourceLabel: "项目代码与数据库日志",
+          sourceLabel: "项目代码、数据库日志与发布记录",
           verifiedAt: "2026-02-15",
           confidence: "high",
           level: "strict",
@@ -567,12 +700,21 @@ export const defaultPortfolioData: PortfolioData = {
       expandedDetails: {
         background:
           "联通数字化部需要整合全省运营数据，原有 MySQL 架构无法支撑复杂聚合查询。",
-        problem: "报表加载超时，数据分散难以统一挖掘。",
+        problem:
+          "报表加载超时，数据分散难以统一挖掘，同时部分核心接口与发布流程也存在性能和稳定性风险。",
         solution:
-          "- **架构选型**：引入 ClickHouse 作为分析引擎。\n- **数据同步**：使用 DataX/Custom Scripts 实现 MySQL 到 ClickHouse 的增量同步。\n- **查询改写**：优化 SQL 逻辑，利用 ClickHouse 列存特性加速聚合。",
-        result: "平台查询性能质变，能够支持更加复杂的业务分析模型。",
+          "- **数据平台**：引入 ClickHouse 作为分析引擎，配合 MySQL 到 ClickHouse 的增量同步与 SQL 改写。\n- **性能治理**：重写关联查询、补充覆盖索引，并以 Redis 缓存热点数据。\n- **工程化**：补齐 Docker/Pipeline、lint/build/test 门禁与回滚链路。",
+        result:
+          "平台查询性能质变，高频分析与关键接口体验明显改善，发布流程更快且可回滚。",
         role: "后端开发",
-        techStack: ["Java", "ClickHouse", "MySQL", "Data Optimization"],
+        techStack: [
+          "Java",
+          "ClickHouse",
+          "MySQL",
+          "Redis",
+          "DataX",
+          "Jenkins/GitLab CI",
+        ],
       },
     },
     {
@@ -725,6 +867,79 @@ export const defaultPortfolioData: PortfolioData = {
 
   projects: [
     {
+      id: "proj-customer-ai-runtime",
+      year: "2026",
+      name: "Customer AI Runtime",
+      link: "https://github.com/icefunicu/customer-ai-runtime",
+      demoLink: "",
+      techTags: [
+        "Python",
+        "FastAPI",
+        "AsyncIO",
+        "RAG",
+        "Plugin Architecture",
+        "OpenAI",
+        "Voice / RTC",
+        "Qdrant",
+        "Multi-tenant",
+        "Auth Bridge",
+      ],
+      summary:
+        "智能客服运行时参考实现：支持文本/语音/RTC、RAG 知识增强、业务工具调用、宿主系统挂载与人工协同（FastAPI + AsyncIO + 插件架构）。",
+      impact: "多通道客服运行时 + 插件化扩展",
+      keyOutcomes: [
+        "搭建文本 / 语音 / RTC 三通道统一运行时，覆盖 Voice API、RTC WebSocket 与宿主挂载接入。",
+        "实现路由决策链路，结合 route_confidence、intent_stack、page_context、business_objects 做澄清/转人工分流。",
+        "构建 7 类插件扩展点与 Auth Bridge / 管理 API，支持租户级插件启停、宿主鉴权复用和业务工具接入。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把 AI 客服从单纯知识问答扩展为可挂载、可接业务、可转人工的运行时能力，便于宿主系统低改造接入。",
+        en: "Turned AI customer service from simple knowledge Q&A into a mountable runtime that can connect business tools and human handoff.",
+      },
+      engineeringDepth: {
+        zh: "展示了分层架构、插件注册中心、Auth Bridge、多提供商适配、语音/RTC 链路与多租户边界控制的完整工程能力。",
+        en: "Showcases layered architecture, plugin registry, auth bridging, provider adaptation, voice/RTC runtime, and multi-tenant boundary control.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel: "GitHub 仓库 README / docs / tests",
+          sourceUrl: "https://github.com/icefunicu/customer-ai-runtime",
+          verifiedAt: "2026-03-13",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "很多 AI 客服 Demo 只能回答静态知识，难以兼顾实时业务查询、多通道接入、宿主系统复用与人工协同。",
+        problem:
+          "缺乏统一运行时：文本/语音/RTC 链路分散，宿主系统不愿重建鉴权，业务工具接入与转人工流程也容易写死在主流程里。",
+        solution:
+          "- **分层架构**：渠道接入层、宿主桥接层、核心引擎层、业务增强层、插件平台层、提供商适配层六层解耦。\n- **统一运行时**：同一套会话与路由能力覆盖文本、Voice API、RTC WebSocket 与宿主挂载模式。\n- **插件化扩展**：7 大扩展点（Route/BusinessTool/Handoff/Industry/AuthBridge/Context/Response），支持注册、启停与范围过滤。\n- **业务与知识增强**：结合 page_context、business_objects、intent_stack 做动态路由，多租户知识库支持版本、健康巡检、切片优化与效果分析。\n- **运维与管理**：管理 API 支持插件状态、provider health、session monitor、feedback summary 与知识库健康报告。",
+        result:
+          "形成可独立运行或宿主挂载的智能客服运行时参考实现，覆盖多通道接入、业务查询、转人工、租户隔离与插件化扩展。",
+        role: "独立开发者（架构设计与核心开发）",
+        techStack: [
+          "Python 3.13",
+          "FastAPI",
+          "AsyncIO",
+          "Pydantic",
+          "OpenAI",
+          "Qdrant",
+          "阿里云/腾讯云语音",
+        ],
+        links: [
+          {
+            label: "GitHub Repo",
+            url: "https://github.com/icefunicu/customer-ai-runtime",
+          },
+        ],
+      },
+      highlighted: true,
+    },
+    {
       id: "proj-jiaoben",
       year: "2026",
       name: "浏览器生产力套件",
@@ -833,6 +1048,77 @@ export const defaultPortfolioData: PortfolioData = {
         techStack: ["Python", "Quart", "Asyncio", "Electron", "RAG"],
         links: [
           { label: "GitHub", url: "https://github.com/icefunicu/wechat-bot" },
+        ],
+      },
+      highlighted: true,
+    },
+    {
+      id: "proj-rag-qa-system",
+      year: "2025.04 - 2025.09",
+      name: "RAG-QA System",
+      link: "https://github.com/icefunicu/rag-qa-system",
+      demoLink: "",
+      techTags: [
+        "FastAPI",
+        "LangGraph",
+        "Vue 3",
+        "PostgreSQL",
+        "Qdrant",
+        "RAG",
+        "FastEmbed",
+        "Docker",
+        "LangChain",
+      ],
+      summary:
+        "企业知识问答系统：把多源文档接入、混合检索、LangGraph 可恢复运行时、引用溯源与评测回归做成一条完整链路。",
+      impact: "混合检索 + LangGraph 可恢复运行时",
+      keyOutcomes: [
+        "搭建结构检索 + 全文检索 + 向量检索三路召回，结合加权 RRF 融合与 rerank，支持 citations、grounding_score 与 trace_id 返回。",
+        "把 Gateway 问答链路与 KB 检索链路都改成 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 step_events。",
+        "补齐 ingest 与治理工作台：支持多知识库、多源连接器、chunk 拆分/合并/禁用、retrieve/debug，以及 smoke-eval / regression gate。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把企业分散资料沉淀为可持续同步、可追溯引用的知识问答能力，降低检索和答复成本。",
+        en: "Turns scattered enterprise documents into a continuously synced knowledge QA capability with traceable citations.",
+      },
+      engineeringDepth: {
+        zh: "体现了混合检索、LangGraph 编排、知识治理、连接器边界控制与评测回归体系的一体化工程能力。",
+        en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, governance workflows, connector boundaries, and evaluation baselines.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel: "GitHub 仓库 README / docs/reference / tests",
+          sourceUrl: "https://github.com/icefunicu/rag-qa-system",
+          verifiedAt: "2026-03-13",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步的知识库问答系统。",
+        problem:
+          "传统单路检索对标题、关键词、语义混合场景覆盖不足，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
+        solution:
+          "- **混合检索**：结构、全文、向量三路召回，配合 query rewrite、加权 RRF 与 rerank。\n- **可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、step_events 与人工澄清。\n- **知识治理与评测**：落地多知识库、多源连接器、chunk 治理、retrieve/debug、审计、smoke-eval 与 regression gate。",
+        result:
+          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备可持续回归验证能力。",
+        role: "后端/AI 应用工程师",
+        techStack: [
+          "FastAPI",
+          "LangGraph",
+          "Vue 3",
+          "PostgreSQL",
+          "Qdrant",
+          "FastEmbed",
+        ],
+        links: [
+          {
+            label: "GitHub Repo",
+            url: "https://github.com/icefunicu/rag-qa-system",
+          },
         ],
       },
       highlighted: true,
@@ -1021,10 +1307,12 @@ export const defaultPortfolioData: PortfolioData = {
       description: "与核心经历强绑定，可独立承担方案设计、实施和指标复核。",
       items: [
         "Java / Spring Boot（性能优化、接口治理、CI/CD）",
-        "Python / Asyncio / Quart（异步 I/O、任务解耦）",
-        "MySQL / Redis / ClickHouse（OLTP+OLAP、查询提速）",
-        "RAG / ChromaDB / LLM 成本治理",
-        "React / Next.js / TypeScript（全栈交付与静态导出）",
+        "Python / FastAPI / AsyncIO（AI 服务编排、多通道接入）",
+        "Python / Quart / ChromaDB（异步 I/O、RAG 记忆）",
+        "LangGraph / RAG / Qdrant / FastEmbed（检索增强、可恢复运行时）",
+        "OpenAI / Prompt & Policy / Tool Calling（业务集成与成本控制）",
+        "PostgreSQL / Redis / ClickHouse（检索与性能治理）",
+        "Next.js / React / Vue 3 / TypeScript（管理台与宿主接入）",
       ],
     },
     {
@@ -1034,8 +1322,10 @@ export const defaultPortfolioData: PortfolioData = {
       items: [
         "Docker / Linux Shell / Nginx",
         "Jenkins / GitLab CI（质量门禁与回滚）",
-        "Vue 3 / Electron / Chrome Extension",
-        "WebSocket / SSE / FFmpeg-HLS",
+        "CI/CD / pytest / Playwright（质量门禁与回归验证）",
+        "WebSocket / SSE / RTC / ASR / TTS",
+        "FFmpeg-HLS / Electron / Chrome Extension",
+        "多租户 / Auth Bridge / 插件化扩展",
         "DataX / ETL / 数据一致性校验脚本",
       ],
     },
@@ -1165,3 +1455,4 @@ export const defaultPortfolioData: PortfolioData = {
     },
   ],
 };
+
