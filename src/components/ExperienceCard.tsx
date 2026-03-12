@@ -4,7 +4,6 @@ import React, { memo } from "react";
 import Link from "next/link";
 import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
 import { TimelineItem, ProjectItem } from "../types";
-import { TechTag } from "./ui/TechTag";
 import { saveScrollRestore, ScrollRestoreSection } from "@/lib/scroll-restore";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 
@@ -63,62 +62,52 @@ export const ExperienceCard = memo(function ExperienceCard({
     >
       <div
         className="
-                    relative overflow-hidden p-6 rounded-2xl
-                    bg-white/80 dark:bg-zinc-900/80
-                    backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50
+                    relative overflow-hidden p-6 rounded-lg
+                    bg-white dark:bg-zinc-900/50
+                    border border-zinc-200 dark:border-zinc-800
                     transition-colors duration-300 ease-out
-                    will-change-transform
                     flex flex-col h-full
-                    group-hover:shadow-xl group-hover:shadow-blue-500/10 dark:group-hover:shadow-blue-900/15
-                    group-hover:border-blue-500/30
+                    group-hover:border-zinc-400 dark:group-hover:border-zinc-600
                 "
       >
-        <div
-          className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"
-          style={{
-            background:
-              "radial-gradient(800px circle at top right, rgba(59, 130, 246, 0.08), transparent 40%)",
-          }}
-        />
-        <div className="absolute inset-0 border border-blue-500/0 group-hover:border-blue-500/20 rounded-2xl transition-colors duration-300 ease-out pointer-events-none" />
-
         <div className="flex justify-between items-start mb-4 relative z-10">
-          <div className="flex-1 min-w-0 pr-4">
-            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors tracking-tight">
+          <div className="flex-1 min-w-0 pr-6">
+            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors tracking-tight">
               {title}
             </h3>
             {subtitle && (
-              <p className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mt-1">
+              <p className="text-[13px] font-medium text-zinc-500 dark:text-zinc-400 mt-1.5 uppercase tracking-wide">
                 {subtitle}
               </p>
             )}
           </div>
           {!hideDate && (
-            <div className="shrink-0 text-xs font-mono font-medium text-zinc-400 dark:text-zinc-500 mt-1">
+            <div className="shrink-0 text-[11px] font-medium text-zinc-400 dark:text-zinc-500 mt-1 tracking-wider">
               {date}
             </div>
           )}
         </div>
 
-        <div className="text-sm text-zinc-600 dark:text-zinc-300 mb-6 line-clamp-3 leading-relaxed relative z-10">
+        <div className="text-[14px] text-zinc-600 dark:text-zinc-400 mb-6 line-clamp-3 leading-relaxed relative z-10 flex-grow">
           <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
         </div>
 
-        <div className="flex flex-wrap items-end gap-2 mt-auto pt-2 relative z-10">
+        <div className="flex flex-wrap items-end gap-2 mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800/80 relative z-10">
           <div className="flex flex-wrap gap-2 flex-1">
             {item.techTags?.slice(0, 3).map((tag, idx) => (
-              <TechTag key={idx} name={tag} />
+              <span key={idx} className="rounded px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-[10px] font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+                {tag}
+              </span>
             ))}
             {(item.techTags?.length || 0) > 3 && (
-              <TechTag
-                name={`+${(item.techTags?.length || 0) - 3}`}
-                className="bg-zinc-100/50 text-zinc-500"
-              />
+              <span className="rounded px-2 py-1 bg-zinc-50 dark:bg-zinc-900 text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider border border-zinc-200 dark:border-zinc-800">
+                +{(item.techTags?.length || 0) - 3}
+              </span>
             )}
           </div>
 
           {(githubLink || demoLink) && (
-            <div className="flex items-center gap-1 ml-2 opacity-80 group-hover:opacity-100 transition-opacity">
+            <div className="flex items-center gap-1.5 ml-2 opacity-80 group-hover:opacity-100 transition-opacity">
               {githubLink && (
                 <button
                   type="button"
@@ -127,7 +116,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                     e.stopPropagation();
                     window.open(githubLink, "_blank", "noopener,noreferrer");
                   }}
-                  className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all hover:scale-105"
+                  className="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
                   aria-label="GitHub"
                   title="查看源码"
                 >
@@ -142,7 +131,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                     e.stopPropagation();
                     window.open(demoLink, "_blank", "noopener,noreferrer");
                   }}
-                  className="p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all hover:scale-105"
+                  className="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
                   aria-label="Live Demo"
                   title="查看演示"
                 >
@@ -153,8 +142,8 @@ export const ExperienceCard = memo(function ExperienceCard({
           )}
         </div>
 
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0">
-          <ArrowUpRight className="w-5 h-5 text-blue-500/50" />
+        <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0">
+          <ArrowUpRight className="w-5 h-5 text-zinc-400 dark:text-zinc-500" />
         </div>
       </div>
     </Link>

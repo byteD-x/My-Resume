@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { m as motion } from "framer-motion";
+import { m as motion, AnimatePresence } from "framer-motion";
 import { ArrowUpDown, Search, Sparkles } from "lucide-react";
 import { ProjectItem } from "@/types";
 import { ExperienceCard } from "./ExperienceCard";
@@ -77,20 +77,20 @@ export function ProjectList({ items }: ProjectListProps) {
   const hasMore = visibleCount < filteredItems.length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <motion.div
         initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
         whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         viewport={shouldAnimateInView ? { once: true } : undefined}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-2xl border border-slate-200/70 bg-white/85 p-4 shadow-sm backdrop-blur-md md:p-5"
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900 md:p-6"
       >
-        <div className="mb-4 flex flex-wrap items-center gap-3">
-          <div className="relative min-w-[220px] flex-1">
+        <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="relative min-w-[240px] flex-1">
             <Search
               size={16}
-              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+              className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400"
             />
             <input
               type="text"
@@ -100,42 +100,42 @@ export function ProjectList({ items }: ProjectListProps) {
                 setVisibleCount(INITIAL_VISIBLE_COUNT);
               }}
               placeholder="搜索项目名、技术栈、年份"
-              className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+              className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-2 pl-10 pr-4 text-[13px] font-medium text-zinc-900 dark:text-zinc-100 placeholder:font-normal placeholder:text-zinc-500 outline-none transition-colors focus:border-zinc-400 dark:focus:border-zinc-600 focus:ring-2 focus:ring-zinc-100 dark:focus:ring-zinc-800"
               aria-label="搜索项目"
             />
           </div>
 
-          <div className="inline-flex items-center rounded-xl border border-slate-200 bg-white p-1">
+          <div className="inline-flex items-center rounded-md border border-zinc-200 bg-zinc-50 p-1 dark:border-zinc-800 dark:bg-zinc-950">
             <button
               type="button"
               onClick={() => setSortMode("highlight")}
               className={cn(
-                "rounded-lg px-3 py-1.5 text-xs font-semibold transition",
+                "rounded px-3 py-1 text-[12px] font-semibold transition-colors",
                 sortMode === "highlight"
-                  ? "bg-slate-900 text-white"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-900",
+                  ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                  : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100",
               )}
             >
-              <Sparkles size={13} className="mr-1 inline-block" />
+              <Sparkles size={12} className="mr-1.5 inline-block opacity-70" />
               重点优先
             </button>
             <button
               type="button"
               onClick={() => setSortMode("latest")}
               className={cn(
-                "rounded-lg px-3 py-1.5 text-xs font-semibold transition",
+                "rounded px-3 py-1 text-[12px] font-semibold transition-colors",
                 sortMode === "latest"
-                  ? "bg-slate-900 text-white"
-                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-900",
+                  ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100"
+                  : "text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100",
               )}
             >
-              <ArrowUpDown size={13} className="mr-1 inline-block" />
+              <ArrowUpDown size={12} className="mr-1.5 inline-block opacity-70" />
               按时间
             </button>
           </div>
         </div>
 
-        <div className="mb-3 flex flex-wrap items-center gap-2">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={() => {
@@ -143,10 +143,10 @@ export function ProjectList({ items }: ProjectListProps) {
               setVisibleCount(INITIAL_VISIBLE_COUNT);
             }}
             className={cn(
-              "rounded-full border px-3 py-1 text-xs font-semibold transition",
+              "rounded border px-2.5 py-1 text-[11px] uppercase tracking-wider font-semibold transition-colors",
               activeTech === "all"
-                ? "border-slate-900 bg-slate-900 text-white"
-                : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-800",
+                ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
+                : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-100",
             )}
           >
             全部
@@ -160,10 +160,10 @@ export function ProjectList({ items }: ProjectListProps) {
                 setVisibleCount(INITIAL_VISIBLE_COUNT);
               }}
               className={cn(
-                "rounded-full border px-3 py-1 text-xs font-semibold transition",
+                "rounded border px-2.5 py-1 text-[11px] uppercase tracking-wider font-semibold transition-colors",
                 activeTech === tag
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:text-slate-800",
+                  ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
+                  : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:text-zinc-100",
               )}
             >
               {tag}
@@ -171,72 +171,67 @@ export function ProjectList({ items }: ProjectListProps) {
           ))}
         </div>
 
-        <p className="text-xs text-slate-500">
-          当前匹配{" "}
-          <span className="font-bold text-slate-800">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+          Showing{" "}
+          <span className="text-zinc-900 dark:text-zinc-100">
             {filteredItems.length}
           </span>{" "}
-          个项目
+          Results
         </p>
       </motion.div>
 
       {filteredItems.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-10 text-center">
-          <p className="text-base font-semibold text-slate-700">暂无匹配项目</p>
-          <p className="mt-2 text-sm text-slate-500">
-            可尝试更换关键词或取消技术栈筛选。
-          </p>
-        </div>
-      ) : (
-        <motion.div
-          className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7"
-          initial={shouldAnimateInView ? "hidden" : false}
-          whileInView={shouldAnimateInView ? "show" : undefined}
-          animate={!shouldAnimateInView ? "show" : undefined}
-          viewport={shouldAnimateInView ? { once: true, margin: "-10%" } : undefined}
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.08,
-              },
-            },
-          }}
+        <motion.div 
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          className="flex flex-col items-center justify-center rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-900/30 p-16 text-center"
         >
-          {visibleItems.map((item) => (
-            <motion.div
-              key={item.id}
-              variants={{
-                hidden: { opacity: 0, y: 18 },
-                show: {
-                  opacity: 1,
-                  y: 0,
-                  transition: {
-                    type: "spring",
-                    stiffness: 65,
-                    damping: 16,
-                  },
-                },
-              }}
-              className="h-full"
-              style={{ willChange: "opacity, transform" }}
-              layout
-            >
-              <ExperienceCard item={item} type="project" />
-            </motion.div>
-          ))}
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-400">
+            <Search size={18} />
+          </div>
+          <p className="text-[14px] font-semibold text-zinc-900 dark:text-zinc-100">未找到匹配的工程实践</p>
+          <p className="mt-2 text-[13px] text-zinc-500 dark:text-zinc-400 max-w-sm">
+            你可以尝试更换搜索关键词，或重置当前的技术栈筛选条件。
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("");
+              setActiveTech("all");
+              setVisibleCount(INITIAL_VISIBLE_COUNT);
+            }}
+            className="mt-6 text-[13px] font-semibold text-zinc-900 hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-400 underline underline-offset-4"
+          >
+            重置筛选条件
+          </button>
         </motion.div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
+          <AnimatePresence mode="popLayout">
+            {visibleItems.map((item) => (
+              <motion.div
+                key={item.id}
+                initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                className="h-full"
+              >
+                <ExperienceCard item={item} type="project" />
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       )}
 
       {hasMore && (
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-4">
           <button
             type="button"
             onClick={() =>
               setVisibleCount((prev) => prev + INITIAL_VISIBLE_COUNT)
             }
-            className="btn btn-secondary px-6 py-2.5 text-sm font-semibold"
+            className="rounded-md border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 px-8 py-2.5 text-[13px] font-semibold text-zinc-900 dark:text-zinc-100 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-900"
           >
             加载更多项目
           </button>

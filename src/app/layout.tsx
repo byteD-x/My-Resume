@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { defaultPortfolioData } from "@/data";
@@ -6,6 +7,7 @@ import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
 import { MotionProvider } from "@/lib/MotionProvider";
 import { WebVitals } from "@/lib/performance";
 import { SkipToContent } from "@/components/SkipToContent";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -15,15 +17,16 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "后端工程师",
-    "全栈开发",
-    "AI工程",
-    "Java",
-    "Spring Boot",
+    "AI 应用工程师",
+    "RAG",
+    "Agent",
+    "智能客服",
+    "FastAPI",
+    "LangGraph",
     "Python",
-    "LLM",
-    "Resume",
+    "Next.js",
     "Portfolio",
+    "Resume",
   ],
   authors: [{ name: siteConfig.name }],
   openGraph: {
@@ -54,9 +57,6 @@ export const metadata: Metadata = {
   },
 };
 
-import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
-import { cn } from "@/lib/utils";
-
 const fontHeading = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-heading",
@@ -77,23 +77,21 @@ export default function RootLayout({
   children: React.ReactNode;
   modal: React.ReactNode;
 }>) {
-  // Generate SoftwareSourceCode schema for GitHub projects
   const softwareProjects = defaultPortfolioData.projects
-    .filter((p) => p.link && p.link.includes("github.com"))
-    .map((p) => ({
+    .filter((project) => project.link && project.link.includes("github.com"))
+    .map((project) => ({
       "@type": "SoftwareSourceCode",
-      name: p.name,
-      description: p.summary,
-      codeRepository: p.link,
-      programmingLanguage: p.techTags.join(", "),
+      name: project.name,
+      description: project.summary,
+      codeRepository: project.link,
+      programmingLanguage: project.techTags.join(", "),
       author: {
         "@type": "Person",
         name: siteConfig.name,
       },
-      datePublished: p.year,
+      datePublished: project.year,
     }));
 
-  // JSON-LD structured data with Graph
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -126,7 +124,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="subpixel-antialiased font-body" suppressHydrationWarning>
+      <body className="font-body subpixel-antialiased" suppressHydrationWarning>
         <AnalyticsProvider>
           <MotionProvider>
             <WebVitals />

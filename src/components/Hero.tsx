@@ -1,141 +1,122 @@
 "use client";
 
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import { m as motion, Variants } from "framer-motion";
-import { ChevronDown } from "lucide-react";
 import { HeroData } from "@/types";
 import { Container } from "./ui/Container";
 import { HeroStatusBadges } from "./Hero/HeroStatusBadges";
-import { HeroQuickFacts } from "./Hero/HeroQuickFacts";
 import { HeroBullets } from "./Hero/HeroBullets";
 import { HeroCTA } from "./Hero/HeroCTA";
+import { HeroProofPanel } from "./Hero/HeroProofPanel";
+import type { HeroSpotlightItem } from "@/lib/home-highlights";
 import {
   createResumeDownloadHandler,
   formatResumeFileName,
   getResumeDownloadUrl,
 } from "@/lib/resume";
-
-const HeroBackground = lazy(() => import("./HeroBackground"));
+import {
+  getPreferredScrollBehavior,
+  scrollToSection,
+} from "@/lib/section-scroll";
 
 interface HeroProps {
   data: HeroData;
+  proofItems: HeroSpotlightItem[];
 }
 
-export default function Hero({ data }: HeroProps) {
+export default function Hero({ data, proofItems }: HeroProps) {
   const resumeFileName = formatResumeFileName(data.title, data.name);
   const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
   const resumeDownloadHandler = createResumeDownloadHandler(
     resumeFileName,
     resumeDownloadUrl,
   );
+
+  const conciseSummary =
+    "专注于将前沿 AI 技术转化为稳定、可控、高 ROI 的生产级系统。我不只搭建复杂的检索与代理链路，更通过严格的质量门禁和性能治理，确保每一行代码都能真实交付业务价值。";
+  const titleParts = {
+    primary: "AI 应用工程师",
+    secondary: "RAG 检索增强 / Agent 运行时 / 业务系统集成",
+  };
+  const conciseBullets = [
+    {
+      id: "hero-proof-1",
+      title: "企业级 RAG 与多路检索",
+      description:
+        "构建支持多路召回、引用溯源与持续评估的复杂问答链路，确保 AI 输出可解释、可追溯、防幻觉。",
+    },
+    {
+      id: "hero-proof-2",
+      title: "Agent 编排与多模态互联",
+      description:
+        "设计灵活的运行时架构，打通文本、语音、RTC 通道，无缝接入业务工具、宿主鉴权与人工干预闭环。",
+    },
+    {
+      id: "hero-proof-3",
+      title: "全栈交付与可复核基线",
+      description:
+        "将性能优化、成本治理、自动化测试与 CI/CD 深度结合，让 AI 方案脱离“玩具阶段”，实现真正的工业级高可用。",
+    },
+  ];
+
   const handleViewProjects = () => {
     if (typeof window === "undefined") return;
 
-    const targetId = "projects";
-    const target = document.getElementById(targetId);
-    if (!target) return;
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const scrollToProjects = (behavior: ScrollBehavior) => {
-      target.scrollIntoView({
-        behavior,
-        block: "start",
-      });
-    };
-
-    scrollToProjects(prefersReducedMotion ? "auto" : "smooth");
-
-    // Dynamic section payloads can shift layout after first scroll on mobile.
-    // Re-align once layout settles so the anchor remains in viewport.
-    window.setTimeout(() => {
-      const rect = target.getBoundingClientRect();
-      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-      if (!isInViewport) {
-        scrollToProjects("auto");
-      }
-    }, 450);
-
-    const hash = `#${targetId}`;
-    if (window.location.hash !== hash) {
-      window.history.replaceState(null, "", hash);
-    }
+    scrollToSection("projects", {
+      behavior: getPreferredScrollBehavior(),
+    });
   };
 
-  // Staggered variants for better performance
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1, // Faster stagger
-        delayChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.08, delayChildren: 0.05 },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 10 }, // Reduced distance
+    hidden: { opacity: 0, y: 12 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.4, // Faster duration
-        ease: [0, 0, 0.2, 1] as const, // Use array for easing to avoid TS type mismatch with string
-      },
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
   return (
-    <section className="hero-grid noise-layer relative overflow-hidden pt-20 pb-20 min-[380px]:pt-24 md:pt-32 md:pb-32 lg:pt-48">
-      <Suspense
-        fallback={
-          <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-            <div className="absolute top-0 right-0 h-[600px] w-[600px] translate-x-1/3 -translate-y-1/4 rounded-full bg-gradient-to-br from-blue-100/40 to-sky-100/40 opacity-40 blur-2xl dark:from-blue-900/20 dark:to-sky-900/20" />
-            <div className="absolute bottom-0 left-0 h-[500px] w-[500px] -translate-x-1/4 translate-y-1/4 rounded-full bg-gradient-to-tr from-emerald-100/40 to-teal-100/40 opacity-40 blur-2xl dark:from-emerald-900/20 dark:to-teal-900/20" />
-          </div>
-        }
-      >
-        <HeroBackground />
-      </Suspense>
-
+    <section className="relative overflow-hidden border-b border-zinc-200 bg-white pb-14 pt-22 dark:border-zinc-800 dark:bg-zinc-950 sm:pb-16 sm:pt-24 md:pb-24 md:pt-32">
       <Container className="relative">
-        <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-10 xl:gap-12">
           <motion.div
-            className="flex flex-col items-start lg:col-span-7"
+            className="flex flex-col items-start lg:col-span-7 xl:col-span-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <HeroStatusBadges location={data.location} />
+            <motion.div variants={itemVariants} className="mb-8">
+              <HeroStatusBadges location={data.location} />
+            </motion.div>
 
             <motion.h1
               variants={itemVariants}
-              className="mb-6 text-balance text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 min-[380px]:text-4xl md:text-5xl lg:text-6xl"
+              className="mb-6 text-balance font-heading text-[2.2rem] font-bold leading-[1.08] text-zinc-950 dark:text-zinc-50 sm:mb-8 sm:text-5xl md:text-[4rem]"
             >
-              {data.title}
+              <span className="block mb-3">{titleParts.primary}</span>
+              <span className="block text-lg font-medium leading-8 text-zinc-600 dark:text-zinc-300 sm:text-[1.35rem]">
+                {titleParts.secondary}
+              </span>
             </motion.h1>
-
-            {data.subtitle && (
-              <motion.p
-                variants={itemVariants}
-                className="mb-4 max-w-2xl text-sm text-slate-500 md:text-base"
-              >
-                {data.subtitle}
-              </motion.p>
-            )}
 
             <motion.p
               variants={itemVariants}
-              className="mb-8 max-w-2xl text-lg text-slate-600 md:text-xl"
+              className="mb-10 max-w-[42rem] text-base leading-8 text-zinc-700 dark:text-zinc-300 md:mb-12 md:text-[1.05rem]"
             >
-              聚焦性能优化、自动化交付与可验证的工程结果。
+              {conciseSummary}
             </motion.p>
 
-            {/* Pass down variants if HeroBullets supports it, or keep it separate but aligned */}
-            <motion.div variants={itemVariants}>
-              <HeroBullets bullets={data.bullets} />
+            <motion.div variants={itemVariants} className="w-full mb-12">
+              <HeroBullets bullets={conciseBullets} />
             </motion.div>
 
             <motion.div variants={itemVariants}>
@@ -146,34 +127,12 @@ export default function Hero({ data }: HeroProps) {
                 onDownloadClick={resumeDownloadHandler}
               />
             </motion.div>
-
-            <motion.p
-              variants={itemVariants}
-              className="mt-4 text-sm text-slate-500"
-            >
-              以上指标均可在项目详情与仓库中复核。
-            </motion.p>
           </motion.div>
 
-          <div className="relative w-full lg:col-span-5">
-            <HeroQuickFacts
-              quickFacts={data.quickFacts}
-              roleSnapshot={data.roleSnapshot}
-            />
+          <div className="relative lg:col-span-5 xl:col-span-6 lg:pt-2 xl:pl-4">
+            <HeroProofPanel items={proofItems} />
           </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="absolute bottom-4 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-slate-400 md:flex"
-        >
-          <span className="text-xs font-medium uppercase tracking-widest">
-            向下探索
-          </span>
-          <ChevronDown className="animate-bounce" />
-        </motion.div>
       </Container>
     </section>
   );

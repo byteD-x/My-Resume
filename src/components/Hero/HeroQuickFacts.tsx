@@ -4,7 +4,6 @@ import { m as motion } from "framer-motion";
 import { Briefcase, Calendar } from "lucide-react";
 import { HeroData } from "@/types";
 import { HERO_ANIMATION, EASING_CURVES } from "@/config/animation";
-import { use3DTilt } from "@/hooks/use3DTilt";
 
 interface HeroQuickFactsProps {
   quickFacts?: HeroData["quickFacts"];
@@ -19,15 +18,6 @@ export function HeroQuickFacts({
   quickFacts,
   roleSnapshot,
 }: HeroQuickFactsProps) {
-  const { ref, tiltStyle, glareStyle } = use3DTilt<HTMLDivElement>({
-    maxTilt: 10,
-    perspective: 1200,
-    scale: 1.02,
-    speed: 280,
-    glare: true,
-    glareOpacity: 0.12,
-  });
-
   const defaultQuickFacts = {
     role: "后端 / 全栈 / AI 工程",
     availability: "远程优先",
@@ -38,7 +28,6 @@ export function HeroQuickFacts({
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{
@@ -46,11 +35,9 @@ export function HeroQuickFacts({
         duration: 0.6,
         ease: EASING_CURVES.OUT_EXPO,
       }}
-      className="relative overflow-hidden rounded-2xl border border-white/50 bg-glass-strong p-6 shadow-2xl shadow-slate-200/50 backdrop-blur-xl md:p-8"
-      style={tiltStyle}
+      className="relative overflow-hidden rounded-2xl border border-white/50 bg-glass-strong p-6 shadow-xl shadow-slate-200/50 backdrop-blur-xl md:p-8"
     >
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/8 via-transparent to-cyan-500/10" />
-      <div style={glareStyle} />
 
       <div className="relative z-10 mb-6 flex items-center gap-2 text-xs font-bold tracking-widest text-slate-400 uppercase">
         <span className="h-[1px] w-8 bg-slate-200" />

@@ -10,6 +10,7 @@ import {
   getResumeDownloadUrl,
 } from "@/lib/resume";
 import { trackCTAClick, trackResumeDownload } from "@/lib/analytics";
+import { scrollToSection } from "@/lib/section-scroll";
 import { useScrollPastThreshold } from "@/lib/scroll-observer";
 
 export default function FloatingResumeButton() {
@@ -34,6 +35,7 @@ export default function FloatingResumeButton() {
 
   const handleContactClick = () => {
     trackCTAClick("contact", "floating");
+    scrollToSection("contact");
   };
 
   useEffect(() => {
@@ -56,8 +58,7 @@ export default function FloatingResumeButton() {
             transition={{ duration: 0.2, ease: "easeOut" }}
             className="fixed right-0 bottom-0 left-0 z-50 flex gap-2 p-3"
             style={{
-              backgroundColor: "rgba(248, 250, 252, 0.95)",
-              backdropFilter: "blur(8px)",
+              backgroundColor: "rgba(255, 255, 255, 0.98)",
               borderTop: "1px solid var(--border-default)",
               paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom))",
             }}
@@ -71,14 +72,14 @@ export default function FloatingResumeButton() {
               <Download size={16} />
               下载简历
             </a>
-            <a
-              href="#contact"
+            <button
+              type="button"
               onClick={handleContactClick}
               className="btn btn-secondary flex-1 py-3"
             >
               <Mail size={16} />
               联系我
-            </a>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

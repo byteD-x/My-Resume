@@ -35,7 +35,7 @@ function readRecentTagsFromStorage(): string[] {
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0 },
 };
 
@@ -141,40 +141,40 @@ export function Timeline({ items }: TimelineProps) {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-slate-500">
+    <div className="space-y-10">
+      <div className="space-y-5 border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 bg-white dark:bg-zinc-900/50">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest">
             {tagStats.length > 0
-              ? `共 ${tagStats.length} 个技术标签`
-              : "暂无技术标签"}
+              ? `Filters (${tagStats.length})`
+              : "Filters"}
           </p>
 
-          <label className="relative block w-full sm:w-64">
+          <label className="relative block w-full sm:w-72">
             <span className="sr-only">搜索技术标签</span>
             <input
               type="search"
               value={tagKeyword}
               onChange={(event) => setTagKeyword(event.target.value)}
-              placeholder="搜索技术标签..."
-              className="w-full rounded-full border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 outline-none transition-colors focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+              placeholder="Search technologies..."
+              className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none transition-colors focus:border-zinc-400 dark:focus:border-zinc-600 focus:ring-2 focus:ring-zinc-100 dark:focus:ring-zinc-800"
             />
           </label>
         </div>
 
         {recentDisplayTags.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs text-slate-400">最近使用</span>
+            <span className="text-[11px] uppercase tracking-wider text-zinc-400">Recent</span>
             {recentDisplayTags.map((tag) => (
               <button
                 key={`recent-${tag}`}
                 type="button"
                 onClick={() => handleTagSelect(tag)}
                 className={cn(
-                  "cursor-pointer rounded-full border px-2.5 py-1 text-xs transition-colors",
+                  "cursor-pointer rounded px-2.5 py-1 text-[11px] font-semibold transition-colors",
                   activeTag === tag
-                    ? "border-blue-500 bg-blue-50 text-blue-700"
-                    : "border-slate-200 bg-white text-slate-500 hover:border-blue-300 hover:text-blue-600",
+                    ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100"
+                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700",
                 )}
                 aria-pressed={activeTag === tag}
               >
@@ -184,17 +184,17 @@ export function Timeline({ items }: TimelineProps) {
           </div>
         )}
 
-        <div className="flex flex-wrap justify-center gap-2 md:justify-start">
+        <div className="flex flex-wrap justify-start gap-2 pt-2">
           {visibleTags.map((tag) => (
             <button
               key={tag}
               type="button"
               onClick={() => handleTagSelect(tag)}
               className={cn(
-                "cursor-pointer rounded-full border px-3 py-1.5 text-xs font-medium transition-all duration-300",
+                "cursor-pointer rounded border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
                 activeTag === tag
-                  ? "scale-105 border-blue-600 bg-blue-600 text-white shadow-md"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-blue-400 hover:text-blue-500",
+                  ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
+                  : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:text-zinc-100",
               )}
               aria-pressed={activeTag === tag}
             >
@@ -204,20 +204,22 @@ export function Timeline({ items }: TimelineProps) {
         </div>
 
         {canExpand && (
-          <button
-            type="button"
-            onClick={() => setIsTagExpanded((value) => !value)}
-            className="text-xs font-medium text-blue-600 hover:text-blue-500"
-            aria-expanded={isTagExpanded}
-          >
-            {isTagExpanded ? "收起标签" : `展开更多标签（+${hiddenTagCount}）`}
-          </button>
+          <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
+            <button
+              type="button"
+              onClick={() => setIsTagExpanded((value) => !value)}
+              className="text-[13px] font-semibold text-zinc-900 hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-400"
+              aria-expanded={isTagExpanded}
+            >
+              {isTagExpanded ? "Show Less" : `Show All (+${hiddenTagCount})`}
+            </button>
+          </div>
         )}
       </div>
 
-      <div className="relative min-h-[500px] space-y-12">
+      <div className="relative min-h-[500px] pt-4">
         <div
-          className="absolute left-[13px] top-2 bottom-0 hidden w-[2px] bg-slate-200 dark:bg-zinc-800 md:block"
+          className="absolute left-[13px] top-4 bottom-0 hidden w-[1px] bg-zinc-200 dark:bg-zinc-800 md:block"
           aria-hidden="true"
         />
 
@@ -230,7 +232,7 @@ export function Timeline({ items }: TimelineProps) {
               variants={itemVariants}
               transition={{
                 duration: 0.4,
-                delay: index * 0.08,
+                delay: index * 0.05,
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
@@ -248,9 +250,9 @@ export function Timeline({ items }: TimelineProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-20 text-center text-slate-400"
+            className="py-24 text-center text-sm font-medium text-zinc-500 dark:text-zinc-400"
           >
-            未找到匹配的经历
+            No matching experience found.
           </motion.div>
         )}
       </div>

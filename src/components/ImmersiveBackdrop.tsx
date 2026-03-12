@@ -1,62 +1,15 @@
-"use client";
-
-import { m as motion } from "framer-motion";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
-
-const blobTransition = {
-  duration: 18,
-  repeat: Infinity,
-  repeatType: "mirror" as const,
-  ease: [0.22, 1, 0.36, 1] as const,
-};
+import React from "react";
 
 export default function ImmersiveBackdrop() {
-  const prefersReducedMotion = useReducedMotion();
-
-  if (prefersReducedMotion) {
-    return (
-      <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-        <div className="absolute -top-48 -left-40 h-[36rem] w-[36rem] rounded-full bg-sky-300/20 blur-[120px]" />
-        <div className="absolute top-[30%] -right-40 h-[38rem] w-[38rem] rounded-full bg-blue-300/20 blur-[140px]" />
-        <div className="absolute bottom-[-12rem] left-[25%] h-[36rem] w-[36rem] rounded-full bg-cyan-300/20 blur-[130px]" />
-      </div>
-    );
-  }
-
   return (
-    <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-      <motion.div
-        className="absolute -top-56 -left-48 h-[44rem] w-[44rem] rounded-full bg-sky-400/20 blur-[130px] will-change-transform"
-        style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
-        animate={{
-          x: [0, 120, 20],
-          y: [0, 80, -30],
-          scale: [1, 1.15, 0.95],
-        }}
-        transition={blobTransition}
-      />
-      <motion.div
-        className="absolute top-[18%] -right-56 h-[50rem] w-[50rem] rounded-full bg-blue-500/16 blur-[150px] will-change-transform"
-        style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
-        animate={{
-          x: [0, -140, -20],
-          y: [0, -70, 50],
-          scale: [1, 0.92, 1.08],
-        }}
-        transition={{ ...blobTransition, duration: 22 }}
-      />
-      <motion.div
-        className="absolute bottom-[-18rem] left-[20%] h-[48rem] w-[48rem] rounded-full bg-cyan-400/14 blur-[145px] will-change-transform"
-        style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
-        animate={{
-          x: [0, 80, -60],
-          y: [0, -90, 10],
-          scale: [1, 1.1, 0.9],
-        }}
-        transition={{ ...blobTransition, duration: 20 }}
-      />
-      <div className="immersive-grid absolute inset-0 opacity-40" />
-      <div className="immersive-grain absolute inset-0 opacity-30" />
+    <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden bg-white">
+      {/* Pure CSS Tailwind fallback gradient to ensure fast LCP without Framer Motion */}
+      <div className="absolute -top-28 -left-24 h-[20rem] w-[20rem] rounded-full bg-sky-200/18 blur-[90px] animate-pulse md:-top-48 md:-left-40 md:h-[36rem] md:w-[36rem] md:bg-sky-300/16 md:blur-[120px]" style={{ animationDuration: "4s" }} />
+      <div className="absolute top-[22%] -right-24 h-[18rem] w-[18rem] rounded-full bg-blue-200/16 blur-[80px] animate-pulse md:top-[30%] md:-right-40 md:h-[38rem] md:w-[38rem] md:bg-blue-300/16 md:blur-[140px]" style={{ animationDuration: "5s" }} />
+      <div className="absolute bottom-[-6rem] left-[20%] h-[16rem] w-[16rem] rounded-full bg-cyan-200/14 blur-[70px] animate-pulse md:bottom-[-12rem] md:left-[25%] md:h-[36rem] md:w-[36rem] md:bg-cyan-300/16 md:blur-[130px]" style={{ animationDuration: "6s" }} />
+      
+      <div className="immersive-grid absolute inset-0 hidden opacity-20 md:block" />
+      <div className="immersive-grain absolute inset-0 hidden opacity-12 md:block" />
     </div>
   );
 }

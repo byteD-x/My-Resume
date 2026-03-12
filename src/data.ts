@@ -118,7 +118,7 @@ export const defaultPortfolioData: PortfolioData = {
       value: "5+",
       label: "开源关注 (Stars)",
       description:
-        "WeChat AI Bot：可并发、可记忆、低成本运行的微信 AI 助理（异步 + RAG）",
+        "微信 AI 助手：可并发、可记忆、低成本运行的微信 AI 助理（异步 + RAG）",
       details: [
         "**对非技术**：把 AI 助手做成“能持续跑、能记住、响应快”的微信工具。",
         "",
@@ -148,7 +148,7 @@ export const defaultPortfolioData: PortfolioData = {
       value: "7+",
       label: "插件扩展点",
       description:
-        "Customer AI Runtime：智能客服运行时参考实现，覆盖文本/语音/RTC、宿主挂载、插件扩展与多租户知识库",
+        "智能客服运行时：智能客服运行时参考实现，覆盖文本/语音/RTC、宿主挂载、插件扩展与多租户知识库",
       details: [
         "**对非技术**：把 AI 客服从“只会答文档”升级为“能接业务、能转人工、能嵌入宿主系统”的运行时。",
         "",
@@ -351,7 +351,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "exp-wechat-bot",
       year: "2025.12 - 至今",
       role: "独立开发者 · 开源项目",
-      company: "WeChat AI Bot",
+      company: "微信 AI 助手",
       location: "开源项目",
       summary:
         "构建微信 AI 助手：支持长期记忆与管理端，面对高并发不阻塞（Quart 异步 + RAG + I/O 解耦 + 流式日志）。",
@@ -419,7 +419,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "exp-customer-ai-runtime",
       year: "2026.02 - 至今",
       role: "独立开发者 · 开源项目",
-      company: "Customer AI Runtime",
+      company: "智能客服运行时",
       location: "开源项目",
       summary:
         "智能客服运行时参考实现：支持文本/语音/RTC、RAG 知识增强、业务工具调用、宿主系统挂载与人工协同（FastAPI + AsyncIO + 插件架构）。",
@@ -869,7 +869,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-customer-ai-runtime",
       year: "2026",
-      name: "Customer AI Runtime",
+      name: "智能客服运行时",
       link: "https://github.com/icefunicu/customer-ai-runtime",
       demoLink: "",
       techTags: [
@@ -1000,7 +1000,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-wechat-bot",
       year: "2025",
-      name: "WeChat AI Bot",
+      name: "微信 AI 助手",
       link: "https://github.com/icefunicu/wechat-bot",
       demoLink: "",
       techTags: [
@@ -1303,42 +1303,40 @@ export const defaultPortfolioData: PortfolioData = {
   skills: [
     {
       id: "skill-primary",
-      category: "主力（可独立负责）",
-      description: "与核心经历强绑定，可独立承担方案设计、实施和指标复核。",
+      category: "核心栈 (Primary)",
+      description: "可独立承担架构设计、核心实现与最终复核的领域。",
       items: [
-        "Java / Spring Boot（性能优化、接口治理、CI/CD）",
-        "Python / FastAPI / AsyncIO（AI 服务编排、多通道接入）",
-        "Python / Quart / ChromaDB（异步 I/O、RAG 记忆）",
-        "LangGraph / RAG / Qdrant / FastEmbed（检索增强、可恢复运行时）",
-        "OpenAI / Prompt & Policy / Tool Calling（业务集成与成本控制）",
-        "PostgreSQL / Redis / ClickHouse（检索与性能治理）",
-        "Next.js / React / Vue 3 / TypeScript（管理台与宿主接入）",
+        "Java / Spring Boot（性能治理、架构演进、CI/CD）",
+        "Python / FastAPI / AsyncIO（AI 运行时编排、多通道接入）",
+        "LangGraph / RAG / Qdrant（知识检索增强、复杂代理流）",
+        "OpenAI / Tool Calling（业务系统互联、多模态调度）",
+        "PostgreSQL / Redis / ClickHouse（存储选型与查询优化）",
+        "Next.js / Vue 3 / TypeScript（工程化前端构建与全栈交付）",
       ],
     },
     {
       id: "skill-proficient",
-      category: "熟练（可独立交付）",
-      description: "可在项目中独立落地，并与主力能力形成交付闭环。",
+      category: "扩展栈 (Proficient)",
+      description: "在项目中熟练落地，支撑端到端交付闭环。",
       items: [
         "Docker / Linux Shell / Nginx",
-        "Jenkins / GitLab CI（质量门禁与回滚）",
-        "CI/CD / pytest / Playwright（质量门禁与回归验证）",
-        "WebSocket / SSE / RTC / ASR / TTS",
-        "FFmpeg-HLS / Electron / Chrome Extension",
-        "多租户 / Auth Bridge / 插件化扩展",
-        "DataX / ETL / 数据一致性校验脚本",
+        "Jenkins / GitLab CI（流水线与自动化部署）",
+        "pytest / Playwright（回归测试与 UI 自动化）",
+        "WebSocket / SSE / RTC / ASR / TTS（实时与语音流）",
+        "多租户隔离 / Auth Bridge / 插件化扩展设计",
+        "系统监控 / Prometheus / Grafana 仪表盘",
       ],
     },
     {
       id: "skill-familiar",
-      category: "了解（可协作落地）",
-      description: "具备实践基础，可在团队协作中快速接手和扩展。",
+      category: "周边栈 (Familiar)",
+      description: "具备实践经验，能在跨团队协作中快速接手。",
       items: [
-        "Go（服务开发基础）",
-        "Kubernetes（部署与资源编排基础）",
-        "Kafka / RabbitMQ（消息队列基础）",
-        "Elasticsearch / MinIO（检索与对象存储基础）",
-        "AWS / Aliyun（云资源基础）",
+        "Go（微服务开发）",
+        "Kubernetes（容器编排基础）",
+        "Kafka / RabbitMQ（异步解耦）",
+        "Elasticsearch / MinIO（非结构化存储）",
+        "AWS / Aliyun（云端基础设施）",
       ],
     },
   ],

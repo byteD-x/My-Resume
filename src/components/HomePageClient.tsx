@@ -13,10 +13,10 @@ import { Container } from "@/components/ui/Container";
 import Footer from "@/components/Footer";
 import FloatingResumeButton from "@/components/FloatingResumeButton";
 import { MotionWrapper } from "@/components/ui/MotionWrapper";
-import { DarkModeCursorGlow } from "@/components/ui/CursorGlow";
 import { clearScrollRestore, readScrollRestore } from "@/lib/scroll-restore";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 import { scheduleDeferredTask } from "@/lib/visual-shock/utils/defer";
+import { getHeroSpotlights } from "@/lib/home-highlights";
 
 const Services = dynamic(() => import("@/components/Services"), {
   loading: () => (
@@ -122,6 +122,9 @@ export default function HomePageClient() {
   const data = defaultPortfolioData;
   const isLowPerformanceMode = useLowPerformanceMode();
   const [shouldMountVisualShock, setShouldMountVisualShock] = useState(false);
+  const heroProofItems = useMemo(() => {
+    return getHeroSpotlights(data.projects);
+  }, [data.projects]);
   const timelineByDate = useMemo(() => {
     return [...data.timeline].sort(
       (a, b) => extractTimelineSortKey(b.year) - extractTimelineSortKey(a.year),
@@ -200,15 +203,17 @@ export default function HomePageClient() {
       {shouldMountVisualShock ? <VisualShock /> : <ImmersiveBackdrop />}
       <Navbar heroData={data.hero} contactData={data.contact} />
       {!isLowPerformanceMode && <ScrollProgressBar />}
-      {!isLowPerformanceMode && <DarkModeCursorGlow />}
       <SectionRail sections={SECTION_RAIL_ITEMS} />
 
-      <Hero data={data.hero} />
+      <Hero
+        data={data.hero}
+        proofItems={heroProofItems}
+      />
 
       <MotionWrapper delay={0.1}>
         <Section
           id="impact"
-          className="relative mb-28 scroll-mt-24 sm:mb-24"
+          className="relative py-20 md:py-32 scroll-mt-24"
           data-vs-reveal
           data-vs-reveal-order={0}
         >
@@ -225,7 +230,7 @@ export default function HomePageClient() {
       <MotionWrapper delay={0.2}>
         <Section
           id="experience"
-          className="relative mt-10 scroll-mt-24 bg-white/55 backdrop-blur-md sm:mt-12"
+          className="relative py-20 md:py-32 scroll-mt-24 bg-white/55 backdrop-blur-md"
           data-vs-reveal
           data-vs-reveal-order={1}
         >
@@ -251,7 +256,7 @@ export default function HomePageClient() {
       <MotionWrapper delay={0.2}>
         <Section
           id="projects"
-          className="relative scroll-mt-24 bg-gradient-to-b from-slate-50/70 via-white/55 to-slate-100/45"
+          className="relative py-20 md:py-32 scroll-mt-24 bg-gradient-to-b from-slate-50/70 via-white/55 to-slate-100/45"
           data-vs-reveal
           data-vs-reveal-order={2}
         >
@@ -276,7 +281,7 @@ export default function HomePageClient() {
       <MotionWrapper delay={0.2}>
         <div
           id="services"
-          className="scroll-mt-24 content-auto"
+          className="scroll-mt-24 content-auto py-20 md:py-32"
           style={{ containIntrinsicSize: "auto 600px" }}
           data-vs-reveal
           data-vs-reveal-order={3}
@@ -288,7 +293,7 @@ export default function HomePageClient() {
       <MotionWrapper delay={0.2}>
         <div
           id="skills"
-          className="scroll-mt-24 content-auto"
+          className="scroll-mt-24 content-auto py-20 md:py-32"
           style={{ containIntrinsicSize: "auto 800px" }}
           data-vs-reveal
           data-vs-reveal-order={4}
@@ -300,7 +305,7 @@ export default function HomePageClient() {
       <MotionWrapper delay={0.1}>
         <div
           id="contact"
-          className="scroll-mt-24 content-auto"
+          className="scroll-mt-24 content-auto py-20 md:py-32"
           style={{ containIntrinsicSize: "auto 400px" }}
           data-vs-reveal
           data-vs-reveal-order={5}

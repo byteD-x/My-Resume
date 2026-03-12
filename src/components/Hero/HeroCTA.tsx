@@ -5,8 +5,8 @@ import { ArrowDownToLine, Download } from "lucide-react";
 import { EASING_CURVES, HERO_ANIMATION } from "@/config/animation";
 import { useHydrated } from "@/hooks/useHydrated";
 import {
-  trackProjectEvidenceClick,
   trackCTAClick,
+  trackProjectEvidenceClick,
   trackResumeDownload,
 } from "@/lib/analytics";
 import type { ResumeDownloadClickEvent } from "@/lib/resume";
@@ -54,18 +54,17 @@ export function HeroCTA({
         ...fadeIn.transition,
         delay: HERO_ANIMATION.DELAY_CTA,
       }}
-      className="flex flex-wrap gap-4"
+      className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4"
       data-print="hide"
     >
       <a
         href={downloadUrl}
         download={downloadName}
         onClick={handleDownloadClick}
-        data-print="hide"
-        className="btn btn-primary whitespace-nowrap px-8 py-3.5 text-base font-bold"
-        aria-label="Download resume PDF"
+        className="btn btn-primary sm:w-auto"
+        aria-label="下载简历 PDF"
       >
-        <Download size={20} className="shrink-0" />
+        <Download size={18} className="opacity-90" />
         下载简历 PDF
       </a>
 
@@ -73,11 +72,11 @@ export function HeroCTA({
         type="button"
         onClick={handleViewProjects}
         disabled={!isHydrated}
-        className="btn btn-secondary whitespace-nowrap px-8 py-3.5 text-base font-semibold disabled:cursor-not-allowed disabled:opacity-60"
-        aria-label="View project evidence / 查看项目证据"
+        className="btn btn-secondary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+        aria-label="探索工程实践"
       >
-        <ArrowDownToLine size={20} className="shrink-0" />
-        查看项目证据
+        <ArrowDownToLine size={18} className="opacity-70" />
+        探索工程实践
       </button>
     </motion.div>
   );

@@ -9,7 +9,7 @@ interface HeroBulletsProps {
 }
 
 const fadeIn = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: {
     duration: HERO_ANIMATION.FADE_IN.duration,
@@ -25,19 +25,22 @@ export function HeroBullets({ bullets }: HeroBulletsProps) {
         ...fadeIn.transition,
         delay: HERO_ANIMATION.DELAY_BULLETS,
       }}
-      className="mb-10 max-w-2xl space-y-4"
+      className="w-full max-w-[42rem]"
     >
-      {bullets.map((bullet) => (
-        <div key={bullet.id} className="group flex gap-4">
-          <div className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue-600 transition-transform group-hover:scale-125" />
-          <div className="text-lg leading-relaxed text-slate-600">
-            <strong className="mr-2 font-semibold text-slate-900">
-              {bullet.title}
-            </strong>
-            {bullet.description}
+      <div className="space-y-3 sm:space-y-4">
+        {bullets.map((bullet) => (
+          <div key={bullet.id} className="relative flex items-start gap-4">
+            <div className="mt-3 h-[1px] w-4 shrink-0 bg-zinc-300 dark:bg-zinc-700" />
+            <p className="text-[0.98rem] leading-8 text-zinc-700 dark:text-zinc-300">
+              <strong className="font-semibold text-zinc-950 dark:text-zinc-100">
+                {bullet.title}
+              </strong>
+              {" · "}
+              {bullet.description}
+            </p>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </motion.div>
   );
 }

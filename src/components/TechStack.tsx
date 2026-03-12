@@ -1,47 +1,72 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { m as motion } from "framer-motion";
-import { SkillCategory, VibeCodingData } from "@/types";
-import { TechTag } from "./ui/TechTag";
-import { Container } from "./ui/Container";
-import { Section } from "./ui/Section";
-import { InfiniteScroll } from "./ui/InfiniteScroll";
 import {
-  Code2,
-  Database,
   BrainCircuit,
-  Terminal,
-  Layout,
-  Zap,
   ChevronDown,
   ChevronUp,
+  Code2,
+  Database,
+  Layout,
+  Terminal,
   type LucideIcon,
 } from "lucide-react";
+import { SkillCategory, VibeCodingData } from "@/types";
+import { Container } from "./ui/Container";
+import { Section } from "./ui/Section";
 
 const categoryIcons: Record<string, LucideIcon> = {
   Backend: Code2,
-  后端开发: Code2,
-  后端架构: Code2,
-  "主力（可独立负责）": Code2,
+  "后端开发": Code2,
+  "后端架构": Code2,
+  "主力栈（可独立负责）": BrainCircuit,
   Data: Database,
-  数据存储: Database,
-  数据与中间件: Database,
+  "数据存储": Database,
+  "数据与中间件": Database,
   "了解（可协作落地）": Database,
   "AI Engineering": BrainCircuit,
   "AI 工程化": BrainCircuit,
   Engineering: Terminal,
   "工程 & 运维": Terminal,
   "DevOps 与云原生": Terminal,
-  "熟练（可独立交付）": Terminal,
+  "熟练栈（可独立交付）": Terminal,
   Frontend: Layout,
   "前端 & 全栈": Layout,
-  前端与全栈: Layout,
+  "前端与全栈": Layout,
+  "核心栈 (Primary)": BrainCircuit,
+  "扩展栈 (Proficient)": Terminal,
+  "周边栈 (Familiar)": Layout,
 };
 
 interface TechStackProps {
   skills: SkillCategory[];
   vibeCoding: VibeCodingData;
+}
+
+interface ParsedSkillItem {
+  label: string;
+  detail: string | null;
+  raw: string;
+}
+
+function parseSkillItem(item: string): ParsedSkillItem {
+  const normalized = item.trim();
+  const match = normalized.match(/^(.*?)[（(]([^()（）]+)[）)]$/);
+
+  if (!match) {
+    return {
+      label: normalized,
+      detail: null,
+      raw: normalized,
+    };
+  }
+
+  return {
+    label: match[1].trim(),
+    detail: match[2].trim(),
+    raw: normalized,
+  };
 }
 
 export default function TechStack({ skills, vibeCoding }: TechStackProps) {
@@ -53,156 +78,175 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
     setExpandedCategories((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  // Flatten all skills for the Infinite Wall
-  const allSkills = skills.reduce<string[]>((acc, category) => {
-    return [...acc, ...category.items];
-  }, []);
-
-  // Split into two rows for visual interest
-  const firstRow = allSkills.slice(0, Math.ceil(allSkills.length / 2));
-  const secondRow = allSkills.slice(Math.ceil(allSkills.length / 2));
+  const strategyCards = useMemo(() => {
+    return skills.slice(0, 3).map((category, index) => ({
+      id: category.id,
+      title: category.category,
+      description: category.description,
+      emphasis:
+        index === 0
+          ? "负责方案设计、核心实现和结果复核。"
+          : index === 1
+            ? "负责落地、联调、部署和质量门禁。"
+            : "作为扩展能力快速接手和协作落地。",
+      items: category.items.slice(0, 4).map(parseSkillItem),
+    }));
+  }, [skills]);
 
   return (
-    <Section className="bg-slate-50">
+    <Section className="border-y border-zinc-200 bg-white py-24 dark:border-zinc-800 dark:bg-zinc-950 md:py-32">
       <Container>
-        {/* Header */}
-        <div className="max-w-3xl mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">
-            技术栈与工具箱
+        <div
+          className="mb-16 max-w-3xl scroll-mt-28"
+          data-scroll-target="skills"
+        >
+          <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+            Technology Arsenal
+          </p>
+          <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
+            技术栈与能力边界
           </h2>
-          <p className="text-lg text-slate-700 max-w-2xl leading-relaxed">
-            不设技术边界，以解决问题为核心；用 AI 提效，但用工程门禁保证质量。
+          <p className="text-[15px] leading-8 text-zinc-700 dark:text-zinc-300">
+            工具只是手段，解决复杂问题才是目的。这里不堆砌名词，而是按照我在不同场景下的掌控力对技术栈分层，方便快速判断我能独立负责什么、能协作补位什么。
           </p>
         </div>
 
-        {/* Infinite Logo Wall */}
-        <div className="mb-20 -mx-4 md:-mx-0 overflow-hidden space-y-4">
-          <InfiniteScroll
-            items={firstRow.map((skill) => (
-              <span
-                key={skill}
-                className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500"
-              >
-                {skill}
-              </span>
-            ))}
-            direction="right"
-            speed="slow"
-          />
-          <InfiniteScroll
-            items={secondRow.map((skill) => (
-              <span
-                key={skill}
-                className="font-bold text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-600"
-              >
-                {skill}
-              </span>
-            ))}
-            direction="left"
-            speed="slow"
-          />
-        </div>
-
-        {/* Vibe Coding / AI Native Badge */}
-        <motion.div
-          className="mb-16"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="bg-gradient-to-br from-slate-900 to-sky-900 rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-sky-500/30 transition-colors duration-500" />
-
-            <div className="relative z-10">
-              <div className="flex items-center gap-3 mb-4">
-                <motion.div
-                  className="p-2 rounded-lg bg-sky-500/20 text-sky-200"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <Zap size={24} />
-                </motion.div>
-                <h3 className="text-xl font-bold">{vibeCoding.title}</h3>
-              </div>
-              <p className="max-w-4xl leading-relaxed text-pretty text-sky-100/80">
+        <div className="mb-12 rounded-xl border border-zinc-200 bg-zinc-50/70 p-6 dark:border-zinc-800 dark:bg-zinc-900/30 md:p-8">
+          <div className="flex items-start gap-5">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100">
+              <BrainCircuit size={22} strokeWidth={2} />
+            </div>
+            <div className="max-w-4xl">
+              <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+                Working Style
+              </p>
+              <h3 className="mb-3 text-lg font-bold text-zinc-900 dark:text-zinc-50">
+                {vibeCoding.title}
+              </h3>
+              <p className="text-[14px] leading-7 text-zinc-700 dark:text-zinc-300">
                 {vibeCoding.description}
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Detailed Skills Grid (Preserved for depth) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
-          {skills.map((category, idx) => {
-            const Icon = categoryIcons[category.category] || Code2;
+        <div className="mb-12 grid gap-6 lg:grid-cols-3">
+          {strategyCards.map((card, index) => (
+            <motion.article
+              key={card.id}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{
+                delay: index * 0.06,
+                duration: 0.4,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-600"
+            >
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                Capability Layer
+              </p>
+              <h3 className="mb-3 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+                {card.title}
+              </h3>
+              <p className="mb-4 flex-grow text-[13px] leading-7 text-zinc-700 dark:text-zinc-300">
+                {card.description}
+              </p>
+              <div className="mt-auto">
+                <p className="mb-5 border-b border-zinc-100 pb-5 text-[13px] leading-relaxed text-zinc-700 dark:border-zinc-800/80 dark:text-zinc-300">
+                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    承担方式：
+                  </span>
+                  {card.emphasis}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {card.items.map((item) => (
+                    <span
+                      key={item.raw}
+                      className="rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-[11px] font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                    >
+                      {item.label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:gap-8">
+          {skills.map((category, index) => {
+            const Icon = categoryIcons[category.category] ?? Code2;
             const isExpanded = expandedCategories[category.id];
+            const parsedItems = category.items.map(parseSkillItem);
             const displayItems = isExpanded
-              ? category.items
-              : category.items.slice(0, 8);
-            const remainingCount = category.items.length - 8;
-            const hasMore = remainingCount > 0;
+              ? parsedItems
+              : parsedItems.slice(0, 6);
+            const remainingCount = Math.max(parsedItems.length - 6, 0);
 
             return (
-              <motion.div
+              <motion.article
                 key={category.id}
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, margin: "-40px" }}
                 transition={{
-                  duration: 0.5,
-                  delay: idx * 0.1,
+                  delay: index * 0.05,
+                  duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                whileHover={{
-                  boxShadow:
-                    "0 20px 40px -16px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(59, 130, 246, 0.14)",
-                  borderColor: "rgba(59, 130, 246, 0.28)",
-                }}
-                className="bg-white rounded-xl border border-slate-200 p-6 flex flex-col shadow-sm"
+                className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50 lg:p-8"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <motion.div
-                    className="p-2.5 bg-slate-100 text-slate-600 rounded-lg"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  >
-                    <Icon size={20} />
-                  </motion.div>
-                  <h3 className="font-bold text-slate-900 text-lg">
-                    {category.category}
-                  </h3>
+                <div className="mb-6 flex items-start gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
+                    <Icon size={18} strokeWidth={2} />
+                  </div>
+                  <div>
+                    <h3 className="text-[17px] font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                      {category.category}
+                    </h3>
+                    {category.description ? (
+                      <p className="mt-1.5 text-[13px] leading-relaxed text-zinc-500 dark:text-zinc-400">
+                        {category.description}
+                      </p>
+                    ) : null}
+                  </div>
                 </div>
 
-                <p className="text-sm text-slate-700 mb-6 min-h-[40px]">
-                  {category.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mt-auto">
+                <div className="grid flex-grow gap-3 sm:grid-cols-2">
                   {displayItems.map((item) => (
-                    <TechTag key={item} name={item} />
+                    <article
+                      key={item.raw}
+                      className="rounded-xl border border-zinc-200 bg-zinc-50/80 p-4 dark:border-zinc-800 dark:bg-zinc-950/50"
+                    >
+                      <p className="text-[14px] font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+                        {item.label}
+                      </p>
+                      {item.detail ? (
+                      <p className="mt-2 text-[12px] leading-6 text-zinc-600 dark:text-zinc-300">
+                        {item.detail}
+                      </p>
+                      ) : null}
+                    </article>
                   ))}
-
-                  {hasMore && !isExpanded && (
-                    <button
-                      onClick={() => toggleCategory(category.id)}
-                      className="inline-flex items-center gap-1 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
-                    >
-                      +{remainingCount} 更多
-                      <ChevronDown size={14} />
-                    </button>
-                  )}
-                  {isExpanded && (
-                    <button
-                      onClick={() => toggleCategory(category.id)}
-                      className="inline-flex items-center gap-1 px-3 py-1 text-sm font-medium text-slate-500 hover:bg-slate-100 rounded-full transition-colors"
-                    >
-                      收起
-                      <ChevronUp size={14} />
-                    </button>
-                  )}
                 </div>
-              </motion.div>
+
+                {remainingCount > 0 ? (
+                  <button
+                    type="button"
+                    onClick={() => toggleCategory(category.id)}
+                    className="mt-6 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                  >
+                    {isExpanded ? "Show Less" : `View All (+${remainingCount})`}
+                    {isExpanded ? (
+                      <ChevronUp size={14} strokeWidth={2.5} />
+                    ) : (
+                      <ChevronDown size={14} strokeWidth={2.5} />
+                    )}
+                  </button>
+                ) : null}
+              </motion.article>
             );
           })}
         </div>

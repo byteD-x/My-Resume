@@ -29,10 +29,9 @@ import {
   registerBuiltInTransitions,
   visualShockStore,
 } from "@/lib/visual-shock";
-import { FluidOverlay } from "@/components/visual-shock/FluidOverlay";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { ParticleOverlay } from "@/components/visual-shock/ParticleOverlay";
+
 import { PerformanceHUD } from "@/components/visual-shock/PerformanceHUD";
 import { WebGLFallback } from "@/components/visual-shock/WebGLFallback";
 import type { CameraMode } from "@/lib/visual-shock/systems/WebGLRenderer";
@@ -177,7 +176,7 @@ export default function VisualShock() {
     useState<PerformanceDegradationStage>(0);
   const [manualQualityOverride, setManualQualityOverride] =
     useState<QualityLevel | null>(null);
-  const [heroShadowsEnabled, setHeroShadowsEnabled] = useState(true);
+
   const [metrics, setMetrics] = useState<FrameMetrics>({
     fps: 60,
     frameTime: 16.67,
@@ -313,7 +312,6 @@ export default function VisualShock() {
         fluidSimulator.setViscosity(0.6);
         fluidSimulator.setDensity(0.75);
         physicsEngine.enabled = true;
-        setHeroShadowsEnabled(true);
         scrollController.enableScrollJacking(false);
       } else if (level === "medium") {
         particleEngine.setMaxParticles(4200);
@@ -362,7 +360,6 @@ export default function VisualShock() {
       const fluidEnabled = stage < 4;
       const physicsEnabled = stage < 5;
 
-      setHeroShadowsEnabled(shadowsEnabled);
       fluidSimulator.enabled = fluidEnabled;
       physicsEngine.enabled = physicsEnabled;
 
@@ -1089,30 +1086,17 @@ export default function VisualShock() {
 
   return (
     <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(56,189,248,0.22),transparent_46%),radial-gradient(circle_at_80%_12%,rgba(59,130,246,0.2),transparent_42%),radial-gradient(circle_at_50%_100%,rgba(34,211,238,0.18),transparent_52%)]" />
-      {PARALLAX_LAYER_CONFIG.map((layer, index) => (
-        <div
-          key={layer.key}
-          ref={(node) => {
-            parallaxLayerRefs.current[index] = node;
-          }}
-          className={layer.className}
-          style={layer.style}
-          aria-hidden="true"
-        />
-      ))}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(56,189,248,0.05),transparent_46%),radial-gradient(circle_at_80%_12%,rgba(59,130,246,0.05),transparent_42%),radial-gradient(circle_at_50%_100%,rgba(34,211,238,0.05),transparent_52%)]" />
 
       <div className="absolute inset-0 opacity-95">
         <HeroScene
           cameraMode={cameraMode}
           pointerRef={pointerRef}
           onFrameMetrics={handleFrameMetrics}
-          shadowsEnabled={heroShadowsEnabled}
+          shadowsEnabled={false}
           onContextEvent={handleWebGLContextEvent}
         />
       </div>
-      <FluidOverlay simulator={fluidSimulator} />
-      <ParticleOverlay engine={particleEngine} />
       <div className="absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-slate-50/30" />
 
       {runtimeNotice ? (

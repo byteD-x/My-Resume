@@ -2,11 +2,10 @@
 
 import { m as motion } from "framer-motion";
 import { MapPin } from "lucide-react";
-import { Badge } from "../ui/Badge";
 import { HERO_ANIMATION, EASING_CURVES } from "@/config/animation";
 
 const fadeIn = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: {
     duration: HERO_ANIMATION.FADE_IN.duration,
@@ -18,27 +17,20 @@ interface HeroStatusBadgesProps {
   location?: string;
 }
 
-/**
- * Hero 状态徽章组件
- * 显示"远程优先"和地点信息
- */
 export function HeroStatusBadges({ location }: HeroStatusBadgesProps) {
   return (
-    <motion.div {...fadeIn} className="flex flex-wrap items-center gap-3 mb-6">
-      <Badge
-        variant="accent"
-        className="bg-emerald-50 text-emerald-700 border-emerald-200 py-1.5 px-3.5 text-sm"
-      >
-        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2" />
+    <motion.div {...fadeIn} className="flex flex-wrap items-center gap-4">
+      <span className="inline-flex items-center gap-2 rounded-md bg-zinc-100 dark:bg-zinc-900 px-2.5 py-1 text-xs font-medium text-zinc-800 dark:text-zinc-200 border border-zinc-200/50 dark:border-zinc-800/50">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
         远程优先
-      </Badge>
-      <Badge
-        variant="outline"
-        className="py-1.5 px-3.5 text-sm font-normal text-slate-500 bg-white shadow-sm"
-      >
-        <MapPin size={14} className="mr-1.5 opacity-70" />
-        {location || "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都"}
-      </Badge>
+      </span>
+      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+        <MapPin size={14} className="opacity-70" />
+        {location ?? "深圳 / 南京 / 杭州 / 成都"}
+      </span>
     </motion.div>
   );
 }
