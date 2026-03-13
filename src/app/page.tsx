@@ -24,7 +24,7 @@ const Timeline = dynamic(
         {[1, 2, 3].map((item) => (
           <div
             key={item}
-            className="h-32 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50"
+            className="h-32 rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/50"
           />
         ))}
       </div>
@@ -33,26 +33,36 @@ const Timeline = dynamic(
 );
 
 const HighlightDeck = dynamic(() => import("@/components/HighlightDeck"), {
-  loading: () => <div className="h-[28rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />,
+  loading: () => (
+    <div className="h-[28rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+  ),
 });
 
 const ProjectList = dynamic(
   () => import("@/components/ProjectList").then((mod) => mod.ProjectList),
   {
-    loading: () => <div className="h-[30rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />,
+    loading: () => (
+      <div className="h-[30rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+    ),
   },
 );
 
 const TechStack = dynamic(() => import("@/components/TechStack"), {
-  loading: () => <div className="h-[32rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />,
+  loading: () => (
+    <div className="h-[32rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+  ),
 });
 
 const Services = dynamic(() => import("@/components/Services"), {
-  loading: () => <div className="h-[24rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />,
+  loading: () => (
+    <div className="h-[24rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+  ),
 });
 
 const Contact = dynamic(() => import("@/components/Contact"), {
-  loading: () => <div className="h-[24rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />,
+  loading: () => (
+    <div className="h-[24rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+  ),
 });
 
 function extractTimelineSortKey(period: string): number {
@@ -82,10 +92,7 @@ export default function HomePage() {
       <HomePageRuntime />
       <Navbar heroData={data.hero} contactData={data.contact} />
 
-      <Hero
-        data={data.hero}
-        proofItems={heroProofItems}
-      />
+      <Hero data={data.hero} proofItems={heroProofItems} />
 
       <div
         id="impact"
@@ -104,17 +111,17 @@ export default function HomePage() {
 
       <Section
         id="experience"
-        className="relative scroll-mt-24 bg-white dark:bg-zinc-950 py-24 md:py-32 border-y border-zinc-200 dark:border-zinc-800"
+        className="relative scroll-mt-24 border-y border-zinc-200 bg-white py-24 dark:border-zinc-800 dark:bg-zinc-950 md:py-32"
       >
         <Container>
           <div
             className="mb-16 max-w-3xl scroll-mt-28"
             data-scroll-target="experience"
           >
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-3">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
               Professional Journey
             </p>
-            <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl mb-5">
+            <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
               专业履历与实践
             </h2>
             <p className="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -127,34 +134,34 @@ export default function HomePage() {
 
       <Section
         id="projects"
-        className="relative scroll-mt-24 bg-zinc-50 dark:bg-zinc-950/50 py-24 md:py-32"
+        className="relative scroll-mt-24 bg-zinc-50 py-24 dark:bg-zinc-950/50 md:py-32"
       >
         <Container>
           <div
-            className="mb-16 grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end scroll-mt-28"
+            className="mb-16 grid gap-8 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end"
             data-scroll-target="projects"
           >
             <div className="max-w-3xl">
-              <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-3">
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
                 More Explorations
               </p>
-              <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl mb-5">
+              <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
                 开源与更多探索
               </h2>
               <p className="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
                 除了核心商业项目，我也在开源社区和业余时间持续探索。这里收录了我在不同技术栈和业务场景下的完整工程实践。
               </p>
             </div>
-            <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 shadow-sm">
-              <p className="text-[13px] font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+            <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+              <p className="flex items-center gap-2 text-[13px] font-bold text-zinc-900 dark:text-zinc-100">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-500"></span>
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-zinc-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-zinc-500" />
                 </span>
                 阅读导航
               </p>
               <p className="mt-2.5 text-[13px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-                默认按项目影响力和技术深度排序。你可以通过下方的标签快速筛选你关心的技术栈或业务领域。
+                默认按项目影响力和技术深度排序。你可以通过下方标签快速筛选自己关心的技术栈或业务领域。
               </p>
             </div>
           </div>
@@ -170,7 +177,10 @@ export default function HomePage() {
         <Services services={data.services} />
       </div>
 
-      <div id="contact" className="relative scroll-mt-24 border-t border-zinc-200 dark:border-zinc-800">
+      <div
+        id="contact"
+        className="relative scroll-mt-24 border-t border-zinc-200 dark:border-zinc-800"
+      >
         <Contact contactData={data.contact} />
       </div>
 

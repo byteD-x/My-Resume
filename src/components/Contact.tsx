@@ -87,8 +87,12 @@ export default function Contact({ contactData }: ContactProps) {
         : [];
 
   const emailSubject = "合作咨询 / 岗位沟通";
-  const resumeLinks = websiteUrls.map((url) => `在线站点：${url}`).join("\n");
-  const emailBody = `你好，我想进一步沟通合作或岗位机会。\n\n${resumeLinks ? `${resumeLinks}\n` : ""}GitHub: ${contactData.github}\n\n请告知方便沟通的时间，谢谢。`;
+  const resumeLinks = websiteUrls
+    .map((url) => `在线站点：${url}`)
+    .join("\n");
+  const emailBody = `你好，我想进一步沟通合作或岗位机会。\n\n${
+    resumeLinks ? `${resumeLinks}\n` : ""
+  }GitHub: ${contactData.github}\n\n请告知方便沟通的时间，谢谢。`;
   const mailtoHref = `mailto:${contactData.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
   const baseItems: ContactItem[] = [
@@ -167,7 +171,10 @@ export default function Contact({ contactData }: ContactProps) {
 
   return (
     <>
-      <Section className="py-24 md:py-32 bg-zinc-50 dark:bg-zinc-950" data-print="hide">
+      <Section
+        className="bg-zinc-50 py-24 dark:bg-zinc-950 md:py-32"
+        data-print="hide"
+      >
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -176,34 +183,34 @@ export default function Contact({ contactData }: ContactProps) {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto max-w-6xl"
           >
-            <div className="grid gap-12 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-8 md:grid-cols-[minmax(0,1fr)_24rem] md:p-12 lg:p-14">
+            <div className="grid gap-12 rounded-xl border border-zinc-200 bg-white p-8 dark:border-zinc-800 dark:bg-zinc-900/50 md:grid-cols-[minmax(0,1fr)_24rem] md:p-12 lg:p-14">
               <div className="space-y-8">
                 <div
                   className="max-w-2xl scroll-mt-28"
                   data-scroll-target="contact"
                 >
-                  <p className="text-[11px] font-semibold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-3">
+                  <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
                     Get in Touch
                   </p>
-                  <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl mb-5">
+                  <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
                     建立连接，开启对话
                   </h2>
                   <p className="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-                    无论是交流岗位机会、探讨 AI 落地路径、还是讨论深度的技术问题，都欢迎随时联系我。我习惯基于具体场景与明确的边界进行高效沟通。
+                    无论是交流岗位机会、探讨 AI 落地路径，还是讨论更深入的技术问题，都欢迎随时联系我。我习惯基于具体场景与明确边界进行高效沟通。
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap pt-2">
+                <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:flex-wrap">
                   <a
                     href={mailtoHref}
-                    className="inline-flex items-center justify-center gap-2 rounded-md bg-zinc-900 dark:bg-zinc-100 px-6 py-3.5 text-[14px] font-medium text-white dark:text-zinc-900 transition-transform hover:-translate-y-0.5"
+                    className="inline-flex items-center justify-center gap-2 rounded-md bg-zinc-900 px-6 py-3.5 text-[14px] font-medium text-white transition-transform hover:-translate-y-0.5 dark:bg-zinc-100 dark:text-zinc-900"
                   >
                     <Mail size={16} />
                     发邮件沟通
                   </a>
                   <a
                     href="/resume.pdf"
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-transparent px-6 py-3.5 text-[14px] font-medium text-zinc-900 dark:text-zinc-100 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-zinc-200 bg-transparent px-6 py-3.5 text-[14px] font-medium text-zinc-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-800"
                   >
                     <Download size={16} />
                     {contactData.resumeButtonText ?? "下载简历 PDF"}
@@ -214,25 +221,25 @@ export default function Contact({ contactData }: ContactProps) {
                       trackAppointmentModalOpen();
                       setIsAppointmentOpen(true);
                     }}
-                    className="inline-flex items-center justify-center gap-2 rounded-md border border-zinc-200 dark:border-zinc-700 bg-transparent px-6 py-3.5 text-[14px] font-medium text-zinc-900 dark:text-zinc-100 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                    className="inline-flex items-center justify-center gap-2 rounded-md border border-zinc-200 bg-transparent px-6 py-3.5 text-[14px] font-medium text-zinc-900 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-100 dark:hover:bg-zinc-800"
                   >
                     <Calendar size={16} />
                     预约沟通
                   </button>
                 </div>
 
-                <div className="inline-flex items-center gap-2.5 rounded border border-zinc-200/60 dark:border-zinc-800/60 bg-zinc-50/50 dark:bg-zinc-900/30 px-3 py-1.5 text-[12px] font-medium text-zinc-600 dark:text-zinc-400">
+                <div className="inline-flex items-center gap-2.5 rounded border border-zinc-200/60 bg-zinc-50/50 px-3 py-1.5 text-[12px] font-medium text-zinc-600 dark:border-zinc-800/60 dark:bg-zinc-900/30 dark:text-zinc-400">
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-500 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-zinc-600 dark:bg-zinc-400"></span>
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-zinc-500 opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-zinc-600 dark:bg-zinc-400" />
                   </span>
-                  {contactData.responseSlaText ?? "通常在 24 小时内回复"}
+                  {contactData.responseSlaText ?? "通常在 24 小时内回复（工作日更快）"}
                 </div>
 
                 {contactData.consultationChecklist &&
                 contactData.consultationChecklist.length > 0 ? (
-                  <div className="mt-8 pt-8 border-t border-zinc-100 dark:border-zinc-800">
-                    <p className="text-[11px] font-semibold tracking-widest text-zinc-500 dark:text-zinc-400 uppercase mb-5">
+                  <div className="mt-8 border-t border-zinc-100 pt-8 dark:border-zinc-800">
+                    <p className="mb-5 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
                       沟通前准备
                     </p>
                     <ul className="space-y-3.5 text-[14px] leading-relaxed text-zinc-600 dark:text-zinc-400">
@@ -255,14 +262,14 @@ export default function Contact({ contactData }: ContactProps) {
                   return (
                     <div
                       key={item.id}
-                      className="group flex items-center justify-between rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-4 transition-colors hover:border-zinc-400 dark:hover:border-zinc-600"
+                      className="group flex items-center justify-between rounded-lg border border-zinc-200 bg-white p-4 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-600"
                     >
-                      <div className="flex items-center gap-4 min-w-0">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded border border-zinc-100 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400">
+                      <div className="flex min-w-0 items-center gap-4">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded border border-zinc-100 bg-zinc-50 text-zinc-600 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400">
                           <Icon size={18} strokeWidth={2} />
                         </div>
                         <div className="min-w-0">
-                          <p className="text-[10px] font-bold tracking-widest text-zinc-400 dark:text-zinc-500 uppercase mb-0.5">
+                          <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                             {item.label}
                           </p>
                           <a
@@ -279,23 +286,26 @@ export default function Contact({ contactData }: ContactProps) {
                                 trackExternalLink(item.href, item.label);
                               }
                             }}
-                            className="block truncate text-[14px] font-semibold text-zinc-900 dark:text-zinc-100 hover:underline underline-offset-4"
+                            className="block truncate text-[14px] font-semibold text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
                           >
                             {item.value}
                           </a>
                         </div>
                       </div>
-                      
-                      <div className="flex items-center gap-1.5 shrink-0 ml-4">
+
+                      <div className="ml-4 flex shrink-0 items-center gap-1.5">
                         {item.canCopy ? (
                           <button
                             type="button"
                             onClick={() => void handleCopy(item.value, item.id)}
-                            className="flex h-8 w-8 items-center justify-center rounded text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-colors"
+                            className="flex h-8 w-8 items-center justify-center rounded text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                             aria-label={`复制 ${item.label}`}
                           >
                             {isCopied ? (
-                              <Check size={14} className="text-zinc-900 dark:text-zinc-100" />
+                              <Check
+                                size={14}
+                                className="text-zinc-900 dark:text-zinc-100"
+                              />
                             ) : (
                               <Copy size={14} />
                             )}
@@ -309,7 +319,7 @@ export default function Contact({ contactData }: ContactProps) {
                             onClick={() =>
                               trackExternalLink(item.href, `${item.label}_icon`)
                             }
-                            className="flex h-8 w-8 items-center justify-center rounded text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-colors"
+                            className="flex h-8 w-8 items-center justify-center rounded text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
                             aria-label={`打开 ${item.label}`}
                           >
                             <ExternalLink size={14} />
@@ -327,7 +337,7 @@ export default function Contact({ contactData }: ContactProps) {
                       setShowPrivateChannels(true);
                       trackContactReveal("all");
                     }}
-                    className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-zinc-300 dark:border-zinc-700 bg-transparent px-4 py-3.5 text-[13px] font-semibold text-zinc-600 dark:text-zinc-400 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
+                    className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-zinc-300 bg-transparent px-4 py-3.5 text-[13px] font-semibold text-zinc-600 transition-colors hover:border-zinc-400 hover:text-zinc-900 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-100"
                   >
                     <Eye size={16} />
                     展开更多联系方式

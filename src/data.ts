@@ -1396,7 +1396,6 @@ export const defaultPortfolioData: PortfolioData = {
     github: "https://github.com/byteD-x",
     websites: [
       "https://my-resume-gray-five.vercel.app/",
-      "https://byteD-x.github.io/My-Resume/",
     ],
     resumeButtonText: "下载简历 PDF",
     ctaText: "开始合作",

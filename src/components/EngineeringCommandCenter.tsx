@@ -56,19 +56,19 @@ const metricUnitMap: Record<RuntimeMetric["name"], string> = {
 };
 
 const metricLabelMap: Record<RuntimeMetric["name"], string> = {
-  LCP: "最大内容绘制 (LCP)",
-  INP: "交互到下次绘制 (INP)",
+  LCP: "最大内容渲染时间 (LCP)",
+  INP: "交互到下次绘制时间 (INP)",
   CLS: "累计布局偏移 (CLS)",
   FCP: "首次内容绘制 (FCP)",
   TTFB: "首字节到达时间 (TTFB)",
 };
 
 const metricDescriptionMap: Record<RuntimeMetric["name"], string> = {
-  LCP: "核心内容完成渲染所需时间，反映首屏加载效率。",
-  INP: "用户交互后的响应延迟，反映页面交互流畅度。",
-  CLS: "页面在加载过程中的视觉稳定性，越低越好。",
-  FCP: "浏览器首次绘制出有效内容的时间点。",
-  TTFB: "服务端返回首字节的速度，反映网络与后端响应。",
+  LCP: "衡量首屏主要内容完成渲染所需时间。",
+  INP: "衡量用户交互后的整体响应延迟。",
+  CLS: "衡量页面加载过程中的视觉稳定性。",
+  FCP: "衡量浏览器首次绘制有效内容的时间点。",
+  TTFB: "衡量服务端和网络链路返回首字节的速度。",
 };
 
 const ratingClassMap = {
@@ -87,12 +87,12 @@ const sourceLabelMap: Record<TelemetrySource, string> = {
 const ratingLabelMap = {
   pending: "等待采集",
   good: "良好",
-  "needs-improvement": "需优化",
+  "needs-improvement": "待优化",
   poor: "风险",
 } as const;
 
 const telemetryStateLabelMap: Record<TelemetryState, string> = {
-  idle: "待采集",
+  idle: "待同步",
   loading: "同步中",
   ready: "已更新",
   error: "已降级",
@@ -236,20 +236,20 @@ export default function EngineeringCommandCenter() {
         value: telemetryStateLabelMap[telemetryState],
         hint:
           telemetryState === "loading"
-            ? "正在拉取运行时与 GitHub 数据"
-            : "打开面板时自动刷新一次数据",
+            ? "正在同步运行时指标和 GitHub 数据。"
+            : "打开面板时会自动刷新一次数据。",
         icon: Activity,
       },
       {
         label: "数据来源",
         value: sourceLabelMap[githubTelemetry.source ?? "fallback"],
-        hint: "优先读取 GitHub 实时数据，失败时自动降级",
+        hint: "优先读取 GitHub 实时数据，请求失败时自动降级。",
         icon: Github,
       },
       {
         label: "部署模式",
         value: deployTargetLabelMap[deployTarget] ?? deployTarget,
-        hint: buildTimestamp === "未知" ? "等待构建信息注入" : buildTimestamp,
+        hint: buildTimestamp === "未知" ? "等待构建时间注入" : buildTimestamp,
         icon: Cpu,
       },
     ],
@@ -271,7 +271,7 @@ export default function EngineeringCommandCenter() {
     telemetryState === "loading"
       ? "正在从 GitHub 拉取实时数据..."
       : telemetryState === "error"
-        ? (githubTelemetry.message ?? "数据拉取失败。")
+        ? (githubTelemetry.message ?? "GitHub 数据暂不可用。")
         : githubTelemetry.message;
 
   return (
@@ -284,10 +284,10 @@ export default function EngineeringCommandCenter() {
           void fetchTelemetry({ force: true });
         }}
         className="fixed bottom-24 right-6 z-40 inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/95 px-4 py-3 text-sm font-semibold text-slate-900 shadow-[0_16px_40px_rgba(15,23,42,0.14)] backdrop-blur transition hover:-translate-y-0.5 hover:border-slate-300 disabled:cursor-not-allowed disabled:opacity-60"
-        aria-label="Engineering Command Center / 打开工程中枢"
+        aria-label="Engineering Command Center / 打开工程实力中枢"
       >
         <Sparkles size={16} />
-        工程中枢
+        工程实力中枢
       </button>
 
       <AnimatePresence>
@@ -325,14 +325,15 @@ export default function EngineeringCommandCenter() {
                           id="engineering-command-center-title"
                           className="text-2xl font-bold tracking-tight text-slate-950"
                         >
-                          工程中枢
+                          工程实力中枢
                         </h2>
                         <span className="rounded-full border border-slate-200 bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600">
                           匿名诊断面板
                         </span>
                       </div>
                       <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-                        把性能、开源数据与工程基线收敛到同一个抽屉里，用来快速判断这个作品集的工程成熟度，而不是堆一列看不懂的指标。
+                        把运行时性能、开源数据和工程指纹收拢到同一个侧边面板里，
+                        用来快速判断这个作品集是否具备真实工程交付能力。
                       </p>
                     </div>
 
@@ -342,7 +343,7 @@ export default function EngineeringCommandCenter() {
                         onClick={() => void fetchTelemetry({ force: true })}
                         disabled={telemetryState === "loading"}
                         className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 transition hover:border-slate-300 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-60"
-                        aria-label="刷新工程中枢数据"
+                        aria-label="刷新工程实力中枢数据"
                       >
                         <RefreshCw
                           size={15}
@@ -355,7 +356,7 @@ export default function EngineeringCommandCenter() {
                         type="button"
                         onClick={() => setIsOpen(false)}
                         className="rounded-xl border border-slate-200 bg-white p-2.5 text-slate-500 transition hover:border-slate-300 hover:text-slate-900"
-                        aria-label="关闭工程中枢"
+                        aria-label="关闭工程实力中枢"
                       >
                         <X size={18} />
                       </button>
@@ -372,7 +373,7 @@ export default function EngineeringCommandCenter() {
                         当前面板状态
                       </p>
                       <p className="mt-1 text-sm text-slate-500">
-                        面向访客公开展示的工程诊断摘要，不包含任何个人敏感信息。
+                        仅展示匿名性能指标与公开仓库数据，不包含个人敏感信息。
                       </p>
                     </div>
                     <span
@@ -416,7 +417,7 @@ export default function EngineeringCommandCenter() {
                           实时性能指标
                         </h3>
                         <p className="mt-2 text-sm leading-6 text-slate-500">
-                          指标来自当前页面生命周期。重点看加载速度、交互响应和视觉稳定性三类信号。
+                          指标来自当前页面生命周期，重点观察加载速度、交互响应和视觉稳定性。
                         </p>
                       </div>
                       <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
@@ -431,7 +432,7 @@ export default function EngineeringCommandCenter() {
                     </div>
 
                     <p className="mt-4 text-xs leading-5 text-slate-500">
-                      INP 需要发生用户交互后才会出现；LCP、FCP、CLS 会在页面生命周期内持续上报。
+                      INP 需要在发生用户交互后才会出现；LCP、FCP、CLS 会在页面生命周期内持续更新。
                     </p>
                   </section>
 
@@ -444,7 +445,7 @@ export default function EngineeringCommandCenter() {
                             开源数据看板
                           </h3>
                           <p className="mt-2 text-sm leading-6 text-slate-500">
-                            用公开仓库数据辅助说明项目活跃度与技术沉淀。
+                            用公开仓库数据补充说明项目活跃度与工程沉淀。
                           </p>
                         </div>
                         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
@@ -476,7 +477,7 @@ export default function EngineeringCommandCenter() {
                       <div className="mt-4 rounded-2xl border border-slate-200/80 bg-white p-4">
                         <div className="flex items-center justify-between gap-3">
                           <p className="text-sm font-semibold text-slate-900">
-                            关注仓库
+                            重点仓库
                           </p>
                           <span className="text-xs text-slate-500">
                             Top {githubTelemetry.specificRepos.length || 0}
@@ -525,7 +526,7 @@ export default function EngineeringCommandCenter() {
                     <section className={panelSectionClassName}>
                       <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
                         <Cpu size={16} />
-                        工程基线
+                        工程指纹
                       </h3>
                       <div className="mt-4 grid gap-3 sm:grid-cols-2">
                         {fingerprintItems.map((item) => (

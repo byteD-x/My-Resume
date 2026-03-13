@@ -73,10 +73,10 @@ export function HeroCTA({
         onClick={handleViewProjects}
         disabled={!isHydrated}
         className="btn btn-secondary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-        aria-label="探索工程实践"
+        aria-label="查看项目证据"
       >
         <ArrowDownToLine size={18} className="opacity-70" />
-        探索工程实践
+        查看项目证据
       </button>
     </motion.div>
   );

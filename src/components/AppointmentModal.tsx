@@ -19,7 +19,10 @@ interface AppointmentModalProps {
   onClose: () => void;
 }
 
-export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
+export function AppointmentModal({
+  isOpen,
+  onClose,
+}: AppointmentModalProps) {
   const firstFocusableRef = useRef<HTMLInputElement>(null);
   const modalRef = useFocusTrap<HTMLDivElement>(isOpen, {
     onEscape: onClose,
@@ -45,7 +48,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
       newErrors.name = "姓名不能为空";
       isValid = false;
     } else if (formData.name.length > 50) {
-      newErrors.name = "姓名过长（最多50字符）";
+      newErrors.name = "姓名过长（最多 50 个字符）";
       isValid = false;
     }
 
@@ -87,7 +90,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
       setFormData((prev) => ({ ...prev, [name]: value }));
-      // Clear error when user types
+
       if (name === "name" || name === "email") {
         setErrors((prev) => ({ ...prev, [name]: "" }));
       }
@@ -154,7 +157,9 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                   </label>
                   <div className="relative">
                     <User
-                      className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${errors.name ? "text-rose-400" : "text-slate-400"}`}
+                      className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
+                        errors.name ? "text-rose-400" : "text-slate-400"
+                      }`}
                     />
                     <input
                       ref={firstFocusableRef}
@@ -163,7 +168,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full rounded-xl border bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-white ${
+                      className={`w-full rounded-xl border bg-white py-3 pl-10 pr-4 text-slate-900 transition-all placeholder:text-slate-400 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-white ${
                         errors.name
                           ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200 dark:border-rose-800 dark:focus:ring-rose-900/50"
                           : "border-slate-200 focus:border-transparent focus:ring-blue-500 dark:border-zinc-700"
@@ -172,7 +177,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                     />
                   </div>
                   {errors.name && (
-                    <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-left-1">
+                    <p className="animate-in slide-in-from-left-1 mt-1 text-xs font-medium text-rose-500">
                       {errors.name}
                     </p>
                   )}
@@ -187,7 +192,9 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                   </label>
                   <div className="relative">
                     <Mail
-                      className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${errors.email ? "text-rose-400" : "text-slate-400"}`}
+                      className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
+                        errors.email ? "text-rose-400" : "text-slate-400"
+                      }`}
                     />
                     <input
                       type="email"
@@ -195,7 +202,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full rounded-xl border bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-white ${
+                      className={`w-full rounded-xl border bg-white py-3 pl-10 pr-4 text-slate-900 transition-all placeholder:text-slate-400 focus:outline-none focus:ring-2 dark:bg-zinc-800 dark:text-white ${
                         errors.email
                           ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200 dark:border-rose-800 dark:focus:ring-rose-900/50"
                           : "border-slate-200 focus:border-transparent focus:ring-blue-500 dark:border-zinc-700"
@@ -204,7 +211,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                     />
                   </div>
                   {errors.email && (
-                    <p className="mt-1 text-xs text-rose-500 font-medium animate-in slide-in-from-left-1">
+                    <p className="animate-in slide-in-from-left-1 mt-1 text-xs font-medium text-rose-500">
                       {errors.email}
                     </p>
                   )}
@@ -218,14 +225,14 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                     留言（可选）
                   </label>
                   <div className="relative">
-                    <MessageSquare className="absolute top-3 left-3 h-5 w-5 text-slate-400" />
+                    <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
                     <textarea
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full resize-none rounded-xl border border-slate-200 bg-white py-3 pr-4 pl-10 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
+                      className="w-full resize-none rounded-xl border border-slate-200 bg-white py-3 pl-10 pr-4 text-slate-900 transition-all placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
                       placeholder="请简要说明您的需求或想了解的内容..."
                     />
                   </div>
@@ -249,7 +256,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                   <CheckCircle className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
                 </div>
                 <h3 className="mb-2 text-lg font-bold text-slate-900 dark:text-white">
-                  预约成功！
+                  预约成功
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400">
                   感谢您的预约，我会尽快与您联系。

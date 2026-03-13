@@ -33,6 +33,15 @@ const capabilityMeta = [
   },
 ];
 
+const capabilityBulletSummaryMap: Record<string, string> = {
+  "bullet-1":
+    "LangGraph 驱动的混合检索运行时，覆盖 citations、grounding_score、interrupt-resume 与 step_events。",
+  "bullet-2":
+    "支持文本、语音与 RTC 多通道接入，并衔接 Auth Bridge、业务工具、转人工与租户扩展。",
+  "bullet-3":
+    "围绕性能、成本与交付质量治理，落地过 5x 提速、40% 成本下降与完整回归门禁。",
+};
+
 export function CapabilitySummary({
   bullets,
   skills,
@@ -95,7 +104,7 @@ export function CapabilitySummary({
                       {card.bullet.title}
                     </p>
                     <p className="mt-2 text-[13px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-                      {card.bullet.description}
+                      {capabilityBulletSummaryMap[card.bullet.id] ?? card.bullet.description}
                     </p>
                   </div>
                 ) : null}

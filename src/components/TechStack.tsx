@@ -20,7 +20,7 @@ const categoryIcons: Record<string, LucideIcon> = {
   Backend: Code2,
   "后端开发": Code2,
   "后端架构": Code2,
-  "主力栈（可独立负责）": BrainCircuit,
+  "核心栈 (Primary)": BrainCircuit,
   Data: Database,
   "数据存储": Database,
   "数据与中间件": Database,
@@ -30,12 +30,10 @@ const categoryIcons: Record<string, LucideIcon> = {
   Engineering: Terminal,
   "工程 & 运维": Terminal,
   "DevOps 与云原生": Terminal,
-  "熟练栈（可独立交付）": Terminal,
+  "扩展栈 (Proficient)": Terminal,
   Frontend: Layout,
   "前端 & 全栈": Layout,
   "前端与全栈": Layout,
-  "核心栈 (Primary)": BrainCircuit,
-  "扩展栈 (Proficient)": Terminal,
   "周边栈 (Familiar)": Layout,
 };
 
@@ -52,7 +50,7 @@ interface ParsedSkillItem {
 
 function parseSkillItem(item: string): ParsedSkillItem {
   const normalized = item.trim();
-  const match = normalized.match(/^(.*?)[（(]([^()（）]+)[）)]$/);
+  const match = normalized.match(/^(.*?)\s*[（(]([^（）()]+)[）)]$/);
 
   if (!match) {
     return {
@@ -175,7 +173,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3 lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 lg:gap-8 xl:grid-cols-3">
           {skills.map((category, index) => {
             const Icon = categoryIcons[category.category] ?? Code2;
             const isExpanded = expandedCategories[category.id];
@@ -224,9 +222,9 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                         {item.label}
                       </p>
                       {item.detail ? (
-                      <p className="mt-2 text-[12px] leading-6 text-zinc-600 dark:text-zinc-300">
-                        {item.detail}
-                      </p>
+                        <p className="mt-2 text-[12px] leading-6 text-zinc-600 dark:text-zinc-300">
+                          {item.detail}
+                        </p>
                       ) : null}
                     </article>
                   ))}
@@ -236,9 +234,9 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   <button
                     type="button"
                     onClick={() => toggleCategory(category.id)}
-                    className="mt-6 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                    className="mt-6 inline-flex self-start items-center gap-1.5 text-[13px] font-semibold text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
                   >
-                    {isExpanded ? "Show Less" : `View All (+${remainingCount})`}
+                    {isExpanded ? "收起" : `查看全部 (+${remainingCount})`}
                     {isExpanded ? (
                       <ChevronUp size={14} strokeWidth={2.5} />
                     ) : (
