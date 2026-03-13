@@ -3,7 +3,7 @@ import path from 'path';
 import https from 'https';
 
 // Configuration
-const GITHUB_USERNAME = 'icefunicu'; // Replace with actual username from config if needed, but hardcoding for script is easier or read from env
+const GITHUB_USERNAME = 'byteD-x'; // Replace with actual username from config if needed, but hardcoding for script is easier or read from env
 const OUTPUT_FILE = path.join(import.meta.dirname, '../src/data/github-telemetry.json');
 const SPECIFIC_REPOS = ['My-Resume', 'portfolio']; // repos to track specifically
 

@@ -3,7 +3,7 @@
 export const dynamic = "force-static";
 export const revalidate = 3600;
 
-const GITHUB_USERNAME = "icefunicu";
+const GITHUB_USERNAME = "byteD-x";
 const REPO_NAMES = ["wechat-bot", "easyCloudPan"] as const;
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
 const REQUEST_TIMEOUT_MS = 8_000;

@@ -317,5 +317,5 @@ MIT License
 **Made with ❤️ by 杜旭嘉**
 
 - 📧 Email: 2041487752dxj@gmail.com
-- 💻 GitHub: [@icefunicu](https://github.com/icefunicu)
+- 💻 GitHub: [@byteD-x](https://github.com/byteD-x)
 - 🌐 Website: [https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)

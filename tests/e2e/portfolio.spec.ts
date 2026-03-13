@@ -138,7 +138,7 @@ test.describe('Portfolio E2E', () => {
                             {
                                 name: 'wechat-bot',
                                 stars: 5,
-                                url: 'https://github.com/icefunicu/wechat-bot',
+                                url: 'https://github.com/byteD-x/wechat-bot',
                             },
                         ],
                     }),

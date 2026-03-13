@@ -106,7 +106,7 @@ export const defaultPortfolioData: PortfolioData = {
       verification: {
         sourceType: "repo",
         sourceLabel: "GitHub Data",
-        sourceUrl: "https://github.com/icefunicu?tab=repositories",
+        sourceUrl: "https://github.com/byteD-x?tab=repositories",
         verifiedAt: "2026-02-15",
         confidence: "high",
         level: "strict",
@@ -132,11 +132,11 @@ export const defaultPortfolioData: PortfolioData = {
       icon: "Star",
       colSpan: "md:col-span-1",
       bg: "bg-indigo-50",
-      githubRepo: "icefunicu/wechat-bot",
+      githubRepo: "byteD-x/wechat-bot",
       verification: {
         sourceType: "repo",
         sourceLabel: "GitHub Stars",
-        sourceUrl: "https://github.com/icefunicu/wechat-bot",
+        sourceUrl: "https://github.com/byteD-x/wechat-bot",
         verifiedAt: "2026-02-15",
         confidence: "high",
         level: "strict",
@@ -165,7 +165,7 @@ export const defaultPortfolioData: PortfolioData = {
       verification: {
         sourceType: "repo",
         sourceLabel: "README / docs / tests",
-        sourceUrl: "https://github.com/icefunicu/customer-ai-runtime",
+        sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
         verifiedAt: "2026-03-13",
         confidence: "high",
         level: "strict",
@@ -315,7 +315,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库提交记录",
-          sourceUrl: "https://github.com/icefunicu?tab=repositories",
+          sourceUrl: "https://github.com/byteD-x?tab=repositories",
           verifiedAt: "2026-02-15",
           confidence: "high",
           level: "strict",
@@ -342,7 +342,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub Repos",
-            url: "https://github.com/icefunicu?tab=repositories",
+            url: "https://github.com/byteD-x?tab=repositories",
           },
         ],
       },
@@ -383,7 +383,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 提交记录",
-          sourceUrl: "https://github.com/icefunicu/wechat-bot",
+          sourceUrl: "https://github.com/byteD-x/wechat-bot",
           verifiedAt: "2026-02-15",
           confidence: "high",
           level: "strict",
@@ -410,7 +410,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub Repo",
-            url: "https://github.com/icefunicu/wechat-bot",
+            url: "https://github.com/byteD-x/wechat-bot",
           },
         ],
       },
@@ -454,7 +454,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库 README / docs / tests",
-          sourceUrl: "https://github.com/icefunicu/customer-ai-runtime",
+          sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
           verifiedAt: "2026-03-13",
           confidence: "high",
           level: "strict",
@@ -482,7 +482,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub Repo",
-            url: "https://github.com/icefunicu/customer-ai-runtime",
+            url: "https://github.com/byteD-x/customer-ai-runtime",
           },
         ],
       },
@@ -574,7 +574,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库 README / docs/reference / tests",
-          sourceUrl: "https://github.com/icefunicu/rag-qa-system",
+          sourceUrl: "https://github.com/byteD-x/rag-qa-system",
           verifiedAt: "2026-03-13",
           confidence: "high",
           level: "strict",
@@ -601,7 +601,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub Repo",
-            url: "https://github.com/icefunicu/rag-qa-system",
+            url: "https://github.com/byteD-x/rag-qa-system",
           },
         ],
       },
@@ -759,7 +759,7 @@ export const defaultPortfolioData: PortfolioData = {
           sourceType: "repo",
           sourceLabel:
             "GitHub 仓库、README、RESUME_EasyCloudPan 文档与代码锚点",
-          sourceUrl: "https://github.com/icefunicu/easyCloudPan",
+          sourceUrl: "https://github.com/byteD-x/easyCloudPan",
           verifiedAt: "2026-02-24",
           confidence: "high",
           level: "strict",
@@ -870,7 +870,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "proj-customer-ai-runtime",
       year: "2026",
       name: "智能客服运行时",
-      link: "https://github.com/icefunicu/customer-ai-runtime",
+      link: "https://github.com/byteD-x/customer-ai-runtime",
       demoLink: "",
       techTags: [
         "Python",
@@ -905,7 +905,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库 README / docs / tests",
-          sourceUrl: "https://github.com/icefunicu/customer-ai-runtime",
+          sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
           verifiedAt: "2026-03-13",
           confidence: "high",
           level: "strict",
@@ -933,7 +933,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub Repo",
-            url: "https://github.com/icefunicu/customer-ai-runtime",
+            url: "https://github.com/byteD-x/customer-ai-runtime",
           },
         ],
       },
@@ -943,7 +943,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "proj-jiaoben",
       year: "2026",
       name: "浏览器生产力套件",
-      link: "https://github.com/icefunicu?tab=repositories",
+      link: "https://github.com/byteD-x?tab=repositories",
       demoLink: "",
       techTags: [
         "Chrome Extension",
@@ -973,7 +973,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库",
-          sourceUrl: "https://github.com/icefunicu?tab=repositories",
+          sourceUrl: "https://github.com/byteD-x?tab=repositories",
           verifiedAt: "2026-02-15",
           confidence: "high",
           level: "strict",
@@ -991,7 +991,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub",
-            url: "https://github.com/icefunicu?tab=repositories",
+            url: "https://github.com/byteD-x?tab=repositories",
           },
         ],
       },
@@ -1001,7 +1001,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "proj-wechat-bot",
       year: "2025",
       name: "微信 AI 助手",
-      link: "https://github.com/icefunicu/wechat-bot",
+      link: "https://github.com/byteD-x/wechat-bot",
       demoLink: "",
       techTags: [
         "Python",
@@ -1033,7 +1033,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库",
-          sourceUrl: "https://github.com/icefunicu/wechat-bot",
+          sourceUrl: "https://github.com/byteD-x/wechat-bot",
           verifiedAt: "2026-02-15",
           confidence: "high",
           level: "strict",
@@ -1047,7 +1047,7 @@ export const defaultPortfolioData: PortfolioData = {
         role: "独立开发者",
         techStack: ["Python", "Quart", "Asyncio", "Electron", "RAG"],
         links: [
-          { label: "GitHub", url: "https://github.com/icefunicu/wechat-bot" },
+          { label: "GitHub", url: "https://github.com/byteD-x/wechat-bot" },
         ],
       },
       highlighted: true,
@@ -1056,7 +1056,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "proj-rag-qa-system",
       year: "2025.04 - 2025.09",
       name: "RAG-QA System",
-      link: "https://github.com/icefunicu/rag-qa-system",
+      link: "https://github.com/byteD-x/rag-qa-system",
       demoLink: "",
       techTags: [
         "FastAPI",
@@ -1090,7 +1090,7 @@ export const defaultPortfolioData: PortfolioData = {
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库 README / docs/reference / tests",
-          sourceUrl: "https://github.com/icefunicu/rag-qa-system",
+          sourceUrl: "https://github.com/byteD-x/rag-qa-system",
           verifiedAt: "2026-03-13",
           confidence: "high",
           level: "strict",
@@ -1117,7 +1117,7 @@ export const defaultPortfolioData: PortfolioData = {
         links: [
           {
             label: "GitHub Repo",
-            url: "https://github.com/icefunicu/rag-qa-system",
+            url: "https://github.com/byteD-x/rag-qa-system",
           },
         ],
       },
@@ -1169,7 +1169,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "proj-cloudpan",
       year: "2024.04 - 2026.02",
       name: "EasyCloudPan",
-      link: "https://github.com/icefunicu/easyCloudPan",
+      link: "https://github.com/byteD-x/easyCloudPan",
       demoLink: "",
       techTags: [
         "Java 21",
@@ -1208,7 +1208,7 @@ export const defaultPortfolioData: PortfolioData = {
           sourceType: "repo",
           sourceLabel:
             "GitHub 仓库、README、RESUME_EasyCloudPan 文档与代码锚点",
-          sourceUrl: "https://github.com/icefunicu/easyCloudPan",
+          sourceUrl: "https://github.com/byteD-x/easyCloudPan",
           verifiedAt: "2026-02-24",
           confidence: "high",
           level: "strict",
@@ -1240,10 +1240,10 @@ export const defaultPortfolioData: PortfolioData = {
           "Grafana",
         ],
         links: [
-          { label: "GitHub", url: "https://github.com/icefunicu/easyCloudPan" },
+          { label: "GitHub", url: "https://github.com/byteD-x/easyCloudPan" },
           {
             label: "README",
-            url: "https://github.com/icefunicu/easyCloudPan#readme",
+            url: "https://github.com/byteD-x/easyCloudPan#readme",
           },
         ],
       },
@@ -1393,10 +1393,10 @@ export const defaultPortfolioData: PortfolioData = {
   contact: {
     phone: "15035925107",
     email: "2041487752dxj@gmail.com",
-    github: "https://github.com/icefunicu",
+    github: "https://github.com/byteD-x",
     websites: [
       "https://my-resume-gray-five.vercel.app/",
-      "https://icefunicu.github.io/My-Resume/",
+      "https://byteD-x.github.io/My-Resume/",
     ],
     resumeButtonText: "下载简历 PDF",
     ctaText: "开始合作",

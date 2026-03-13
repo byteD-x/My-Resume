@@ -104,7 +104,7 @@ export default function Contact({ contactData }: ContactProps) {
       id: "github",
       icon: GithubIcon,
       label: "GitHub",
-      value: "icefunicu",
+      value: "byteD-x",
       href: contactData.github,
       external: true,
     },

@@ -8,7 +8,7 @@ describe('verification confidence assessment', () => {
         const verification: VerificationInfo = {
             sourceType: 'repo',
             sourceLabel: 'GitHub Stars',
-            sourceUrl: 'https://github.com/icefunicu/wechat-bot',
+            sourceUrl: 'https://github.com/byteD-x/wechat-bot',
             verifiedAt: '2026-02-10',
             confidence: 'high',
             level: 'strict',

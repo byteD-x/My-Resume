@@ -102,7 +102,7 @@ export default function RootLayout({
         jobTitle: siteConfig.role,
         description: siteConfig.description,
         image: `${siteConfig.siteUrl}/og.png`,
-        sameAs: ["https://github.com/icefunicu", siteConfig.siteUrl],
+        sameAs: ["https://github.com/byteD-x", siteConfig.siteUrl],
         worksFor: {
           "@type": "Organization",
           name: "Open to Opportunities",
