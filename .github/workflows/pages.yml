@@ -70,8 +70,6 @@ jobs:
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
-    outputs:
-      release_id: ${{ steps.meta.outputs.release_id }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,44 +85,6 @@ jobs:
 
       - name: Build server target
         run: npm run build
-
-      - name: Compute release id
-        id: meta
-        run: |
-          set -euo pipefail
-          short_sha="$(git rev-parse --short=7 HEAD)"
-          ts="$(date -u +'%Y%m%d%H%M%S')"
-          echo "release_id=${ts}-${short_sha}" >> "$GITHUB_OUTPUT"
-
-      - name: Package server deployment archive
-        run: |
-          set -euo pipefail
-
-          if [ ! -f .next/standalone/server.js ]; then
-            echo "Missing standalone server output" >&2
-            exit 1
-          fi
-
-          bundle_dir="deploy_bundle"
-          rm -rf "${bundle_dir}"
-          mkdir -p "${bundle_dir}/.next"
-
-          cp -R .next/standalone/. "${bundle_dir}/"
-          cp -R .next/static "${bundle_dir}/.next/static"
-
-          if [ -d public ]; then
-            cp -R public "${bundle_dir}/public"
-          fi
-
-          tar -czf server-deploy.tgz -C "${bundle_dir}" .
-          ls -lh server-deploy.tgz
-
-      - name: Upload server deploy artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: server-deploy-archive
-          path: server-deploy.tgz
-          retention-days: 1
 
       - name: Build static export
         run: |
@@ -157,121 +117,29 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  deploy_server:
+  verify_public_endpoints:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-    needs: build
+    needs: deploy
     runs-on: ubuntu-latest
-    env:
-      NEXT_PUBLIC_SITE_URL: "http://106.12.154.163"
-      SERVER_PORT: ${{ secrets.SERVER_PORT || '22' }}
-      SERVER_HOST: ${{ secrets.SERVER_HOST }}
-      SERVER_USER: ${{ secrets.SERVER_USER || 'root' }}
-      SERVER_APP_DIR: ${{ secrets.SERVER_APP_DIR || '/var/www/portfolio' }}
-      SERVER_SERVICE_NAME: ${{ secrets.SERVER_SERVICE_NAME || 'portfolio.service' }}
-      SERVER_NODE_BIN: ${{ secrets.SERVER_NODE_BIN || '/root/.local/share/mise/installs/node/22.22.1/bin/node' }}
-      SERVER_BIND_HOST: ${{ secrets.SERVER_BIND_HOST || '127.0.0.1' }}
-      SERVER_APP_PORT: ${{ secrets.SERVER_APP_PORT || '3000' }}
     steps:
-      - name: Download server deploy artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: server-deploy-archive
-
-      - name: Setup SSH agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SERVER_SSH_PRIVATE_KEY }}
-
-      - name: Configure SSH known_hosts
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-          printf '%s\n' "${{ secrets.SERVER_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/known_hosts
-
-      - name: Upload archive (SSH)
-        run: |
-          set -euo pipefail
-          release_dir="${SERVER_APP_DIR}/releases/${{ needs.build.outputs.release_id }}"
-
-          for i in 1 2 3 4 5; do
-            if ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
-              "set -eu; mkdir -p '${release_dir}'" \
-              && scp -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -P "${SERVER_PORT}" \
-                server-deploy.tgz "${SERVER_USER}@${SERVER_HOST}:${release_dir}/deploy.tgz"; then
-              exit 0
-            fi
-
-            echo "Upload attempt ${i} failed; retrying..." >&2
-            sleep $((i * 2))
-          done
-
-          exit 1
-
-      - name: Deploy on server
+      - name: Verify Vercel, GitHub Pages, and server endpoints
         run: |
           set -euo pipefail
 
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
-            "APP_DIR='${SERVER_APP_DIR}' RELEASE_ID='${{ needs.build.outputs.release_id }}' SERVICE_NAME='${SERVER_SERVICE_NAME}' NODE_BIN='${SERVER_NODE_BIN}' BIND_HOST='${SERVER_BIND_HOST}' APP_PORT='${SERVER_APP_PORT}' SITE_URL='${NEXT_PUBLIC_SITE_URL}' bash -s" <<'EOF'
-          set -euo pipefail
+          repo_name="${{ github.event.repository.name }}"
+          owner="${{ github.repository_owner }}"
 
-          release_dir="${APP_DIR}/releases/${RELEASE_ID}"
-
-          cd "${release_dir}"
-          tar -xzf deploy.tgz
-          rm -f deploy.tgz
-
-          if [ ! -f server.js ]; then
-            echo "Missing standalone server.js after extract" >&2
-            exit 1
-          fi
-          if [ ! -x "${NODE_BIN}" ]; then
-            echo "Node binary not found or not executable: ${NODE_BIN}" >&2
-            exit 1
+          if [ "${repo_name}" = "${owner}.github.io" ]; then
+            pages_url="https://${owner}.github.io/"
+          else
+            pages_url="https://${owner}.github.io/${repo_name}/"
           fi
 
-          ln -sfn "${release_dir}" "${APP_DIR}/current"
-
-          cat > "/etc/systemd/system/${SERVICE_NAME}" <<SYSTEMD
-          [Unit]
-          Description=Portfolio (Next.js standalone)
-          After=network.target
-
-          [Service]
-          Type=simple
-          WorkingDirectory=${APP_DIR}/current
-          Environment=NODE_ENV=production
-          Environment=NEXT_TELEMETRY_DISABLED=1
-          Environment=NEXT_PUBLIC_SITE_URL=${SITE_URL}
-          Environment=PORT=${APP_PORT}
-          Environment=HOSTNAME=${BIND_HOST}
-          ExecStart=${NODE_BIN} server.js
-          Restart=always
-          RestartSec=3
-          StandardOutput=journal
-          StandardError=journal
-          SyslogIdentifier=portfolio
-
-          [Install]
-          WantedBy=multi-user.target
-          SYSTEMD
-
-          systemctl daemon-reload
-          systemctl enable "${SERVICE_NAME}"
-          systemctl restart "${SERVICE_NAME}"
-
-          for n in 1 2 3 4 5 6 7 8 9 10; do
-            if curl -fsS --max-time 5 "http://${BIND_HOST}:${APP_PORT}/" >/dev/null; then
-              exit 0
-            fi
-            sleep 2
+          for url in \
+            "https://my-resume-gray-five.vercel.app" \
+            "${pages_url}" \
+            "http://106.12.154.163"
+          do
+            echo "Checking ${url}"
+            curl -fsSL --retry 5 --retry-delay 3 --max-time 20 "${url}" >/dev/null
           done
-
-          echo "Health check failed" >&2
-          systemctl status --no-pager -n 100 "${SERVICE_NAME}" || true
-          journalctl -u "${SERVICE_NAME}" --no-pager -n 150 || true
-          ss -ltnp | grep ":${APP_PORT}" || true
-          exit 1
-          EOF
