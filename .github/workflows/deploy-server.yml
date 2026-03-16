@@ -113,25 +113,31 @@ jobs:
           release_id="${ts}-${short_sha}"
           echo "release_id=${release_id}" >> "$GITHUB_OUTPUT"
 
-      - name: Create remote release directory
+      - name: Upload archive (SSH)
         run: |
           set -euo pipefail
           release_dir="${SERVER_APP_DIR}/releases/${{ steps.meta.outputs.release_id }}"
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
-            "set -e; mkdir -p '${release_dir}'"
 
-      - name: Upload archive
-        run: |
-          set -euo pipefail
-          release_dir="${SERVER_APP_DIR}/releases/${{ steps.meta.outputs.release_id }}"
-          scp -o BatchMode=yes -o StrictHostKeyChecking=yes -P "${SERVER_PORT}" deploy.tgz "${SERVER_USER}@${SERVER_HOST}:${release_dir}/deploy.tgz"
+          for i in 1 2 3 4 5; do
+            if ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
+              "set -euo pipefail; mkdir -p '${release_dir}'; cat > '${release_dir}/deploy.tgz'" < deploy.tgz; then
+              exit 0
+            fi
+
+            echo "Upload attempt ${i} failed; retrying..." >&2
+            sleep $((i * 2))
+          done
+
+          exit 1
 
       - name: Deploy on server
         run: |
           set -euo pipefail
           release_id="${{ steps.meta.outputs.release_id }}"
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
-            "APP_DIR='${SERVER_APP_DIR}' RELEASE_ID='${release_id}' SERVICE_NAME='${SERVER_SERVICE_NAME}' bash -s" <<'EOF'
+
+          for i in 1 2 3 4 5; do
+            if ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
+              "APP_DIR='${SERVER_APP_DIR}' RELEASE_ID='${release_id}' SERVICE_NAME='${SERVER_SERVICE_NAME}' bash -s" <<'EOF'
           set -euo pipefail
 
           if [ -z "${APP_DIR}" ] || [ "${APP_DIR}" = "/" ]; then
@@ -178,3 +184,12 @@ jobs:
             done
           fi
           EOF
+              then
+              exit 0
+            fi
+
+            echo "Deploy attempt ${i} failed; retrying..." >&2
+            sleep $((i * 2))
+          done
+
+          exit 1
