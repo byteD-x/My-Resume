@@ -2,13 +2,15 @@
 # Required secrets:
 # - SERVER_HOST
 # - SERVER_SSH_PRIVATE_KEY
-# - SERVER_KNOWN_HOSTS (e.g. `ssh-keyscan -H 106.12.154.163`)
+# - SERVER_KNOWN_HOSTS
 # Optional secrets (defaults provided):
 # - SERVER_PORT, SERVER_USER, SERVER_APP_DIR, SERVER_SERVICE_NAME
 #
 # Server expectations (recommended):
-# - systemd service uses WorkingDirectory=$SERVER_APP_DIR/current and runs `npm start`
+# - systemd service uses WorkingDirectory=$SERVER_APP_DIR/current
+# - systemd service already uses the correct Node runtime (for example via mise path or explicit node/npm path)
 # - Nginx reverse proxy to http://127.0.0.1:3000
+
 name: Deploy Server
 
 on:
@@ -74,21 +76,39 @@ jobs:
 
       - name: Build (server)
         env:
-          # Avoid flaky network fetch in CI build; the repo already contains src/data/github-telemetry.json.
           SKIP_GITHUB_FETCH: "1"
           GITHUB_TOKEN: ${{ github.token }}
+          NEXT_PUBLIC_SITE_URL: ${{ env.NEXT_PUBLIC_SITE_URL }}
         run: npm run build
 
       - name: Package deployment archive
         run: |
           set -euo pipefail
+
+          CONFIG_FILE=""
+          if [ -f next.config.mjs ]; then
+            CONFIG_FILE="next.config.mjs"
+          elif [ -f next.config.js ]; then
+            CONFIG_FILE="next.config.js"
+          elif [ -f next.config.ts ]; then
+            CONFIG_FILE="next.config.ts"
+          fi
+
+          EXTRA_FILES=""
+          for f in image-loader.ts image-loader.js; do
+            if [ -f "$f" ]; then
+              EXTRA_FILES="$EXTRA_FILES $f"
+            fi
+          done
+
           tar -czf deploy.tgz \
             .next \
             public \
             package.json \
             package-lock.json \
-            next.config.ts \
-            image-loader.ts
+            ${CONFIG_FILE:+$CONFIG_FILE} \
+            $EXTRA_FILES
+
           ls -lh deploy.tgz
 
       - name: Setup SSH agent
@@ -155,27 +175,57 @@ jobs:
 
           release_dir="${APP_DIR}/releases/${RELEASE_ID}"
 
+          if [ ! -d "${release_dir}" ]; then
+            echo "Missing release_dir: ${release_dir}" >&2
+            exit 1
+          fi
+
           cd "${release_dir}"
-          tar -xzf deploy.tgz
-          rm -f deploy.tgz
 
-          export NODE_ENV="production"
-          export NEXT_TELEMETRY_DISABLED="1"
+          if [ -f deploy.tgz ]; then
+            tar -xzf deploy.tgz
+          fi
 
-          npm ci --omit=dev --no-audit --no-fund
+          if [ ! -d .next ]; then
+            echo "Missing .next after extract" >&2
+            exit 1
+          fi
 
+          # Do not run npm ci on the server.
+          # The build output is produced in CI with Node 22 already.
+          # Re-installing on server with omit=dev caused runtime issues with next.config.ts / TypeScript.
           ln -sfn "${release_dir}" "${APP_DIR}/current"
 
+          systemctl daemon-reload
           systemctl restart "${SERVICE_NAME}"
 
           if ! systemctl is-active --quiet "${SERVICE_NAME}"; then
-            systemctl status --no-pager -n 50 "${SERVICE_NAME}" || true
+            echo "Service failed to start" >&2
+            systemctl status --no-pager -n 100 "${SERVICE_NAME}" || true
+            journalctl -u "${SERVICE_NAME}" --no-pager -n 150 || true
             exit 1
           fi
 
           if command -v curl >/dev/null 2>&1; then
-            curl -fsS --max-time 5 "http://127.0.0.1:3000/" >/dev/null
+            ok=""
+            for n in 1 2 3 4 5 6 7 8 9 10; do
+              if curl -fsS --max-time 5 "http://127.0.0.1:3000/" >/dev/null; then
+                ok="1"
+                break
+              fi
+              sleep 2
+            done
+
+            if [ -z "${ok}" ]; then
+              echo "Health check failed" >&2
+              systemctl status --no-pager -n 100 "${SERVICE_NAME}" || true
+              journalctl -u "${SERVICE_NAME}" --no-pager -n 150 || true
+              ss -ltnp | grep ':3000' || true
+              exit 1
+            fi
           fi
+
+          rm -f deploy.tgz
 
           if [ -d "${APP_DIR}/releases" ]; then
             cd "${APP_DIR}/releases"
@@ -184,7 +234,7 @@ jobs:
             done
           fi
           EOF
-              then
+            then
               exit 0
             fi
 
