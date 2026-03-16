@@ -13,10 +13,6 @@
 name: Deploy Server
 
 on:
-  workflow_run:
-    workflows: ["Deploy GitHub Pages"]
-    branches: ["main"]
-    types: [completed]
   workflow_dispatch:
     inputs:
       ref:
@@ -35,10 +31,7 @@ jobs:
   deploy:
     if: >-
       ${{
-        github.event_name == 'workflow_dispatch' ||
-        (github.event_name == 'workflow_run' &&
-          github.event.workflow_run.conclusion == 'success' &&
-          github.event.workflow_run.event != 'pull_request')
+        github.event_name == 'workflow_dispatch'
       }}
     runs-on: ubuntu-latest
 
