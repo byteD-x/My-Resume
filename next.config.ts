@@ -8,9 +8,9 @@ const createBundleAnalyzer = () => {
 
     try {
         // Keep `@next/bundle-analyzer` in devDependencies; don't require it in production installs.
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const module = require('@next/bundle-analyzer');
-        const factory = module?.default ?? module;
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const bundleAnalyzerModule = require('@next/bundle-analyzer');
+        const factory = bundleAnalyzerModule?.default ?? bundleAnalyzerModule;
         return factory({ enabled: true });
     } catch {
         return (config: NextConfig) => config;
