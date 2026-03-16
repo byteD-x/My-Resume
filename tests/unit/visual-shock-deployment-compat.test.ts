@@ -69,7 +69,7 @@ describe('visual-shock Deployment Compatibility', () => {
         const serverConfig = await loadNextConfigWithEnv({
             NEXT_PUBLIC_STATIC_EXPORT: 'false',
         });
-        expect(serverConfig.output).toBeUndefined();
+        expect(serverConfig.output).toBe('standalone');
         expect(serverConfig.basePath).toBeUndefined();
         const serverEnv = serverConfig.env as Record<string, string>;
         expect(serverEnv.NEXT_PUBLIC_DEPLOY_TARGET).toBe('server');
