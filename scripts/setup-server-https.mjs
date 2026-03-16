@@ -181,7 +181,7 @@ Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=$certbot_bin renew --quiet --pre-hook systemctl stop nginx --post-hook systemctl start nginx
+ExecStart=$certbot_bin renew --quiet
 SERVICE
 
 cat > "$renew_timer" <<'TIMER'
@@ -192,6 +192,7 @@ Description=Twice-daily renewal checks for portfolio certificates
 OnBootSec=5min
 OnUnitActiveSec=12h
 RandomizedDelaySec=10min
+Persistent=true
 Unit=portfolio-certbot-renew.service
 
 [Install]
