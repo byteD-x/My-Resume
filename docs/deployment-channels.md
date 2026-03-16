@@ -2,19 +2,28 @@
 
 This project publishes through three separate channels:
 
+## Public URLs
+
+- `International site (Vercel)`: `https://my-resume-gray-five.vercel.app`
+- `GitHub site (Pages)`: `https://byted-x.github.io/My-Resume/`
+- `China mainland site (Self-hosted)`: `https://106.12.154.163`
+
 1. `Vercel`
    - Trigger: Vercel Git integration on `main`
-   - Purpose: public production site
+   - Purpose: international site
+   - URL: `https://my-resume-gray-five.vercel.app`
    - Verify: `curl -I https://my-resume-gray-five.vercel.app`
 
 2. `GitHub Pages`
    - Trigger: `.github/workflows/pages.yml`
-   - Purpose: static export deployment
+   - Purpose: GitHub-hosted static site
+   - URL: `https://byted-x.github.io/My-Resume/`
    - Verify: `curl -I https://byted-x.github.io/My-Resume/`
 
 3. `Self-hosted server`
    - Trigger: `git push` to the SSH bare repo on `106.12.154.163`
-   - Purpose: standalone Next.js service behind Nginx with direct IP HTTPS
+   - Purpose: China mainland site via standalone Next.js behind Nginx with direct IP HTTPS
+   - URL: `https://106.12.154.163`
    - Pipeline:
      - local git push writes to both GitHub and the server bare repo
      - server `post-receive` hook records the target SHA

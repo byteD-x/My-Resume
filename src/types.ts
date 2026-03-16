@@ -170,6 +170,7 @@ export interface ContactData {
   github: string;
   website?: string;
   websites?: string[];
+  websiteLinks?: { label: string; url: string }[];
   resumeButtonText?: string; // 下载简历按钮文案
   ctaText?: string; // CTA 文案
   wechat?: string; // 微信号

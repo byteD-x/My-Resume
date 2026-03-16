@@ -1394,8 +1394,19 @@ export const defaultPortfolioData: PortfolioData = {
     phone: "15035925107",
     email: "2041487752dxj@gmail.com",
     github: "https://github.com/byteD-x",
-    websites: [
-      "https://my-resume-gray-five.vercel.app/",
+    websiteLinks: [
+      {
+        label: "国际站（Vercel）",
+        url: "https://my-resume-gray-five.vercel.app/",
+      },
+      {
+        label: "GitHub 站（Pages）",
+        url: "https://byted-x.github.io/My-Resume/",
+      },
+      {
+        label: "国内站（自托管）",
+        url: "https://106.12.154.163/",
+      },
     ],
     resumeButtonText: "下载简历 PDF",
     ctaText: "开始合作",

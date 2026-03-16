@@ -79,12 +79,18 @@ export default function Contact({ contactData }: ContactProps) {
     }
   }, []);
 
-  const websiteUrls =
-    contactData.websites && contactData.websites.length > 0
-      ? contactData.websites
-      : contactData.website
-        ? [contactData.website]
-        : [];
+  const websiteLinks =
+    contactData.websiteLinks && contactData.websiteLinks.length > 0
+      ? contactData.websiteLinks
+      : contactData.websites && contactData.websites.length > 0
+        ? contactData.websites.map((url, index) => ({
+            label: contactData.websites!.length > 1 ? `在线站点 ${index + 1}` : "在线站点",
+            url,
+          }))
+        : contactData.website
+          ? [{ label: "在线站点", url: contactData.website }]
+          : [];
+  const websiteUrls = websiteLinks.map(({ url }) => url);
 
   const emailSubject = "合作咨询 / 岗位沟通";
   const resumeLinks = websiteUrls
@@ -112,10 +118,10 @@ export default function Contact({ contactData }: ContactProps) {
       href: contactData.github,
       external: true,
     },
-    ...websiteUrls.map((url, index) => ({
+    ...websiteLinks.map(({ label, url }, index) => ({
       id: `website-${index + 1}`,
       icon: Globe,
-      label: websiteUrls.length > 1 ? `在线站点 ${index + 1}` : "在线站点",
+      label,
       value: url.replace(/^https?:\/\//, ""),
       href: url,
       external: true,

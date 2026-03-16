@@ -299,12 +299,27 @@ npm run analyze
 1. 推送到 `main` 分支触发部署
 2. CI 流程：Lint → Test → Build → Deploy
 
+站点地址：
+- GitHub 站（Pages）：`https://byted-x.github.io/My-Resume/`
+
 ### Vercel
 
 ```bash
 # 直接部署到 Vercel
 npx vercel
 ```
+
+站点地址：
+- 国际站（Vercel）：`https://my-resume-gray-five.vercel.app`
+
+### Self-hosted Server
+
+自托管国内站由服务器上的独立 CI/CD 链路负责发布，接收同一次 `git push` 并在服务器本机构建部署。
+
+站点地址：
+- 国内站（自托管）：`https://106.12.154.163`
+
+三条发布链路的详细说明见 [docs/deployment-channels.md](./docs/deployment-channels.md)。
 
 ---
 
@@ -318,4 +333,6 @@ MIT License
 
 - 📧 Email: 2041487752dxj@gmail.com
 - 💻 GitHub: [@byteD-x](https://github.com/byteD-x)
-- 🌐 Website: [https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
+- 🌐 国际站（Vercel）: [https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
+- 🌐 GitHub 站（Pages）: [https://byted-x.github.io/My-Resume/](https://byted-x.github.io/My-Resume/)
+- 🌐 国内站（自托管）: [https://106.12.154.163](https://106.12.154.163)

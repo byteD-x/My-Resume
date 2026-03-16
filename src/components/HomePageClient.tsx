@@ -317,7 +317,11 @@ export default function HomePageClient() {
       <EngineeringCommandCenter />
       <FloatingResumeButton />
 
-      <Footer name={data.hero.name} githubUrl={data.contact.github} />
+      <Footer
+        name={data.hero.name}
+        githubUrl={data.contact.github}
+        websiteLinks={data.contact.websiteLinks}
+      />
     </main>
   );
 }

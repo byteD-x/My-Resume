@@ -138,7 +138,7 @@ jobs:
           for url in \
             "https://my-resume-gray-five.vercel.app" \
             "${pages_url}" \
-            "http://106.12.154.163"
+            "https://106.12.154.163"
           do
             echo "Checking ${url}"
             curl -fsSL --retry 5 --retry-delay 3 --max-time 20 "${url}" >/dev/null

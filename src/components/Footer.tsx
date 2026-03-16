@@ -1,14 +1,15 @@
 "use client";
 
-import { Github, Heart, Calendar } from "lucide-react";
+import { Github, Heart, Calendar, Globe } from "lucide-react";
 import { Container } from "./ui/Container";
 
 interface FooterProps {
   name: string;
   githubUrl?: string;
+  websiteLinks?: { label: string; url: string }[];
 }
 
-export default function Footer({ name, githubUrl }: FooterProps) {
+export default function Footer({ name, githubUrl, websiteLinks = [] }: FooterProps) {
   const now = new Date();
   const currentYear = now.getFullYear();
   const lastUpdated = now.toLocaleDateString("zh-CN", {
@@ -53,6 +54,19 @@ export default function Footer({ name, githubUrl }: FooterProps) {
                 <span>GitHub</span>
               </a>
             )}
+
+            {websiteLinks.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-[14px] font-semibold text-zinc-900 dark:text-zinc-100 hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors"
+              >
+                <Globe size={16} />
+                <span>{link.label}</span>
+              </a>
+            ))}
 
             <div className="hidden sm:block w-[1px] h-4 bg-zinc-200 dark:bg-zinc-800" />
 

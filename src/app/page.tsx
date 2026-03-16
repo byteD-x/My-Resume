@@ -184,7 +184,11 @@ export default function HomePage() {
         <Contact contactData={data.contact} />
       </div>
 
-      <Footer name={data.hero.name} githubUrl={data.contact.github} />
+      <Footer
+        name={data.hero.name}
+        githubUrl={data.contact.github}
+        websiteLinks={data.contact.websiteLinks}
+      />
     </main>
   );
 }
