@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NODE_VERSION: "20"
+      NODE_VERSION: "22"
       NEXT_PUBLIC_SITE_URL: "http://106.12.154.163"
       SERVER_PORT: ${{ secrets.SERVER_PORT || '22' }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
