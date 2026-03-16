@@ -7,9 +7,8 @@
 # - SERVER_PORT, SERVER_USER, SERVER_APP_DIR, SERVER_SERVICE_NAME
 #
 # Server expectations (recommended):
-# - systemd service uses WorkingDirectory=$SERVER_APP_DIR/current
-# - systemd service already uses the correct Node runtime (for example via mise path or explicit node/npm path)
 # - Nginx reverse proxy to http://127.0.0.1:3000
+# - The configured Node binary exists on the server (mise path by default below)
 
 name: Deploy Server
 
@@ -51,6 +50,9 @@ jobs:
       SERVER_USER: ${{ secrets.SERVER_USER || 'root' }}
       SERVER_APP_DIR: ${{ secrets.SERVER_APP_DIR || '/var/www/portfolio' }}
       SERVER_SERVICE_NAME: ${{ secrets.SERVER_SERVICE_NAME || 'portfolio.service' }}
+      SERVER_NODE_BIN: ${{ secrets.SERVER_NODE_BIN || '/root/.local/share/mise/installs/node/22.22.1/bin/node' }}
+      SERVER_BIND_HOST: ${{ secrets.SERVER_BIND_HOST || '127.0.0.1' }}
+      SERVER_APP_PORT: ${{ secrets.SERVER_APP_PORT || '3000' }}
 
     steps:
       - name: Checkout (workflow_run)
@@ -85,29 +87,23 @@ jobs:
         run: |
           set -euo pipefail
 
-          CONFIG_FILE=""
-          if [ -f next.config.mjs ]; then
-            CONFIG_FILE="next.config.mjs"
-          elif [ -f next.config.js ]; then
-            CONFIG_FILE="next.config.js"
-          elif [ -f next.config.ts ]; then
-            CONFIG_FILE="next.config.ts"
+          if [ ! -f .next/standalone/server.js ]; then
+            echo "Missing standalone server output" >&2
+            exit 1
           fi
 
-          EXTRA_FILES=""
-          for f in image-loader.ts image-loader.js; do
-            if [ -f "$f" ]; then
-              EXTRA_FILES="$EXTRA_FILES $f"
-            fi
-          done
+          bundle_dir="deploy_bundle"
+          rm -rf "${bundle_dir}"
+          mkdir -p "${bundle_dir}/.next"
 
-          tar -czf deploy.tgz \
-            .next \
-            public \
-            package.json \
-            package-lock.json \
-            ${CONFIG_FILE:+$CONFIG_FILE} \
-            $EXTRA_FILES
+          cp -R .next/standalone/. "${bundle_dir}/"
+          cp -R .next/static "${bundle_dir}/.next/static"
+
+          if [ -d public ]; then
+            cp -R public "${bundle_dir}/public"
+          fi
+
+          tar -czf deploy.tgz -C "${bundle_dir}" .
 
           ls -lh deploy.tgz
 
@@ -157,7 +153,7 @@ jobs:
 
           for i in 1 2 3 4 5; do
             if ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
-              "APP_DIR='${SERVER_APP_DIR}' RELEASE_ID='${release_id}' SERVICE_NAME='${SERVER_SERVICE_NAME}' bash -s" <<'EOF'
+              "APP_DIR='${SERVER_APP_DIR}' RELEASE_ID='${release_id}' SERVICE_NAME='${SERVER_SERVICE_NAME}' NODE_BIN='${SERVER_NODE_BIN}' BIND_HOST='${SERVER_BIND_HOST}' APP_PORT='${SERVER_APP_PORT}' SITE_URL='${NEXT_PUBLIC_SITE_URL}' bash -s" <<'EOF'
           set -euo pipefail
 
           if [ -z "${APP_DIR}" ] || [ "${APP_DIR}" = "/" ]; then
@@ -170,6 +166,18 @@ jobs:
           fi
           if [ -z "${SERVICE_NAME}" ]; then
             echo "Missing SERVICE_NAME" >&2
+            exit 1
+          fi
+          if [ -z "${NODE_BIN}" ]; then
+            echo "Missing NODE_BIN" >&2
+            exit 1
+          fi
+          if [ -z "${BIND_HOST}" ]; then
+            echo "Missing BIND_HOST" >&2
+            exit 1
+          fi
+          if [ -z "${APP_PORT}" ]; then
+            echo "Missing APP_PORT" >&2
             exit 1
           fi
 
@@ -186,17 +194,43 @@ jobs:
             tar -xzf deploy.tgz
           fi
 
-          if [ ! -d .next ]; then
-            echo "Missing .next after extract" >&2
+          if [ ! -f server.js ]; then
+            echo "Missing standalone server.js after extract" >&2
+            exit 1
+          fi
+          if [ ! -x "${NODE_BIN}" ]; then
+            echo "Node binary not found or not executable: ${NODE_BIN}" >&2
             exit 1
           fi
 
-          # Do not run npm ci on the server.
-          # The build output is produced in CI with Node 22 already.
-          # Re-installing on server with omit=dev caused runtime issues with next.config.ts / TypeScript.
           ln -sfn "${release_dir}" "${APP_DIR}/current"
 
+          cat > "/etc/systemd/system/${SERVICE_NAME}" <<SYSTEMD
+          [Unit]
+          Description=Portfolio (Next.js standalone)
+          After=network.target
+
+          [Service]
+          Type=simple
+          WorkingDirectory=${APP_DIR}/current
+          Environment=NODE_ENV=production
+          Environment=NEXT_TELEMETRY_DISABLED=1
+          Environment=NEXT_PUBLIC_SITE_URL=${SITE_URL}
+          Environment=PORT=${APP_PORT}
+          Environment=HOSTNAME=${BIND_HOST}
+          ExecStart=${NODE_BIN} server.js
+          Restart=always
+          RestartSec=3
+          StandardOutput=journal
+          StandardError=journal
+          SyslogIdentifier=portfolio
+
+          [Install]
+          WantedBy=multi-user.target
+          SYSTEMD
+
           systemctl daemon-reload
+          systemctl enable "${SERVICE_NAME}"
           systemctl restart "${SERVICE_NAME}"
 
           if ! systemctl is-active --quiet "${SERVICE_NAME}"; then
@@ -209,7 +243,7 @@ jobs:
           if command -v curl >/dev/null 2>&1; then
             ok=""
             for n in 1 2 3 4 5 6 7 8 9 10; do
-              if curl -fsS --max-time 5 "http://127.0.0.1:3000/" >/dev/null; then
+              if curl -fsS --max-time 5 "http://${BIND_HOST}:${APP_PORT}/" >/dev/null; then
                 ok="1"
                 break
               fi
@@ -220,7 +254,7 @@ jobs:
               echo "Health check failed" >&2
               systemctl status --no-pager -n 100 "${SERVICE_NAME}" || true
               journalctl -u "${SERVICE_NAME}" --no-pager -n 150 || true
-              ss -ltnp | grep ':3000' || true
+              ss -ltnp | grep ":${APP_PORT}" || true
               exit 1
             fi
           fi

@@ -85,7 +85,9 @@ const headersConfig = isStaticExport
 const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP ?? new Date().toISOString();
 
 const nextConfig: NextConfig = {
-    output: isStaticExport ? 'export' : undefined,
+    // Self-hosted server deployments use the standalone output so runtime no longer
+    // depends on a separate `npm ci` step or `next` binary in the release directory.
+    output: isStaticExport ? 'export' : 'standalone',
     trailingSlash: isStaticExport ? true : undefined,
     typescript: {
         tsconfigPath: './tsconfig.next.json',
