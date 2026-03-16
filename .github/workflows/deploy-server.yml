@@ -136,7 +136,9 @@ jobs:
 
           for i in 1 2 3 4 5; do
             if ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -p "${SERVER_PORT}" "${SERVER_USER}@${SERVER_HOST}" \
-              "set -euo pipefail; mkdir -p '${release_dir}'; cat > '${release_dir}/deploy.tgz'" < deploy.tgz; then
+              "set -eu; mkdir -p '${release_dir}'" \
+              && scp -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=10 -P "${SERVER_PORT}" \
+                deploy.tgz "${SERVER_USER}@${SERVER_HOST}:${release_dir}/deploy.tgz"; then
               exit 0
             fi
 
