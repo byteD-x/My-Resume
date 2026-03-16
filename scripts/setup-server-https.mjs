@@ -43,20 +43,6 @@ function singleQuote(value) {
     return `'${String(value).replace(/'/g, `'\"'\"'`)}'`;
 }
 
-function renderHttpConfig() {
-    return `server {
-  listen 80 default_server;
-  listen [::]:80 default_server;
-
-  server_name ${config.serverHost};
-
-  location / {
-    return 301 https://${config.serverHost}$request_uri;
-  }
-}
-`;
-}
-
 function renderHttpsConfig() {
     const certDir = `/etc/letsencrypt/live/${config.certName}`;
 
@@ -105,7 +91,6 @@ server {
 }
 
 function buildRemoteScript() {
-    const httpConfig = renderHttpConfig();
     const httpsConfig = renderHttpsConfig();
 
     return `set -euo pipefail
