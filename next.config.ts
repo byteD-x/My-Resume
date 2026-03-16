@@ -21,6 +21,8 @@ const withBundleAnalyzer = createBundleAnalyzer();
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ? `/${process.env.NEXT_PUBLIC_BASE_PATH}` : '';
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
+const shouldUpgradeInsecureRequests = siteUrl.startsWith('https://');
 
 const contentSecurityPolicy = `
   default-src 'self';
@@ -33,7 +35,7 @@ const contentSecurityPolicy = `
   base-uri 'self';
   form-action 'self';
   object-src 'none';
-  upgrade-insecure-requests;
+  ${shouldUpgradeInsecureRequests ? 'upgrade-insecure-requests;' : ''}
 `
     .replace(/\s{2,}/g, ' ')
     .trim();
