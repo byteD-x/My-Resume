@@ -13,30 +13,73 @@ This project publishes through three separate channels:
    - Verify: `curl -I https://byted-x.github.io/My-Resume/`
 
 3. `Self-hosted server`
-   - Trigger: local `systemd` timer on the server
+   - Trigger: `git push` to the SSH bare repo on `106.12.154.163`
    - Purpose: standalone Next.js service behind Nginx
+   - Pipeline:
+     - local git push writes to both GitHub and the server bare repo
+     - server `post-receive` hook records the target SHA
+     - `systemd-run` starts an asynchronous deployment job
+     - the server builds `next build` locally with Node 22, rotates the release symlink, restarts `portfolio.service`, and health-checks `127.0.0.1:3000`
    - Verify:
-     - `systemctl status portfolio-deploy.timer`
-     - `journalctl -u portfolio-deploy.service -n 100 --no-pager`
+     - `npm run deploy:server:status`
+     - `ssh root@106.12.154.163 "systemctl status portfolio.service --no-pager"`
      - `curl -I http://106.12.154.163`
 
 ## Server Setup
 
-Run the installer once on the server:
+Install or refresh the self-hosted CI channel:
 
 ```bash
-git clone https://github.com/byteD-x/My-Resume.git /var/www/portfolio/source
-cd /var/www/portfolio/source
-chmod +x scripts/install-server-deploy-timer.sh
-sudo ./scripts/install-server-deploy-timer.sh
+npm run setup:server:ci
 ```
 
-The installer creates:
+After setup, plain `git push` to `origin` will push to both GitHub and the server because `origin` gets a second `pushurl`. The repository also keeps a dedicated `server` remote for direct troubleshooting.
 
-- `portfolio-deploy.service`: a oneshot deploy job that pulls the latest `main`, builds the standalone server bundle, updates `/var/www/portfolio/current`, and restarts `portfolio.service`
-- `portfolio-deploy.timer`: a recurring timer that checks for new commits every minute by default
+Optional environment overrides for setup/status/deploy scripts:
+
+- `SERVER_HOST`
+- `SERVER_USER`
+- `SERVER_PORT`
+- `SERVER_GIT_DIR`
+- `SERVER_APP_DIR`
+- `SERVER_SERVICE_NAME`
+- `SERVER_NODE_BIN`
+- `SERVER_NPM_CLI`
+- `SERVER_BIND_HOST`
+- `SERVER_APP_PORT`
+- `NEXT_PUBLIC_SITE_URL`
+- `KEEP_RELEASES`
+- `LOCAL_ORIGIN_REMOTE`
+- `LOCAL_SERVER_REMOTE`
+- `SKIP_BUILD=1` to reuse an existing local build artifact
+
+## Common Commands
+
+Push all release channels:
+
+```bash
+git push
+```
+
+Explicit push helper:
+
+```bash
+npm run push:all
+```
+
+Check self-hosted deployment status:
+
+```bash
+npm run deploy:server:status
+```
 
 ## Rollback
 
 The active release is always the `/var/www/portfolio/current` symlink.
 To roll back, repoint it to an older release under `/var/www/portfolio/releases/` and restart `portfolio.service`.
+
+## Notes
+
+- The self-hosted channel is intentionally independent of GitHub Actions. GitHub only receives the same git push and continues triggering `Vercel` plus `Pages`.
+- The server build runs with `/root/.local/share/mise/installs/node/22.22.1/bin/node`, not the system default `node`.
+- `git push` across GitHub and the server is not atomic. If one remote succeeds and the other fails, resolve the failed side explicitly and push again.

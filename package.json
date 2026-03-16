@@ -18,7 +18,11 @@
     "test:e2e:ui": "playwright test --ui",
     "test:unit": "vitest",
     "check:links": "node scripts/check-links.js",
-    "analyze": "cross-env ANALYZE=true next build --webpack"
+    "analyze": "cross-env ANALYZE=true next build --webpack",
+    "deploy:server": "node scripts/deploy-server-local.mjs",
+    "deploy:server:status": "node scripts/deploy-server-status.mjs",
+    "push:all": "node scripts/push-all.mjs",
+    "setup:server:ci": "node scripts/setup-server-ci.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.19.3",
