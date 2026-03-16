@@ -1,10 +1,23 @@
 import type { NextConfig } from 'next';
-import bundleAnalyzer from '@next/bundle-analyzer';
 import packageJson from './package.json';
 
-const withBundleAnalyzer = bundleAnalyzer({
-    enabled: process.env.ANALYZE === 'true',
-});
+const createBundleAnalyzer = () => {
+    if (process.env.ANALYZE !== 'true') {
+        return (config: NextConfig) => config;
+    }
+
+    try {
+        // Keep `@next/bundle-analyzer` in devDependencies; don't require it in production installs.
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const module = require('@next/bundle-analyzer');
+        const factory = module?.default ?? module;
+        return factory({ enabled: true });
+    } catch {
+        return (config: NextConfig) => config;
+    }
+};
+
+const withBundleAnalyzer = createBundleAnalyzer();
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ? `/${process.env.NEXT_PUBLIC_BASE_PATH}` : '';
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
