@@ -128,7 +128,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           </div>
         </div>
 
-        <div className="mb-12 grid gap-6 lg:grid-cols-3">
+        <div className="mb-12 grid gap-6 lg:grid-cols-3 lg:[grid-auto-rows:1fr]">
           {strategyCards.map((card, index) => (
             <motion.article
               key={card.id}
@@ -140,7 +140,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                 duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="flex flex-col rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-600"
+              className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-600"
             >
               <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
                 Capability Layer
@@ -173,7 +173,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:gap-8 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:gap-8 xl:grid-cols-3 xl:[grid-auto-rows:1fr]">
           {skills.map((category, index) => {
             const Icon = categoryIcons[category.category] ?? Code2;
             const isExpanded = expandedCategories[category.id];
@@ -196,11 +196,11 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                 }}
                 className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50 lg:p-8"
               >
-                <div className="mb-6 flex items-start gap-4">
+                <div className="mb-6 flex min-h-[7.5rem] items-start gap-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
                     <Icon size={18} strokeWidth={2} />
                   </div>
-                  <div>
+                  <div className="flex min-h-[7.5rem] flex-col">
                     <h3 className="text-[17px] font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
                       {category.category}
                     </h3>
@@ -212,11 +212,11 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   </div>
                 </div>
 
-                <div className="grid flex-grow gap-3 sm:grid-cols-2">
+                <div className="grid flex-grow auto-rows-fr gap-3 sm:grid-cols-2">
                   {displayItems.map((item) => (
                     <article
                       key={item.raw}
-                      className="rounded-xl border border-zinc-200 bg-zinc-50/80 p-4 dark:border-zinc-800 dark:bg-zinc-950/50"
+                      className="flex h-full flex-col rounded-xl border border-zinc-200 bg-zinc-50/80 p-4 dark:border-zinc-800 dark:bg-zinc-950/50"
                     >
                       <p className="text-[14px] font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
                         {item.label}
