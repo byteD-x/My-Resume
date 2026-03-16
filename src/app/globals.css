@@ -47,8 +47,8 @@
   --border-focus: var(--color-primary);
 
   /* ====== Typography ====== */
-  --font-heading: var(--font-heading), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", system-ui, sans-serif;
-  --font-body: var(--font-body), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", system-ui, sans-serif;
+  --font-heading: "Space Grotesk", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue", system-ui, sans-serif;
 
   /* ====== Shadows - Flat, sharp, intentional ====== */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);

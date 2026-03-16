@@ -61,9 +61,8 @@ test.describe('Portfolio E2E', () => {
     });
 
     test('hero should present positioning and quantified outcomes', async ({ page }) => {
-        await expect(
-            page.getByRole('heading', { level: 1, name: 'AI 应用工程师（RAG / Agent / 智能客服）' }),
-        ).toBeVisible();
+        await expect(page.getByRole('heading', { level: 1, name: 'AI 应用工程师' })).toBeVisible();
+        await expect(page.getByText('RAG / Agent')).toBeVisible();
         await expect(page.getByText('混合检索 + LangGraph 运行时')).toBeVisible();
         await expect(page.getByText('文本 / 语音 / RTC 三通道接入')).toBeVisible();
         await expect(page.getByText('5x 提速与 40% 成本下降')).toBeVisible();

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { defaultPortfolioData } from "@/data";
@@ -7,7 +6,6 @@ import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
 import { MotionProvider } from "@/lib/MotionProvider";
 import { WebVitals } from "@/lib/performance";
 import { SkipToContent } from "@/components/SkipToContent";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -20,7 +18,7 @@ export const metadata: Metadata = {
     "AI 应用工程师",
     "RAG",
     "Agent",
-    "智能客服",
+    "Agent Runtime",
     "FastAPI",
     "LangGraph",
     "Python",
@@ -56,19 +54,6 @@ export const metadata: Metadata = {
     follow: true,
   },
 };
-
-const fontHeading = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
-
-const fontBody = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-body",
-  display: "swap",
-});
 
 export default function RootLayout({
   children,
@@ -113,11 +98,7 @@ export default function RootLayout({
   };
 
   return (
-    <html
-      lang="zh-CN"
-      suppressHydrationWarning
-      className={cn(fontHeading.variable, fontBody.variable)}
-    >
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"

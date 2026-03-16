@@ -29,13 +29,14 @@ export function HeroBullets({ bullets }: HeroBulletsProps) {
     >
       <div className="space-y-3 sm:space-y-4">
         {bullets.map((bullet) => (
-          <div key={bullet.id} className="relative flex items-start gap-4">
-            <div className="mt-3 h-[1px] w-4 shrink-0 bg-zinc-300 dark:bg-zinc-700" />
-            <p className="text-[0.98rem] leading-8 text-zinc-700 dark:text-zinc-300">
-              <strong className="font-semibold text-zinc-950 dark:text-zinc-100">
-                {bullet.title}
-              </strong>
-              {" · "}
+          <div
+            key={bullet.id}
+            className="border-l border-zinc-200 pl-4 dark:border-zinc-800"
+          >
+            <p className="text-sm font-semibold tracking-wide text-zinc-950 dark:text-zinc-100">
+              {bullet.title}
+            </p>
+            <p className="mt-1 text-[0.96rem] leading-7 text-zinc-700 dark:text-zinc-300">
               {bullet.description}
             </p>
           </div>

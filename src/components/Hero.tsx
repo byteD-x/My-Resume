@@ -24,6 +24,15 @@ interface HeroProps {
   proofItems: HeroSpotlightItem[];
 }
 
+function splitHeroTitle(title: string) {
+  const match = title.match(/^(.*?)\uFF08(.+)\uFF09$/);
+
+  return {
+    mainTitle: match?.[1]?.trim() || title,
+    focusTitle: match?.[2]?.trim(),
+  };
+}
+
 export default function Hero({ data, proofItems }: HeroProps) {
   const resumeFileName = formatResumeFileName(data.title, data.name);
   const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
@@ -31,6 +40,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
     resumeFileName,
     resumeDownloadUrl,
   );
+  const { mainTitle, focusTitle } = splitHeroTitle(data.title);
 
   const handleViewProjects = () => {
     if (typeof window === "undefined") return;
@@ -71,16 +81,25 @@ export default function Hero({ data, proofItems }: HeroProps) {
               <HeroStatusBadges location={data.location} />
             </motion.div>
 
+            {focusTitle ? (
+              <motion.div
+                variants={itemVariants}
+                className="mb-4 inline-flex items-center rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] text-zinc-600 uppercase dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300"
+              >
+                {focusTitle}
+              </motion.div>
+            ) : null}
+
             <motion.h1
               variants={itemVariants}
-              className="mb-6 text-balance font-heading text-[2.2rem] font-bold leading-[1.08] text-zinc-950 dark:text-zinc-50 sm:mb-8 sm:text-5xl md:text-[4rem]"
+              className="mb-5 max-w-[12ch] text-balance font-heading text-[2.25rem] font-bold leading-[1.04] text-zinc-950 dark:text-zinc-50 sm:text-5xl md:text-[4rem]"
             >
-              {data.title}
+              {mainTitle}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="mb-10 max-w-[42rem] text-base leading-8 text-zinc-700 dark:text-zinc-300 md:mb-12 md:text-[1.05rem]"
+              className="mb-10 max-w-[40rem] text-[15px] leading-8 text-zinc-700 dark:text-zinc-300 md:mb-12 md:text-[1.02rem]"
             >
               {data.subtitle}
             </motion.p>
