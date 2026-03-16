@@ -20,7 +20,7 @@ const config = {
         "/root/.local/share/mise/installs/node/22.22.1/bin/node",
     serverBindHost: process.env.SERVER_BIND_HOST || "127.0.0.1",
     serverAppPort: process.env.SERVER_APP_PORT || "3000",
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://106.12.154.163",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://106.12.154.163",
     keepReleases: process.env.KEEP_RELEASES || "5",
     skipBuild: process.env.SKIP_BUILD === "1",
 };

@@ -22,7 +22,8 @@
     "deploy:server": "node scripts/deploy-server-local.mjs",
     "deploy:server:status": "node scripts/deploy-server-status.mjs",
     "push:all": "node scripts/push-all.mjs",
-    "setup:server:ci": "node scripts/setup-server-ci.mjs"
+    "setup:server:ci": "node scripts/setup-server-ci.mjs",
+    "setup:server:https": "node scripts/setup-server-https.mjs"
   },
   "dependencies": {
     "@dimforge/rapier3d-compat": "^0.19.3",
