@@ -85,29 +85,29 @@ export const defaultPortfolioData: PortfolioData = {
 
   impact: [
     {
-      id: "impact-1",
-      title: "开源贡献",
-      value: "2200+",
-      label: "术语覆盖",
+      id: "impact-rag",
+      title: "知识问答",
+      value: "3路",
+      label: "检索召回",
       description:
-        "2200+ 双语术语实时高亮，减少查资料/复制粘贴（Worker + CSS Highlight API）",
+        "RAG-QA System：结构 / 全文 / 向量三路召回 + 加权 RRF + rerank，兼顾命中率与答案可追溯性",
       details: [
-        "**对非技术**：把常用术语一键高亮/查阅，减少上下文切换与理解成本。",
+        "**对非技术**：把分散资料整理成可持续同步、可引用出处的企业知识问答系统，减少检索和答复成本。",
         "",
         "**关键做法（技术）**",
-        "- Web Worker 承担匹配计算，主线程只负责渲染",
-        "- CSS Highlight API 直接高亮，避免 DOM 包裹导致的性能/兼容问题",
-        "- Trie 结构加速匹配，控制复杂度与内存上限",
+        "- 结构检索 + 全文检索 + 向量检索三路召回，结合加权 RRF 融合与 rerank",
+        "- Gateway 与 KB 检索链路统一接入 LangGraph 运行时，支持 checkpoint / interrupt-resume / step_events",
+        "- 补齐多知识库、多源连接器、chunk 治理、retrieve/debug 与评测回归闭环",
       ].join("\n"),
-      linkedExperienceId: "exp-jiaoben",
+      linkedExperienceId: "exp-chinasoft",
       icon: "TrendingUp",
       colSpan: "md:col-span-1",
       bg: "bg-sky-50",
       verification: {
         sourceType: "repo",
-        sourceLabel: "GitHub Data",
-        sourceUrl: "https://github.com/byteD-x?tab=repositories",
-        verifiedAt: "2026-02-15",
+        sourceLabel: "GitHub 仓库 README / docs / tests",
+        sourceUrl: "https://github.com/byteD-x/rag-qa-system",
+        verifiedAt: "2026-03-13",
         confidence: "high",
         level: "strict",
       },
@@ -281,72 +281,6 @@ export const defaultPortfolioData: PortfolioData = {
   ],
 
   timeline: [
-    {
-      id: "exp-jiaoben",
-      year: "2026.01 - 至今",
-      role: "独立开发者 · 开源项目",
-      company: "浏览器生产力套件",
-      location: "开源项目",
-      summary:
-        "一套浏览器生产力工具：术语实时高亮、Git 平台增强、广告/噪音净化；在 GitHub/Gitee 等 SPA 站点也能稳定运行（Web Worker + CSS Highlight API + 路由适配）。",
-      techTags: [
-        "Chrome Extension",
-        "Web Worker",
-        "MutationObserver",
-        "CSS Highlight API",
-        "Trie",
-      ],
-      highlighted: true,
-      keyOutcomes: [
-        "将术语匹配下沉至 Web Worker 并改用 CSS Highlight API，在 GitHub/Gitee 场景实现 2200+ 术语实时高亮，减少检索与复制成本。",
-        "通过 History API 重写 + MutationObserver 重注入，保证 SPA 路由切换后插件能力不丢失，提升持续可用性。",
-        "引入节流（3 req/s）与重试兜底机制，稳定处理高频请求并降低错误中断对使用体验的影响。",
-      ],
-      audienceTags: ["jobSeeker", "partner", "client"],
-      businessValue: {
-        zh: "以极低资源占用解决浏览器高频痛点，显著提升信息获取与开发调试效率。",
-        en: "Solves high-frequency browser pain points with minimal resource usage, boosting productivity.",
-      },
-      engineeringDepth: {
-        zh: "展示了对 DOM 性能、SPA 路由机制、Web Worker 多线程及并发请求控制的深度理解。",
-        en: "Demonstrates deep understanding of DOM performance, SPA routing, Web Worker threading, and concurrency control.",
-      },
-      verification: [
-        {
-          sourceType: "repo",
-          sourceLabel: "GitHub 仓库提交记录",
-          sourceUrl: "https://github.com/byteD-x?tab=repositories",
-          verifiedAt: "2026-02-15",
-          confidence: "high",
-          level: "strict",
-        },
-      ],
-      expandedDetails: {
-        background:
-          "开发过程中频繁遇到术语查阅繁琐、SPA 网页插件失效、有效信息被广告淹没等问题。",
-        problem:
-          "传统插件常因大量 DOM 操作导致页面卡顿，且难以在 SPA 路由切换时保持稳定注入。",
-        solution:
-          "- **架构优化**：将计算密集型任务（如术语匹配）下沉至 Web Worker，避免阻塞主线程；采用 CSS Custom Highlight API 替代 DOM 包裹，零干扰渲染。\n- **SPA 治理**：重写 History API 并结合 MutationObserver，确保在 GitHub/Gitee 等 SPA 站点中稳定重注入。\n- **算法应用**：使用 Trie 树优化书签匹配性能，引入漏桶算法控制并发请求速率。",
-        result:
-          "实现了 2200+ 术语毫秒级高亮，插件在复杂 SPA 站点稳定运行，广告清理准确率达 95% 以上。",
-        role: "独立开发者（全周期设计与实现）",
-        techStack: [
-          "JavaScript",
-          "Chrome Extension",
-          "Web Worker",
-          "CSS Custom Highlight API",
-          "Trie",
-          "MutationObserver",
-        ],
-        links: [
-          {
-            label: "GitHub Repos",
-            url: "https://github.com/byteD-x?tab=repositories",
-          },
-        ],
-      },
-    },
     {
       id: "exp-wechat-bot",
       year: "2025.12 - 至今",
@@ -934,64 +868,6 @@ export const defaultPortfolioData: PortfolioData = {
           {
             label: "GitHub Repo",
             url: "https://github.com/byteD-x/customer-ai-runtime",
-          },
-        ],
-      },
-      highlighted: true,
-    },
-    {
-      id: "proj-jiaoben",
-      year: "2026",
-      name: "浏览器生产力套件",
-      link: "https://github.com/byteD-x?tab=repositories",
-      demoLink: "",
-      techTags: [
-        "Chrome Extension",
-        "Web Worker",
-        "MutationObserver",
-        "CSS Highlight API",
-        "Trie",
-      ],
-      summary:
-        "一套浏览器生产力工具：术语实时高亮、Git 平台增强、广告/噪音净化（Web Worker + CSS Highlight API，零 DOM 污染渲染）。",
-      impact: "浏览器插件与用户脚本合集",
-      keyOutcomes: [
-        "将术语匹配计算下沉至 Web Worker，并以 CSS Highlight API 渲染，实现 2200+ 术语实时高亮。",
-        "通过 History API + MutationObserver 适配 SPA 路由，保持插件在 GitHub/Gitee 场景稳定生效。",
-        "构建可扩展的脚本工程结构与容错机制，降低功能迭代风险。",
-      ],
-      audienceTags: ["jobSeeker", "partner", "client"],
-      businessValue: {
-        zh: "显著降低了开发者的重复操作成本，提升了信息获取的信噪比。",
-        en: "Significantly reduces repetitive tasks and improves information signal-to-noise ratio.",
-      },
-      engineeringDepth: {
-        zh: "深入应用了 Web Worker 多线程、CSS 新特性及 SPA 路由劫持等前端进阶技术。",
-        en: "Applied advanced frontend tech like Web Workers, CSS Highlight API, and SPA route hijacking.",
-      },
-      verification: [
-        {
-          sourceType: "repo",
-          sourceLabel: "GitHub 仓库",
-          sourceUrl: "https://github.com/byteD-x?tab=repositories",
-          verifiedAt: "2026-02-15",
-          confidence: "high",
-          level: "strict",
-        },
-      ],
-      expandedDetails: {
-        background:
-          "为了解决日常浏览中的低效痛点，开发了一系列浏览器增强工具。",
-        problem: "页面卡顿、SPA 适配差、广告干扰严重。",
-        solution:
-          "采用 Web Worker 下沉计算任务，CSS Highlight API 优化渲染，History API 适配 SPA。",
-        result: "工具集稳定运行，获得开源社区关注。",
-        role: "独立开发者",
-        techStack: ["JavaScript", "Chrome Extension", "Web Worker"],
-        links: [
-          {
-            label: "GitHub",
-            url: "https://github.com/byteD-x?tab=repositories",
           },
         ],
       },

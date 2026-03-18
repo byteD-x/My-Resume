@@ -215,9 +215,18 @@ export default function HighlightDeck({
                     )}
 
                     {item.verification && (
-                      <div className="mb-5 inline-flex w-fit self-start items-center gap-1.5 rounded px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
-                        <span className={cn("h-1.5 w-1.5 rounded-full", isFocal ? "bg-zinc-400 dark:bg-zinc-600" : "bg-zinc-400 dark:bg-zinc-500")} />
-                        <span className={isFocal ? "text-zinc-400 dark:text-zinc-600" : "text-zinc-500 dark:text-zinc-400"}>Verified</span>
+                      <div className="mb-5 inline-flex w-fit self-start items-center gap-1.5 rounded border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest dark:border-emerald-900/60 dark:bg-emerald-950/30">
+                        <span
+                          className={cn(
+                            "h-1.5 w-1.5 rounded-full",
+                            isFocal
+                              ? "bg-emerald-300 dark:bg-emerald-500"
+                              : "bg-emerald-500 dark:bg-emerald-400",
+                          )}
+                        />
+                        <span className="text-emerald-700 dark:text-emerald-300">
+                          Verified
+                        </span>
                       </div>
                     )}
 
