@@ -92,36 +92,36 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
   }, [skills]);
 
   return (
-    <Section className="border-y border-zinc-200 bg-white py-24 dark:border-zinc-800 dark:bg-zinc-950 md:py-32">
+    <Section className="theme-grid-section relative border-y section-divider py-24 md:py-32">
       <Container>
         <div
           className="mb-16 max-w-3xl scroll-mt-28"
           data-scroll-target="skills"
         >
-          <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+          <p className="theme-kicker mb-3">
             Technology Arsenal
           </p>
-          <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
+          <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
             技术栈与能力边界
           </h2>
-          <p className="text-[15px] leading-8 text-zinc-700 dark:text-zinc-300">
+          <p className="theme-copy text-[15px] leading-8">
             工具只是手段，解决复杂问题才是目的。这里不堆砌名词，而是按照我在不同场景下的掌控力对技术栈分层，方便快速判断我能独立负责什么、能协作补位什么。
           </p>
         </div>
 
-        <div className="mb-12 rounded-xl border border-zinc-200 bg-zinc-50/70 p-6 dark:border-zinc-800 dark:bg-zinc-900/30 md:p-8">
+        <div className="theme-card-muted mb-12 rounded-[1.6rem] border-[rgba(148,163,184,0.14)] p-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)] md:p-8">
           <div className="flex items-start gap-5">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-100">
+            <div className="theme-icon-box theme-icon-box-md">
               <BrainCircuit size={22} strokeWidth={2} />
             </div>
-            <div className="max-w-4xl">
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+            <div className="max-w-4xl pt-0.5">
+              <p className="theme-card-kicker mb-2">
                 Working Style
               </p>
-              <h3 className="mb-3 text-lg font-bold text-zinc-900 dark:text-zinc-50">
+              <h3 className="theme-card-title mb-3.5 text-[1.1rem]">
                 {vibeCoding.title}
               </h3>
-              <p className="text-[14px] leading-7 text-zinc-700 dark:text-zinc-300">
+              <p className="theme-card-body text-[14px]">
                 {vibeCoding.description}
               </p>
             </div>
@@ -140,20 +140,20 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                 duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-6 transition-colors hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900/50 dark:hover:border-zinc-600"
+              className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 transition-colors hover:border-[rgba(37,99,235,0.22)]"
             >
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+              <p className="theme-card-kicker mb-3.5">
                 Capability Layer
               </p>
-              <h3 className="mb-3 text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              <h3 className="theme-card-title mb-3.5 text-[1.08rem]">
                 {card.title}
               </h3>
-              <p className="mb-4 flex-grow text-[13px] leading-7 text-zinc-700 dark:text-zinc-300">
+              <p className="theme-card-body mb-5 flex-grow text-[13px]">
                 {card.description}
               </p>
               <div className="mt-auto">
-                <p className="mb-5 border-b border-zinc-100 pb-5 text-[13px] leading-relaxed text-zinc-700 dark:border-zinc-800/80 dark:text-zinc-300">
-                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                <p className="theme-copy mb-5 border-b border-[color:var(--border-default)] pb-5 text-[13px] leading-7">
+                  <span className="font-semibold text-[color:var(--text-primary)]">
                     承担方式：
                   </span>
                   {card.emphasis}
@@ -162,7 +162,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   {card.items.map((item) => (
                     <span
                       key={item.raw}
-                      className="rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-[11px] font-semibold text-zinc-700 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300"
+                      className="theme-chip px-3 py-1.5 text-[11px] font-semibold"
                     >
                       {item.label}
                     </span>
@@ -194,18 +194,18 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="flex h-full flex-col rounded-xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900/50 lg:p-8"
+                className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 lg:p-8"
               >
-                <div className="mb-6 flex min-h-[7.5rem] items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400">
+                <div className="mb-7 flex min-h-[7.75rem] items-start gap-4 border-b border-[color:var(--border-default)] pb-5">
+                  <div className="theme-icon-box theme-icon-box-sm">
                     <Icon size={18} strokeWidth={2} />
                   </div>
-                  <div className="flex min-h-[7.5rem] flex-col">
-                    <h3 className="text-[17px] font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+                  <div className="flex min-h-[7.5rem] flex-col pt-0.5">
+                    <h3 className="theme-card-title text-[1.05rem]">
                       {category.category}
                     </h3>
                     {category.description ? (
-                      <p className="mt-1.5 text-[13px] leading-relaxed text-zinc-500 dark:text-zinc-400">
+                      <p className="theme-card-body mt-2 text-[13px]">
                         {category.description}
                       </p>
                     ) : null}
@@ -216,13 +216,13 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   {displayItems.map((item) => (
                     <article
                       key={item.raw}
-                      className="flex h-full flex-col rounded-xl border border-zinc-200 bg-zinc-50/80 p-4 dark:border-zinc-800 dark:bg-zinc-950/50"
+                      className="theme-card-muted flex h-full flex-col rounded-[1.1rem] p-4"
                     >
-                      <p className="text-[14px] font-semibold leading-6 text-zinc-900 dark:text-zinc-100">
+                      <p className="theme-title text-[14px] font-semibold leading-6">
                         {item.label}
                       </p>
                       {item.detail ? (
-                        <p className="mt-2 text-[12px] leading-6 text-zinc-600 dark:text-zinc-300">
+                        <p className="theme-copy mt-2 text-[12px] leading-6">
                           {item.detail}
                         </p>
                       ) : null}
@@ -234,7 +234,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   <button
                     type="button"
                     onClick={() => toggleCategory(category.id)}
-                    className="mt-6 inline-flex self-start items-center gap-1.5 text-[13px] font-semibold text-zinc-600 transition-colors hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+                    className="theme-link mt-6 inline-flex self-start items-center gap-1.5 text-[13px] font-semibold"
                   >
                     {isExpanded ? "收起" : `查看全部 (+${remainingCount})`}
                     {isExpanded ? (

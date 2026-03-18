@@ -113,7 +113,7 @@ export default function HighlightDeck({
 
   return (
     <>
-      <section className="relative z-10 py-24 md:py-32 bg-zinc-50 dark:bg-zinc-950">
+      <section className="theme-grid-section relative z-10 py-24 md:py-32">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -123,13 +123,13 @@ export default function HighlightDeck({
             className="mb-16 max-w-3xl scroll-mt-28"
             data-scroll-target="impact"
           >
-            <p className="text-[11px] font-semibold tracking-widest text-zinc-500 uppercase">
+            <p className="theme-kicker text-[11px]">
               Proven Impact
             </p>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
+            <h2 className="theme-title mt-4 text-3xl font-bold md:text-4xl">
               业务价值与工程量化
             </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400 md:text-lg">
+            <p className="theme-copy mt-4 text-[15px] leading-relaxed md:text-lg">
               拒绝模糊的“参与式”描述。这里的每一项产出，都通过真实的数据指标、可复核的开源仓库或明确的线上效果来验证其真正的工程价值。
             </p>
           </motion.div>
@@ -159,10 +159,10 @@ export default function HighlightDeck({
                   whileTap={{ scale: 0.985 }}
                   onClick={() => handleCardClick(item)}
                   className={[
-                    "group relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left will-change-transform border transition-colors duration-200",
+                    "theme-card-interactive group relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left will-change-transform border transition-colors duration-200",
                     isFocal
-                      ? "bg-zinc-900 border-zinc-800 text-zinc-50 p-8 rounded-xl sm:col-span-2 lg:col-span-1 dark:bg-white dark:border-zinc-200 dark:text-zinc-950 hover:border-zinc-700 dark:hover:border-zinc-400"
-                      : "bg-white border-zinc-200 p-6 rounded-lg dark:bg-zinc-900/50 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700",
+                      ? "theme-card-strong p-8 rounded-[1.5rem] sm:col-span-2 lg:col-span-1 hover:border-[rgba(96,165,250,0.3)]"
+                      : "theme-card p-6 rounded-[1.25rem] hover:border-[rgba(37,99,235,0.22)]",
                   ].join(" ")}
                   aria-label={`${item.title}-${item.label}`}
                 >
@@ -171,8 +171,8 @@ export default function HighlightDeck({
                       className={[
                         "font-heading text-4xl font-bold tracking-tighter tabular-nums md:text-[2.75rem] leading-none",
                         isFocal
-                          ? "text-zinc-50 dark:text-zinc-900"
-                          : "text-zinc-900 dark:text-zinc-50",
+                          ? "text-[#f8fbff]"
+                          : "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
                       {item.value}
@@ -181,8 +181,8 @@ export default function HighlightDeck({
                       className={[
                         "flex h-9 w-9 items-center justify-center rounded-md border",
                         isFocal
-                          ? "border-zinc-800 bg-zinc-800/50 text-zinc-300 dark:border-zinc-200 dark:bg-zinc-100 dark:text-zinc-600"
-                          : "border-zinc-100 bg-zinc-50 text-zinc-500 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-400",
+                          ? "border-[rgba(96,165,250,0.18)] bg-[rgba(219,234,254,0.08)] text-[rgba(248,251,255,0.88)]"
+                          : "border-[rgba(37,99,235,0.12)] bg-[rgba(239,246,255,0.78)] text-[color:var(--brand-gold)]",
                       ].join(" ")}
                     >
                       <Icon size={18} strokeWidth={2} />
@@ -194,8 +194,8 @@ export default function HighlightDeck({
                       className={[
                         "mb-2 text-[15px] font-semibold tracking-tight",
                         isFocal
-                          ? "text-zinc-300 dark:text-zinc-700"
-                          : "text-zinc-900 dark:text-zinc-100",
+                          ? "text-[rgba(248,251,255,0.86)]"
+                          : "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
                       {item.label}
@@ -206,8 +206,8 @@ export default function HighlightDeck({
                         className={[
                           "mb-6 text-[13px] leading-relaxed",
                           isFocal
-                            ? "text-zinc-400 dark:text-zinc-500"
-                            : "text-zinc-500 dark:text-zinc-400",
+                            ? "text-[rgba(226,232,240,0.78)]"
+                            : "text-[color:var(--text-secondary)]",
                         ].join(" ")}
                       >
                         {item.description}
@@ -215,7 +215,7 @@ export default function HighlightDeck({
                     )}
 
                     {item.verification && (
-                      <div className="mb-5 inline-flex w-fit self-start items-center gap-1.5 rounded border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest dark:border-emerald-900/60 dark:bg-emerald-950/30">
+                      <div className="mb-5 inline-flex w-fit self-start items-center gap-1.5 rounded-full border border-emerald-300/70 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest">
                         <span
                           className={cn(
                             "h-1.5 w-1.5 rounded-full",
@@ -234,8 +234,8 @@ export default function HighlightDeck({
                       className={[
                         "mt-auto flex items-center gap-1.5 text-[13px] font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100",
                         isFocal
-                          ? "text-zinc-50 dark:text-zinc-900"
-                          : "text-zinc-900 dark:text-zinc-50",
+                          ? "text-[#f8fbff]"
+                          : "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
                       View Details

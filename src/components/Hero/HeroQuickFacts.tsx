@@ -35,29 +35,29 @@ export function HeroQuickFacts({
         duration: 0.6,
         ease: EASING_CURVES.OUT_EXPO,
       }}
-      className="relative overflow-hidden rounded-2xl border border-white/50 bg-glass-strong p-6 shadow-xl shadow-slate-200/50 backdrop-blur-xl md:p-8"
+      className="theme-card relative overflow-hidden rounded-[1.5rem] p-6 shadow-[var(--shadow-md)] md:p-8"
     >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/8 via-transparent to-cyan-500/10" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[rgba(219,234,254,0.55)] via-transparent to-[rgba(191,219,254,0.16)]" />
 
-      <div className="relative z-10 mb-6 flex items-center gap-2 text-xs font-bold tracking-widest text-slate-400 uppercase">
-        <span className="h-[1px] w-8 bg-slate-200" />
+      <div className="theme-kicker relative z-10 mb-6 flex items-center gap-2 text-xs font-bold tracking-widest uppercase">
+        <span className="h-[1px] w-8 bg-[rgba(37,99,235,0.22)]" />
         核心信息
       </div>
 
       <div className="relative z-10 space-y-6">
         <div className="flex items-start gap-4">
-          <div className="shrink-0 rounded-lg bg-slate-50 p-3 text-slate-600">
+          <div className="shrink-0 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.78)] p-3 text-[color:var(--text-secondary)]">
             <Briefcase size={20} />
           </div>
           <div>
-            <div className="mb-1 text-xs font-semibold text-slate-400 uppercase">
+            <div className="theme-copy-subtle mb-1 text-xs font-semibold uppercase">
               岗位方向
             </div>
-            <div className="text-lg font-bold text-slate-900">
+            <div className="theme-title text-lg font-bold">
               {roleSnapshot?.primaryRole || facts.role}
             </div>
             {roleSnapshot?.secondaryRole && (
-              <div className="mt-1 text-sm text-slate-500">
+              <div className="theme-copy mt-1 text-sm">
                 {roleSnapshot.secondaryRole}
               </div>
             )}
@@ -69,29 +69,29 @@ export function HeroQuickFacts({
             <Calendar size={20} />
           </div>
           <div>
-            <div className="mb-1 text-xs font-semibold text-slate-400 uppercase">
+            <div className="theme-copy-subtle mb-1 text-xs font-semibold uppercase">
               在岗状态
             </div>
             <div className="text-lg font-bold text-emerald-600">
               {roleSnapshot?.availability || facts.availability}
             </div>
             {roleSnapshot?.location && (
-              <div className="mt-1 text-xs text-slate-500">
+              <div className="theme-copy mt-1 text-xs">
                 {roleSnapshot.location}
               </div>
             )}
           </div>
         </div>
 
-        <div className="border-t border-slate-100 pt-6">
-          <div className="mb-3 text-xs font-semibold text-slate-400 uppercase">
+        <div className="border-t border-[color:var(--border-default)] pt-6">
+          <div className="theme-copy-subtle mb-3 text-xs font-semibold uppercase">
             核心技术栈
           </div>
           <div className="flex flex-wrap gap-2">
             {facts.techStack.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border border-slate-100 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-600"
+                className="theme-chip px-3 py-1 text-sm font-medium"
               >
                 {tag}
               </span>
@@ -100,7 +100,7 @@ export function HeroQuickFacts({
         </div>
 
         {roleSnapshot?.updatedAt && (
-          <div className="border-t border-slate-100 pt-4 text-xs text-slate-400">
+          <div className="theme-copy-subtle border-t border-[color:var(--border-default)] pt-4 text-xs">
             数据更新：{roleSnapshot.updatedAt}
           </div>
         )}

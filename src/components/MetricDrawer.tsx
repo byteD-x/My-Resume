@@ -5,6 +5,7 @@ import { AnimatePresence, m as motion } from "framer-motion";
 import { ExternalLink, X } from "lucide-react";
 import { ImpactItem, TimelineItem } from "@/types";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { evaluateVerificationConfidence } from "@/lib/verification";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 
@@ -22,11 +23,20 @@ export default function MetricDrawer({
   linkedExperience,
 }: MetricDrawerProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const shouldReduceMotion = useReducedMotion();
   const drawerRef = useFocusTrap<HTMLDivElement>(isOpen, {
     onEscape: onClose,
     initialFocusRef: closeButtonRef,
     lockBodyScroll: true,
   });
+
+  const overlayTransition = shouldReduceMotion
+    ? { duration: 0.12 }
+    : { duration: 0.2, ease: [0.22, 1, 0.36, 1] as const };
+
+  const drawerTransition = shouldReduceMotion
+    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
+    : ({ type: "spring", stiffness: 320, damping: 30, mass: 0.92 } as const);
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
@@ -66,11 +76,11 @@ export default function MetricDrawer({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={overlayTransition}
             className="fixed inset-0 z-50"
             style={{
-              backgroundColor: "rgba(15, 23, 42, 0.5)",
-              backdropFilter: "blur(4px)",
+              backgroundColor: "rgba(15, 23, 42, 0.34)",
+              backdropFilter: "blur(10px)",
             }}
             onClick={handleBackdropClick}
             aria-hidden="true"
@@ -81,12 +91,20 @@ export default function MetricDrawer({
             role="dialog"
             aria-modal="true"
             aria-labelledby="drawer-title"
-            className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-2xl bg-white md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-lg md:max-h-none md:rounded-none md:rounded-l-2xl"
-            initial={{ y: "100%", x: 0 }}
-            animate={{ y: 0, x: 0 }}
-            exit={{ y: "100%", x: 0 }}
-            transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            style={{ boxShadow: "var(--shadow-xl)" }}
+            className="theme-card fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-[1.5rem] md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-lg md:max-h-none md:rounded-none md:rounded-l-[1.5rem]"
+            initial={
+              shouldReduceMotion
+                ? { opacity: 0 }
+                : { y: 28, opacity: 0.94, scale: 0.985 }
+            }
+            animate={{ y: 0, x: 0, opacity: 1, scale: 1 }}
+            exit={
+              shouldReduceMotion
+                ? { opacity: 0 }
+                : { y: 20, opacity: 0.96, scale: 0.992 }
+            }
+            transition={drawerTransition}
+            style={{ boxShadow: "var(--shadow-lg)" }}
           >
             <div className="flex justify-center pb-2 pt-3 md:hidden">
               <div
@@ -96,37 +114,31 @@ export default function MetricDrawer({
             </div>
 
             <div
-              className="sticky top-0 z-10 flex items-center justify-between border-b p-4 md:p-6"
-              style={{
-                backgroundColor: "var(--bg-surface)",
-                borderColor: "var(--border-default)",
-              }}
+              className="theme-panel sticky top-0 z-10 flex items-center justify-between border-b p-4 md:p-6"
+              style={{ borderColor: "var(--border-default)" }}
             >
               <h2
                 id="drawer-title"
-                className="text-lg font-semibold text-slate-900 md:text-xl"
+                className="theme-title text-lg font-semibold md:text-xl"
               >
                 {metric.title}
               </h2>
               <button
                 ref={closeButtonRef}
                 onClick={onClose}
-                className="rounded-lg p-2 transition-colors"
+                className="motion-chip rounded-lg p-2 transition-colors"
                 style={{ color: "var(--text-tertiary)" }}
                 aria-label="关闭"
               >
-                <X size={20} />
+                <X size={20} className="motion-icon-float" />
               </button>
             </div>
 
             <div className="space-y-6 p-4 md:p-6">
-              <div
-                className="rounded-xl p-6 text-center"
-                style={{ backgroundColor: "var(--bg-muted)" }}
-              >
+              <div className="theme-card-muted rounded-[1.25rem] p-6 text-center">
                 <div
                   className="mb-2 text-4xl font-bold md:text-5xl"
-                  style={{ color: "var(--color-primary)" }}
+                  style={{ color: "var(--brand-gold)" }}
                 >
                   {metric.value}
                 </div>
@@ -140,7 +152,7 @@ export default function MetricDrawer({
 
               {metric.description && (
                 <div>
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                  <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                     概述
                   </h3>
                   <div style={{ color: "var(--text-secondary)" }}>
@@ -153,7 +165,7 @@ export default function MetricDrawer({
 
               {metric.details && (
                 <div>
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                  <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                     方法拆解
                   </h3>
                   <div style={{ color: "var(--text-secondary)" }}>
@@ -221,7 +233,7 @@ export default function MetricDrawer({
                 <>
                   {details.background && (
                     <div>
-                      <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                      <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                         背景
                       </h3>
                       <div style={{ color: "var(--text-secondary)" }}>
@@ -234,7 +246,7 @@ export default function MetricDrawer({
 
                   {details.solution && (
                     <div>
-                      <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                      <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                         我的行动
                       </h3>
                       <MarkdownRenderer>{details.solution}</MarkdownRenderer>
@@ -243,7 +255,7 @@ export default function MetricDrawer({
 
                   {details.result && (
                     <div>
-                      <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                      <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                         成果
                       </h3>
                       <MarkdownRenderer tone="default">
@@ -254,12 +266,12 @@ export default function MetricDrawer({
 
                   {details.techStack && details.techStack.length > 0 && (
                     <div>
-                      <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                      <h3 className="theme-copy-subtle mb-3 text-sm font-semibold uppercase tracking-wide">
                         技术要点
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {details.techStack.map((tech, i) => (
-                          <span key={i} className="tag">
+                          <span key={i} className="theme-chip px-2.5 py-1 text-xs font-semibold">
                             {tech}
                           </span>
                         ))}
@@ -269,7 +281,7 @@ export default function MetricDrawer({
 
                   {details.links && details.links.length > 0 && (
                     <div>
-                      <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
+                      <h3 className="theme-copy-subtle mb-3 text-sm font-semibold uppercase tracking-wide">
                         查看证据
                       </h3>
                       <div className="flex flex-wrap gap-2">
@@ -296,13 +308,13 @@ export default function MetricDrawer({
                   className="border-t pt-4"
                   style={{ borderColor: "var(--border-default)" }}
                 >
-                  <div className="mb-1 text-xs uppercase tracking-wide text-slate-500">
+                  <div className="theme-copy-subtle mb-1 text-xs uppercase tracking-wide">
                     来源
                   </div>
-                  <div className="font-medium text-slate-900">
+                  <div className="theme-title font-medium">
                     {linkedExperience.company}
                   </div>
-                  <div className="text-sm text-slate-600">
+                  <div className="theme-copy text-sm">
                     {linkedExperience.role} · {linkedExperience.year}
                   </div>
                   <button

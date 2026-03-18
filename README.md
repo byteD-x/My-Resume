@@ -8,24 +8,6 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12+-0055FF?logo=framer)](https://www.framer.com/motion/)
 
-## Visual Shock（阶段一）
-
-- 已接入客户端 WebGL Hero 场景（R3F + Three.js），包含 3 个几何体、3 盏彩色聚光灯、入场动画与鼠标视差相机。
-- 已接入粒子引擎（6000 容量粒子池），支持 cursor trail、hover burst、scroll trail、重力/风力与边界碰撞。
-- 已接入交互式流体层（Fluid Overlay），支持按下/拖拽扰动、染色混合、速度衰减与高速度联动粒子喷发。
-- 已新增 `src/lib/visual-shock` 模块化架构（`core/`、`systems/`、`shaders/`、`types/`、`utils/`），包含：
-  - `EventManager`（同步/异步事件发布）
-  - `StateManager`（Zustand + 本地持久化）
-  - `SceneOrchestrator`（系统注册与过渡编排）
-  - `ShaderPipeline`（GLSL 解析、基础编译校验、热重载开关）
-  - `PerformanceMonitor`（FPS、帧耗时、快捷键开关与 JSON 导出）
-- 已提供 WebGL 不可用/低性能/自动化环境下的降级渲染，保证静态导出与测试稳定性。
-- 快捷键：
-  - `P`：切换性能面板
-  - `C`：切换相机模式（perspective / orthographic）
-
----
-
 ## ✨ 核心特性
 
 ### 🎨 现代化设计

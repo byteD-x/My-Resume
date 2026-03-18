@@ -1,7 +1,7 @@
 "use client";
 
 import { m as motion } from "framer-motion";
-import { ArrowDownToLine, Download } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import { EASING_CURVES, HERO_ANIMATION } from "@/config/animation";
 import { useHydrated } from "@/hooks/useHydrated";
 import {
@@ -61,10 +61,10 @@ export function HeroCTA({
         href={downloadUrl}
         download={downloadName}
         onClick={handleDownloadClick}
-        className="btn btn-primary sm:w-auto"
+        className="btn btn-primary min-w-[12.5rem] sm:w-auto"
         aria-label="下载简历 PDF"
       >
-        <Download size={18} className="opacity-90" />
+        <Download size={18} />
         下载简历 PDF
       </a>
 
@@ -72,10 +72,10 @@ export function HeroCTA({
         type="button"
         onClick={handleViewProjects}
         disabled={!isHydrated}
-        className="btn btn-secondary disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+        className="btn btn-secondary min-w-[12.5rem] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
         aria-label="查看项目证据"
       >
-        <ArrowDownToLine size={18} className="opacity-70" />
+        <ArrowRight size={18} />
         查看项目证据
       </button>
     </motion.div>

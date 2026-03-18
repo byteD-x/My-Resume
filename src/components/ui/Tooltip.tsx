@@ -50,7 +50,7 @@ export function Tooltip({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: position === "top" ? 5 : -5, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className={`absolute z-50 w-max max-w-[200px] rounded-lg bg-slate-900 px-3 py-1.5 text-xs text-white shadow-xl ${
+            className={`absolute z-50 w-max max-w-[200px] rounded-lg border border-[rgba(96,165,250,0.18)] bg-[color:var(--brand-ink)] px-3 py-1.5 text-xs text-[color:var(--text-inverse)] shadow-[var(--shadow-md)] ${
               position === "top"
                 ? "bottom-full left-1/2 mb-2 -translate-x-1/2"
                 : "top-full left-1/2 mt-2 -translate-x-1/2"
@@ -58,7 +58,7 @@ export function Tooltip({
           >
             {content}
             <div
-              className={`absolute left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 bg-slate-900 ${
+              className={`absolute left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-r border-b border-[rgba(96,165,250,0.18)] bg-[color:var(--brand-ink)] ${
                 position === "top" ? "-bottom-1" : "-top-1"
               }`}
             />

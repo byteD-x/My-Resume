@@ -65,27 +65,23 @@ export function ScrollProgressBar({ className }: ScrollProgressBarProps) {
       aria-valuemax={100}
       aria-valuetext={progressText}
     >
-      {/* Track */}
-      <div className="relative w-1.5 h-32 rounded-full bg-slate-200/50 dark:bg-slate-700/50 backdrop-blur-sm overflow-hidden">
-        {/* Progress fill */}
+      <div className="relative h-32 w-1.5 overflow-hidden rounded-full border border-[rgba(37,99,235,0.14)] bg-[rgba(241,245,249,0.82)] shadow-sm">
         <motion.div
-          className="absolute bottom-0 left-0 w-full origin-bottom rounded-full bg-gradient-to-t from-blue-600 via-blue-500 to-cyan-400"
+          className="absolute bottom-0 left-0 w-full origin-bottom rounded-full bg-gradient-to-t from-blue-700 via-blue-500 to-sky-300"
           style={{ scaleY, height: "100%" }}
         />
 
-        {/* Glow effect on progress */}
         <motion.div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-blue-500/50 blur-sm"
+          className="absolute bottom-0 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-blue-400/70 blur-sm"
           style={{ y: glowY }}
         />
       </div>
 
-      {/* Percentage indicator (optional - shows on hover) */}
       <motion.div
         className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity pointer-events-none"
         style={{ y: labelY }}
       >
-        <motion.span className="text-xs font-mono font-medium text-slate-500 dark:text-slate-400 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm px-2 py-1 rounded shadow-sm">
+        <motion.span className="rounded-full border border-[rgba(37,99,235,0.16)] bg-[rgba(255,255,255,0.94)] px-2.5 py-1 text-xs font-medium text-[color:var(--text-secondary)] shadow-sm">
           {progressText}
         </motion.span>
       </motion.div>

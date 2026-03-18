@@ -78,7 +78,7 @@ export function MarkdownRenderer({
           nodes.push(
             <code
               key={`code-${nodes.length}`}
-              className="px-1 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 font-mono text-[0.85em] border border-zinc-200 dark:border-zinc-700"
+              className="rounded border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.82)] px-1 py-0.5 font-mono text-[0.85em] text-[color:var(--text-primary)]"
             >
               {first}
             </code>,
@@ -92,7 +92,7 @@ export function MarkdownRenderer({
                 href={second}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:underline decoration-blue-300 underline-offset-2"
+                className="theme-link underline decoration-[rgba(37,99,235,0.32)] underline-offset-2"
                 onClick={(e) => e.stopPropagation()} // Prevent card click
               >
                 {first}
@@ -106,7 +106,7 @@ export function MarkdownRenderer({
           nodes.push(
             <strong
               key={`bold-${nodes.length}`}
-              className="font-semibold text-zinc-900 dark:text-zinc-100"
+              className="font-semibold text-[color:var(--text-primary)]"
             >
               {first}
             </strong>,
@@ -146,24 +146,24 @@ export function MarkdownRenderer({
 
     const paragraphClass =
       tone === "default"
-        ? "text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed"
-        : "text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed";
+        ? "text-sm leading-relaxed text-[color:var(--text-secondary)]"
+        : "text-sm leading-relaxed text-[color:var(--text-tertiary)]";
     const listClass =
       tone === "default"
-        ? "text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed"
-        : "text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed";
+        ? "text-sm leading-relaxed text-[color:var(--text-secondary)]"
+        : "text-sm leading-relaxed text-[color:var(--text-tertiary)]";
     const quoteClass =
       tone === "default"
-        ? "text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed"
-        : "text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed";
+        ? "text-sm leading-relaxed text-[color:var(--text-secondary)]"
+        : "text-sm leading-relaxed text-[color:var(--text-tertiary)]";
 
     const headingClasses: Record<number, string> = {
-      1: "text-base font-semibold text-zinc-900 dark:text-zinc-100 mt-4 mb-2",
-      2: "text-sm font-semibold text-zinc-900 dark:text-zinc-100 mt-3 mb-2",
-      3: "text-sm font-semibold text-zinc-900 dark:text-zinc-100 mt-3 mb-1",
-      4: "text-sm font-semibold text-zinc-900 dark:text-zinc-100 mt-2 mb-1",
-      5: "text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-2 mb-1",
-      6: "text-xs font-semibold text-zinc-900 dark:text-zinc-100 mt-2 mb-1",
+      1: "theme-title mt-4 mb-2 text-base font-semibold",
+      2: "theme-title mt-3 mb-2 text-sm font-semibold",
+      3: "theme-title mt-3 mb-1 text-sm font-semibold",
+      4: "theme-title mt-2 mb-1 text-sm font-semibold",
+      5: "theme-title mt-2 mb-1 text-xs font-semibold",
+      6: "theme-title mt-2 mb-1 text-xs font-semibold",
     };
 
     const flushParagraph = () => {
@@ -183,7 +183,7 @@ export function MarkdownRenderer({
       blocks.push(
         <blockquote
           key={`quote-${blocks.length}`}
-          className="border-l-2 border-zinc-200 dark:border-zinc-700 pl-3 my-2"
+          className="my-2 border-l-2 border-[color:var(--border-default)] pl-3"
         >
           <p className={quoteClass}>{renderInlineMarkdown(textContent)}</p>
         </blockquote>,
@@ -227,7 +227,7 @@ export function MarkdownRenderer({
       blocks.push(
         <pre
           key={`code-${blocks.length}`}
-          className="text-xs leading-relaxed font-mono bg-zinc-900/5 dark:bg-zinc-100/5 text-zinc-800 dark:text-zinc-100 rounded-lg p-3 overflow-x-auto my-2 border border-zinc-200/50 dark:border-zinc-700/50"
+          className="my-2 overflow-x-auto rounded-lg border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.82)] p-3 font-mono text-xs leading-relaxed text-[color:var(--text-primary)]"
         >
           <code>{codeContent}</code>
         </pre>,

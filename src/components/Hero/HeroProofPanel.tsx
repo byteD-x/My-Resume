@@ -20,39 +20,42 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
         duration: 0.5,
         ease: EASING_CURVES.OUT_EXPO,
       }}
-      className="relative overflow-hidden rounded-xl border border-zinc-200 bg-white/96 p-5 shadow-sm shadow-zinc-900/4 dark:border-zinc-800 dark:bg-zinc-900 sm:p-6 md:p-8 lg:p-9"
+      className="theme-card relative overflow-hidden rounded-[1.95rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_20px_42px_rgba(15,23,42,0.08)] sm:p-6 md:p-8 lg:p-9"
     >
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(219,234,254,0.78),transparent)]" />
       <div className="relative z-10">
-        <div className="border-b border-zinc-200 dark:border-zinc-800 pb-5 mb-7">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
-            Selected Work
-          </p>
-          <h2 className="mt-2 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            近期核心实践
-          </h2>
+        <div className="mb-8 flex items-end justify-between gap-4 border-b border-[color:var(--border-default)] pb-6">
+          <div>
+            <p className="theme-card-kicker">Selected Work</p>
+            <h2 className="theme-title mt-2 text-[1.35rem] font-bold tracking-tight">
+              近期核心实战
+            </h2>
+          </div>
+          <div className="theme-chip-strong px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em]">
+            Evidence First
+          </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 md:gap-5">
           {items.map((item) => {
             const content = (
               <>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500">
+                <p className="theme-card-kicker">
                   {item.focus}
                 </p>
-                <div className="mt-2.5 flex items-start justify-between gap-3">
-                  <h3 className="text-base font-semibold leading-snug text-zinc-900 dark:text-zinc-100">
+                <div className="mt-3 flex items-start justify-between gap-4">
+                  <h3 className="theme-card-title pr-2 text-[1.02rem]">
                     {item.name}
                   </h3>
-                  <ArrowUpRight
-                    size={14}
-                    className="mt-0.5 shrink-0 text-zinc-300 dark:text-zinc-700 transition-colors duration-200 group-hover:text-zinc-900 dark:group-hover:text-zinc-100"
-                  />
+                  <span className="motion-chip flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[rgba(37,99,235,0.14)] bg-white/80 text-[color:var(--text-tertiary)] transition-colors duration-200 group-hover:border-[rgba(37,99,235,0.24)] group-hover:text-[color:var(--brand-gold)]">
+                    <ArrowUpRight size={14} className="motion-arrow-shift" />
+                  </span>
                 </div>
-                <p className="mt-2.5 text-[13px] leading-7 text-zinc-700 dark:text-zinc-300 line-clamp-3">
+                <p className="theme-copy mt-4 line-clamp-3 text-[13px] leading-7">
                   {item.summary}
                 </p>
                 {item.detail ? (
-                  <p className="mt-4 border-t border-zinc-100 pt-3 text-[12px] leading-6 text-zinc-600 dark:border-zinc-800 dark:text-zinc-300 line-clamp-2">
+                  <p className="theme-copy mt-5 line-clamp-2 border-t border-[color:var(--border-default)] pt-4 text-[12px] leading-6">
                     {item.detail}
                   </p>
                 ) : null}
@@ -60,7 +63,7 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
             );
 
             const cardClasses =
-              "group flex flex-col rounded-lg border border-zinc-200 bg-white p-4 transition-colors duration-200 hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:border-zinc-600 sm:min-h-[13.5rem] sm:p-5";
+              "theme-card-muted theme-card-interactive group flex flex-col rounded-[1.35rem] border-[rgba(148,163,184,0.14)] p-4 sm:min-h-[14.5rem] sm:p-5";
 
             if (!item.href) {
               return (

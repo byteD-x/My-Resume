@@ -26,24 +26,15 @@
     "setup:server:https": "node scripts/setup-server-https.mjs"
   },
   "dependencies": {
-    "@dimforge/rapier3d-compat": "^0.19.3",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.24.12",
-    "gsap": "^3.14.2",
-    "hammerjs": "^2.0.8",
     "lucide-react": "^0.562.0",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-ga4": "^2.1.0",
-    "stats.js": "^0.17.0",
     "tailwind-merge": "^3.4.0",
-    "three": "^0.183.1",
-    "tone": "^15.1.22",
-    "web-vitals": "^5.1.0",
-    "zustand": "^5.0.11"
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.1.1",
@@ -51,7 +42,6 @@
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
-    "@types/hammerjs": "^2.0.46",
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -32,35 +32,35 @@ interface MotionWrapperProps {
 // 预定义的动画变体
 const presetVariants: Record<AnimationPreset, Variants> = {
   "fade-up": {
-    initial: { opacity: 0, y: 24 },
+    initial: { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
   },
   "fade-down": {
-    initial: { opacity: 0, y: -24 },
+    initial: { opacity: 0, y: -18 },
     animate: { opacity: 1, y: 0 },
   },
   "fade-left": {
-    initial: { opacity: 0, x: -24 },
+    initial: { opacity: 0, x: -18 },
     animate: { opacity: 1, x: 0 },
   },
   "fade-right": {
-    initial: { opacity: 0, x: 24 },
+    initial: { opacity: 0, x: 18 },
     animate: { opacity: 1, x: 0 },
   },
   scale: {
-    initial: { opacity: 0, scale: 0.9 },
+    initial: { opacity: 0, scale: 0.96 },
     animate: { opacity: 1, scale: 1 },
   },
   blur: {
-    initial: { opacity: 0, filter: "blur(10px)" },
+    initial: { opacity: 0, filter: "blur(8px)" },
     animate: { opacity: 1, filter: "blur(0px)" },
   },
   "slide-up": {
-    initial: { opacity: 0, y: 40 },
+    initial: { opacity: 0, y: 26 },
     animate: { opacity: 1, y: 0 },
   },
   "spring-up": {
-    initial: { opacity: 0, y: 30, scale: 0.95 },
+    initial: { opacity: 0, y: 20, scale: 0.975 },
     animate: { opacity: 1, y: 0, scale: 1 },
   },
 };
@@ -68,7 +68,7 @@ const presetVariants: Record<AnimationPreset, Variants> = {
 // 缓动曲线预设
 const easePresets = {
   smooth: [0.16, 1, 0.3, 1] as const,
-  spring: { type: "spring", stiffness: 200, damping: 20 } as const,
+  spring: { type: "spring", stiffness: 180, damping: 22, mass: 0.9 } as const,
   bounce: { type: "spring", stiffness: 400, damping: 25 } as const,
 };
 
@@ -104,7 +104,7 @@ export const MotionWrapper = ({
     <motion.div
       initial="initial"
       whileInView="animate"
-      viewport={{ once, amount, margin: "-50px" }}
+      viewport={{ once, amount, margin: "-8% 0px -12% 0px" }}
       variants={variants}
       transition={transition}
       className={className}

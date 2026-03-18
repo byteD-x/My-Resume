@@ -30,6 +30,12 @@ export function ExperienceModal({
   const shouldReduceMotion = useReducedMotion();
   const isOverlay = variant === "overlay";
   const useSharedLayout = isOverlay && !shouldReduceMotion;
+  const overlayTransition = shouldReduceMotion
+    ? { duration: 0.12 }
+    : { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
+  const contentTransition = shouldReduceMotion
+    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
+    : ({ type: "spring", stiffness: 300, damping: 30, mass: 0.92 } as const);
 
   // Hooks for a11y & ux
   useScrollLock(isOverlay);
@@ -77,8 +83,9 @@ export function ExperienceModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={overlayTransition}
           onClick={closeModal}
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-[rgba(15,23,42,0.34)] backdrop-blur-[10px]"
           aria-hidden="true"
         />
       )}
@@ -87,26 +94,41 @@ export function ExperienceModal({
       <motion.div
         ref={containerRef}
         layoutId={useSharedLayout ? `card-${item.id}` : undefined}
-        className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
-        initial={shouldReduceMotion ? { opacity: 0, scale: 0.95 } : undefined}
-        animate={shouldReduceMotion ? { opacity: 1, scale: 1 } : undefined}
-        exit={shouldReduceMotion ? { opacity: 0, scale: 0.95 } : undefined}
+        className="theme-card relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[1.75rem] shadow-2xl"
+        initial={
+          useSharedLayout
+            ? undefined
+            : shouldReduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, scale: 0.972, y: 24 }
+        }
+        animate={
+          useSharedLayout ? undefined : { opacity: 1, scale: 1, y: 0 }
+        }
+        exit={
+          useSharedLayout
+            ? { opacity: 0, scale: 0.99, y: 14 }
+            : shouldReduceMotion
+              ? { opacity: 0 }
+              : { opacity: 0, scale: 0.985, y: 18 }
+        }
+        transition={contentTransition}
       >
         {/* Header */}
-        <div className="relative p-6 sm:p-8 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-800/30">
+        <div className="relative border-b border-[color:var(--border-default)] bg-[rgba(248,250,252,0.94)] p-6 sm:p-8">
           <button
             onClick={closeModal}
             aria-label="关闭弹窗"
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors group"
+            className="group motion-chip absolute right-4 top-4 rounded-full p-2 transition-colors hover:bg-[rgba(239,246,255,0.92)]"
           >
-            <X className="w-5 h-5 text-zinc-500 group-hover:text-zinc-900 dark:group-hover:text-zinc-100" />
+            <X className="motion-icon-float h-5 w-5 text-[color:var(--text-tertiary)] group-hover:text-[color:var(--brand-gold)]" />
           </button>
 
           <div className="pr-8">
             <motion.h2
               layoutId={useSharedLayout ? `title-${item.id}` : undefined}
               id={`modal-title-${item.id}`}
-              className="text-2xl font-bold text-zinc-900 dark:text-white mb-2"
+              className="theme-title mb-2 text-2xl font-bold"
             >
               {title}
             </motion.h2>
@@ -114,17 +136,17 @@ export function ExperienceModal({
             {subtitle && (
               <motion.div
                 layoutId={useSharedLayout ? `subtitle-${item.id}` : undefined}
-                className="flex items-center gap-2 text-lg text-blue-600 dark:text-blue-400 font-medium mb-4"
+                className="mb-4 flex items-center gap-2 text-lg font-medium text-[color:var(--brand-gold)]"
               >
                 <Building className="w-4 h-4" />
                 {subtitle}
               </motion.div>
             )}
 
-            <div className="flex flex-wrap gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+            <div className="theme-copy flex flex-wrap gap-4 text-sm">
               <motion.div
                 layoutId={useSharedLayout ? `date-${item.id}` : undefined}
-                className="flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-full font-mono"
+                className="theme-chip flex items-center gap-1.5 px-3 py-1 font-mono"
               >
                 <Calendar className="w-3.5 h-3.5" />
                 {item.year}
@@ -144,10 +166,10 @@ export function ExperienceModal({
         <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-8 overscroll-contain">
           {/* TL;DR Summary */}
           <section>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+            <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
               概要
             </h4>
-            <div className="text-base sm:text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed">
+            <div className="theme-copy text-base leading-relaxed sm:text-lg">
               <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
             </div>
           </section>
@@ -167,14 +189,14 @@ export function ExperienceModal({
           )}
 
           {item.engineeringDepth && (
-            <section className="rounded-xl border border-blue-200/70 bg-blue-50/70 p-4 dark:border-blue-900/40 dark:bg-blue-900/10">
-              <h4 className="mb-2 text-xs font-semibold tracking-wider text-blue-700 uppercase dark:text-blue-300">
+            <section className="rounded-xl border border-blue-200/70 bg-blue-50/80 p-4">
+              <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-700">
                 工程深度
               </h4>
-              <p className="text-sm leading-relaxed text-blue-900 dark:text-blue-100">
+              <p className="text-sm leading-relaxed text-slate-900">
                 {item.engineeringDepth.zh}
               </p>
-              <p className="mt-2 text-xs leading-relaxed text-blue-800/90 italic dark:text-blue-200/90">
+              <p className="mt-2 text-xs italic leading-relaxed text-blue-800/90">
                 {item.engineeringDepth.en}
               </p>
             </section>
@@ -182,7 +204,7 @@ export function ExperienceModal({
 
           {item.verification && item.verification.length > 0 && (
             <section>
-              <h4 className="mb-3 text-xs font-semibold tracking-wider text-zinc-400 uppercase">
+              <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
                 证据来源
               </h4>
               <div className="space-y-2">
@@ -192,31 +214,31 @@ export function ExperienceModal({
                   return (
                     <div
                       key={`${entry.sourceLabel}-${idx}`}
-                      className="rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-800/40"
+                      className="theme-card-muted rounded-[1rem] p-3"
                     >
-                      <div className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                      <div className="theme-title text-sm font-medium">
                         {entry.sourceLabel}
                       </div>
-                      <div className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                      <div className="theme-copy mt-1 text-xs">
                         {entry.sourceType} · 置信度 {assessment.confidenceText}{" "}
                         · 验证时间 {entry.verifiedAt}
                       </div>
 
                       {assessment.basis.length > 0 && (
-                        <ul className="mt-2 space-y-1 text-xs text-zinc-600 dark:text-zinc-300">
+                        <ul className="theme-copy mt-2 space-y-1 text-xs">
                           {assessment.basis.map((basisItem, basisIdx) => (
                             <li
                               key={`${basisItem}-${basisIdx}`}
                               className="flex items-start gap-1.5"
                             >
-                              <span className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                              <span className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-[rgba(37,99,235,0.55)]" />
                               <span>{basisItem}</span>
                             </li>
                           ))}
                         </ul>
                       )}
 
-                      <p className="mt-2 text-xs leading-relaxed text-zinc-600 dark:text-zinc-300">
+                      <p className="theme-copy mt-2 text-xs leading-relaxed">
                         <span className="font-semibold">判定原因：</span>
                         {assessment.reason}
                       </p>
@@ -226,7 +248,7 @@ export function ExperienceModal({
                           href={entry.sourceUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-2 inline-flex text-xs font-semibold text-blue-600 hover:underline dark:text-blue-400"
+                          className="theme-link mt-2 inline-flex text-xs font-semibold hover:underline"
                         >
                           打开证据链接
                         </a>
@@ -247,7 +269,7 @@ export function ExperienceModal({
                 <div className="grid sm:grid-cols-2 gap-6">
                   {item.expandedDetails.background && (
                     <section>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                      <h4 className="theme-copy-subtle mb-2 text-xs font-semibold uppercase tracking-wider">
                         背景
                       </h4>
                       <MarkdownRenderer tone="muted">
@@ -257,7 +279,7 @@ export function ExperienceModal({
                   )}
                   {item.expandedDetails.problem && (
                     <section>
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+                      <h4 className="theme-copy-subtle mb-2 text-xs font-semibold uppercase tracking-wider">
                         挑战
                       </h4>
                       <MarkdownRenderer tone="muted">
@@ -269,14 +291,14 @@ export function ExperienceModal({
               )}
 
               {/* Solution & Result */}
-              <section className="bg-blue-50/50 dark:bg-blue-900/10 -mx-4 p-4 rounded-xl border border-blue-100 dark:border-blue-900/30">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-3">
+              <section className="-mx-4 rounded-xl border border-blue-200/70 bg-blue-50/70 p-4">
+                <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-blue-700">
                   行动与成果
                 </h4>
                 <div className="space-y-4">
                   {item.expandedDetails.solution && (
                     <div>
-                      <div className="font-semibold text-zinc-900 dark:text-zinc-200 mb-2">
+                      <div className="theme-title mb-2 font-semibold">
                         解决方案
                       </div>
                       <MarkdownRenderer>
@@ -286,7 +308,7 @@ export function ExperienceModal({
                   )}
                   {item.expandedDetails.result && (
                     <div>
-                      <div className="font-semibold text-zinc-900 dark:text-zinc-200 mb-2">
+                      <div className="theme-title mb-2 font-semibold">
                         成果
                       </div>
                       <MarkdownRenderer>
@@ -302,17 +324,17 @@ export function ExperienceModal({
           {/* Key Outcomes / Metrics */}
           {item.keyOutcomes && item.keyOutcomes.length > 0 && (
             <section>
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+              <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
                 关键指标
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {item.keyOutcomes.map((outcome, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center gap-2 p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-100 dark:border-zinc-700"
+                    className="theme-card-muted flex items-center gap-2 rounded-[1rem] p-3"
                   >
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                    <span className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
+                    <span className="theme-title text-sm font-medium">
                       {outcome}
                     </span>
                   </div>
@@ -323,14 +345,14 @@ export function ExperienceModal({
 
           {/* Tech Stack */}
           <section>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-3">
+              <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
               技术栈
             </h4>
             <div className="flex flex-wrap gap-2">
               {item.techTags?.map((tech, idx) => (
                 <span
                   key={idx}
-                  className="px-2.5 py-1 text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 rounded border border-zinc-200 dark:border-zinc-700"
+                  className="theme-chip px-2.5 py-1 text-xs font-medium"
                 >
                   {tech}
                 </span>
@@ -341,7 +363,7 @@ export function ExperienceModal({
           {/* Links */}
           {item.expandedDetails?.links &&
             item.expandedDetails.links.length > 0 && (
-              <section className="pt-4 border-t border-zinc-100 dark:border-zinc-800">
+              <section className="border-t border-[color:var(--border-default)] pt-4">
                 <div className="flex flex-wrap gap-4">
                   {item.expandedDetails.links.map((link, idx) => (
                     <a
@@ -349,7 +371,7 @@ export function ExperienceModal({
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                      className="theme-link inline-flex items-center gap-2 text-sm font-medium hover:underline"
                     >
                       {link.label.toLowerCase().includes("github") ? (
                         <Github className="w-4 h-4" />

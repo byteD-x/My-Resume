@@ -42,6 +42,12 @@ const capabilityBulletSummaryMap: Record<string, string> = {
     "围绕性能、成本与交付质量治理，落地过 5x 提速、40% 成本下降与完整回归门禁。",
 };
 
+const capabilityLayerLabelMap: Record<string, string> = {
+  orchestration: "Runtime Layer",
+  delivery: "Delivery Layer",
+  performance: "Quality Layer",
+};
+
 export function CapabilitySummary({
   bullets,
   skills,
@@ -63,57 +69,65 @@ export function CapabilitySummary({
   }));
 
   return (
-    <Section className="relative scroll-mt-24 py-24 md:py-32 bg-zinc-50 dark:bg-zinc-950">
+    <Section className="theme-grid-section relative scroll-mt-24 py-24 md:py-32">
       <Container>
         <div className="mb-16 max-w-3xl">
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 mb-3">
+          <p className="theme-kicker mb-3 text-[11px]">
             Core Competencies
           </p>
-          <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl mb-5">
+          <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
             核心工程能力
           </h2>
-          <p className="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+          <p className="theme-copy text-[15px] leading-relaxed">
             不盲从技术热词，而是聚焦于构建稳定、可扩展、具有实际业务价值的系统架构。这是我能够持续、高质量交付的专业基石。
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-6 lg:grid-cols-3 lg:[grid-auto-rows:1fr]">
           {cards.map((card) => {
             const Icon = card.icon;
 
             return (
               <article
                 key={card.id}
-                className="group flex flex-col h-full rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/50 p-6 md:p-8 transition-colors hover:border-zinc-400 dark:hover:border-zinc-600"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 transition-colors hover:border-[rgba(37,99,235,0.22)] md:p-8"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 transition-transform group-hover:scale-105">
-                  <Icon size={20} strokeWidth={2} />
+                <div className="mb-6 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-5">
+                  <div className="theme-icon-box theme-icon-box-md transition-transform group-hover:scale-105">
+                    <Icon size={20} strokeWidth={2} />
+                  </div>
+                  <div className="theme-chip px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]">
+                    {capabilityLayerLabelMap[card.id] ?? card.id}
+                  </div>
                 </div>
-                
-                <h3 className="mt-6 text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+
+                <h3 className="theme-card-title text-[1.28rem]">
                   {card.title}
                 </h3>
-                
-                <p className="mt-3 text-[14px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+
+                <p className="theme-card-body mt-4 text-[14px]">
                   {card.summary}
                 </p>
 
                 {card.bullet ? (
-                  <div className="mt-6 rounded-lg border border-zinc-100 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/30 p-4">
-                    <p className="text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">
+                  <div className="theme-card-muted mt-7 rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-5">
+                    <p className="theme-card-kicker mb-2">
+                      Evidence Snapshot
+                    </p>
+                    <p className="theme-title text-[13px] font-semibold">
                       {card.bullet.title}
                     </p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    <p className="theme-copy mt-2.5 text-[13px] leading-7">
                       {capabilityBulletSummaryMap[card.bullet.id] ?? card.bullet.description}
                     </p>
                   </div>
                 ) : null}
 
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-7 flex flex-wrap gap-2">
                   {card.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400"
+                      className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider"
                     >
                       {tag}
                     </span>
@@ -121,9 +135,9 @@ export function CapabilitySummary({
                 </div>
 
                 {card.service ? (
-                  <div className="mt-auto pt-6">
-                    <p className="text-[13px] leading-relaxed text-zinc-600 dark:text-zinc-400 pt-5 border-t border-zinc-100 dark:border-zinc-800/80">
-                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">交付方式：</span>
+                  <div className="mt-auto pt-7">
+                    <p className="theme-copy border-t border-[color:var(--border-default)] pt-5 text-[13px] leading-7">
+                      <span className="font-semibold text-[color:var(--text-primary)]">交付方式：</span>
                       {card.service.title}，{card.service.description}
                     </p>
                   </div>

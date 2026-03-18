@@ -142,9 +142,9 @@ export function Timeline({ items }: TimelineProps) {
 
   return (
     <div className="space-y-10">
-      <div className="space-y-5 border border-zinc-200 dark:border-zinc-800 rounded-lg p-5 bg-white dark:bg-zinc-900/50">
+      <div className="theme-card space-y-5 rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_16px_34px_rgba(15,23,42,0.05)]">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest">
+          <p className="theme-card-kicker text-xs">
             {tagStats.length > 0
               ? `Filters (${tagStats.length})`
               : "Filters"}
@@ -157,14 +157,14 @@ export function Timeline({ items }: TimelineProps) {
               value={tagKeyword}
               onChange={(event) => setTagKeyword(event.target.value)}
               placeholder="Search technologies..."
-              className="w-full rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950 px-3 py-2 text-sm text-zinc-900 dark:text-zinc-100 outline-none transition-colors focus:border-zinc-400 dark:focus:border-zinc-600 focus:ring-2 focus:ring-zinc-100 dark:focus:ring-zinc-800"
+              className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] px-3 py-2 text-sm text-[color:var(--text-primary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
             />
           </label>
         </div>
 
         {recentDisplayTags.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] uppercase tracking-wider text-zinc-400">Recent</span>
+            <span className="theme-card-kicker text-[11px]">Recent</span>
             {recentDisplayTags.map((tag) => (
               <button
                 key={`recent-${tag}`}
@@ -173,8 +173,8 @@ export function Timeline({ items }: TimelineProps) {
                 className={cn(
                   "cursor-pointer rounded px-2.5 py-1 text-[11px] font-semibold transition-colors",
                   activeTag === tag
-                    ? "bg-zinc-200 text-zinc-900 dark:bg-zinc-700 dark:text-zinc-100"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700",
+                    ? "bg-[rgba(239,246,255,0.95)] text-[color:var(--text-primary)]"
+                    : "theme-chip hover:bg-[rgba(239,246,255,0.92)]",
                 )}
                 aria-pressed={activeTag === tag}
               >
@@ -184,7 +184,7 @@ export function Timeline({ items }: TimelineProps) {
           </div>
         )}
 
-        <div className="flex flex-wrap justify-start gap-2 pt-2">
+        <div className="flex flex-wrap justify-start gap-2 border-t border-[color:var(--border-default)] pt-4">
           {visibleTags.map((tag) => (
             <button
               key={tag}
@@ -193,8 +193,8 @@ export function Timeline({ items }: TimelineProps) {
               className={cn(
                 "cursor-pointer rounded border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
                 activeTag === tag
-                  ? "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900"
-                  : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:border-zinc-600 dark:hover:text-zinc-100",
+                  ? "border-[rgba(37,99,235,0.28)] bg-[color:var(--brand-ink)] text-[color:var(--text-inverse)]"
+                  : "border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] text-[color:var(--text-secondary)] hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--brand-gold)]",
               )}
               aria-pressed={activeTag === tag}
             >
@@ -204,11 +204,11 @@ export function Timeline({ items }: TimelineProps) {
         </div>
 
         {canExpand && (
-          <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800/80">
+          <div className="border-t border-[color:var(--border-default)] pt-2">
             <button
               type="button"
               onClick={() => setIsTagExpanded((value) => !value)}
-              className="text-[13px] font-semibold text-zinc-900 hover:text-zinc-600 dark:text-zinc-100 dark:hover:text-zinc-400"
+              className="theme-link text-[13px] font-semibold"
               aria-expanded={isTagExpanded}
             >
               {isTagExpanded ? "Show Less" : `Show All (+${hiddenTagCount})`}
@@ -219,7 +219,7 @@ export function Timeline({ items }: TimelineProps) {
 
       <div className="relative min-h-[500px] pt-4">
         <div
-          className="absolute left-[13px] top-4 bottom-0 hidden w-[1px] bg-zinc-200 dark:bg-zinc-800 md:block"
+          className="absolute bottom-0 left-[13px] top-4 hidden w-[1px] bg-[rgba(37,99,235,0.14)] md:block"
           aria-hidden="true"
         />
 
@@ -250,7 +250,7 @@ export function Timeline({ items }: TimelineProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="py-24 text-center text-sm font-medium text-zinc-500 dark:text-zinc-400"
+            className="theme-copy py-24 text-center text-sm font-medium"
           >
             No matching experience found.
           </motion.div>

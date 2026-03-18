@@ -31,12 +31,12 @@ export function HeroBullets({ bullets }: HeroBulletsProps) {
         {bullets.map((bullet) => (
           <div
             key={bullet.id}
-            className="border-l border-zinc-200 pl-4 dark:border-zinc-800"
+            className="border-l border-[rgba(37,99,235,0.24)] pl-4"
           >
-            <p className="text-sm font-semibold tracking-wide text-zinc-950 dark:text-zinc-100">
+            <p className="theme-title text-sm font-semibold tracking-wide">
               {bullet.title}
             </p>
-            <p className="mt-1 text-[0.96rem] leading-7 text-zinc-700 dark:text-zinc-300">
+            <p className="theme-copy mt-1 text-[0.96rem] leading-7">
               {bullet.description}
             </p>
           </div>

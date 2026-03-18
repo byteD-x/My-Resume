@@ -19,7 +19,7 @@ export default async function ExperiencePage({
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 p-4 flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)] p-4">
       <ExperienceModal item={item} variant="page" />
     </div>
   );

@@ -2,7 +2,7 @@
 
 import React, { memo } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Github, ExternalLink } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import { TimelineItem, ProjectItem } from "../types";
 import { saveScrollRestore, ScrollRestoreSection } from "@/lib/scroll-restore";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
@@ -57,58 +57,60 @@ export const ExperienceCard = memo(function ExperienceCard({
     <Link
       href={`/experiences/${item.id}`}
       scroll={false}
-      className="block group h-full"
+      className="group block h-full"
       onClick={handleOpen}
     >
-      <div
-        className="
-                    relative overflow-hidden p-6 rounded-lg
-                    bg-white dark:bg-zinc-900/50
-                    border border-zinc-200 dark:border-zinc-800
-                    transition-colors duration-300 ease-out
-                    flex flex-col h-full
-                    group-hover:border-zinc-400 dark:group-hover:border-zinc-600
-                "
-      >
-        <div className="flex justify-between items-start mb-4 relative z-10">
-          <div className="flex-1 min-w-0 pr-6">
-            <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors tracking-tight">
+      <div className="theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden rounded-[1.55rem] border-[rgba(148,163,184,0.16)] p-6 shadow-[0_16px_34px_rgba(15,23,42,0.06)]">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90" />
+
+        <div className="relative z-10 mb-6 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-5">
+          <div className="min-w-0 flex-1 pr-4">
+            <h3 className="theme-card-title text-[1.08rem] transition-colors group-hover:text-[color:var(--brand-gold)]">
               {title}
             </h3>
-            {subtitle && (
-              <p className="text-[13px] font-medium text-zinc-500 dark:text-zinc-400 mt-1.5 uppercase tracking-wide">
+            {subtitle ? (
+              <p className="theme-card-kicker mt-2.5">
                 {subtitle}
               </p>
-            )}
+            ) : null}
           </div>
-          {!hideDate && (
-            <div className="shrink-0 text-[11px] font-medium text-zinc-400 dark:text-zinc-500 mt-1 tracking-wider">
-              {date}
+
+          <div className="flex shrink-0 items-center gap-3">
+            {!hideDate ? (
+              <div className="theme-chip px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
+                {date}
+              </div>
+            ) : null}
+            <div className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(37,99,235,0.14)] bg-white/88 text-[color:var(--text-tertiary)] transition-colors duration-200 group-hover:border-[rgba(37,99,235,0.26)] group-hover:text-[color:var(--brand-gold)]">
+              <ArrowUpRight className="motion-arrow-shift h-4.5 w-4.5" />
             </div>
-          )}
+          </div>
         </div>
 
-        <div className="text-[14px] text-zinc-600 dark:text-zinc-400 mb-6 line-clamp-3 leading-relaxed relative z-10 flex-grow">
+        <div className="theme-card-body relative z-10 mb-7 line-clamp-3 flex-grow text-[14px]">
           <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
         </div>
 
-        <div className="flex flex-wrap items-end gap-2 mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800/80 relative z-10">
-          <div className="flex flex-wrap gap-2 flex-1">
+        <div className="relative z-10 mt-auto flex flex-wrap items-end gap-2 border-t border-[color:var(--border-default)] pt-5">
+          <div className="flex flex-1 flex-wrap gap-2">
             {item.techTags?.slice(0, 3).map((tag, idx) => (
-              <span key={idx} className="rounded px-2.5 py-1 bg-zinc-100 dark:bg-zinc-800 text-[10px] font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">
+              <span
+                key={idx}
+                className="theme-chip px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider"
+              >
                 {tag}
               </span>
             ))}
-            {(item.techTags?.length || 0) > 3 && (
-              <span className="rounded px-2 py-1 bg-zinc-50 dark:bg-zinc-900 text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider border border-zinc-200 dark:border-zinc-800">
+            {(item.techTags?.length || 0) > 3 ? (
+              <span className="theme-chip px-2 py-1 text-[10px] font-semibold uppercase tracking-wider">
                 +{(item.techTags?.length || 0) - 3}
               </span>
-            )}
+            ) : null}
           </div>
 
-          {(githubLink || demoLink) && (
-            <div className="flex items-center gap-1.5 ml-2 opacity-80 group-hover:opacity-100 transition-opacity">
-              {githubLink && (
+          {githubLink || demoLink ? (
+            <div className="ml-2 flex items-center gap-1.5 opacity-80 transition-opacity group-hover:opacity-100">
+              {githubLink ? (
                 <button
                   type="button"
                   onClick={(e) => {
@@ -116,14 +118,14 @@ export const ExperienceCard = memo(function ExperienceCard({
                     e.stopPropagation();
                     window.open(githubLink, "_blank", "noopener,noreferrer");
                   }}
-                  className="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  className="motion-chip rounded-full border border-transparent p-2 text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)]"
                   aria-label="GitHub"
                   title="查看源码"
                 >
-                  <Github size={16} strokeWidth={2} />
+                  <Github size={15} strokeWidth={2} className="motion-icon-float" />
                 </button>
-              )}
-              {demoLink && (
+              ) : null}
+              {demoLink ? (
                 <button
                   type="button"
                   onClick={(e) => {
@@ -131,19 +133,15 @@ export const ExperienceCard = memo(function ExperienceCard({
                     e.stopPropagation();
                     window.open(demoLink, "_blank", "noopener,noreferrer");
                   }}
-                  className="p-1.5 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  className="motion-chip rounded-full border border-transparent p-2 text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)]"
                   aria-label="Live Demo"
                   title="查看演示"
                 >
-                  <ExternalLink size={16} strokeWidth={2} />
+                  <ExternalLink size={15} strokeWidth={2} className="motion-icon-float" />
                 </button>
-              )}
+              ) : null}
             </div>
-          )}
-        </div>
-
-        <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-1 -translate-y-1 group-hover:translate-x-0 group-hover:translate-y-0">
-          <ArrowUpRight className="w-5 h-5 text-zinc-400 dark:text-zinc-500" />
+          ) : null}
         </div>
       </div>
     </Link>

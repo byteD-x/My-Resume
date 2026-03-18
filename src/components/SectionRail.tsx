@@ -108,11 +108,11 @@ export default function SectionRail({ sections }: SectionRailProps) {
       className="fixed left-6 top-1/2 z-40 hidden -translate-y-1/2 xl:block"
       aria-label="页面区块导航"
     >
-      <div className="glass-light rounded-2xl border border-white/60 px-3 py-4 shadow-xl shadow-slate-900/10">
+      <div className="glass-light rounded-[1.25rem] px-3 py-4">
         <div className="relative flex flex-col items-center gap-3">
-          <div className="absolute left-1/2 top-1 -z-10 h-[calc(100%-0.5rem)] w-px -translate-x-1/2 bg-slate-200/70" />
+          <div className="absolute left-1/2 top-1 -z-10 h-[calc(100%-0.5rem)] w-px -translate-x-1/2 bg-[rgba(37,99,235,0.14)]" />
           <motion.div
-            className="absolute left-1/2 top-1 -z-10 h-[calc(100%-0.5rem)] w-px origin-top -translate-x-1/2 bg-gradient-to-b from-blue-500 via-cyan-500 to-sky-400"
+            className="absolute left-1/2 top-1 -z-10 h-[calc(100%-0.5rem)] w-px origin-top -translate-x-1/2 bg-gradient-to-b from-blue-700 via-blue-500 to-cyan-300"
             style={{ scaleY: railProgress }}
           />
 
@@ -126,8 +126,8 @@ export default function SectionRail({ sections }: SectionRailProps) {
                 className={cn(
                   "group relative flex min-h-9 items-center rounded-full pl-2 pr-3 transition-colors",
                   isActive
-                    ? "bg-white text-slate-900 shadow-sm"
-                    : "text-slate-500 hover:text-slate-900",
+                    ? "bg-[rgba(255,255,255,0.98)] text-[color:var(--text-primary)] shadow-sm"
+                    : "text-[color:var(--text-tertiary)] hover:text-[color:var(--text-primary)]",
                 )}
                 aria-current={isActive ? "location" : undefined}
                 aria-label={`跳转到${section.label}`}
@@ -136,8 +136,8 @@ export default function SectionRail({ sections }: SectionRailProps) {
                   className={cn(
                     "mr-2 h-2.5 w-2.5 shrink-0 rounded-full border transition-all",
                     isActive
-                      ? "border-blue-500 bg-blue-500 shadow-[0_0_0_4px_rgba(59,130,246,0.16)]"
-                      : "border-slate-300 bg-white group-hover:border-slate-400",
+                      ? "border-blue-500 bg-blue-500 shadow-[0_0_0_4px_rgba(37,99,235,0.16)]"
+                      : "border-[rgba(15,23,42,0.18)] bg-[rgba(255,255,255,0.94)] group-hover:border-[rgba(37,99,235,0.3)]",
                   )}
                 />
                 <span

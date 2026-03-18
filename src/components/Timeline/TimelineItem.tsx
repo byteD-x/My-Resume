@@ -24,7 +24,7 @@ export const TimelineItem = React.memo(function TimelineItem({
       {/* Mobile Vertical Line */}
       {!isLast && (
         <div
-          className="md:hidden absolute left-[11px] top-6 bottom-[-24px] w-[1px] bg-zinc-200 dark:bg-zinc-800"
+          className="absolute bottom-[-24px] left-[11px] top-6 w-[1px] bg-[rgba(37,99,235,0.14)] md:hidden"
           aria-hidden="true"
         />
       )}
@@ -32,7 +32,7 @@ export const TimelineItem = React.memo(function TimelineItem({
       <div className="md:grid md:grid-cols-[12ch_32px_1fr] md:gap-8">
         {/* 1. Date Column (Desktop) */}
         <div className="hidden md:block text-right pt-6">
-          <span className="text-[13px] font-medium tracking-widest uppercase text-zinc-500 dark:text-zinc-400 sticky top-24">
+          <span className="theme-copy-subtle sticky top-24 text-[13px] font-medium uppercase tracking-widest">
             {item.year}
           </span>
         </div>
@@ -41,11 +41,11 @@ export const TimelineItem = React.memo(function TimelineItem({
         <div className="hidden md:flex flex-col items-center">
           {/* Dot */}
           <div
-            className={`w-3 h-3 rounded-full border-2 z-10 flex-shrink-0 transition-colors duration-300 mt-[28px] bg-white dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700 group-hover:border-zinc-600 dark:group-hover:border-zinc-400`}
+            className={`mt-[28px] z-10 h-3 w-3 flex-shrink-0 rounded-full border-2 bg-[rgba(255,255,255,0.95)] transition-colors duration-300 border-[rgba(37,99,235,0.22)] group-hover:border-[rgba(37,99,235,0.45)]`}
           />
           {/* Desktop Vertical Line */}
           {!isLast && (
-            <div className="w-[1px] h-full bg-zinc-200 dark:bg-zinc-800 absolute top-[28px] left-1/2 -translate-x-1/2 -z-0" />
+            <div className="absolute left-1/2 top-[28px] -z-0 h-full w-[1px] -translate-x-1/2 bg-[rgba(37,99,235,0.14)]" />
           )}
         </div>
 
@@ -53,12 +53,12 @@ export const TimelineItem = React.memo(function TimelineItem({
         <div className="relative pb-8 md:pb-2">
           {/* Mobile Dot (Absolute) */}
           <div
-            className={`md:hidden absolute left-[-26px] top-8 w-2.5 h-2.5 rounded-full border-2 z-10 bg-white dark:bg-zinc-900 transition-colors border-zinc-300 dark:border-zinc-700 group-hover:border-zinc-500`}
+            className={`absolute left-[-26px] top-8 z-10 h-2.5 w-2.5 rounded-full border-2 bg-[rgba(255,255,255,0.95)] transition-colors border-[rgba(37,99,235,0.22)] group-hover:border-[rgba(37,99,235,0.45)] md:hidden`}
           />
 
           {/* Mobile Date */}
           <div className="md:hidden mb-3">
-            <span className="inline-block text-[11px] font-semibold tracking-widest uppercase text-zinc-500 dark:text-zinc-400">
+            <span className="theme-copy-subtle inline-block text-[11px] font-semibold uppercase tracking-widest">
               {item.year}
             </span>
           </div>

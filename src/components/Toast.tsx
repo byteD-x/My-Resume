@@ -58,7 +58,7 @@ function Toast({
 
   const styles = {
     success: {
-      bg: "var(--color-success)",
+      bg: "#166534",
       icon: "rgba(255,255,255,0.9)",
     },
     error: {
@@ -66,7 +66,7 @@ function Toast({
       icon: "rgba(255,255,255,0.9)",
     },
     info: {
-      bg: "var(--color-primary)",
+      bg: "var(--brand-ink)",
       icon: "rgba(255,255,255,0.9)",
     },
   };
@@ -77,10 +77,11 @@ function Toast({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -10, scale: 0.95 }}
       transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className="flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg"
+      className="flex items-center gap-2 rounded-xl border px-4 py-3 shadow-[var(--shadow-md)]"
       style={{
         backgroundColor: styles[type].bg,
         color: "white",
+        borderColor: "rgba(255,255,255,0.14)",
       }}
       role="alert"
       aria-live="polite"

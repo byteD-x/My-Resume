@@ -6,6 +6,7 @@ import { Github, Mail, Menu, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ProgressBar } from "@/components/ProgressBar";
 import { useHydrated } from "@/hooks/useHydrated";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { ContactData, HeroData } from "@/types";
 import {
   createResumeDownloadHandler,
@@ -46,6 +47,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
   const [activeSection, setActiveSection] = useState("");
   const scrolled = useScrollPastThreshold(40);
   const isHydrated = useHydrated();
+  const shouldReduceMotion = useReducedMotion();
   const menuToggleButtonRef = useRef<HTMLButtonElement>(null);
   const menuCloseButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -55,6 +57,14 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     resumeFileName,
     resumeDownloadUrl,
   );
+
+  const menuBackdropTransition = shouldReduceMotion
+    ? { duration: 0.14 }
+    : { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
+
+  const menuPanelTransition = shouldReduceMotion
+    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
+    : ({ type: "spring", stiffness: 300, damping: 30, mass: 0.92 } as const);
 
   const scrollTo = (href: string) => {
     setIsOpen(false);
@@ -140,7 +150,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
       className={cn(
         "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-zinc-200/90 bg-white/96 dark:border-zinc-800/90 dark:bg-zinc-950/96 py-3"
+          ? "border-b border-[color:var(--border-default)] bg-[rgba(255,255,255,0.88)] py-3 shadow-[0_16px_40px_rgba(15,23,42,0.08)] backdrop-blur-md"
           : "border-transparent bg-transparent py-5",
       )}
     >
@@ -166,23 +176,27 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
           >
             <div
               className={cn(
-                "flex h-9 w-9 items-center justify-center rounded bg-zinc-900 text-sm font-bold text-white transition-transform group-hover:scale-105 dark:bg-white dark:text-zinc-900",
+                "relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[1.15rem] border border-[rgba(148,163,184,0.22)] bg-[linear-gradient(180deg,#243652_0%,#172235_58%,#111827_100%)] shadow-[0_16px_34px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.14)] transition-transform duration-300 group-hover:-translate-y-0.5",
                 scrolled && "scale-95",
               )}
             >
-              DXJ
+              <span className="absolute inset-[1px] rounded-[1rem] bg-[radial-gradient(circle_at_30%_20%,rgba(96,165,250,0.42),transparent_44%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_65%)]" />
+              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[rgba(191,219,254,0.96)] shadow-[0_0_12px_rgba(96,165,250,0.62)]" />
+              <span className="relative z-10 font-heading text-[10px] font-semibold tracking-[0.32em] text-[color:var(--text-inverse)]">
+                DXJ
+              </span>
             </div>
             <div className="hidden text-left sm:block">
-              <div className="text-sm font-semibold leading-none text-zinc-900 dark:text-zinc-50">
+              <div className="text-sm font-semibold leading-none text-[color:var(--text-primary)]">
                 {heroData.name}
               </div>
-              <div className="mt-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+              <div className="mt-1 text-xs font-medium text-[color:var(--text-tertiary)]">
                 AI 应用工程师
               </div>
             </div>
           </button>
 
-          <div className="hidden items-center gap-1 rounded-md border border-zinc-200/50 bg-white/50 p-1 md:flex dark:border-zinc-800/50 dark:bg-zinc-900/50">
+          <div className="hidden items-center gap-1 rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.82)] p-1 shadow-sm md:flex">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.slice(1);
               return (
@@ -192,10 +206,10 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                   onClick={() => scrollTo(item.href)}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "rounded px-3 py-1.5 text-sm font-medium transition-colors",
+                    "motion-chip rounded px-3 py-1.5 text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                      : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100",
+                      ? "bg-[linear-gradient(180deg,#243652_0%,#172235_100%)] text-[color:var(--text-inverse)] shadow-[0_12px_26px_rgba(15,23,42,0.14)]"
+                      : "text-[color:var(--text-secondary)] hover:text-[color:var(--brand-gold)]",
                   )}
                 >
                   {item.name}
@@ -210,10 +224,10 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleGithubClick}
-              className="inline-flex h-9 w-9 items-center justify-center rounded border border-zinc-200 text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+              className="motion-chip inline-flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] text-[color:var(--text-secondary)] shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition-colors hover:border-[rgba(96,165,250,0.22)] hover:text-[color:var(--brand-gold)]"
               aria-label="访问 GitHub 主页"
             >
-              <Github size={16} className="shrink-0" />
+              <Github size={16} className="motion-icon-float shrink-0" />
             </a>
 
             <a
@@ -246,18 +260,18 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               disabled={!isHydrated}
               aria-label="联系我"
               className={cn(
-                "inline-flex h-10 w-10 items-center justify-center rounded border border-zinc-200 bg-white text-zinc-600 transition-colors hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-400",
+                "motion-chip inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] text-[color:var(--text-secondary)] shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition-colors hover:border-[rgba(96,165,250,0.22)] hover:text-[color:var(--brand-gold)] disabled:cursor-not-allowed disabled:opacity-60",
                 isOpen && "hidden",
               )}
             >
-              <Mail size={18} />
+              <Mail size={18} className="motion-icon-float" />
               <span className="sr-only">联系</span>
             </button>
 
             <button
               type="button"
               ref={menuToggleButtonRef}
-              className="p-2.5 text-zinc-600 dark:text-zinc-400"
+              className="motion-chip rounded-full p-2.5 text-[color:var(--text-secondary)] transition-colors hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
               disabled={!isHydrated}
               onClick={() => setIsOpen((value) => !value)}
               aria-label="打开菜单"
@@ -265,7 +279,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               aria-expanded={isOpen}
               aria-controls={MOBILE_MENU_ID}
             >
-              <Menu size={22} />
+              <Menu size={22} className="motion-icon-float" />
             </button>
           </div>
         </div>
@@ -278,57 +292,91 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={menuBackdropTransition}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 z-50 bg-zinc-950/40 backdrop-blur-sm md:hidden"
+              className="fixed inset-0 z-50 bg-[rgba(15,23,42,0.3)] backdrop-blur-[10px] md:hidden"
             />
 
             <motion.div
               id={MOBILE_MENU_ID}
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed bottom-0 right-0 top-0 z-50 flex w-[85%] max-w-sm flex-col bg-white shadow-2xl dark:bg-zinc-950 dark:border-l dark:border-zinc-800 md:hidden"
+              initial={
+                shouldReduceMotion
+                  ? { opacity: 0 }
+                  : { x: "100%", opacity: 0.94, scale: 0.985 }
+              }
+              animate={{ x: 0, opacity: 1, scale: 1 }}
+              exit={
+                shouldReduceMotion
+                  ? { opacity: 0 }
+                  : { x: "100%", opacity: 0.96, scale: 0.992 }
+              }
+              transition={menuPanelTransition}
+              className="fixed bottom-0 right-0 top-0 z-50 flex w-[85%] max-w-sm origin-right flex-col border-l border-[color:var(--border-default)] bg-[rgba(255,255,255,0.98)] shadow-2xl backdrop-blur-xl md:hidden"
               role="dialog"
               aria-modal="true"
               aria-label="移动端导航菜单"
             >
-              <div className="flex items-center justify-between border-b border-zinc-100 p-5 dark:border-zinc-800">
-                <span className="text-sm font-semibold tracking-wider uppercase text-zinc-900 dark:text-zinc-100">Menu</span>
+              <div className="flex items-center justify-between border-b border-[color:var(--border-default)] p-5">
+                <span className="text-sm font-semibold uppercase tracking-wider text-[color:var(--text-primary)]">
+                  Menu
+                </span>
                 <button
                   type="button"
                   ref={menuCloseButtonRef}
                   onClick={() => setIsOpen(false)}
-                  className="p-2 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
+                  className="motion-chip rounded-full p-2 text-[color:var(--text-tertiary)] hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
                   aria-label="关闭菜单"
                 >
-                  <X size={20} />
+                  <X size={20} className="motion-icon-float" />
                 </button>
               </div>
 
               <div className="flex-1 space-y-1 overflow-y-auto p-4">
-                {navItems.map((item) => {
+                {navItems.map((item, index) => {
                   const isActive = activeSection === item.href.slice(1);
                   return (
-                    <button
+                    <motion.div
                       key={item.href}
-                      type="button"
-                      onClick={() => scrollTo(item.href)}
-                      aria-current={isActive ? "page" : undefined}
-                      className={cn(
-                        "w-full rounded-md px-4 py-4 text-left text-[15px] font-medium transition-colors",
-                        isActive
-                          ? "bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100"
-                          : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-900 dark:hover:text-zinc-100",
-                      )}
+                      initial={
+                        shouldReduceMotion
+                          ? false
+                          : { opacity: 0, x: 18, filter: "blur(6px)" }
+                      }
+                      animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                      exit={
+                        shouldReduceMotion
+                          ? { opacity: 0 }
+                          : { opacity: 0, x: 12, filter: "blur(4px)" }
+                      }
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0.12 }
+                          : {
+                              duration: 0.28,
+                              delay: 0.05 + index * 0.035,
+                              ease: [0.22, 1, 0.36, 1],
+                            }
+                      }
                     >
-                      {item.name}
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => scrollTo(item.href)}
+                        aria-current={isActive ? "page" : undefined}
+                        className={cn(
+                          "motion-chip w-full rounded-md px-4 py-4 text-left text-[15px] font-medium transition-colors",
+                          isActive
+                            ? "bg-[linear-gradient(180deg,rgba(239,246,255,0.98),rgba(219,234,254,0.94))] text-[color:var(--text-primary)] shadow-[0_14px_28px_rgba(37,99,235,0.1)]"
+                            : "text-[color:var(--text-secondary)] hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]",
+                        )}
+                      >
+                        {item.name}
+                      </button>
+                    </motion.div>
                   );
                 })}
               </div>
 
-              <div className="space-y-4 border-t border-zinc-100 p-5 dark:border-zinc-800">
+              <div className="space-y-4 border-t border-[color:var(--border-default)] p-5">
                 <button
                   type="button"
                   onClick={() => {

@@ -11,7 +11,7 @@ import { Container } from "@/components/ui/Container";
  */
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50/30">
+    <main className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)]">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -26,17 +26,17 @@ export default function NotFound() {
             transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
             className="mb-8"
           >
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-slate-100 mb-4">
-              <Search className="w-12 h-12 text-slate-400" />
+            <div className="mb-4 inline-flex h-24 w-24 items-center justify-center rounded-full bg-[rgba(239,246,255,0.94)]">
+              <Search className="h-12 w-12 text-[color:var(--brand-gold)]" />
             </div>
-            <h1 className="text-8xl font-bold text-slate-200">404</h1>
+            <h1 className="text-8xl font-bold text-[rgba(37,99,235,0.18)]">404</h1>
           </motion.div>
 
           {/* 错误信息 */}
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">
+          <h2 className="theme-title mb-3 text-2xl font-bold">
             页面被垃圾回收了 (GC)
           </h2>
-          <p className="text-slate-600 mb-8 leading-relaxed font-mono text-sm bg-slate-100 p-4 rounded-lg text-left">
+          <p className="theme-card-muted mb-8 rounded-[1.25rem] p-4 text-left font-mono text-sm leading-relaxed text-[color:var(--text-secondary)]">
             {`> Error: 404 Not Found`}
             <br />
             {`> Reason: Object reference not set to an instance of an object.`}
@@ -64,8 +64,8 @@ export default function NotFound() {
 
           {/* 装饰性背景 */}
           <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-sky-500/5 rounded-full blur-3xl" />
+            <div className="absolute left-1/4 top-1/4 h-64 w-64 rounded-full bg-sky-300/10 blur-3xl" />
+            <div className="absolute bottom-1/4 right-1/4 h-48 w-48 rounded-full bg-blue-300/10 blur-3xl" />
           </div>
         </motion.div>
       </Container>

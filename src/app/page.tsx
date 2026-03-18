@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
 import { Container } from "@/components/ui/Container";
+import { MotionWrapper } from "@/components/ui/MotionWrapper";
 import { Section } from "@/components/ui/Section";
 import { defaultPortfolioData } from "@/data";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
@@ -22,10 +23,7 @@ const Timeline = dynamic(
     loading: () => (
       <div className="space-y-6" aria-hidden="true">
         {[1, 2, 3].map((item) => (
-          <div
-            key={item}
-            className="h-32 rounded-lg border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/50"
-          />
+          <div key={item} className="theme-card h-32 rounded-[1.25rem]" />
         ))}
       </div>
     ),
@@ -34,7 +32,7 @@ const Timeline = dynamic(
 
 const HighlightDeck = dynamic(() => import("@/components/HighlightDeck"), {
   loading: () => (
-    <div className="h-[28rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+    <div className="theme-card-muted h-[28rem] rounded-[1.25rem]" />
   ),
 });
 
@@ -42,26 +40,26 @@ const ProjectList = dynamic(
   () => import("@/components/ProjectList").then((mod) => mod.ProjectList),
   {
     loading: () => (
-      <div className="h-[30rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+      <div className="theme-card-muted h-[30rem] rounded-[1.25rem]" />
     ),
   },
 );
 
 const TechStack = dynamic(() => import("@/components/TechStack"), {
   loading: () => (
-    <div className="h-[32rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+    <div className="theme-card-muted h-[32rem] rounded-[1.25rem]" />
   ),
 });
 
 const Services = dynamic(() => import("@/components/Services"), {
   loading: () => (
-    <div className="h-[24rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+    <div className="theme-card-muted h-[24rem] rounded-[1.25rem]" />
   ),
 });
 
 const Contact = dynamic(() => import("@/components/Contact"), {
   loading: () => (
-    <div className="h-[24rem] rounded-lg bg-zinc-100 dark:bg-zinc-900/80" />
+    <div className="theme-card-muted h-[24rem] rounded-[1.25rem]" />
   ),
 });
 
@@ -88,107 +86,140 @@ export default function HomePage() {
   const heroProofItems = getHeroSpotlights(data.projects);
 
   return (
-    <main className="relative min-h-screen overflow-x-clip bg-white dark:bg-zinc-950">
+    <main className="relative min-h-screen overflow-x-clip">
+      <div className="page-grid-bg page-grid-fade pointer-events-none absolute inset-0 z-0 opacity-100" />
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute left-[-8rem] top-[12rem] h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.22),transparent_72%)] blur-3xl" />
+        <div className="absolute right-[-6rem] top-[36rem] h-[20rem] w-[20rem] rounded-full bg-[radial-gradient(circle,rgba(219,234,254,0.24),transparent_74%)] blur-3xl" />
+        <div className="absolute bottom-[12rem] left-[22%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(224,242,254,0.2),transparent_74%)] blur-3xl" />
+      </div>
+
       <HomePageRuntime />
       <Navbar heroData={data.hero} contactData={data.contact} />
-
       <Hero data={data.hero} proofItems={heroProofItems} />
 
-      <div
-        id="impact"
-        className="relative scroll-mt-24 border-b border-zinc-200 dark:border-zinc-800"
-      >
-        <HighlightDeck items={data.impact} timeline={timelineByDate} />
-      </div>
+      <MotionWrapper delay={0.02} duration={0.5} amount={0.12}>
+        <div
+          id="impact"
+          className="theme-grid-section relative z-10 scroll-mt-24 border-b section-divider"
+        >
+          <div className="section-grid-fade pointer-events-none absolute inset-0 opacity-70" />
+          <HighlightDeck items={data.impact} timeline={timelineByDate} />
+        </div>
+      </MotionWrapper>
 
-      <FeaturedProjects items={homepageFeaturedProjects} />
+      <MotionWrapper delay={0.04} duration={0.52} amount={0.12}>
+        <div className="theme-grid-section relative z-10">
+          <FeaturedProjects items={homepageFeaturedProjects} />
+        </div>
+      </MotionWrapper>
 
-      <CapabilitySummary
-        bullets={data.hero.bullets}
-        skills={data.skills}
-        services={data.services}
-      />
+      <MotionWrapper delay={0.06} duration={0.52} amount={0.12}>
+        <div className="theme-grid-section relative z-10">
+          <CapabilitySummary
+            bullets={data.hero.bullets}
+            skills={data.skills}
+            services={data.services}
+          />
+        </div>
+      </MotionWrapper>
 
-      <Section
-        id="experience"
-        className="relative scroll-mt-24 border-y border-zinc-200 bg-white py-24 dark:border-zinc-800 dark:bg-zinc-950 md:py-32"
-      >
-        <Container>
-          <div
-            className="mb-16 max-w-3xl scroll-mt-28"
-            data-scroll-target="experience"
-          >
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
-              Professional Journey
-            </p>
-            <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
-              专业履历与实践
-            </h2>
-            <p className="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-              从底层架构优化到 AI 原生应用落地，我的工作始终围绕“复杂问题的系统化解决”与“真实业务价值的交付”展开。这里记录了我在不同阶段的核心贡献与技术沉淀。
-            </p>
-          </div>
-          <Timeline items={timelineByDate} />
-        </Container>
-      </Section>
-
-      <Section
-        id="projects"
-        className="relative scroll-mt-24 bg-zinc-50 py-24 dark:bg-zinc-950/50 md:py-32"
-      >
-        <Container>
-          <div
-            className="mb-16 grid gap-8 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end"
-            data-scroll-target="projects"
-          >
-            <div className="max-w-3xl">
-              <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
-                More Explorations
-              </p>
-              <h2 className="mb-5 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-4xl">
-                开源与更多探索
+      <MotionWrapper delay={0.08} duration={0.54} amount={0.12}>
+        <Section
+          id="experience"
+          className="theme-grid-section relative z-10 scroll-mt-24 border-y section-divider py-24 md:py-32"
+        >
+          <Container>
+            <div
+              className="mb-16 max-w-3xl scroll-mt-28"
+              data-scroll-target="experience"
+            >
+              <p className="theme-kicker mb-3">Professional Journey</p>
+              <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+                专业履历与实践
               </h2>
-              <p className="text-[15px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-                除了核心商业项目，我也在开源社区和业余时间持续探索。这里收录了我在不同技术栈和业务场景下的完整工程实践。
+              <p className="theme-copy text-[15px] leading-relaxed">
+                从底层架构优化到 AI 原生应用落地，我的工作始终围绕“复杂问题的系统化解决”与“真实业务价值的交付”展开。这里记录了我在不同阶段的核心贡献与技术沉淀。
               </p>
             </div>
-            <div className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-              <p className="flex items-center gap-2 text-[13px] font-bold text-zinc-900 dark:text-zinc-100">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-zinc-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-zinc-500" />
-                </span>
-                阅读导航
-              </p>
-              <p className="mt-2.5 text-[13px] leading-relaxed text-zinc-600 dark:text-zinc-400">
-                默认按项目影响力和技术深度排序。你可以通过下方标签快速筛选自己关心的技术栈或业务领域。
-              </p>
+            <Timeline items={timelineByDate} />
+          </Container>
+        </Section>
+      </MotionWrapper>
+
+      <MotionWrapper delay={0.1} duration={0.54} amount={0.12}>
+        <Section
+          id="projects"
+          className="theme-grid-section-strong relative z-10 scroll-mt-24 py-24 md:py-32"
+        >
+          <Container>
+            <div
+              className="mb-16 grid gap-8 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end"
+              data-scroll-target="projects"
+            >
+              <div className="max-w-3xl">
+                <p className="theme-kicker mb-3">More Explorations</p>
+                <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+                  开源与更多探索
+                </h2>
+                <p className="theme-copy text-[15px] leading-relaxed">
+                  除了核心商业项目，我也在开源社区和业余时间持续探索。这里收录了我在不同技术栈和业务场景下的完整工程实践。
+                </p>
+              </div>
+              <div className="theme-card rounded-[1.5rem] p-5">
+                <p className="flex items-center gap-2 text-[13px] font-bold text-[color:var(--text-primary)]">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-600" />
+                  </span>
+                  阅读导航
+                </p>
+                <p className="theme-copy mt-2.5 text-[13px] leading-relaxed">
+                  默认按项目影响力和技术深度排序。你可以通过下方标签快速筛选自己关心的技术栈或业务领域。
+                </p>
+              </div>
             </div>
-          </div>
-          <ProjectList items={data.projects} />
-        </Container>
-      </Section>
+            <ProjectList items={data.projects} />
+          </Container>
+        </Section>
+      </MotionWrapper>
 
-      <div id="skills" className="relative scroll-mt-24">
-        <TechStack skills={data.skills} vibeCoding={data.vibeCoding} />
-      </div>
+      <MotionWrapper delay={0.12} duration={0.56} amount={0.12}>
+        <div
+          id="skills"
+          className="theme-grid-section relative z-10 scroll-mt-24"
+        >
+          <TechStack skills={data.skills} vibeCoding={data.vibeCoding} />
+        </div>
+      </MotionWrapper>
 
-      <div id="services" className="relative scroll-mt-24">
-        <Services services={data.services} />
-      </div>
+      <MotionWrapper delay={0.14} duration={0.56} amount={0.12}>
+        <div
+          id="services"
+          className="theme-grid-section relative z-10 scroll-mt-24"
+        >
+          <Services services={data.services} />
+        </div>
+      </MotionWrapper>
 
-      <div
-        id="contact"
-        className="relative scroll-mt-24 border-t border-zinc-200 dark:border-zinc-800"
-      >
-        <Contact contactData={data.contact} />
-      </div>
+      <MotionWrapper delay={0.16} duration={0.58} amount={0.12}>
+        <div
+          id="contact"
+          className="theme-grid-section relative z-10 scroll-mt-24 border-t section-divider"
+        >
+          <Contact contactData={data.contact} />
+        </div>
+      </MotionWrapper>
 
-      <Footer
-        name={data.hero.name}
-        githubUrl={data.contact.github}
-        websiteLinks={data.contact.websiteLinks}
-      />
+      <MotionWrapper delay={0.18} duration={0.58} amount={0.12}>
+        <div className="theme-grid-section relative z-10">
+          <Footer
+            name={data.hero.name}
+            githubUrl={data.contact.github}
+            websiteLinks={data.contact.websiteLinks}
+          />
+        </div>
+      </MotionWrapper>
     </main>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Noto_Sans_SC, Outfit } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { defaultPortfolioData } from "@/data";
@@ -6,6 +7,20 @@ import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
 import { MotionProvider } from "@/lib/MotionProvider";
 import { WebVitals } from "@/lib/performance";
 import { SkipToContent } from "@/components/SkipToContent";
+
+const notoSansSC = Noto_Sans_SC({
+  variable: "--font-app-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-app-heading",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -105,7 +120,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="font-body subpixel-antialiased" suppressHydrationWarning>
+      <body
+        className={`${notoSansSC.variable} ${outfit.variable} font-body subpixel-antialiased`}
+        suppressHydrationWarning
+      >
         <AnalyticsProvider>
           <MotionProvider>
             <WebVitals />

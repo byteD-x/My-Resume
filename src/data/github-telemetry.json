@@ -1,15 +1,9 @@
 {
-  "followers": 1,
-  "public_repos": 10,
-  "totalStars": 9,
-  "specificRepos": [
-    {
-      "name": "My-Resume",
-      "stars": 0,
-      "url": "https://github.com/byteD-x/My-Resume"
-    }
-  ],
-  "source": "github-api",
-  "isPartial": false,
-  "message": "数据更新于 2026/3/13 00:58:48 (构建快照)"
+  "followers": null,
+  "public_repos": null,
+  "totalStars": null,
+  "specificRepos": [],
+  "source": "fallback",
+  "isPartial": true,
+  "message": "构建时数据获取失败，使用本地降级数据。"
 }
