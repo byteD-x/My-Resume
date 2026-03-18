@@ -68,7 +68,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
   };
 
   return (
-    <section className="relative overflow-hidden border-b section-divider bg-white pb-14 pt-24 sm:pb-16 sm:pt-28 md:pb-24 md:pt-34">
+    <section className="relative overflow-hidden border-b section-divider bg-white pb-14 pt-24 sm:pb-16 sm:pt-28 md:pb-24 md:pt-32">
       <div className="hero-grid-bg hero-grid-fade pointer-events-none absolute inset-0 z-0 opacity-100" />
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -left-20 top-10 h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.65),transparent_72%)] blur-3xl md:h-[28rem] md:w-[28rem]" />
@@ -105,15 +105,16 @@ export default function Hero({ data, proofItems }: HeroProps) {
 
             <motion.p
               variants={itemVariants}
-              className="theme-copy mb-10 max-w-[36rem] text-[15px] leading-7 md:mb-10 md:text-[1.02rem] md:leading-8"
+              className="theme-copy mb-8 max-w-[37rem] text-[15px] leading-7 md:mb-9 md:text-[1.02rem] md:leading-8"
             >
               {data.subtitle}
             </motion.p>
 
             <motion.div
               variants={itemVariants}
-              className="theme-card-muted mb-10 w-full rounded-[1.8rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_18px_38px_rgba(15,23,42,0.06)] sm:p-6 md:p-7"
+              className="theme-card-muted mb-10 w-full rounded-[1.8rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:p-6 md:p-7"
             >
+              <p className="theme-card-kicker mb-5">价值主线</p>
               <div className="mb-6 border-b border-[color:var(--border-default)] pb-5">
                 <HeroBullets bullets={data.bullets} />
               </div>

@@ -117,7 +117,7 @@ export function AppointmentModal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={overlayTransition}
-            className="fixed inset-0 z-50 bg-[rgba(15,23,42,0.34)] backdrop-blur-[8px]"
+            className="theme-dialog-overlay fixed inset-0 z-50"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -139,7 +139,7 @@ export function AppointmentModal({
                 : { opacity: 0, scale: 0.985, y: 18 }
             }
             transition={modalTransition}
-            className="theme-card fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[1.5rem] p-6 shadow-[var(--shadow-lg)]"
+            className="theme-dialog-shell fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[1.5rem] p-6"
           >
             <button
               type="button"
@@ -189,10 +189,10 @@ export function AppointmentModal({
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full rounded-xl border bg-[rgba(var(--surface-rgb),0.92)] py-3 pl-10 pr-4 text-[color:var(--text-primary)] transition-all placeholder:text-[color:var(--text-tertiary)] focus:outline-none focus:ring-2 ${
+                      className={`theme-input-field py-3 pl-10 pr-4 focus:ring-2 ${
                         errors.name
                           ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
-                          : "border-[color:var(--border-default)] focus:border-[rgba(37,99,235,0.28)] focus:ring-[rgba(37,99,235,0.12)]"
+                          : "focus:ring-[rgba(37,99,235,0.12)]"
                       }`}
                       placeholder="请输入姓名"
                     />
@@ -225,10 +225,10 @@ export function AppointmentModal({
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full rounded-xl border bg-[rgba(var(--surface-rgb),0.92)] py-3 pl-10 pr-4 text-[color:var(--text-primary)] transition-all placeholder:text-[color:var(--text-tertiary)] focus:outline-none focus:ring-2 ${
+                      className={`theme-input-field py-3 pl-10 pr-4 focus:ring-2 ${
                         errors.email
                           ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
-                          : "border-[color:var(--border-default)] focus:border-[rgba(37,99,235,0.28)] focus:ring-[rgba(37,99,235,0.12)]"
+                          : "focus:ring-[rgba(37,99,235,0.12)]"
                       }`}
                       placeholder="your@email.com"
                     />
@@ -255,7 +255,7 @@ export function AppointmentModal({
                       value={formData.message}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full resize-none rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] py-3 pl-10 pr-4 text-[color:var(--text-primary)] transition-all placeholder:text-[color:var(--text-tertiary)] focus:border-[rgba(37,99,235,0.28)] focus:outline-none focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
+                      className="theme-input-field resize-none py-3 pl-10 pr-4 focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
                       placeholder="简要说明你的需求或想了解的内容..."
                     />
                   </div>

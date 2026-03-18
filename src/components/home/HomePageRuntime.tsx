@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 import ImmersiveBackdrop from "@/components/ImmersiveBackdrop";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import FloatingResumeButton from "@/components/FloatingResumeButton";
@@ -20,6 +21,7 @@ const EngineeringCommandCenter = dynamic(
 export function HomePageRuntime() {
   const isLowPerformanceMode = useLowPerformanceMode();
   const [showCommandCenter, setShowCommandCenter] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     const state = readScrollRestore();
@@ -63,12 +65,88 @@ export function HomePageRuntime() {
 
     return () => window.clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => setIsMobileViewport(media.matches);
+    syncViewport();
+    media.addEventListener("change", syncViewport);
+    return () => media.removeEventListener("change", syncViewport);
+  }, []);
+
   return (
     <>
       <ImmersiveBackdrop />
-      {!isLowPerformanceMode && <ScrollProgressBar />}
-      {showCommandCenter ? <EngineeringCommandCenter /> : null}
-      <FloatingResumeButton />
+
+      {showCommandCenter ? (
+        <>
+          {!isMobileViewport ? (
+            <aside
+              data-print="hide"
+              className="pointer-events-none fixed right-4 top-1/2 z-40 w-[16.5rem] -translate-y-1/2 xl:right-6"
+              aria-label="快捷操作"
+            >
+              <div className="theme-floating-dock pointer-events-none rounded-[1.5rem] p-3.5">
+                <div className="border-b border-[color:var(--border-muted)] pb-3">
+                  <p className="theme-floating-label">Quick Access</p>
+                  <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-[color:var(--text-primary)]">
+                    <Sparkles size={14} className="text-[color:var(--brand-gold)]" />
+                    工程证明入口
+                  </p>
+                  <p className="theme-floating-meta mt-1">
+                    把运行指标、作品证据和联系动作收在同一个悬浮框里。
+                  </p>
+                </div>
+
+                <div className="mt-3 flex flex-col gap-3">
+                  <EngineeringCommandCenter className="w-full" />
+
+                  <div className="border-t border-[color:var(--border-muted)] pt-3">
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <p className="theme-floating-label">Secondary</p>
+                      <span className="theme-floating-meta inline-flex items-center gap-1">
+                        Scroll
+                        <ArrowUpRight size={12} />
+                      </span>
+                    </div>
+                    {!isLowPerformanceMode ? (
+                      <ScrollProgressBar variant="dock" />
+                    ) : null}
+                  </div>
+
+                  <div className="border-t border-[color:var(--border-muted)] pt-3">
+                    <p className="theme-floating-label mb-2">Actions</p>
+                    <FloatingResumeButton
+                      desktopVariant="dock"
+                      mobileVariant="hidden"
+                    />
+                  </div>
+                </div>
+              </div>
+            </aside>
+          ) : (
+            <div
+              data-print="hide"
+              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
+            >
+              <div className="theme-floating-dock pointer-events-none rounded-[1.4rem] p-2.5">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between gap-3 px-1">
+                    <p className="theme-floating-label">Quick Access</p>
+                    <span className="theme-floating-meta">作品集控制台</span>
+                  </div>
+                  <EngineeringCommandCenter compact className="w-full" />
+                  <FloatingResumeButton
+                    desktopVariant="hidden"
+                    mobileVariant="inline"
+                    mobileClassName="w-full"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      ) : null}
     </>
   );
 }

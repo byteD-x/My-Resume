@@ -79,7 +79,7 @@ export function CapabilitySummary({
             核心工程能力
           </h2>
           <p className="theme-copy text-[15px] leading-relaxed">
-            不盲从技术热词，而是聚焦于构建稳定、可扩展、具有实际业务价值的系统架构。这是我能够持续、高质量交付的专业基石。
+            我更关注系统是否稳定、是否可验证、是否能支撑真实业务，而不是只展示技术名词。这些能力决定了项目能否真正上线并长期维护。
           </p>
         </div>
 
@@ -112,7 +112,7 @@ export function CapabilitySummary({
                 {card.bullet ? (
                   <div className="theme-card-muted mt-7 rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-5">
                     <p className="theme-card-kicker mb-2">
-                      Evidence Snapshot
+                      Evidence Snapshot / 证据切片
                     </p>
                     <p className="theme-title text-[13px] font-semibold">
                       {card.bullet.title}

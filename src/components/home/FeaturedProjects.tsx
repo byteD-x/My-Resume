@@ -8,14 +8,14 @@ import {
   MessageSquareMore,
   ShieldCheck,
 } from "lucide-react";
-import { ProjectItem } from "@/types";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { saveScrollRestore } from "@/lib/scroll-restore";
 import { scrollToSection } from "@/lib/section-scroll";
+import { HomepageFeaturedCard } from "@/lib/home-highlights";
 
 interface FeaturedProjectsProps {
-  items: ProjectItem[];
+  items: HomepageFeaturedCard[];
 }
 
 const iconByIndex = [Layers3, Gauge, ShieldCheck, MessageSquareMore];
@@ -46,7 +46,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
               精选工程实践
             </h2>
             <p className="theme-copy text-[15px] leading-8">
-              深入拆解复杂业务场景与系统设计，展示我如何从需求分析、架构选型到最终落地，实现端到端的生产级工程交付闭环。
+              这组案例不只是展示项目结果，而是重点说明我具体做了什么内容、交付了什么功能，以及核心架构和关键链路是怎样落地的。
             </p>
           </div>
           <button
@@ -69,7 +69,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
             return (
               <Link
                 key={item.id}
-                href={`/experiences/${item.id}`}
+                href={item.href}
                 scroll={false}
                 onClick={handleOpen}
                 className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.75rem] border-[rgba(148,163,184,0.16)] p-6 shadow-[0_18px_38px_rgba(15,23,42,0.06)] md:p-8"
@@ -78,8 +78,8 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   <div className="theme-icon-box theme-icon-box-sm motion-chip">
                     <Icon size={18} strokeWidth={2} className="motion-icon-float" />
                   </div>
-                  <div className="theme-chip-strong px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em]">
-                    Priority 0{index + 1}
+                  <div className="theme-chip-strong max-w-[11rem] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-right">
+                    {item.focus}
                   </div>
                 </div>
 
@@ -88,29 +88,32 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                     <h3 className="theme-card-title text-[1.42rem]">
                       {item.name}
                     </h3>
-                    <p className="theme-card-body mt-4 text-[14px]">
-                      {item.summary}
+                  </div>
+
+                  <div className="theme-card-muted rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-5">
+                    <p className="theme-card-kicker mb-2.5">
+                      内容定位
+                    </p>
+                    <p className="text-[14px] leading-relaxed text-[color:var(--text-primary)]">
+                      {item.contentSummary}
                     </p>
                   </div>
 
                   <div className="theme-card-muted rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-5">
                     <p className="theme-card-kicker mb-2.5">
-                      Core Challenge
+                      功能描述
                     </p>
                     <p className="text-[14px] leading-relaxed text-[color:var(--text-primary)]">
-                      {item.keyOutcomes?.[0] ??
-                        item.impact ??
-                        "深入项目详情，了解完整的架构决策与技术难点攻克过程。"}
+                      {item.capabilitySummary}
                     </p>
                   </div>
 
                   <div className="border-t border-[color:var(--border-default)] pt-6">
                     <p className="theme-card-kicker mb-2.5">
-                      Business Value
+                      技术描述
                     </p>
                     <p className="text-[14px] leading-relaxed text-[color:var(--text-primary)]">
-                      {item.keyOutcomes?.[1] ??
-                        "完整的业务收益与验证结果，请参阅项目详情页中的详细说明。"}
+                      {item.technicalSummary}
                     </p>
                   </div>
                 </div>
@@ -128,7 +131,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
 
                   <div className="inline-flex items-center gap-2 text-[13px] font-semibold text-[color:var(--text-primary)]">
-                    Case Study
+                    查看案例拆解
                     <ArrowRight
                       size={14}
                       className="motion-arrow-shift"

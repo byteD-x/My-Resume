@@ -20,19 +20,19 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
         duration: 0.5,
         ease: EASING_CURVES.OUT_EXPO,
       }}
-      className="theme-card relative overflow-hidden rounded-[1.95rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_20px_42px_rgba(15,23,42,0.08)] sm:p-6 md:p-8 lg:p-9"
+      className="theme-card relative overflow-hidden rounded-[1.95rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_18px_36px_rgba(15,23,42,0.07)] sm:p-6 md:p-8 lg:p-9"
     >
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(219,234,254,0.78),transparent)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(219,234,254,0.62),transparent)]" />
       <div className="relative z-10">
         <div className="mb-8 flex items-end justify-between gap-4 border-b border-[color:var(--border-default)] pb-6">
           <div>
-            <p className="theme-card-kicker">Selected Work</p>
+            <p className="theme-card-kicker">Selected Evidence</p>
             <h2 className="theme-title mt-2 text-[1.35rem] font-bold tracking-tight">
-              近期核心实战
+              近期代表性项目
             </h2>
           </div>
           <div className="theme-chip-strong px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em]">
-            Evidence First
+            可复核
           </div>
         </div>
 

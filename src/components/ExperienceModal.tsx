@@ -85,7 +85,7 @@ export function ExperienceModal({
           exit={{ opacity: 0 }}
           transition={overlayTransition}
           onClick={closeModal}
-          className="absolute inset-0 bg-[rgba(15,23,42,0.34)] backdrop-blur-[10px]"
+          className="theme-dialog-overlay absolute inset-0"
           aria-hidden="true"
         />
       )}
@@ -94,7 +94,6 @@ export function ExperienceModal({
       <motion.div
         ref={containerRef}
         layoutId={useSharedLayout ? `card-${item.id}` : undefined}
-        className="theme-card relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[1.75rem] shadow-2xl"
         initial={
           useSharedLayout
             ? undefined
@@ -113,9 +112,10 @@ export function ExperienceModal({
               : { opacity: 0, scale: 0.985, y: 18 }
         }
         transition={contentTransition}
+        className="theme-dialog-shell relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-[1.75rem]"
       >
         {/* Header */}
-        <div className="relative border-b border-[color:var(--border-default)] bg-[rgba(248,250,252,0.94)] p-6 sm:p-8">
+        <div className="theme-panel relative border-b border-[color:var(--border-default)] p-6 sm:p-8">
           <button
             onClick={closeModal}
             aria-label="关闭弹窗"

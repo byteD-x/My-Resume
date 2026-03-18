@@ -8,14 +8,14 @@ export const defaultPortfolioData: PortfolioData = {
     name: "杜旭嘉",
     title: "AI 应用工程师（RAG / Agent）",
     subtitle:
-      "聚焦 RAG、Agent 工作流与业务系统集成，做过企业知识问答、Agent 运行时与成本治理，强调可恢复、可评测、可复核的工程交付。",
+      "聚焦 RAG、Agent 运行时与业务系统集成，持续把原型推进为可恢复、可评测、可复核、能接真实业务的工程系统。",
     location: "远程优先 ｜ 可到岗：深圳 / 南京 / 杭州 / 成都",
     bullets: [
       {
         id: "bullet-1",
         title: "检索与编排",
         description:
-          "混合检索 + LangGraph 运行时，支持 citations / grounding_score / interrupt-resume / step_events",
+          "混合检索 + LangGraph 运行时，覆盖 citations / grounding_score / interrupt-resume / step_events",
       },
       {
         id: "bullet-2",
@@ -27,7 +27,7 @@ export const defaultPortfolioData: PortfolioData = {
         id: "bullet-3",
         title: "成本与交付",
         description:
-          "做过 5x 提速与 40% 成本下降，并用 lint / build / test / e2e / regression gate 约束交付质量",
+          "做过 5x 提速与 40% 成本下降，并以 lint / build / test / e2e / regression gate 约束交付质量",
       },
     ],
     quickFacts: {
@@ -54,7 +54,7 @@ export const defaultPortfolioData: PortfolioData = {
   },
 
   about: {
-    zh: "AI 应用工程师，主攻 RAG 检索增强、Agent/工作流编排与业务系统集成；能把 Demo 做成可恢复、可评测、可接入真实业务的系统，并坚持用仓库、测试与指标证明结果。",
+    zh: "AI 应用工程师，主攻 RAG 检索增强、Agent/工作流编排与业务系统集成；习惯把 Demo 收敛成可恢复、可评测、可接入真实业务的系统，并坚持用仓库、测试与指标证明结果。",
     en: "AI application engineer focused on RAG, workflow orchestration, and business-system integration, with a bias toward recoverable, testable, and evidence-backed delivery.",
   },
 

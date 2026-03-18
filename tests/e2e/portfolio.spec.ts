@@ -225,7 +225,16 @@ test.describe('Portfolio E2E', () => {
         await expect(page.getByText('w2041487752')).toBeVisible();
     });
 
-    test('scroll progress bar should be visible after scrolling (desktop)', async ({ page }) => {
+    test('featured projects should present content, capability and technical structure', async ({ page }) => {
+        await scrollSectionIntoView(page, '#projects');
+
+        await expect(page.getByText('内容定位').first()).toBeVisible();
+        await expect(page.getByText('功能描述').first()).toBeVisible();
+        await expect(page.getByText('技术描述').first()).toBeVisible();
+        await expect(page.getByRole('link', { name: /查看案例拆解/i }).first()).toBeVisible();
+    });
+
+    test('scroll progress dock should support back to top (desktop)', async ({ page }) => {
         const viewport = page.viewportSize();
         test.skip(!viewport || viewport.width < 768, 'desktop only');
 
@@ -238,5 +247,11 @@ test.describe('Portfolio E2E', () => {
         await page.evaluate(() => window.scrollTo(0, 600));
         await page.waitForTimeout(250);
         await expect(page.locator('[role="progressbar"]')).toBeVisible();
+        const backToTopButton = page.getByRole('button', { name: /回到顶部/i }).first();
+        await expect(backToTopButton).toBeVisible();
+        await backToTopButton.click();
+        await expect
+            .poll(async () => page.evaluate(() => window.scrollY), { timeout: 5000 })
+            .toBeLessThan(40);
     });
 });

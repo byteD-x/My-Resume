@@ -379,8 +379,8 @@ p {
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.62) 0%,
-    rgba(255, 255, 255, 0) 30%
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(255, 255, 255, 0) 24%
   );
 }
 
@@ -407,22 +407,22 @@ p {
 
 .theme-card-interactive {
   transition:
-    transform 420ms var(--ease-emphasized),
+    transform 360ms var(--ease-emphasized),
     border-color var(--duration-fast) ease,
-    box-shadow 420ms var(--ease-emphasized),
+    box-shadow 360ms var(--ease-emphasized),
     background-color var(--duration-fast) ease,
     filter var(--duration-fast) ease;
   will-change: transform, box-shadow;
 }
 
 .theme-card-interactive:hover {
-  transform: translateY(-5px) scale(1.003);
-  box-shadow: var(--shadow-card-hover);
-  filter: saturate(1.02);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  filter: saturate(1.01);
 }
 
 .theme-card-interactive:active {
-  transform: translateY(-1px) scale(0.996);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-md);
   filter: saturate(0.99);
 }
@@ -481,10 +481,10 @@ p {
 }
 
 .theme-panel {
-  background: rgba(var(--surface-rgb), 0.88);
+  background: rgba(var(--surface-rgb), 0.94);
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(18px) saturate(1.06);
+  backdrop-filter: blur(16px) saturate(1.04);
 }
 
 .theme-kicker {
@@ -607,7 +607,7 @@ p {
 
 .motion-icon-float {
   transition:
-    transform 360ms var(--ease-emphasized),
+    transform 320ms var(--ease-emphasized),
     color var(--duration-fast) ease,
     filter var(--duration-fast) ease;
   will-change: transform;
@@ -615,13 +615,13 @@ p {
 
 .group:hover .motion-icon-float,
 .motion-icon-float:hover {
-  transform: translateY(-2px) scale(1.045);
-  filter: saturate(1.05);
+  transform: translateY(-1px) scale(1.02);
+  filter: saturate(1.03);
 }
 
 .group:active .motion-icon-float,
 .motion-icon-float:active {
-  transform: translateY(0) scale(0.985);
+  transform: translateY(0) scale(0.99);
 }
 
 .motion-arrow-shift {
@@ -633,7 +633,7 @@ p {
 
 .group:hover .motion-arrow-shift,
 .motion-arrow-shift:hover {
-  transform: translate3d(4px, -1px, 0);
+  transform: translate3d(3px, -1px, 0);
 }
 
 .group:active .motion-arrow-shift,
@@ -655,11 +655,91 @@ p {
 }
 
 .motion-chip:hover {
-  transform: translateY(-1px);
+  transform: translateY(-0.5px);
 }
 
 .motion-chip:active {
   transform: translateY(0) scale(0.985);
+}
+
+.theme-dialog-overlay {
+  background: rgba(15, 23, 42, 0.26);
+  backdrop-filter: blur(10px);
+}
+
+.theme-dialog-shell {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--surface-rgb), 0.98) 0%,
+    rgba(var(--surface-muted-rgb), 0.88) 100%
+  );
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-lg);
+}
+
+.theme-input-field {
+  width: 100%;
+  border-radius: 0.95rem;
+  border: 1px solid var(--border-default);
+  background: rgba(var(--surface-rgb), 0.94);
+  color: var(--text-primary);
+  transition:
+    border-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    background-color var(--duration-fast) ease;
+}
+
+.theme-input-field::placeholder {
+  color: var(--text-tertiary);
+}
+
+.theme-input-field:focus {
+  border-color: rgba(37, 99, 235, 0.26);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+  outline: none;
+}
+
+.theme-floating-dock {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--surface-rgb), 0.9) 0%,
+    rgba(var(--surface-muted-rgb), 0.82) 100%
+  );
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(16px) saturate(1.04);
+}
+
+.theme-floating-trigger {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(var(--surface-rgb), 0.94);
+  color: var(--text-primary);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.theme-floating-trigger-strong {
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.98) 0%,
+    rgba(239, 246, 255, 0.92) 100%
+  );
+  color: var(--text-primary);
+  box-shadow: 0 14px 34px rgba(37, 99, 235, 0.12);
+}
+
+.theme-floating-meta {
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.theme-floating-label {
+  color: var(--text-tertiary);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
 }
 
 .motion-chip-label {

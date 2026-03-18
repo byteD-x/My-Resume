@@ -139,7 +139,7 @@ export default function HomePage() {
                 专业履历与实践
               </h2>
               <p className="theme-copy text-[15px] leading-relaxed">
-                从底层架构优化到 AI 原生应用落地，我的工作始终围绕“复杂问题的系统化解决”与“真实业务价值的交付”展开。这里记录了我在不同阶段的核心贡献与技术沉淀。
+                从底层架构优化到 AI 原生应用落地，我的工作始终围绕“复杂问题的系统化解决”与“真实业务价值的交付”展开。这里按时间线整理我的关键职责、代表结果与方法沉淀。
               </p>
             </div>
             <Timeline items={timelineByDate} />
@@ -163,7 +163,7 @@ export default function HomePage() {
                   开源与更多探索
                 </h2>
                 <p className="theme-copy text-[15px] leading-relaxed">
-                  除了核心商业项目，我也在开源社区和业余时间持续探索。这里收录了我在不同技术栈和业务场景下的完整工程实践。
+                  除了核心商业项目，我也持续在开源和个人项目中验证新思路。这里收录的是更完整的工程实践，而不只是 demo 级展示。
                 </p>
               </div>
               <div className="theme-card rounded-[1.5rem] p-5">
@@ -175,7 +175,7 @@ export default function HomePage() {
                   阅读导航
                 </p>
                 <p className="theme-copy mt-2.5 text-[13px] leading-relaxed">
-                  默认按项目影响力和技术深度排序。你可以通过下方标签快速筛选自己关心的技术栈或业务领域。
+                  默认按项目影响力与技术深度排序。你可以通过下方标签快速筛选感兴趣的技术栈、业务场景或交付类型。
                 </p>
               </div>
             </div>

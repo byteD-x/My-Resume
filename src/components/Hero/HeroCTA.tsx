@@ -65,7 +65,7 @@ export function HeroCTA({
         aria-label="下载简历 PDF"
       >
         <Download size={18} />
-        下载简历 PDF
+        下载简历
       </a>
 
       <button
@@ -76,7 +76,7 @@ export function HeroCTA({
         aria-label="查看项目证据"
       >
         <ArrowRight size={18} />
-        查看项目证据
+        查看已验证项目
       </button>
     </motion.div>
   );

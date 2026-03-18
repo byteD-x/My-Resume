@@ -38,6 +38,7 @@ import {
   type RuntimeMetric,
   subscribeRuntimeSnapshot,
 } from "@/lib/runtime-metrics-store";
+import { cn } from "@/lib/utils";
 
 type TelemetryState = "idle" | "loading" | "ready" | "error";
 
@@ -180,7 +181,15 @@ interface OverviewItem {
   icon: LucideIcon;
 }
 
-export default function EngineeringCommandCenter() {
+interface EngineeringCommandCenterProps {
+  className?: string;
+  compact?: boolean;
+}
+
+export default function EngineeringCommandCenter({
+  className,
+  compact = false,
+}: EngineeringCommandCenterProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [githubTelemetry, setGithubTelemetry] =
     useState<GitHubTelemetryPayload>(
@@ -291,7 +300,7 @@ export default function EngineeringCommandCenter() {
     return null;
   }
 
-  return createPortal(
+  return (
     <>
       <button
         type="button"
@@ -299,45 +308,58 @@ export default function EngineeringCommandCenter() {
           setIsOpen(true);
           void fetchTelemetry({ force: true });
         }}
-        className="theme-card motion-chip fixed bottom-4 right-4 z-[110] inline-flex w-auto max-w-[calc(100vw-2rem)] items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-[color:var(--text-primary)] backdrop-blur transition hover:-translate-y-0.5 hover:border-[rgba(37,99,235,0.22)] md:bottom-6 md:right-6 md:max-w-none"
+        className={cn(
+          compact
+            ? "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 items-center justify-center gap-2 rounded-[1.15rem] px-3.5 py-3 text-sm font-semibold"
+            : "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 items-center justify-between gap-3 rounded-[1.2rem] px-4 py-3.5 text-left text-sm font-semibold",
+          className,
+        )}
         aria-label="Engineering Command Center / 打开工程实力中枢"
       >
-        <Sparkles size={16} className="motion-icon-float" />
-        工程实力中枢
+        <span className="inline-flex items-center gap-2">
+          <Sparkles size={16} className="motion-icon-float shrink-0" />
+          <span className="truncate">{compact ? "工程中枢" : "工程实力中枢"}</span>
+        </span>
+        {compact ? null : (
+          <span className="theme-floating-meta hidden text-right lg:inline">
+            实时指标 · GitHub · 栈指纹
+          </span>
+        )}
       </button>
 
-      <AnimatePresence>
-        {isOpen ? (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={overlayTransition}
-              className="fixed inset-0 z-[90] bg-[rgba(15,23,42,0.34)] backdrop-blur-[10px]"
-              onClick={() => setIsOpen(false)}
-              aria-hidden="true"
-            />
+      {createPortal(
+        <AnimatePresence>
+          {isOpen ? (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={overlayTransition}
+                className="theme-dialog-overlay fixed inset-0 z-[90]"
+                onClick={() => setIsOpen(false)}
+                aria-hidden="true"
+              />
 
-            <motion.aside
-              ref={panelRef}
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="engineering-command-center-title"
-              initial={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { x: "100%", opacity: 0.94, scale: 0.992 }
-              }
-              animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { x: "100%", opacity: 0.96, scale: 0.996 }
-              }
-              transition={panelTransition}
-              className="fixed right-0 top-0 z-[100] h-full w-full max-w-[52rem] overflow-y-auto border-l border-[color:var(--border-default)] bg-[linear-gradient(180deg,rgba(var(--surface-rgb),0.98),rgba(var(--surface-muted-rgb),0.62)_54%,rgba(var(--surface-rgb),0.98))] shadow-2xl"
-            >
+              <motion.aside
+                ref={panelRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="engineering-command-center-title"
+                initial={
+                  shouldReduceMotion
+                    ? { opacity: 0 }
+                    : { x: "100%", opacity: 0.94, scale: 0.992 }
+                }
+                animate={{ x: 0, opacity: 1, scale: 1 }}
+                exit={
+                  shouldReduceMotion
+                    ? { opacity: 0 }
+                    : { x: "100%", opacity: 0.96, scale: 0.996 }
+                }
+                transition={panelTransition}
+                className="theme-dialog-shell fixed right-0 top-0 z-[100] h-full w-full max-w-[52rem] overflow-y-auto border-l border-[color:var(--border-default)]"
+              >
               <header className="theme-panel sticky top-0 z-20 border-b border-[color:var(--border-default)] backdrop-blur-xl">
                 <div className="px-5 py-5 md:px-6">
                   <div className="flex items-start justify-between gap-4">
@@ -594,11 +616,12 @@ export default function EngineeringCommandCenter() {
                   </div>
                 </div>
               </div>
-            </motion.aside>
-          </>
-        ) : null}
-      </AnimatePresence>
-    </>,
-    document.body
+              </motion.aside>
+            </>
+          ) : null}
+        </AnimatePresence>,
+        document.body,
+      )}
+    </>
   );
 }
