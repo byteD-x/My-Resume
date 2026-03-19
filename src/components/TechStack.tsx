@@ -92,10 +92,10 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
   }, [skills]);
 
   return (
-    <Section className="theme-grid-section relative border-y section-divider py-24 md:py-32">
+    <Section className="theme-grid-section theme-section-balanced relative border-y section-divider">
       <Container>
         <div
-          className="mb-16 max-w-3xl scroll-mt-28"
+          className="theme-section-header scroll-mt-28"
           data-scroll-target="skills"
         >
           <p className="theme-kicker mb-3">
@@ -104,12 +104,12 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
             技术栈与能力边界
           </h2>
-          <p className="theme-copy text-[15px] leading-8">
+          <p className="theme-section-copy">
             工具只是手段，解决复杂问题才是目的。这里不堆砌名词，而是按照我在不同场景下的掌控力对技术栈分层，方便快速判断我能独立负责什么、能协作补位什么。
           </p>
         </div>
 
-        <div className="theme-card-muted mb-12 rounded-[1.6rem] border-[rgba(148,163,184,0.14)] p-6 shadow-[0_16px_34px_rgba(15,23,42,0.05)] md:p-8">
+        <div className="theme-card-muted mb-10 rounded-[1.45rem] border-[rgba(148,163,184,0.14)] p-5 shadow-[0_16px_34px_rgba(15,23,42,0.05)] sm:mb-12 sm:p-6 md:rounded-[1.6rem] md:p-8">
           <div className="flex items-start gap-5">
             <div className="theme-icon-box theme-icon-box-md">
               <BrainCircuit size={22} strokeWidth={2} />
@@ -128,7 +128,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           </div>
         </div>
 
-        <div className="mb-12 grid gap-6 lg:grid-cols-3 lg:[grid-auto-rows:1fr]">
+        <div className="mb-10 grid gap-5 lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6 sm:mb-12">
           {strategyCards.map((card, index) => (
             <motion.article
               key={card.id}
@@ -140,7 +140,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                 duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 transition-colors hover:border-[rgba(37,99,235,0.22)]"
+              className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem]"
             >
               <p className="theme-card-kicker mb-3.5">
                 Capability Layer
@@ -194,7 +194,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 lg:p-8"
+                className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 sm:p-6 md:rounded-[1.6rem] lg:p-8"
               >
                 <div className="mb-7 flex min-h-[7.75rem] items-start gap-4 border-b border-[color:var(--border-default)] pb-5">
                   <div className="theme-icon-box theme-icon-box-sm">

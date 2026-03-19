@@ -111,10 +111,10 @@ export function ProjectList({ items }: ProjectListProps) {
         animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         viewport={shouldAnimateInView ? { once: true } : undefined}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="theme-card rounded-[1.65rem] p-4 md:p-6"
+        className="theme-card rounded-[1.45rem] p-4 sm:p-5 md:rounded-[1.65rem] md:p-6"
       >
         <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
-          <div className="relative min-w-[240px] flex-1">
+          <div className="relative min-w-0 flex-1">
             <Search
               size={16}
               className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[color:var(--text-tertiary)]"
@@ -175,7 +175,7 @@ export function ProjectList({ items }: ProjectListProps) {
           </div>
         </div>
 
-        <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div className="mb-4 flex flex-wrap items-center gap-2.5">
           {["all", ...techFilters].map((tag) => {
             const isActive = activeTech === tag;
             const label = tag === "all" ? "全部" : tag;
@@ -259,7 +259,7 @@ export function ProjectList({ items }: ProjectListProps) {
           </button>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
           <AnimatePresence mode="popLayout">
             {visibleItems.map((item) => (
               <motion.div

@@ -113,14 +113,14 @@ export default function HighlightDeck({
 
   return (
     <>
-      <section className="theme-grid-section relative z-10 py-24 md:py-32">
+      <section className="theme-grid-section theme-section-balanced relative z-10">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-16 max-w-3xl scroll-mt-28"
+            className="theme-section-header scroll-mt-28"
             data-scroll-target="impact"
           >
             <p className="theme-kicker text-[11px]">
@@ -129,7 +129,7 @@ export default function HighlightDeck({
             <h2 className="theme-title mt-4 text-3xl font-bold md:text-4xl">
               业务价值与工程量化
             </h2>
-            <p className="theme-copy mt-4 text-[15px] leading-relaxed md:text-lg">
+            <p className="theme-section-copy mt-4 md:text-lg">
               拒绝模糊的“参与式”描述。这里的每一项产出，都通过真实的数据指标、可复核的开源仓库或明确的线上效果来验证其真正的工程价值。
             </p>
           </motion.div>
@@ -142,7 +142,7 @@ export default function HighlightDeck({
               hidden: { opacity: 0 },
               visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
             }}
-            className="grid auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
           >
             {displayItems.map((item) => {
               const Icon = iconMap[item.icon] || TrendingUp;
@@ -156,23 +156,23 @@ export default function HighlightDeck({
                     hidden: { opacity: 0, y: 12 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
                   }}
-                  whileTap={{ scale: 0.985 }}
                   onClick={() => handleCardClick(item)}
                   className={[
                     "theme-card-interactive group relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left will-change-transform border transition-colors duration-200",
                     isFocal
-                      ? "theme-card-strong p-8 rounded-[1.5rem] sm:col-span-2 lg:col-span-1 hover:border-[rgba(96,165,250,0.3)]"
-                      : "theme-card p-6 rounded-[1.25rem] hover:border-[rgba(37,99,235,0.22)]",
+                      ? "theme-card rounded-[1.45rem] border-[rgba(52,211,153,0.26)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(240,253,250,0.96)_58%,rgba(236,253,245,0.92)_100%)] p-6 shadow-[0_18px_38px_rgba(16,185,129,0.08)] sm:col-span-2 sm:p-8 lg:col-span-1 hover:border-[rgba(16,185,129,0.34)]"
+                      : "theme-card rounded-[1.2rem] p-5 sm:rounded-[1.25rem] sm:p-6 hover:border-[rgba(37,99,235,0.22)]",
                   ].join(" ")}
                   aria-label={`${item.title}-${item.label}`}
                 >
+                  {isFocal ? (
+                    <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,rgba(110,231,183,0.24),transparent_72%)]" />
+                  ) : null}
                   <div className="relative z-10 mb-6 flex items-start justify-between">
                     <div
                       className={[
                         "font-heading text-4xl font-bold tracking-tighter tabular-nums md:text-[2.75rem] leading-none",
-                        isFocal
-                          ? "text-[#f8fbff]"
-                          : "text-[color:var(--text-primary)]",
+                        "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
                       {item.value}
@@ -181,7 +181,7 @@ export default function HighlightDeck({
                       className={[
                         "flex h-9 w-9 items-center justify-center rounded-md border",
                         isFocal
-                          ? "border-[rgba(96,165,250,0.18)] bg-[rgba(219,234,254,0.08)] text-[rgba(248,251,255,0.88)]"
+                          ? "border-[rgba(52,211,153,0.28)] bg-[rgba(236,253,245,0.92)] text-emerald-600"
                           : "border-[rgba(37,99,235,0.12)] bg-[rgba(239,246,255,0.78)] text-[color:var(--brand-gold)]",
                       ].join(" ")}
                     >
@@ -193,9 +193,7 @@ export default function HighlightDeck({
                     <div
                       className={[
                         "mb-2 text-[15px] font-semibold tracking-tight",
-                        isFocal
-                          ? "text-[rgba(248,251,255,0.86)]"
-                          : "text-[color:var(--text-primary)]",
+                        "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
                       {item.label}
@@ -205,9 +203,7 @@ export default function HighlightDeck({
                       <p
                         className={[
                           "mb-6 text-[13px] leading-relaxed",
-                          isFocal
-                            ? "text-[rgba(226,232,240,0.78)]"
-                            : "text-[color:var(--text-secondary)]",
+                          "text-[color:var(--text-secondary)]",
                         ].join(" ")}
                       >
                         {item.description}
@@ -219,9 +215,7 @@ export default function HighlightDeck({
                         <span
                           className={cn(
                             "h-1.5 w-1.5 rounded-full",
-                            isFocal
-                              ? "bg-emerald-300 dark:bg-emerald-500"
-                              : "bg-emerald-500 dark:bg-emerald-400",
+                            "bg-emerald-500 dark:bg-emerald-400",
                           )}
                         />
                         <span className="text-emerald-700 dark:text-emerald-300">
@@ -233,9 +227,7 @@ export default function HighlightDeck({
                     <div
                       className={[
                         "mt-auto flex items-center gap-1.5 text-[13px] font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100",
-                        isFocal
-                          ? "text-[#f8fbff]"
-                          : "text-[color:var(--text-primary)]",
+                        "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
                       View Details

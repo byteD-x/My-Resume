@@ -11,7 +11,7 @@ export function Section({ children, className, id, ...props }: SectionProps) {
   return (
     <section
       id={id}
-      className={cn("py-12 sm:py-16 lg:py-24", className)}
+      className={cn("theme-section-balanced", className)}
       style={props.style}
       {...props}
     >

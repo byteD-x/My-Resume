@@ -9,11 +9,11 @@ import {
   MessageSquare,
   Send,
   User,
-  X,
 } from "lucide-react";
 import { trackAppointmentSubmit } from "@/lib/analytics";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { DialogCloseButton } from "./ui/DialogCloseButton";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -25,10 +25,11 @@ export function AppointmentModal({
   onClose,
 }: AppointmentModalProps) {
   const firstFocusableRef = useRef<HTMLInputElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const modalRef = useFocusTrap<HTMLDivElement>(isOpen, {
     onEscape: onClose,
-    initialFocusRef: firstFocusableRef,
+    initialFocusRef: closeButtonRef,
     lockBodyScroll: true,
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -139,153 +140,167 @@ export function AppointmentModal({
                 : { opacity: 0, scale: 0.985, y: 18 }
             }
             transition={modalTransition}
-            className="theme-dialog-shell fixed left-1/2 top-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-[1.5rem] p-6"
+            className="theme-dialog-shell fixed inset-x-3 bottom-3 z-50 flex max-h-[calc(100dvh-0.75rem)] flex-col overflow-hidden rounded-[1.4rem] sm:left-1/2 sm:top-1/2 sm:bottom-auto sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[1.5rem]"
           >
-            <button
-              type="button"
-              onClick={onClose}
-              className="motion-chip absolute right-4 top-4 flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl p-2 text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(var(--surface-muted-rgb),0.78)] hover:text-[color:var(--text-primary)]"
-              aria-label="关闭对话框"
-            >
-              <X size={20} className="motion-icon-float" />
-            </button>
-
-            <div className="mb-6">
-              <div className="motion-icon-float mb-4 flex h-12 w-12 items-center justify-center rounded-2xl border border-[rgba(37,99,235,0.16)] bg-[rgba(239,246,255,0.92)] text-[color:var(--brand-gold)]">
-                <Calendar className="h-6 w-6" />
-              </div>
-              <h2
-                id="appointment-modal-title"
-                className="theme-title text-xl font-bold"
-              >
-                预约面谈
-              </h2>
-              <p className="theme-copy mt-1">
-                留下你的联系方式，我会尽快与你取得联系。
-              </p>
+            <div className="flex justify-center pb-2 pt-3 sm:hidden">
+              <div
+                className="h-1 w-10 rounded-full"
+                style={{ backgroundColor: "var(--border-strong)" }}
+              />
             </div>
 
-            {!isSubmitted ? (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="mb-1.5 block text-sm font-medium text-[color:var(--text-primary)]"
-                  >
-                    你的姓名
-                  </label>
-                  <div className="relative">
-                    <User
-                      className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
-                        errors.name
-                          ? "text-rose-400"
-                          : "text-[color:var(--text-tertiary)]"
-                      }`}
-                    />
-                    <input
-                      ref={firstFocusableRef}
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`theme-input-field py-3 pl-10 pr-4 focus:ring-2 ${
-                        errors.name
-                          ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
-                          : "focus:ring-[rgba(37,99,235,0.12)]"
-                      }`}
-                      placeholder="请输入姓名"
-                    />
+            <div className="theme-panel theme-dialog-header px-4 py-4 sm:px-6 sm:py-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <div className="motion-icon-float mb-4 flex h-11 w-11 items-center justify-center rounded-2xl border border-[rgba(37,99,235,0.16)] bg-[rgba(239,246,255,0.92)] text-[color:var(--brand-gold)]">
+                    <Calendar className="h-5 w-5" />
                   </div>
-                  {errors.name ? (
-                    <p className="animate-in slide-in-from-left-1 mt-1 text-xs font-medium text-rose-500">
-                      {errors.name}
-                    </p>
-                  ) : null}
+                  <h2
+                    id="appointment-modal-title"
+                    className="theme-title text-xl font-bold"
+                  >
+                    预约面谈
+                  </h2>
+                  <p className="theme-copy mt-1 text-sm leading-6">
+                    留下你的联系方式，我会尽快与你取得联系。
+                  </p>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="appointment-email"
-                    className="mb-1.5 block text-sm font-medium text-[color:var(--text-primary)]"
-                  >
-                    你的邮箱地址
-                  </label>
-                  <div className="relative">
-                    <Mail
-                      className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
-                        errors.email
-                          ? "text-rose-400"
-                          : "text-[color:var(--text-tertiary)]"
-                      }`}
-                    />
-                    <input
-                      type="email"
-                      id="appointment-email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`theme-input-field py-3 pl-10 pr-4 focus:ring-2 ${
-                        errors.email
-                          ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
-                          : "focus:ring-[rgba(37,99,235,0.12)]"
-                      }`}
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                  {errors.email ? (
-                    <p className="animate-in slide-in-from-left-1 mt-1 text-xs font-medium text-rose-500">
-                      {errors.email}
-                    </p>
-                  ) : null}
-                </div>
+                <DialogCloseButton
+                  ref={closeButtonRef}
+                  onClick={onClose}
+                  ariaLabel="关闭预约面板"
+                  className="shrink-0"
+                  iconSize={20}
+                />
+              </div>
+            </div>
 
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="mb-1.5 block text-sm font-medium text-[color:var(--text-primary)]"
-                  >
-                    留言（可选）
-                  </label>
-                  <div className="relative">
-                    <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-[color:var(--text-tertiary)]" />
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={3}
-                      className="theme-input-field resize-none py-3 pl-10 pr-4 focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
-                      placeholder="简要说明你的需求或想了解的内容..."
-                    />
+            <div className="theme-dialog-body flex-1 overflow-y-auto p-4 sm:p-6">
+              {!isSubmitted ? (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div>
+                    <label
+                      htmlFor="name"
+                      className="mb-1.5 block text-sm font-medium text-[color:var(--text-primary)]"
+                    >
+                      你的姓名
+                    </label>
+                    <div className="relative">
+                      <User
+                        className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
+                          errors.name
+                            ? "text-rose-400"
+                            : "text-[color:var(--text-tertiary)]"
+                        }`}
+                      />
+                      <input
+                        ref={firstFocusableRef}
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className={`theme-input-field py-3 pl-10 pr-4 focus:ring-2 ${
+                          errors.name
+                            ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
+                            : "focus:ring-[rgba(37,99,235,0.12)]"
+                        }`}
+                        placeholder="请输入姓名"
+                      />
+                    </div>
+                    {errors.name ? (
+                      <p className="animate-in slide-in-from-left-1 mt-1 text-xs font-medium text-rose-500">
+                        {errors.name}
+                      </p>
+                    ) : null}
                   </div>
-                </div>
 
-                <button
-                  type="submit"
-                  className="btn btn-primary mt-2 w-full py-3.5 text-base font-bold"
+                  <div>
+                    <label
+                      htmlFor="appointment-email"
+                      className="mb-1.5 block text-sm font-medium text-[color:var(--text-primary)]"
+                    >
+                      你的邮箱地址
+                    </label>
+                    <div className="relative">
+                      <Mail
+                        className={`absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 ${
+                          errors.email
+                            ? "text-rose-400"
+                            : "text-[color:var(--text-tertiary)]"
+                        }`}
+                      />
+                      <input
+                        type="email"
+                        id="appointment-email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`theme-input-field py-3 pl-10 pr-4 focus:ring-2 ${
+                          errors.email
+                            ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
+                            : "focus:ring-[rgba(37,99,235,0.12)]"
+                        }`}
+                        placeholder="your@email.com"
+                      />
+                    </div>
+                    {errors.email ? (
+                      <p className="animate-in slide-in-from-left-1 mt-1 text-xs font-medium text-rose-500">
+                        {errors.email}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="message"
+                      className="mb-1.5 block text-sm font-medium text-[color:var(--text-primary)]"
+                    >
+                      留言（可选）
+                    </label>
+                    <div className="relative">
+                      <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-[color:var(--text-tertiary)]" />
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={3}
+                        className="theme-input-field resize-none py-3 pl-10 pr-4 focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
+                        placeholder="简要说明你的需求或想了解的内容..."
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-primary mt-2 w-full py-3.5 text-base font-bold"
+                  >
+                    <Send size={18} className="mr-2 motion-arrow-shift" />
+                    发送预约请求
+                  </button>
+                </form>
+              ) : (
+                <motion.div
+                  initial={
+                    shouldReduceMotion ? false : { opacity: 0, scale: 0.96, y: 12 }
+                  }
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  className="py-8 text-center"
                 >
-                  <Send size={18} className="mr-2 motion-arrow-shift" />
-                  发送预约请求
-                </button>
-              </form>
-            ) : (
-              <motion.div
-                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96, y: 12 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="py-8 text-center"
-              >
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-emerald-200/70 bg-emerald-50/80 text-emerald-600">
-                  <CheckCircle className="h-8 w-8" />
-                </div>
-                <h3 className="theme-title mb-2 text-lg font-bold">
-                  预约成功
-                </h3>
-                <p className="theme-copy">
-                  感谢你的预约，我会尽快与你联系。
-                </p>
-              </motion.div>
-            )}
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-emerald-200/70 bg-emerald-50/80 text-emerald-600">
+                    <CheckCircle className="h-8 w-8" />
+                  </div>
+                  <h3 className="theme-title mb-2 text-lg font-bold">
+                    预约成功
+                  </h3>
+                  <p className="theme-copy">
+                    感谢你的预约，我会尽快与你联系。
+                  </p>
+                </motion.div>
+              )}
+            </div>
           </motion.div>
         </>
       ) : null}

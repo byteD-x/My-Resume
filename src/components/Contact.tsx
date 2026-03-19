@@ -177,7 +177,7 @@ export default function Contact({ contactData }: ContactProps) {
 
   return (
     <>
-      <Section className="theme-grid-section relative py-24 md:py-32" data-print="hide">
+      <Section className="theme-grid-section theme-section-balanced relative" data-print="hide">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -186,10 +186,10 @@ export default function Contact({ contactData }: ContactProps) {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto max-w-6xl"
           >
-            <div className="theme-card grid gap-12 rounded-[1.85rem] border-[rgba(148,163,184,0.16)] p-8 shadow-[0_20px_42px_rgba(15,23,42,0.08)] md:grid-cols-[minmax(0,1fr)_24rem] md:p-12 lg:p-14">
-              <div className="space-y-8">
+            <div className="theme-card grid gap-8 rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_20px_42px_rgba(15,23,42,0.08)] sm:p-6 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-12 md:rounded-[1.85rem] md:p-10 lg:p-14">
+              <div className="space-y-7 sm:space-y-8">
                 <div
-                  className="max-w-2xl scroll-mt-28"
+                  className="theme-section-header mb-0 max-w-2xl scroll-mt-28"
                   data-scroll-target="contact"
                 >
                   <p className="theme-kicker mb-3">
@@ -198,12 +198,12 @@ export default function Contact({ contactData }: ContactProps) {
                   <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
                     建立连接，开启对话
                   </h2>
-                  <p className="theme-copy text-[15px] leading-8">
+                  <p className="theme-section-copy">
                     无论是交流岗位机会、探讨 AI 落地路径，还是讨论更深入的技术问题，都欢迎随时联系我。我习惯基于具体场景与明确边界进行高效沟通。
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-4 border-b border-[color:var(--border-default)] pb-6 pt-2 sm:flex-row sm:flex-wrap">
+                <div className="flex flex-col gap-3.5 border-b border-[color:var(--border-default)] pb-6 pt-1 sm:flex-row sm:flex-wrap sm:gap-4">
                   <a
                     href={mailtoHref}
                     className="btn btn-primary w-auto px-6 py-3.5 text-[14px]"

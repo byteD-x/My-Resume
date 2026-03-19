@@ -69,28 +69,28 @@ export function CapabilitySummary({
   }));
 
   return (
-    <Section className="theme-grid-section relative scroll-mt-24 py-24 md:py-32">
+    <Section className="theme-grid-section theme-section-balanced relative scroll-mt-24">
       <Container>
-        <div className="mb-16 max-w-3xl">
+        <div className="theme-section-header">
           <p className="theme-kicker mb-3 text-[11px]">
             Core Competencies
           </p>
           <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
             核心工程能力
           </h2>
-          <p className="theme-copy text-[15px] leading-relaxed">
+          <p className="theme-section-copy">
             我更关注系统是否稳定、是否可验证、是否能支撑真实业务，而不是只展示技术名词。这些能力决定了项目能否真正上线并长期维护。
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3 lg:[grid-auto-rows:1fr]">
+        <div className="grid gap-5 lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6">
           {cards.map((card) => {
             const Icon = card.icon;
 
             return (
               <article
                 key={card.id}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 transition-colors hover:border-[rgba(37,99,235,0.22)] md:p-8"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem] md:p-8"
               >
                 <div className="mb-6 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-5">
                   <div className="theme-icon-box theme-icon-box-md transition-transform group-hover:scale-105">

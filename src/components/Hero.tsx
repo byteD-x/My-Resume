@@ -68,7 +68,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
   };
 
   return (
-    <section className="relative overflow-hidden border-b section-divider bg-white pb-14 pt-24 sm:pb-16 sm:pt-28 md:pb-24 md:pt-32">
+    <section className="relative overflow-hidden border-b section-divider bg-white pb-12 pt-24 sm:pb-16 sm:pt-28 md:pb-20 md:pt-32">
       <div className="hero-grid-bg hero-grid-fade pointer-events-none absolute inset-0 z-0 opacity-100" />
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -left-20 top-10 h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.65),transparent_72%)] blur-3xl md:h-[28rem] md:w-[28rem]" />
@@ -76,21 +76,21 @@ export default function Hero({ data, proofItems }: HeroProps) {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(246,248,251,0.9))]" />
       </div>
       <Container className="relative z-10">
-        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-14">
+        <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12">
           <motion.div
             className="flex flex-col items-start lg:col-span-7 xl:col-span-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.div variants={itemVariants} className="mb-8">
+            <motion.div variants={itemVariants} className="mb-6 sm:mb-8">
               <HeroStatusBadges location={data.location} />
             </motion.div>
 
             {focusTitle ? (
               <motion.div
                 variants={itemVariants}
-                className="theme-pill mb-5 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] uppercase"
+                className="theme-pill mb-4 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] uppercase"
               >
                 {focusTitle}
               </motion.div>
@@ -98,21 +98,21 @@ export default function Hero({ data, proofItems }: HeroProps) {
 
             <motion.h1
               variants={itemVariants}
-              className="theme-title mb-5 max-w-[10.5ch] text-balance text-[2.75rem] font-bold leading-[0.94] sm:text-[3.65rem] md:text-[4.85rem]"
+              className="theme-title mb-4 max-w-[10.5ch] text-balance text-[2.45rem] font-bold leading-[0.95] sm:text-[3.4rem] md:text-[4.65rem]"
             >
               {mainTitle}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="theme-copy mb-8 max-w-[37rem] text-[15px] leading-7 md:mb-9 md:text-[1.02rem] md:leading-8"
+              className="theme-copy mb-7 max-w-[37rem] text-[14px] leading-7 sm:text-[15px] md:mb-8 md:text-[1.02rem] md:leading-8"
             >
               {data.subtitle}
             </motion.p>
 
             <motion.div
               variants={itemVariants}
-              className="theme-card-muted mb-10 w-full rounded-[1.8rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:p-6 md:p-7"
+              className="theme-card-muted mb-8 w-full rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:p-6 md:p-7"
             >
               <p className="theme-card-kicker mb-5">价值主线</p>
               <div className="mb-6 border-b border-[color:var(--border-default)] pb-5">

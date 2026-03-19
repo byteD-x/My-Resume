@@ -60,6 +60,15 @@ test.describe('Portfolio E2E', () => {
         await expect(page.locator('#contact')).toBeVisible();
     });
 
+    test('layout should avoid horizontal overflow', async ({ page }) => {
+        const hasOverflow = await page.evaluate(() => {
+            const root = document.documentElement;
+            return root.scrollWidth - root.clientWidth > 1;
+        });
+
+        expect(hasOverflow).toBeFalsy();
+    });
+
     test('hero should present positioning and quantified outcomes', async ({ page }) => {
         await expect(page.getByRole('heading', { level: 1, name: 'AI 应用工程师' })).toBeVisible();
         await expect(page.getByText('RAG / Agent')).toBeVisible();
@@ -175,6 +184,9 @@ test.describe('Portfolio E2E', () => {
 
         const drawer = page.getByRole('dialog').first();
         await expect(drawer).toBeVisible();
+        const closeButton = drawer.getByRole('button', { name: /关闭.*面板|关闭/i }).first();
+        await expect(closeButton).toBeVisible();
+        await expect(closeButton).toBeFocused();
 
         const jumpButton = page.getByRole('button', { name: /定位到对应经历/i });
         await expect(jumpButton).toBeVisible();

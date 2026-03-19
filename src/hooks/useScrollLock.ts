@@ -8,15 +8,35 @@ export function useScrollLock(lock: boolean) {
   useIsomorphicLayoutEffect(() => {
     if (!lock) return;
 
-    // Get original overflow style
     const originalStyle = window.getComputedStyle(document.body).overflow;
+    const originalPaddingRight = document.body.style.paddingRight;
+    const originalScrollLockOffset = document.documentElement.style.getPropertyValue(
+      "--scroll-lock-offset",
+    );
+    const scrollbarWidth = Math.max(
+      0,
+      window.innerWidth - document.documentElement.clientWidth,
+    );
 
-    // Prevent scrolling
     document.body.style.overflow = "hidden";
+    document.body.style.paddingRight =
+      scrollbarWidth > 0 ? `${scrollbarWidth}px` : originalPaddingRight;
+    document.documentElement.style.setProperty(
+      "--scroll-lock-offset",
+      `${scrollbarWidth}px`,
+    );
 
-    // Re-enable scrolling when component unmounts or lock becomes false
     return () => {
       document.body.style.overflow = originalStyle;
+      document.body.style.paddingRight = originalPaddingRight;
+      if (originalScrollLockOffset) {
+        document.documentElement.style.setProperty(
+          "--scroll-lock-offset",
+          originalScrollLockOffset,
+        );
+      } else {
+        document.documentElement.style.removeProperty("--scroll-lock-offset");
+      }
     };
   }, [lock]);
 }

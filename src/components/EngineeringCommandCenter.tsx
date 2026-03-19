@@ -358,10 +358,17 @@ export default function EngineeringCommandCenter({
                     : { x: "100%", opacity: 0.96, scale: 0.996 }
                 }
                 transition={panelTransition}
-                className="theme-dialog-shell fixed right-0 top-0 z-[100] h-full w-full max-w-[52rem] overflow-y-auto border-l border-[color:var(--border-default)]"
+                className="theme-dialog-shell fixed inset-x-0 bottom-0 top-auto z-[100] flex max-h-[calc(100dvh-0.75rem)] w-full flex-col overflow-hidden rounded-t-[1.6rem] border border-[color:var(--border-default)] md:inset-y-0 md:right-0 md:left-auto md:top-0 md:max-h-none md:max-w-[52rem] md:rounded-none md:rounded-l-[1.6rem] md:border-y-0 md:border-r-0 md:border-l"
               >
-              <header className="theme-panel sticky top-0 z-20 border-b border-[color:var(--border-default)] backdrop-blur-xl">
-                <div className="px-5 py-5 md:px-6">
+              <div className="flex justify-center pb-2 pt-3 md:hidden">
+                <div
+                  className="h-1 w-10 rounded-full"
+                  style={{ backgroundColor: "var(--border-strong)" }}
+                />
+              </div>
+
+              <header className="theme-panel theme-dialog-header">
+                <div className="px-4 py-4 md:px-6 md:py-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
                       <p className="theme-kicker text-[11px] font-semibold uppercase tracking-[0.22em]">
@@ -416,7 +423,7 @@ export default function EngineeringCommandCenter({
                 </div>
               </header>
 
-              <div className="space-y-6 px-5 py-5 md:px-6 md:py-6">
+              <div className="theme-dialog-body flex-1 space-y-6 overflow-y-auto px-4 py-4 md:px-6 md:py-6">
                 <section className={panelSectionClassName}>
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>

@@ -127,18 +127,18 @@ export default function HomePage() {
       <MotionWrapper delay={0.08} duration={0.54} amount={0.12}>
         <Section
           id="experience"
-          className="theme-grid-section relative z-10 scroll-mt-24 border-y section-divider py-24 md:py-32"
+          className="theme-grid-section theme-section-balanced relative z-10 scroll-mt-24 border-y section-divider"
         >
           <Container>
             <div
-              className="mb-16 max-w-3xl scroll-mt-28"
+              className="theme-section-header scroll-mt-28"
               data-scroll-target="experience"
             >
               <p className="theme-kicker mb-3">Professional Journey</p>
               <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
                 专业履历与实践
               </h2>
-              <p className="theme-copy text-[15px] leading-relaxed">
+              <p className="theme-section-copy">
                 从底层架构优化到 AI 原生应用落地，我的工作始终围绕“复杂问题的系统化解决”与“真实业务价值的交付”展开。这里按时间线整理我的关键职责、代表结果与方法沉淀。
               </p>
             </div>
@@ -150,23 +150,23 @@ export default function HomePage() {
       <MotionWrapper delay={0.1} duration={0.54} amount={0.12}>
         <Section
           id="projects"
-          className="theme-grid-section-strong relative z-10 scroll-mt-24 py-24 md:py-32"
+          className="theme-grid-section-strong theme-section-balanced relative z-10 scroll-mt-24"
         >
           <Container>
             <div
-              className="mb-16 grid gap-8 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end"
+              className="theme-section-header grid gap-6 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end lg:gap-8"
               data-scroll-target="projects"
             >
-              <div className="max-w-3xl">
+              <div>
                 <p className="theme-kicker mb-3">More Explorations</p>
                 <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
                   开源与更多探索
                 </h2>
-                <p className="theme-copy text-[15px] leading-relaxed">
+                <p className="theme-section-copy">
                   除了核心商业项目，我也持续在开源和个人项目中验证新思路。这里收录的是更完整的工程实践，而不只是 demo 级展示。
                 </p>
               </div>
-              <div className="theme-card rounded-[1.5rem] p-5">
+              <div className="theme-card rounded-[1.35rem] p-4 sm:p-5">
                 <p className="flex items-center gap-2 text-[13px] font-bold text-[color:var(--text-primary)]">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
@@ -174,7 +174,7 @@ export default function HomePage() {
                   </span>
                   阅读导航
                 </p>
-                <p className="theme-copy mt-2.5 text-[13px] leading-relaxed">
+                <p className="theme-copy mt-2.5 text-[13px] leading-7">
                   默认按项目影响力与技术深度排序。你可以通过下方标签快速筛选感兴趣的技术栈、业务场景或交付类型。
                 </p>
               </div>

@@ -1,13 +1,14 @@
-﻿"use client";
+"use client";
 
 import React, { useCallback, useRef } from "react";
 import { AnimatePresence, m as motion } from "framer-motion";
-import { ExternalLink, X } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { ImpactItem, TimelineItem } from "@/types";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { evaluateVerificationConfidence } from "@/lib/verification";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
+import { DialogCloseButton } from "./ui/DialogCloseButton";
 
 interface MetricDrawerProps {
   isOpen: boolean;
@@ -91,7 +92,7 @@ export default function MetricDrawer({
             role="dialog"
             aria-modal="true"
             aria-labelledby="drawer-title"
-            className="theme-card fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-[1.5rem] md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-lg md:max-h-none md:rounded-none md:rounded-l-[1.5rem]"
+            className="theme-card fixed inset-x-0 bottom-0 z-50 flex max-h-[calc(100dvh-0.75rem)] flex-col overflow-hidden rounded-t-[1.6rem] md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-[34rem] md:max-h-none md:rounded-none md:rounded-l-[1.6rem]"
             initial={
               shouldReduceMotion
                 ? { opacity: 0 }
@@ -113,29 +114,28 @@ export default function MetricDrawer({
               />
             </div>
 
-            <div
-              className="theme-panel sticky top-0 z-10 flex items-center justify-between border-b p-4 md:p-6"
-              style={{ borderColor: "var(--border-default)" }}
-            >
-              <h2
-                id="drawer-title"
-                className="theme-title text-lg font-semibold md:text-xl"
-              >
-                {metric.title}
-              </h2>
-              <button
-                ref={closeButtonRef}
-                onClick={onClose}
-                className="motion-chip rounded-lg p-2 transition-colors"
-                style={{ color: "var(--text-tertiary)" }}
-                aria-label="关闭"
-              >
-                <X size={20} className="motion-icon-float" />
-              </button>
+            <div className="theme-panel theme-dialog-header px-4 py-4 md:px-6 md:py-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <h2
+                    id="drawer-title"
+                    className="theme-title text-lg font-semibold leading-tight md:text-xl"
+                  >
+                    {metric.title}
+                  </h2>
+                </div>
+                <DialogCloseButton
+                  ref={closeButtonRef}
+                  onClick={onClose}
+                  ariaLabel="关闭指标详情面板"
+                  className="shrink-0"
+                  iconSize={20}
+                />
+              </div>
             </div>
 
-            <div className="space-y-6 p-4 md:p-6">
-              <div className="theme-card-muted rounded-[1.25rem] p-6 text-center">
+            <div className="theme-dialog-body flex-1 space-y-5 overflow-y-auto p-4 md:space-y-6 md:p-6">
+              <div className="theme-card-muted rounded-[1.25rem] p-5 text-center md:p-6">
                 <div
                   className="mb-2 text-4xl font-bold md:text-5xl"
                   style={{ color: "var(--brand-gold)" }}
@@ -177,14 +177,14 @@ export default function MetricDrawer({
               )}
 
               {metric.verification && (
-                <div className="rounded-xl border border-emerald-200/70 bg-emerald-50/70 p-4 dark:border-emerald-900/50 dark:bg-emerald-900/10">
+                <div className="rounded-[1.15rem] border border-emerald-200/70 bg-emerald-50/70 p-4 md:p-5 dark:border-emerald-900/50 dark:bg-emerald-900/10">
                   <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
                     证据口径
                   </h3>
                   <p className="text-sm text-emerald-800 dark:text-emerald-200">
                     {metric.verification.sourceLabel}
                   </p>
-                  <p className="mt-1 text-xs text-emerald-700/80 dark:text-emerald-300/80">
+                  <p className="mt-1 text-xs leading-6 text-emerald-700/80 dark:text-emerald-300/80">
                     置信度：{verificationAssessment?.confidenceText} ·
                     验证时间：{metric.verification.verifiedAt}
                   </p>
@@ -194,14 +194,14 @@ export default function MetricDrawer({
                         <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
                           判定依据
                         </p>
-                        <ul className="mt-1 space-y-1 text-xs text-emerald-800/90 dark:text-emerald-200/90">
+                        <ul className="mt-1 space-y-1 text-xs leading-6 text-emerald-800/90 dark:text-emerald-200/90">
                           {verificationAssessment.basis.map(
                             (basisItem, index) => (
                               <li
                                 key={`${basisItem}-${index}`}
                                 className="flex items-start gap-1.5"
                               >
-                                <span className="mt-[3px] h-1 w-1 shrink-0 rounded-full bg-emerald-600/90 dark:bg-emerald-300/90" />
+                                <span className="mt-[7px] h-1 w-1 shrink-0 rounded-full bg-emerald-600/90 dark:bg-emerald-300/90" />
                                 <span>{basisItem}</span>
                               </li>
                             ),
@@ -210,7 +210,7 @@ export default function MetricDrawer({
                       </div>
                     )}
                   {verificationAssessment && (
-                    <p className="mt-2 text-xs leading-relaxed text-emerald-800/90 dark:text-emerald-200/90">
+                    <p className="mt-2 text-xs leading-6 text-emerald-800/90 dark:text-emerald-200/90">
                       <span className="font-semibold">判定原因：</span>
                       {verificationAssessment.reason}
                     </p>
@@ -271,7 +271,10 @@ export default function MetricDrawer({
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {details.techStack.map((tech, i) => (
-                          <span key={i} className="theme-chip px-2.5 py-1 text-xs font-semibold">
+                          <span
+                            key={i}
+                            className="theme-chip px-2.5 py-1 text-xs font-semibold"
+                          >
                             {tech}
                           </span>
                         ))}

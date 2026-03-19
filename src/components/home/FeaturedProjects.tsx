@@ -37,22 +37,22 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
   };
 
   return (
-    <Section className="theme-grid-section relative scroll-mt-24 border-y section-divider py-20 md:py-32">
+    <Section className="theme-grid-section theme-section-balanced relative scroll-mt-24 border-y section-divider">
       <Container>
-        <div className="mb-12 grid gap-6 lg:mb-16 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-8">
-          <div className="max-w-3xl">
+        <div className="theme-section-header grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-8">
+          <div>
             <p className="theme-kicker mb-3">Featured Work</p>
             <h2 className="theme-title mb-4 text-3xl font-bold md:text-4xl">
               精选工程实践
             </h2>
-            <p className="theme-copy text-[15px] leading-8">
+            <p className="theme-section-copy">
               这组案例不只是展示项目结果，而是重点说明我具体做了什么内容、交付了什么功能，以及核心架构和关键链路是怎样落地的。
             </p>
           </div>
           <button
             type="button"
             onClick={handleJumpToProjects}
-            className="theme-card-muted theme-card-interactive group inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-[14px] font-semibold text-[color:var(--text-primary)]"
+            className="theme-card-muted theme-card-interactive group inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-[14px] font-semibold text-[color:var(--text-primary)] sm:w-auto"
           >
             探索更多项目
             <ArrowRight
@@ -72,9 +72,9 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                 href={item.href}
                 scroll={false}
                 onClick={handleOpen}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.75rem] border-[rgba(148,163,184,0.16)] p-6 shadow-[0_18px_38px_rgba(15,23,42,0.06)] md:p-8"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.5rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_18px_38px_rgba(15,23,42,0.06)] sm:p-6 md:rounded-[1.75rem] md:p-8"
               >
-                <div className="mb-9 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-6">
+                  <div className="mb-7 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-5 sm:mb-9 sm:pb-6">
                   <div className="theme-icon-box theme-icon-box-sm motion-chip">
                     <Icon size={18} strokeWidth={2} className="motion-icon-float" />
                   </div>
@@ -118,7 +118,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
                 </div>
 
-                <div className="mt-9 flex items-center justify-between border-t border-[color:var(--border-default)] pt-6">
+                <div className="mt-7 flex items-center justify-between border-t border-[color:var(--border-default)] pt-5 sm:mt-9 sm:pt-6">
                   <div className="flex flex-wrap gap-2">
                     {item.techTags.slice(0, 3).map((tag) => (
                       <span

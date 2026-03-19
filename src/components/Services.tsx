@@ -26,9 +26,9 @@ export default function Services({ services }: ServicesProps) {
   if (!services || services.length === 0) return null;
 
   return (
-    <Section className="theme-grid-section relative py-24 md:py-32">
+    <Section className="theme-grid-section theme-section-balanced relative">
       <Container>
-        <div className="mb-16 md:mb-20">
+        <div className="theme-section-header md:mb-20">
           <motion.div
             initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
             whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
@@ -44,7 +44,7 @@ export default function Services({ services }: ServicesProps) {
             <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
               商业交付与合作模式
             </h2>
-            <p className="theme-copy mb-6 max-w-2xl text-[15px] leading-relaxed">
+            <p className="theme-section-copy mb-6 max-w-2xl">
               以工程化思维解决复杂业务问题，不仅提供纯代码层面的实现，更涵盖从需求梳理、架构设计到最终可验证落地的端到端交付闭环。
             </p>
             <div className="theme-card inline-flex flex-wrap items-center gap-2 rounded-full border-[rgba(148,163,184,0.16)] px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--text-secondary)]">
@@ -74,7 +74,7 @@ export default function Services({ services }: ServicesProps) {
                   duration: 0.5,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-6 transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] md:p-8"
+                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem] md:p-8"
               >
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="theme-icon-box theme-icon-box-sm mb-6 transition-transform duration-300 group-hover:scale-110">

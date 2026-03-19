@@ -176,13 +176,13 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
           >
             <div
               className={cn(
-                "relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[1.15rem] border border-[rgba(148,163,184,0.22)] bg-[linear-gradient(180deg,#243652_0%,#172235_58%,#111827_100%)] shadow-[0_16px_34px_rgba(15,23,42,0.16),inset_0_1px_0_rgba(255,255,255,0.14)] transition-transform duration-300 group-hover:-translate-y-0.5",
+                "relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[1.15rem] border border-[rgba(134,239,172,0.42)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(240,253,250,0.96)_58%,rgba(220,252,231,0.94)_100%)] shadow-[0_16px_34px_rgba(16,185,129,0.14),inset_0_1px_0_rgba(255,255,255,0.88)] transition-transform duration-300 group-hover:-translate-y-0.5",
                 scrolled && "scale-95",
               )}
             >
-              <span className="absolute inset-[1px] rounded-[1rem] bg-[radial-gradient(circle_at_30%_20%,rgba(96,165,250,0.42),transparent_44%),linear-gradient(180deg,rgba(255,255,255,0.06),transparent_65%)]" />
-              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-[rgba(191,219,254,0.96)] shadow-[0_0_12px_rgba(96,165,250,0.62)]" />
-              <span className="relative z-10 font-heading text-[10px] font-semibold tracking-[0.32em] text-[color:var(--text-inverse)]">
+              <span className="absolute inset-[1px] rounded-[1rem] bg-[radial-gradient(circle_at_30%_20%,rgba(110,231,183,0.42),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0)_72%)]" />
+              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.62)]" />
+              <span className="relative z-10 font-heading text-[10px] font-semibold tracking-[0.32em] text-slate-900">
                 DXJ
               </span>
             </div>
