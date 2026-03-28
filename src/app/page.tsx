@@ -337,7 +337,7 @@ export default function HomePage() {
       </MotionWrapper>
 
       <MotionWrapper delay={0.18} duration={0.58} amount={0.12}>
-        <div className="theme-grid-section relative z-10">
+        <div className="relative z-10">
           <Footer
             name={data.hero.name}
             githubUrl={data.contact.github}

@@ -30,113 +30,73 @@ export default function Footer({
   return (
     <footer
       data-print="hide"
-      className="theme-grid-section border-t section-divider bg-[linear-gradient(180deg,rgba(248,250,252,0.66)_0%,rgba(255,255,255,0.96)_18%,rgba(241,245,249,0.94)_100%)]"
+      className="border-t section-divider bg-[linear-gradient(180deg,rgba(255,255,255,0.88)_0%,rgba(248,250,252,0.96)_52%,rgba(241,245,249,0.98)_100%)]"
     >
-      <Container className="py-8 md:py-14">
-        <div className="rounded-[1.3rem] border border-[rgba(148,163,184,0.16)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(248,250,252,0.92)_100%)] p-4 shadow-[0_18px_42px_rgba(15,23,42,0.06)] md:rounded-[1.8rem] md:p-7 lg:p-8">
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(24rem,0.9fr)] lg:gap-10">
-            <div className="min-w-0">
-              <p className="theme-kicker mb-2.5">页尾索引</p>
-              <h3 className="theme-title text-[1.35rem] font-bold tracking-tight md:text-[1.8rem]">
+      <Container className="py-8 md:py-10">
+        <div className="flex flex-col gap-6 md:gap-7">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div className="min-w-0 max-w-[34rem]">
+              <p className="theme-title text-[1.02rem] font-semibold tracking-tight">
                 {name}
-              </h3>
-              <p className="theme-copy mt-2.5 max-w-[36rem] text-[14px] leading-6 sm:text-[15px] sm:leading-7">
-                收录源码入口、站点链接与更新时间。
               </p>
-
-              <div className="mt-4 flex flex-wrap gap-1.5">
-                <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold">
-                  公开仓库
-                </span>
-                <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold">
-                  多站点入口
-                </span>
-                <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold">
-                  最近维护
-                </span>
-              </div>
-
-              <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[rgba(148,163,184,0.16)] bg-[rgba(255,255,255,0.78)] px-3 py-1.5 text-[11px] font-medium text-[color:var(--text-secondary)] sm:text-[12px]">
-                <Calendar size={14} className="shrink-0 opacity-70" />
-                <span>最后更新：{lastUpdated}</span>
-              </div>
+              <p className="theme-copy mt-2 text-[13px] leading-6 sm:text-[14px]">
+                作品、履历与公开入口统一收录于此。
+              </p>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2 sm:gap-8">
-              <section className="border-t border-[color:var(--border-default)] pt-4 sm:border-t-0 sm:border-l sm:pl-6 sm:pt-0">
-                <p className="theme-card-kicker mb-3">源码与归档</p>
-                <div className="space-y-3">
-                  {githubUrl ? (
-                    <a
-                      href={githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex min-w-0 items-start gap-2 text-[14px] font-semibold text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--brand-gold)]"
-                    >
-                      <Github size={16} className="mt-0.5 shrink-0" />
-                      <span className="min-w-0">
-                        <span className="block leading-6">GitHub 仓库主页</span>
-                        <span className="theme-copy-subtle block text-[12px] leading-5">
-                          {formatHost(githubUrl)}
-                        </span>
-                      </span>
-                      <ArrowUpRight
-                        size={14}
-                        className="mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                      />
-                    </a>
-                  ) : (
-                    <p className="theme-copy text-[14px] leading-6">
-                      暂无可展示的源码入口。
-                    </p>
-                  )}
-                </div>
-              </section>
+            <div className="flex flex-wrap items-start gap-x-5 gap-y-3 sm:gap-x-6">
+              {githubUrl ? (
+                <a
+                  href={githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex min-w-0 items-center gap-2 text-[13px] font-medium text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--brand-gold)]"
+                >
+                  <Github size={15} className="shrink-0 opacity-80" />
+                  <span className="leading-6">GitHub</span>
+                  <span className="theme-copy-subtle hidden text-[12px] leading-5 sm:inline">
+                    {formatHost(githubUrl)}
+                  </span>
+                  <ArrowUpRight
+                    size={13}
+                    className="shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              ) : null}
 
-              <section className="border-t border-[color:var(--border-default)] pt-4 sm:border-t-0 sm:border-l sm:pl-6 sm:pt-0">
-                <p className="theme-card-kicker mb-3">在线站点</p>
-                <div className="space-y-3">
-                  {websiteLinks.length > 0 ? (
-                    websiteLinks.map((link) => (
-                      <a
-                        key={link.url}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex min-w-0 items-start gap-2 text-[14px] font-semibold text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--brand-gold)]"
-                      >
-                        <Globe size={16} className="mt-0.5 shrink-0" />
-                        <span className="min-w-0">
-                          <span className="block break-words leading-6">
-                            {link.label}
-                          </span>
-                          <span className="theme-copy-subtle block text-[12px] leading-5">
-                            {formatHost(link.url)}
-                          </span>
-                        </span>
-                        <ArrowUpRight
-                          size={14}
-                          className="mt-1 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                        />
-                      </a>
-                    ))
-                  ) : (
-                    <p className="theme-copy text-[14px] leading-6">
-                      暂无可展示的站点入口。
-                    </p>
-                  )}
-                </div>
-              </section>
+              {websiteLinks.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex min-w-0 items-center gap-2 text-[13px] font-medium text-[color:var(--text-primary)] transition-colors hover:text-[color:var(--brand-gold)]"
+                >
+                  <Globe size={15} className="shrink-0 opacity-80" />
+                  <span className="leading-6">{link.label}</span>
+                  <span className="theme-copy-subtle hidden text-[12px] leading-5 sm:inline">
+                    {formatHost(link.url)}
+                  </span>
+                  <ArrowUpRight
+                    size={13}
+                    className="shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-2 border-t border-[color:var(--border-default)] pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-2 border-t border-[color:var(--border-default)] pt-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <p className="theme-copy-subtle text-[12px] leading-6">
               &copy; {currentYear} {name}
             </p>
-            <p className="theme-copy-subtle text-[12px] leading-6 sm:text-right">
-              基于 Next.js、Tailwind CSS 与 Framer Motion 构建
-            </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] leading-6 text-[color:var(--text-tertiary)]">
+              <span className="inline-flex items-center gap-1.5">
+                <Calendar size={13} className="shrink-0 opacity-70" />
+                最后更新：{lastUpdated}
+              </span>
+              <span>Next.js / Tailwind CSS / Framer Motion</span>
+            </div>
           </div>
         </div>
       </Container>
