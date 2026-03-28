@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { startTransition, useDeferredValue, useMemo, useState } from "react";
 import { AnimatePresence, m as motion } from "framer-motion";
 import { ArrowUpDown, Search, Sparkles } from "lucide-react";
 import { ProjectItem } from "@/types";
@@ -33,11 +33,12 @@ function extractSortKey(period: string): number {
 export function ProjectList({ items }: ProjectListProps) {
   const isLowPerformanceMode = useLowPerformanceMode();
   const shouldReduceMotion = useReducedMotion();
-  const shouldAnimateInView = !isLowPerformanceMode;
+  const shouldAnimateInView = !isLowPerformanceMode && !shouldReduceMotion;
   const [query, setQuery] = useState("");
   const [activeTech, setActiveTech] = useState<string>("all");
   const [sortMode, setSortMode] = useState<SortMode>("highlight");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+  const deferredQuery = useDeferredValue(query);
 
   const chipTransition = shouldReduceMotion
     ? { duration: 0.12 }
@@ -79,7 +80,7 @@ export function ProjectList({ items }: ProjectListProps) {
   }, [items]);
 
   const filteredItems = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+    const normalizedQuery = deferredQuery.trim().toLowerCase();
     const queried = items.filter((item) => {
       const queryText = [item.name, item.summary, item.year, ...item.techTags]
         .join(" ")
@@ -98,7 +99,7 @@ export function ProjectList({ items }: ProjectListProps) {
       }
       return extractSortKey(b.year) - extractSortKey(a.year);
     });
-  }, [activeTech, items, query, sortMode]);
+  }, [activeTech, deferredQuery, items, sortMode]);
 
   const visibleItems = filteredItems.slice(0, visibleCount);
   const hasMore = visibleCount < filteredItems.length;
@@ -123,8 +124,11 @@ export function ProjectList({ items }: ProjectListProps) {
               type="text"
               value={query}
               onChange={(event) => {
-                setQuery(event.target.value);
-                setVisibleCount(INITIAL_VISIBLE_COUNT);
+                const nextQuery = event.target.value;
+                startTransition(() => {
+                  setQuery(nextQuery);
+                  setVisibleCount(INITIAL_VISIBLE_COUNT);
+                });
               }}
               placeholder="搜索项目名称、技术栈、年份"
               className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] py-2.5 pl-10 pr-4 text-[13px] font-medium text-[color:var(--text-primary)] placeholder:font-normal placeholder:text-[color:var(--text-tertiary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
@@ -142,7 +146,11 @@ export function ProjectList({ items }: ProjectListProps) {
                   key={option.key}
                   layout
                   type="button"
-                  onClick={() => setSortMode(option.key)}
+                  onClick={() => {
+                    startTransition(() => {
+                      setSortMode(option.key);
+                    });
+                  }}
                   transition={chipTransition}
                   whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
                   className={cn(
@@ -186,8 +194,10 @@ export function ProjectList({ items }: ProjectListProps) {
                 layout
                 type="button"
                 onClick={() => {
-                  setActiveTech(tag);
-                  setVisibleCount(INITIAL_VISIBLE_COUNT);
+                  startTransition(() => {
+                    setActiveTech(tag);
+                    setVisibleCount(INITIAL_VISIBLE_COUNT);
+                  });
                 }}
                 transition={chipTransition}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
@@ -249,9 +259,11 @@ export function ProjectList({ items }: ProjectListProps) {
           <button
             type="button"
             onClick={() => {
-              setQuery("");
-              setActiveTech("all");
-              setVisibleCount(INITIAL_VISIBLE_COUNT);
+              startTransition(() => {
+                setQuery("");
+                setActiveTech("all");
+                setVisibleCount(INITIAL_VISIBLE_COUNT);
+              });
             }}
             className="theme-link mt-6 text-[13px] font-semibold underline underline-offset-4"
           >

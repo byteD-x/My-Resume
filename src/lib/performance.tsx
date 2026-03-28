@@ -84,20 +84,47 @@ export function WebVitals() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    import("web-vitals").then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
-      try {
-        onCLS((metric) => handleMetric("CLS", metric));
-        onINP((metric) => handleMetric("INP", metric));
-        onFCP((metric) => handleMetric("FCP", metric));
-        onLCP((metric) => handleMetric("LCP", metric));
-        onTTFB((metric) => handleMetric("TTFB", metric));
-      } catch (error) {
-        console.error("Error tracking web vitals:", error);
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    const startVitalsCollection = () => {
+      import("web-vitals").then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
+        if (cancelled) return;
+
+        try {
+          onCLS((metric) => handleMetric("CLS", metric));
+          onINP((metric) => handleMetric("INP", metric));
+          onFCP((metric) => handleMetric("FCP", metric));
+          onLCP((metric) => handleMetric("LCP", metric));
+          onTTFB((metric) => handleMetric("TTFB", metric));
+        } catch (error) {
+          console.error("Error tracking web vitals:", error);
+        }
+      });
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(startVitalsCollection, {
+        timeout: 2000,
+      });
+
+      if (process.env.NODE_ENV !== "development") {
+        return () => {
+          cancelled = true;
+          window.cancelIdleCallback(idleId);
+        };
       }
-    });
+    } else {
+      timeoutId = globalThis.setTimeout(startVitalsCollection, 1200);
+    }
 
     if (process.env.NODE_ENV !== "development") {
-      return;
+      return () => {
+        cancelled = true;
+        if (timeoutId !== null) {
+          globalThis.clearTimeout(timeoutId);
+        }
+      };
     }
 
     const checkPerformanceBudget = () => {
@@ -117,7 +144,13 @@ export function WebVitals() {
     };
 
     const intervalId = window.setInterval(checkPerformanceBudget, 10000);
-    return () => window.clearInterval(intervalId);
+    return () => {
+      cancelled = true;
+      if (timeoutId !== null) {
+        globalThis.clearTimeout(timeoutId);
+      }
+      window.clearInterval(intervalId);
+    };
   }, []);
 
   return null;

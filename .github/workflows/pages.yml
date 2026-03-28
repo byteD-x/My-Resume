@@ -70,6 +70,8 @@ jobs:
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
+    env:
+      SKIP_GITHUB_FETCH: "1"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -122,24 +124,18 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Verify Vercel, GitHub Pages, and server endpoints
-        run: |
-          set -euo pipefail
+      - name: Checkout
+        uses: actions/checkout@v4
 
-          repo_name="${{ github.event.repository.name }}"
-          owner="${{ github.repository_owner }}"
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
 
-          if [ "${repo_name}" = "${owner}.github.io" ]; then
-            pages_url="https://${owner}.github.io/"
-          else
-            pages_url="https://${owner}.github.io/${repo_name}/"
-          fi
-
-          for url in \
-            "https://my-resume-gray-five.vercel.app" \
-            "${pages_url}" \
-            "https://106.12.154.163"
-          do
-            echo "Checking ${url}"
-            curl -fsSL --retry 5 --retry-delay 3 --max-time 20 "${url}" >/dev/null
-          done
+      - name: Verify Vercel, GitHub Pages, and self-hosted endpoints
+        env:
+          VERCEL_PUBLIC_URL: ${{ vars.VERCEL_PUBLIC_URL }}
+          SERVER_IP_PUBLIC_URL: ${{ vars.SERVER_IP_PUBLIC_URL }}
+          SERVER_PUBLIC_URL: ${{ vars.SERVER_PUBLIC_URL }}
+          VERIFY_SERVER_PUBLIC_URL: ${{ vars.VERIFY_SERVER_PUBLIC_URL }}
+        run: node scripts/verify-public-endpoints.mjs

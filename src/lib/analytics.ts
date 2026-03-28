@@ -5,12 +5,24 @@
  * NEXT_PUBLIC_GA_MEASUREMENT_ID - Your GA4 Measurement ID (e.g., G-XXXXXXXXXX)
  */
 
-import ReactGA from "react-ga4";
-
 let analyticsEnabled = false;
+let reactGAInstance: typeof import("react-ga4").default | null = null;
+let reactGALoader: Promise<typeof import("react-ga4").default> | null = null;
+
+const getReactGA = async () => {
+  if (reactGAInstance) return reactGAInstance;
+  if (!reactGALoader) {
+    reactGALoader = import("react-ga4").then((mod) => {
+      reactGAInstance = mod.default;
+      return reactGAInstance;
+    });
+  }
+
+  return reactGALoader;
+};
 
 // Initialize GA4 - call this once in your app
-export const initGA = (): void => {
+export const initGA = async (): Promise<void> => {
   const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   if (!measurementId) {
@@ -22,6 +34,7 @@ export const initGA = (): void => {
   }
 
   try {
+    const ReactGA = await getReactGA();
     ReactGA.initialize(measurementId, {
       // Enable debug mode in development
       gaOptions: {
@@ -37,9 +50,9 @@ export const initGA = (): void => {
 
 // Track page views
 export const trackPageView = (path: string, title?: string): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.send({
+    reactGAInstance.send({
       hitType: "pageview",
       page: path,
       title: title,
@@ -51,9 +64,9 @@ export const trackPageView = (path: string, title?: string): void => {
 
 // Track CTA clicks
 export const trackCTAClick = (ctaName: string, ctaLocation: string): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "CTA",
       action: "click",
       label: ctaName,
@@ -63,7 +76,7 @@ export const trackCTAClick = (ctaName: string, ctaLocation: string): void => {
     });
 
     // Also send as GA4 recommended event
-    ReactGA.event("select_content", {
+    reactGAInstance.event("select_content", {
       content_type: "cta_button",
       item_id: ctaName,
       content_id: ctaLocation,
@@ -79,9 +92,9 @@ export const trackAudiencePathSelect = (
   targetSection: string,
   success: boolean,
 ): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "AudiencePath",
       action: success ? "navigate_success" : "navigate_failed",
       label: `${audience}:${targetSection}`,
@@ -89,7 +102,7 @@ export const trackAudiencePathSelect = (
       transport: "beacon",
     });
 
-    ReactGA.event("select_content", {
+    reactGAInstance.event("select_content", {
       content_type: "audience_path",
       item_id: audience,
       content_id: targetSection,
@@ -105,9 +118,9 @@ export const trackRoleSectionView = (
   role: "hr" | "jobSeeker" | "partner" | "client",
   sectionId: string,
 ): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "AudiencePath",
       action: "section_view",
       label: `${role}:${sectionId}`,
@@ -122,9 +135,9 @@ export const trackRoleSectionView = (
 export const trackContactReveal = (
   channel: "phone" | "wechat" | "all",
 ): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Contact",
       action: "reveal_private_channel",
       label: channel,
@@ -138,9 +151,9 @@ export const trackContactReveal = (
 
 // Track project evidence CTA clicks
 export const trackProjectEvidenceClick = (ctaLocation: string): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "CTA",
       action: "click",
       label: "project_evidence",
@@ -148,7 +161,7 @@ export const trackProjectEvidenceClick = (ctaLocation: string): void => {
       transport: "beacon",
     });
 
-    ReactGA.event("select_content", {
+    reactGAInstance.event("select_content", {
       content_type: "project_evidence",
       item_id: "project_evidence_click",
       content_id: ctaLocation,
@@ -160,9 +173,9 @@ export const trackProjectEvidenceClick = (ctaLocation: string): void => {
 
 // Track scroll depth milestones
 export const trackScrollDepth = (percentage: number): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Engagement",
       action: "scroll",
       label: `${percentage}%`,
@@ -176,16 +189,16 @@ export const trackScrollDepth = (percentage: number): void => {
 
 // Track resume download
 export const trackResumeDownload = (): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Resume",
       action: "download",
       label: "PDF Resume",
     });
 
     // GA4 recommended event for file download
-    ReactGA.event("file_download", {
+    reactGAInstance.event("file_download", {
       file_name: "resume.pdf",
       file_extension: "pdf",
     });
@@ -196,15 +209,15 @@ export const trackResumeDownload = (): void => {
 
 // Track appointment modal open
 export const trackAppointmentModalOpen = (): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Engagement",
       action: "modal_open",
       label: "Appointment Modal",
     });
 
-    ReactGA.event("generate_lead", {
+    reactGAInstance.event("generate_lead", {
       lead_source: "appointment_cta",
     });
   } catch {
@@ -214,16 +227,16 @@ export const trackAppointmentModalOpen = (): void => {
 
 // Track appointment form submission
 export const trackAppointmentSubmit = (success: boolean): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Conversion",
       action: success ? "appointment_success" : "appointment_fail",
       label: "Appointment Form",
     });
 
     if (success) {
-      ReactGA.event("sign_up", {
+      reactGAInstance.event("sign_up", {
         method: "appointment_form",
       });
     }
@@ -234,9 +247,9 @@ export const trackAppointmentSubmit = (success: boolean): void => {
 
 // Track section views
 export const trackSectionView = (sectionId: string): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Engagement",
       action: "section_view",
       label: sectionId,
@@ -249,16 +262,16 @@ export const trackSectionView = (sectionId: string): void => {
 
 // Track external link clicks
 export const trackExternalLink = (url: string, linkText: string): void => {
-  if (!analyticsEnabled) return;
+  if (!analyticsEnabled || !reactGAInstance) return;
   try {
-    ReactGA.event({
+    reactGAInstance.event({
       category: "Outbound",
       action: "click",
       label: url,
       transport: "beacon",
     });
 
-    ReactGA.event("click", {
+    reactGAInstance.event("click", {
       link_url: url,
       link_text: linkText,
       outbound: true,

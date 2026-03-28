@@ -1,11 +1,21 @@
 import { spawnSync } from "node:child_process";
 import process from "node:process";
 
+function parseCsv(value) {
+    return String(value || "")
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean);
+}
+
 const config = {
     serverHost: process.env.SERVER_HOST || "106.12.154.163",
     serverUser: process.env.SERVER_USER || "root",
     serverPort: process.env.SERVER_PORT || "22",
-    certName: process.env.SERVER_CERT_NAME || "portfolio-ip",
+    canonicalHost: process.env.SERVER_CANONICAL_HOST || "www.byted.online",
+    additionalDomains: parseCsv(process.env.SERVER_ADDITIONAL_DOMAINS),
+    redirectHosts: parseCsv(process.env.SERVER_REDIRECT_HOSTS || "106.12.154.163"),
+    certName: process.env.SERVER_CERT_NAME || process.env.SERVER_CANONICAL_HOST || "www.byted.online",
     certbotInstall: process.env.SERVER_CERTBOT_INSTALL || "venv",
     certbotVenvDir: process.env.SERVER_CERTBOT_VENV_DIR || "/opt/certbot",
     nginxSitePath: process.env.SERVER_NGINX_SITE_PATH || "/etc/nginx/sites-enabled/portfolio",
@@ -43,14 +53,16 @@ function singleQuote(value) {
     return `'${String(value).replace(/'/g, `'\"'\"'`)}'`;
 }
 
-function renderHttpsConfig() {
-    const certDir = `/etc/letsencrypt/live/${config.certName}`;
+function uniqueHosts(items) {
+    return Array.from(new Set(items.map((item) => item.trim()).filter(Boolean)));
+}
 
+function renderBootstrapHttpConfig(serverNames, canonicalHost) {
     return `server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
-  server_name ${config.serverHost};
+  server_name ${serverNames.join(" ")};
 
   location ^~ /.well-known/acme-challenge/ {
     alias ${config.acmeDir}/;
@@ -58,7 +70,28 @@ function renderHttpsConfig() {
   }
 
   location / {
-    return 301 https://${config.serverHost}$request_uri;
+    return 301 https://${canonicalHost}$request_uri;
+  }
+}
+`;
+}
+
+function renderFinalHttpsConfig(serverNames, canonicalHost, certName) {
+    const certDir = `/etc/letsencrypt/live/${certName}`;
+
+    return `server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  server_name ${serverNames.join(" ")};
+
+  location ^~ /.well-known/acme-challenge/ {
+    alias ${config.acmeDir}/;
+    default_type "text/plain";
+  }
+
+  location / {
+    return 301 https://${canonicalHost}$request_uri;
   }
 }
 
@@ -66,7 +99,7 @@ server {
   listen 443 ssl http2 default_server;
   listen [::]:443 ssl http2 default_server;
 
-  server_name ${config.serverHost};
+  server_name ${canonicalHost};
 
   ssl_certificate ${certDir}/fullchain.pem;
   ssl_certificate_key ${certDir}/privkey.pem;
@@ -91,15 +124,20 @@ server {
 }
 
 function buildRemoteScript() {
-    const httpsConfig = renderHttpsConfig();
+    const domainSet = uniqueHosts([config.canonicalHost, ...config.additionalDomains]);
+    const serverNames = uniqueHosts([...domainSet, ...config.redirectHosts]);
+    const bootstrapConfig = renderBootstrapHttpConfig(serverNames, config.canonicalHost);
+    const finalConfig = renderFinalHttpsConfig(serverNames, config.canonicalHost, config.certName);
+    const certbotDomainArgs = domainSet.map((domain) => `-d ${singleQuote(domain)}`).join(" ");
 
     return `set -euo pipefail
 
-host=${singleQuote(config.serverHost)}
+canonical_host=${singleQuote(config.canonicalHost)}
 cert_name=${singleQuote(config.certName)}
 certbot_install=${singleQuote(config.certbotInstall)}
 certbot_venv_dir=${singleQuote(config.certbotVenvDir)}
 nginx_site_path=${singleQuote(config.nginxSitePath)}
+acme_dir=${singleQuote(config.acmeDir)}
 renew_hook=${singleQuote("/etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh")}
 renew_service=${singleQuote("/etc/systemd/system/portfolio-certbot-renew.service")}
 renew_timer=${singleQuote("/etc/systemd/system/portfolio-certbot-renew.timer")}
@@ -135,36 +173,28 @@ if [ -z "$certbot_bin" ] || [ ! -x "$certbot_bin" ]; then
   exit 1
 fi
 
-"$certbot_bin" certonly \
-  --dry-run \
-  --non-interactive \
-  --agree-tos \
-  --register-unsafely-without-email \
-  --preferred-profile shortlived \
-  --standalone \
-  --pre-hook "systemctl stop nginx" \
-  --post-hook "systemctl start nginx" \
-  --cert-name "$cert_name" \
-  --ip-address "$host"
+mkdir -p "$acme_dir" "$(dirname "$nginx_site_path")" /etc/letsencrypt/renewal-hooks/deploy
 
-"$certbot_bin" certonly \
-  --non-interactive \
-  --agree-tos \
-  --register-unsafely-without-email \
-  --preferred-profile shortlived \
-  --standalone \
-  --pre-hook "systemctl stop nginx" \
-  --post-hook "systemctl start nginx" \
-  --cert-name "$cert_name" \
-  --ip-address "$host"
-
-if [ ! -f "$nginx_site_path" ]; then
-  echo "Missing nginx site config: $nginx_site_path" >&2
-  exit 1
+if [ -f "$nginx_site_path" ]; then
+  cp "$nginx_site_path" "$backup_path"
+  restore_needed=1
 fi
 
-cp "$nginx_site_path" "$backup_path"
-restore_needed=1
+cat > "$nginx_site_path" <<'BOOTSTRAPCONF'
+${bootstrapConfig}
+BOOTSTRAPCONF
+
+nginx -t
+systemctl reload nginx
+
+"$certbot_bin" certonly \\
+  --non-interactive \\
+  --agree-tos \\
+  --register-unsafely-without-email \\
+  --webroot \\
+  -w "$acme_dir" \\
+  --cert-name "$cert_name" \\
+  ${certbotDomainArgs}
 
 cat > "$renew_hook" <<'HOOK'
 #!/usr/bin/env bash
@@ -203,7 +233,7 @@ systemctl daemon-reload
 systemctl enable --now portfolio-certbot-renew.timer >/dev/null 2>&1
 
 cat > "$nginx_site_path" <<'HTTPSCONF'
-${httpsConfig}
+${finalConfig}
 HTTPSCONF
 
 nginx -t
@@ -211,7 +241,7 @@ systemctl reload nginx
 
 restore_needed=0
 
-echo "HTTPS setup complete"
+echo "HTTPS setup complete for $canonical_host"
 "$certbot_bin" certificates
 `;
 }
@@ -220,14 +250,18 @@ function main() {
     const sshTarget = `${config.serverUser}@${config.serverHost}`;
     const remoteScript = buildRemoteScript();
 
-    run("ssh", [
-        "-o",
-        "StrictHostKeyChecking=no",
-        "-p",
-        config.serverPort,
-        sshTarget,
-        "bash -s",
-    ], { input: remoteScript });
+    run(
+        "ssh",
+        [
+            "-o",
+            "StrictHostKeyChecking=no",
+            "-p",
+            config.serverPort,
+            sshTarget,
+            "bash -s",
+        ],
+        { input: remoteScript },
+    );
 }
 
 main();

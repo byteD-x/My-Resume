@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import ImmersiveBackdrop from "@/components/ImmersiveBackdrop";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
@@ -8,7 +9,7 @@ import { Section } from "@/components/ui/Section";
 import { defaultPortfolioData } from "@/data";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { CapabilitySummary } from "@/components/home/CapabilitySummary";
-import { HomePageRuntime } from "@/components/home/HomePageRuntime";
+import { HomePageRuntimeShell } from "@/components/home/HomePageRuntimeShell";
 import {
   getHeroSpotlights,
   getHomepageFeaturedProjects,
@@ -94,7 +95,8 @@ export default function HomePage() {
         <div className="absolute bottom-[12rem] left-[22%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(224,242,254,0.2),transparent_74%)] blur-3xl" />
       </div>
 
-      <HomePageRuntime />
+      <ImmersiveBackdrop />
+      <HomePageRuntimeShell />
       <Navbar heroData={data.hero} contactData={data.contact} />
       <Hero data={data.hero} proofItems={heroProofItems} />
 

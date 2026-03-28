@@ -1303,7 +1303,7 @@ export const defaultPortfolioData: PortfolioData = {
       },
       {
         label: "国内站（自托管）",
-        url: "https://106.12.154.163/",
+        url: "https://www.byted.online/",
       },
     ],
     resumeButtonText: "下载简历 PDF",
@@ -1361,4 +1361,3 @@ export const defaultPortfolioData: PortfolioData = {
     },
   ],
 };
-

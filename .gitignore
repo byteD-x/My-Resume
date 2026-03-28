@@ -8,6 +8,7 @@ node_modules
 # Next.js build / dev output
 .next/
 out/
+next-env.d.ts
 
 # TypeScript cache
 *.tsbuildinfo

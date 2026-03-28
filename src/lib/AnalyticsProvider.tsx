@@ -18,25 +18,69 @@ interface AnalyticsProviderProps {
 }
 
 export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
+  const analyticsConfigured = Boolean(
+    process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+  );
   const pathname = usePathname();
   const initializedRef = useRef(false);
+  const pathnameRef = useRef(pathname);
   const scrollMilestonesRef = useRef<Set<number>>(new Set());
   const sectionSeenRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
-    if (!initializedRef.current) {
-      initGA();
-      initializedRef.current = true;
-    }
-  }, []);
-
-  useEffect(() => {
-    if (initializedRef.current) {
-      trackPageView(pathname);
-    }
+    pathnameRef.current = pathname;
   }, [pathname]);
 
   useEffect(() => {
+    if (!analyticsConfigured || initializedRef.current) {
+      return;
+    }
+
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    const bootstrap = async () => {
+      await initGA();
+      if (cancelled) return;
+      initializedRef.current = true;
+      trackPageView(pathnameRef.current);
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      const idleId = window.requestIdleCallback(() => {
+        void bootstrap();
+      });
+      return () => {
+        cancelled = true;
+        window.cancelIdleCallback(idleId);
+      };
+    }
+
+    timeoutId = globalThis.setTimeout(() => {
+      void bootstrap();
+    }, 1200);
+
+    return () => {
+      cancelled = true;
+      if (timeoutId !== null) {
+        globalThis.clearTimeout(timeoutId);
+      }
+    };
+  }, [analyticsConfigured]);
+
+  useEffect(() => {
+    if (!analyticsConfigured || !initializedRef.current) {
+      return;
+    }
+
+    trackPageView(pathname);
+  }, [analyticsConfigured, pathname]);
+
+  useEffect(() => {
+    if (!analyticsConfigured) {
+      return;
+    }
+
     scrollMilestonesRef.current.clear();
 
     const trackMilestones = () => {
@@ -57,9 +101,13 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
 
     trackMilestones();
     return subscribeScrollObserver(trackMilestones);
-  }, [pathname]);
+  }, [analyticsConfigured, pathname]);
 
   useEffect(() => {
+    if (!analyticsConfigured) {
+      return;
+    }
+
     sectionSeenRef.current.clear();
     const sectionIds = [
       "impact",
@@ -88,7 +136,7 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
     });
 
     return () => observer.disconnect();
-  }, [pathname]);
+  }, [analyticsConfigured, pathname]);
 
   return <>{children}</>;
 }

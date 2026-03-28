@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --canvas: #f6f8fb;
-  --canvas-rgb: 246, 248, 251;
+  --canvas: #f3f6fa;
+  --canvas-rgb: 243, 246, 250;
   --surface: #ffffff;
   --surface-rgb: 255, 255, 255;
-  --surface-muted: #f1f5f9;
-  --surface-muted-rgb: 241, 245, 249;
-  --surface-strong: #e2e8f0;
-  --surface-strong-rgb: 226, 232, 240;
+  --surface-muted: #eef3f8;
+  --surface-muted-rgb: 238, 243, 248;
+  --surface-strong: #dde6f0;
+  --surface-strong-rgb: 221, 230, 240;
 
   --brand-ink: #111827;
   --brand-ink-soft: #1f2937;
@@ -16,9 +16,9 @@
   --brand-gold-soft: #60a5fa;
   --accent-copper: #1d4ed8;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
+  --text-primary: #102033;
+  --text-secondary: #334155;
+  --text-tertiary: #4b5d73;
   --text-inverse: #f8fbff;
 
   --border-default: rgba(15, 23, 42, 0.1);
@@ -26,12 +26,14 @@
   --border-muted: rgba(15, 23, 42, 0.06);
   --focus-ring: rgba(37, 99, 235, 0.22);
 
-  --font-heading: var(--font-app-heading), "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue",
-    system-ui, sans-serif;
-  --font-body: var(--font-app-sans), "PingFang SC", "Hiragino Sans GB",
-    "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Helvetica Neue",
-    system-ui, sans-serif;
+  --font-heading: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC",
+    "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", system-ui,
+    sans-serif;
+  --font-body: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI",
+    "Microsoft YaHei", "Noto Sans CJK SC", "Source Han Sans SC",
+    "Segoe UI Variable Text", "Segoe UI", "Helvetica Neue", system-ui,
+    sans-serif;
 
   --shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.05);
   --shadow-md: 0 18px 44px rgba(15, 23, 42, 0.08);
@@ -52,14 +54,14 @@
 }
 
 :root[class~="dark"] {
-  --canvas: #f6f8fb;
-  --canvas-rgb: 246, 248, 251;
+  --canvas: #f3f6fa;
+  --canvas-rgb: 243, 246, 250;
   --surface: #ffffff;
   --surface-rgb: 255, 255, 255;
-  --surface-muted: #f1f5f9;
-  --surface-muted-rgb: 241, 245, 249;
-  --surface-strong: #e2e8f0;
-  --surface-strong-rgb: 226, 232, 240;
+  --surface-muted: #eef3f8;
+  --surface-muted-rgb: 238, 243, 248;
+  --surface-strong: #dde6f0;
+  --surface-strong-rgb: 221, 230, 240;
 
   --brand-ink: #111827;
   --brand-ink-soft: #1f2937;
@@ -67,9 +69,9 @@
   --brand-gold-soft: #60a5fa;
   --accent-copper: #1d4ed8;
 
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
+  --text-primary: #102033;
+  --text-secondary: #334155;
+  --text-tertiary: #4b5d73;
   --text-inverse: #f8fbff;
 
   --border-default: rgba(15, 23, 42, 0.1);
@@ -85,14 +87,14 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([class~="light"]) {
-    --canvas: #f6f8fb;
-    --canvas-rgb: 246, 248, 251;
+    --canvas: #f3f6fa;
+    --canvas-rgb: 243, 246, 250;
     --surface: #ffffff;
     --surface-rgb: 255, 255, 255;
-    --surface-muted: #f1f5f9;
-    --surface-muted-rgb: 241, 245, 249;
-    --surface-strong: #e2e8f0;
-    --surface-strong-rgb: 226, 232, 240;
+    --surface-muted: #eef3f8;
+    --surface-muted-rgb: 238, 243, 248;
+    --surface-strong: #dde6f0;
+    --surface-strong-rgb: 221, 230, 240;
 
     --brand-ink: #111827;
     --brand-ink-soft: #1f2937;
@@ -100,9 +102,9 @@
     --brand-gold-soft: #60a5fa;
     --accent-copper: #1d4ed8;
 
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-tertiary: #64748b;
+    --text-primary: #102033;
+    --text-secondary: #334155;
+    --text-tertiary: #4b5d73;
     --text-inverse: #f8fbff;
 
     --border-default: rgba(15, 23, 42, 0.1);
@@ -132,22 +134,32 @@ body {
   background:
     radial-gradient(
       circle at top left,
-      rgba(191, 219, 254, 0.32),
-      transparent 24%
+      rgba(191, 219, 254, 0.16),
+      transparent 26%
     ),
     radial-gradient(
       circle at 88% 14%,
-      rgba(219, 234, 254, 0.88),
-      transparent 30%
+      rgba(219, 234, 254, 0.52),
+      transparent 32%
     ),
-    linear-gradient(180deg, #ffffff 0%, #f6f8fb 58%, #eef3f8 100%);
+    linear-gradient(180deg, #fdfefe 0%, #f5f8fb 56%, #edf2f7 100%);
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 16px;
-  line-height: 1.75;
-  text-rendering: geometricPrecision;
+  line-height: 1.82;
+  text-rendering: optimizeLegibility;
   font-feature-settings: "kern" 1;
+  font-kerning: normal;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   letter-spacing: 0;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 16.5px;
+  }
 }
 
 h1,
@@ -159,7 +171,7 @@ h6,
 .font-heading {
   font-family: var(--font-heading);
   color: var(--text-primary);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
 }
 
 .font-body {
@@ -168,6 +180,7 @@ h6,
 
 p {
   color: var(--text-secondary);
+  text-wrap: pretty;
 }
 
 ::selection {
@@ -205,6 +218,11 @@ p {
 
 .text-balance {
   text-wrap: balance;
+}
+
+.defer-section-render {
+  content-visibility: auto;
+  contain-intrinsic-size: 960px;
 }
 
 .btn {
@@ -365,11 +383,11 @@ p {
   overflow: hidden;
   background: linear-gradient(
     180deg,
-    rgb(var(--surface-rgb)) 0%,
-    #f9fbfe 100%
+    rgba(255, 255, 255, 0.995) 0%,
+    rgba(250, 252, 254, 0.985) 100%
   );
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.055);
 }
 
 .theme-card::before,
@@ -391,11 +409,11 @@ p {
   overflow: hidden;
   background: linear-gradient(
     180deg,
-    #f5f8fc 0%,
-    rgb(var(--surface-rgb)) 100%
+    rgba(246, 249, 252, 0.995) 0%,
+    rgba(255, 255, 255, 0.99) 100%
   );
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(15, 23, 42, 0.11);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
 }
 
 .theme-card-strong {
@@ -433,17 +451,17 @@ p {
   position: relative;
   isolation: isolate;
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.038) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.038) 1px, transparent 1px),
+    linear-gradient(rgba(15, 23, 42, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.026) 1px, transparent 1px),
     radial-gradient(
       circle at top right,
-      rgba(219, 234, 254, 0.72),
-      transparent 30%
+      rgba(219, 234, 254, 0.42),
+      transparent 28%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.76) 0%,
-      rgba(246, 248, 251, 0.82) 100%
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(245, 248, 251, 0.94) 100%
     );
   background-size: 36px 36px, 36px 36px, auto, auto;
   background-position: center;
@@ -453,17 +471,17 @@ p {
   position: relative;
   isolation: isolate;
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.048) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.048) 1px, transparent 1px),
+    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
     radial-gradient(
       circle at top right,
-      rgba(191, 219, 254, 0.76),
-      transparent 28%
+      rgba(191, 219, 254, 0.46),
+      transparent 26%
     ),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.82) 0%,
-      rgba(241, 245, 249, 0.9) 100%
+      rgba(255, 255, 255, 0.93) 0%,
+      rgba(241, 245, 249, 0.96) 100%
     );
   background-size: 32px 32px, 32px 32px, auto, auto;
   background-position: center;
@@ -483,10 +501,10 @@ p {
 }
 
 .theme-panel {
-  background: rgba(var(--surface-rgb), 0.94);
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(16px) saturate(1.04);
+  background: rgba(255, 255, 255, 0.965);
+  border: 1px solid rgba(15, 23, 42, 0.11);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(10px) saturate(1.02);
 }
 
 .theme-section-balanced {
@@ -506,8 +524,9 @@ p {
 
 .theme-section-copy {
   color: var(--text-secondary);
-  font-size: 0.9375rem;
-  line-height: 1.9;
+  font-size: 1rem;
+  line-height: 1.95;
+  max-width: 40rem;
 }
 
 @media (min-width: 640px) {
@@ -571,27 +590,34 @@ p {
 
 .theme-title {
   color: var(--text-primary);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .theme-card-title {
   color: var(--text-primary);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.25;
+  letter-spacing: -0.022em;
+  line-height: 1.32;
 }
 
 .theme-card-body {
   color: var(--text-secondary);
-  line-height: 1.75;
+  line-height: 1.82;
+  font-size: 0.97rem;
 }
 
 .theme-copy {
   color: var(--text-secondary);
+  line-height: 1.86;
+  font-size: 0.98rem;
 }
 
 .theme-copy-subtle {
   color: var(--text-tertiary);
+  line-height: 1.78;
+  font-size: 0.94rem;
 }
 
 .theme-pill {
@@ -718,18 +744,18 @@ p {
 }
 
 .theme-dialog-overlay {
-  background: rgba(15, 23, 42, 0.26);
-  backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, 0.2);
+  backdrop-filter: blur(6px);
 }
 
 .theme-dialog-shell {
   background: linear-gradient(
     180deg,
-    rgba(var(--surface-rgb), 0.98) 0%,
-    rgba(var(--surface-muted-rgb), 0.88) 100%
+    rgba(255, 255, 255, 0.992) 0%,
+    rgba(243, 247, 251, 0.97) 100%
   );
-  border: 1px solid var(--border-default);
-  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(15, 23, 42, 0.11);
+  box-shadow: 0 28px 72px rgba(15, 23, 42, 0.1);
 }
 
 .theme-dialog-close {
@@ -812,12 +838,12 @@ p {
 .theme-floating-dock {
   background: linear-gradient(
     180deg,
-    rgba(var(--surface-rgb), 0.9) 0%,
-    rgba(var(--surface-muted-rgb), 0.82) 100%
+    rgba(255, 255, 255, 0.965) 0%,
+    rgba(242, 246, 250, 0.94) 100%
   );
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(16px) saturate(1.04);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
+  backdrop-filter: blur(10px) saturate(1.02);
 }
 
 .theme-floating-trigger {
@@ -840,8 +866,8 @@ p {
 
 .theme-floating-meta {
   color: var(--text-tertiary);
-  font-size: 0.72rem;
-  line-height: 1.45;
+  font-size: 0.75rem;
+  line-height: 1.58;
 }
 
 .theme-floating-label {

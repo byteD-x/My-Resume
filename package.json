@@ -18,6 +18,7 @@
     "test:e2e:ui": "playwright test --ui",
     "test:unit": "vitest",
     "check:links": "node scripts/check-links.js",
+    "verify:public": "node scripts/verify-public-endpoints.mjs",
     "analyze": "cross-env ANALYZE=true next build --webpack",
     "deploy:server": "node scripts/deploy-server-local.mjs",
     "deploy:server:status": "node scripts/deploy-server-status.mjs",

@@ -151,6 +151,16 @@ NEXT_PUBLIC_SITE_URL=https://your-domain-or-pages-url
 
 # GitHub 指标（可选，避免 API rate limit）
 GITHUB_TOKEN=ghp_xxx
+
+# 链接检查：备案/公网放通前，将自托管域名视为 optional
+LINK_CHECK_OPTIONAL_HOSTS=www.byted.online,106.12.154.163
+
+# 公网探活：自托管 IP 默认作为 required fallback，可按需覆盖
+# SERVER_IP_PUBLIC_URL=https://106.12.154.163
+#
+# 域名备案完成并可公网访问后，在 GitHub Actions 仓库变量中设置
+# SERVER_PUBLIC_URL=https://www.byted.online
+# VERIFY_SERVER_PUBLIC_URL=true
 ```
 
 **支持的事件追踪：**
@@ -299,7 +309,9 @@ npx vercel
 自托管国内站由服务器上的独立 CI/CD 链路负责发布，接收同一次 `git push` 并在服务器本机构建部署。
 
 站点地址：
-- 国内站（自托管）：`https://106.12.154.163`
+- 国内站（自托管）：`https://www.byted.online`
+
+GitHub Actions 会始终验证 Vercel、GitHub Pages 和自托管 IP 入口；自托管公网域名默认按 optional endpoint 处理。备案完成后，将仓库变量 `SERVER_PUBLIC_URL` 设为 `https://www.byted.online`，并将 `VERIFY_SERVER_PUBLIC_URL` 设为 `true`，即可把自托管公网域名探活升级为必过门禁。
 
 三条发布链路的详细说明见 [docs/deployment-channels.md](./docs/deployment-channels.md)。
 
@@ -317,4 +329,4 @@ MIT License
 - 💻 GitHub: [@byteD-x](https://github.com/byteD-x)
 - 🌐 国际站（Vercel）: [https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
 - 🌐 GitHub 站（Pages）: [https://byted-x.github.io/My-Resume/](https://byted-x.github.io/My-Resume/)
-- 🌐 国内站（自托管）: [https://106.12.154.163](https://106.12.154.163)
+- 🌐 国内站（自托管）: [https://www.byted.online](https://www.byted.online)

@@ -3,10 +3,8 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Sparkles } from "lucide-react";
-import ImmersiveBackdrop from "@/components/ImmersiveBackdrop";
-import { ScrollProgressBar } from "@/components/ScrollProgressBar";
-import FloatingResumeButton from "@/components/FloatingResumeButton";
 import { clearScrollRestore, readScrollRestore } from "@/lib/scroll-restore";
+import { useScrollPastThreshold } from "@/lib/scroll-observer";
 import { scrollToSection } from "@/lib/section-scroll";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 
@@ -18,8 +16,28 @@ const EngineeringCommandCenter = dynamic(
   },
 );
 
+const ScrollProgressBar = dynamic(
+  () =>
+    import("@/components/ScrollProgressBar").then((mod) => ({
+      default: mod.ScrollProgressBar,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
+
+const FloatingResumeButton = dynamic(
+  () => import("@/components/FloatingResumeButton"),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
+
 export function HomePageRuntime() {
   const isLowPerformanceMode = useLowPerformanceMode();
+  const hasReachedEnhancementZone = useScrollPastThreshold(240);
   const [showCommandCenter, setShowCommandCenter] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
 
@@ -61,10 +79,10 @@ export function HomePageRuntime() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setShowCommandCenter(true);
-    }, 1500);
+    }, 1200);
 
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [isLowPerformanceMode]);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 767px)");
@@ -74,11 +92,13 @@ export function HomePageRuntime() {
     return () => media.removeEventListener("change", syncViewport);
   }, []);
 
+  const shouldRenderEnhancements = showCommandCenter;
+  const shouldRenderSupplementalActions =
+    hasReachedEnhancementZone && !isLowPerformanceMode;
+
   return (
     <>
-      <ImmersiveBackdrop />
-
-      {showCommandCenter ? (
+      {shouldRenderEnhancements ? (
         <>
           {!isMobileViewport ? (
             <aside
@@ -109,17 +129,19 @@ export function HomePageRuntime() {
                         <ArrowUpRight size={12} />
                       </span>
                     </div>
-                    {!isLowPerformanceMode ? (
+                    {shouldRenderSupplementalActions ? (
                       <ScrollProgressBar variant="dock" />
                     ) : null}
                   </div>
 
                   <div className="border-t border-[color:var(--border-muted)] pt-3">
                     <p className="theme-floating-label mb-2">Actions</p>
-                    <FloatingResumeButton
-                      desktopVariant="dock"
-                      mobileVariant="hidden"
-                    />
+                    {shouldRenderSupplementalActions ? (
+                      <FloatingResumeButton
+                        desktopVariant="dock"
+                        mobileVariant="hidden"
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -136,11 +158,13 @@ export function HomePageRuntime() {
                     <span className="theme-floating-meta">作品集控制台</span>
                   </div>
                   <EngineeringCommandCenter compact className="w-full" />
-                  <FloatingResumeButton
-                    desktopVariant="hidden"
-                    mobileVariant="inline"
-                    mobileClassName="w-full"
-                  />
+                  {shouldRenderSupplementalActions ? (
+                    <FloatingResumeButton
+                      desktopVariant="hidden"
+                      mobileVariant="inline"
+                      mobileClassName="w-full"
+                    />
+                  ) : null}
                 </div>
               </div>
             </div>

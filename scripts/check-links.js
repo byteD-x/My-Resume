@@ -8,6 +8,12 @@ const SRC_DIR = path.join(__dirname, '../src');
 const TIMEOUT_MS = Number(process.env.LINK_CHECK_TIMEOUT_MS || 5000);
 const CONCURRENCY = Number(process.env.LINK_CHECK_CONCURRENCY || 8);
 const RETRIES = Number(process.env.LINK_CHECK_RETRIES || 2);
+const OPTIONAL_HOSTS = new Set(
+    String(process.env.LINK_CHECK_OPTIONAL_HOSTS || 'www.byted.online,106.12.154.163')
+        .split(',')
+        .map((item) => item.trim().toLowerCase())
+        .filter(Boolean),
+);
 
 const red = (msg) => `\x1b[31m${msg}\x1b[0m`;
 const green = (msg) => `\x1b[32m${msg}\x1b[0m`;
@@ -41,6 +47,14 @@ function extractLinks(content) {
         .map((raw) => raw.split('#')[0])
         .filter((raw) => !raw.includes('${'))
         .filter(Boolean);
+}
+
+function isOptionalHost(url) {
+    try {
+        return OPTIONAL_HOSTS.has(new URL(url).hostname.toLowerCase());
+    } catch {
+        return false;
+    }
 }
 
 function checkLinkWithMethod(url, method) {
@@ -117,6 +131,15 @@ async function checkLink(url) {
                     retries: attempt > 0 ? attempt : undefined,
                 };
             }
+            if (isOptionalHost(url)) {
+                return {
+                    ...result,
+                    status: 'ok',
+                    degraded: true,
+                    optional: true,
+                    retries: attempt > 0 ? attempt : undefined,
+                };
+            }
             if (attempt > 0) {
                 result.retries = attempt;
             }
@@ -168,8 +191,9 @@ async function main() {
         const okLabel = result.degraded ? 'OK (degraded)' : 'OK';
         const prefix = result.status === 'ok' ? green(okLabel) : red(`FAIL (${reason})`);
         const method = result.method ? yellow(`[${result.method}]`) : '';
+        const optionalInfo = result.optional ? ' (optional host)' : '';
         const retryInfo = typeof result.retries === 'number' && result.retries > 0 ? ` (retries=${result.retries})` : '';
-        console.log(`${method} ${url} -> ${prefix}${retryInfo}`);
+        console.log(`${method} ${url} -> ${prefix}${optionalInfo}${retryInfo}`);
         return result;
     });
 

@@ -20,15 +20,21 @@ const config = {
         "/root/.local/share/mise/installs/node/22.22.1/bin/node",
     serverBindHost: process.env.SERVER_BIND_HOST || "127.0.0.1",
     serverAppPort: process.env.SERVER_APP_PORT || "3000",
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://106.12.154.163",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byted.online",
     keepReleases: process.env.KEEP_RELEASES || "5",
     skipBuild: process.env.SKIP_BUILD === "1",
 };
 
 function run(command, args, options = {}) {
+    const stdio = options.capture
+        ? ["ignore", "pipe", "pipe"]
+        : options.input !== undefined
+          ? ["pipe", "inherit", "inherit"]
+          : "inherit";
     const result = spawnSync(command, args, {
         cwd: rootDir,
-        stdio: "inherit",
+        stdio,
+        encoding: options.capture ? "utf8" : undefined,
         env: { ...process.env, ...options.env },
         input: options.input,
         shell: options.shell || false,
@@ -39,8 +45,11 @@ function run(command, args, options = {}) {
     }
 
     if (result.status !== 0) {
-        throw new Error(`${command} exited with code ${result.status}`);
+        const stderr = options.capture ? result.stderr.trim() : "";
+        throw new Error(stderr || `${command} exited with code ${result.status}`);
     }
+
+    return options.capture ? result.stdout.trim() : undefined;
 }
 
 function runNpm(args, options = {}) {
