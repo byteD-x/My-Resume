@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import { m as motion } from "framer-motion";
 import {
@@ -19,7 +20,6 @@ import {
   getGithubTelemetry,
   type GitHubTelemetryPayload,
 } from "@/lib/github-telemetry";
-import MetricDrawer from "./MetricDrawer";
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -40,12 +40,18 @@ interface HighlightDeckProps {
 
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
 
+const MetricDrawer = dynamic(() => import("./MetricDrawer"), {
+  ssr: false,
+  loading: () => null,
+});
+
 export default function HighlightDeck({
   items,
   timeline = [],
 }: HighlightDeckProps) {
   const [selectedMetric, setSelectedMetric] = useState<ImpactItem | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [hasLoadedMetricDrawer, setHasLoadedMetricDrawer] = useState(false);
   const [githubStats, setGithubStats] = useState<GitHubTelemetryPayload | null>(null);
 
   const linkedExperience = useMemo(() => {
@@ -102,6 +108,7 @@ export default function HighlightDeck({
   }, []);
 
   const handleCardClick = (item: ImpactItem) => {
+    setHasLoadedMetricDrawer(true);
     setSelectedMetric(item);
     setIsDrawerOpen(true);
   };
@@ -142,7 +149,7 @@ export default function HighlightDeck({
               hidden: { opacity: 0 },
               visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
             }}
-            className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
+            className="grid auto-rows-fr grid-cols-1 gap-3.5 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
           >
             {displayItems.map((item) => {
               const Icon = iconMap[item.icon] || TrendingUp;
@@ -160,18 +167,18 @@ export default function HighlightDeck({
                   className={[
                     "theme-card-interactive group relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left will-change-transform border transition-colors duration-200",
                     isFocal
-                      ? "theme-card rounded-[1.45rem] border-[rgba(52,211,153,0.26)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(240,253,250,0.96)_58%,rgba(236,253,245,0.92)_100%)] p-6 shadow-[0_18px_38px_rgba(16,185,129,0.08)] sm:col-span-2 sm:p-8 lg:col-span-1 hover:border-[rgba(16,185,129,0.34)]"
-                      : "theme-card rounded-[1.2rem] p-5 sm:rounded-[1.25rem] sm:p-6 hover:border-[rgba(37,99,235,0.22)]",
+                      ? "theme-card rounded-2xl border-[rgba(52,211,153,0.26)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(240,253,250,0.96)_58%,rgba(236,253,245,0.92)_100%)] p-5 shadow-[0_12px_28px_rgba(16,185,129,0.075)] sm:col-span-2 sm:p-8 md:rounded-[1.45rem] md:shadow-[0_18px_38px_rgba(16,185,129,0.08)] lg:col-span-1 hover:border-[rgba(16,185,129,0.34)]"
+                      : "theme-card rounded-[1.1rem] p-[1.125rem] sm:rounded-[1.25rem] sm:p-6 hover:border-[rgba(37,99,235,0.22)]",
                   ].join(" ")}
                   aria-label={`${item.title}-${item.label}`}
                 >
                   {isFocal ? (
                     <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(circle_at_top,rgba(110,231,183,0.24),transparent_72%)]" />
                   ) : null}
-                  <div className="relative z-10 mb-6 flex items-start justify-between">
+                  <div className="relative z-10 mb-5 flex items-start justify-between sm:mb-6">
                     <div
                       className={[
-                        "font-heading text-4xl font-bold tracking-tighter tabular-nums md:text-[2.75rem] leading-none",
+                        "font-heading text-[2.1rem] font-bold leading-none tracking-tighter tabular-nums sm:text-4xl md:text-[2.75rem]",
                         "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
@@ -202,7 +209,7 @@ export default function HighlightDeck({
                     {item.description && (
                       <p
                         className={[
-                          "mb-6 text-[13px] leading-relaxed",
+                          "mb-5 text-[13px] leading-relaxed sm:mb-6",
                           "text-[color:var(--text-secondary)]",
                         ].join(" ")}
                       >
@@ -211,7 +218,7 @@ export default function HighlightDeck({
                     )}
 
                     {item.verification && (
-                      <div className="mb-5 inline-flex w-fit self-start items-center gap-1.5 rounded-full border border-emerald-300/70 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest">
+                      <div className="mb-4 inline-flex w-fit self-start items-center gap-1.5 rounded-full border border-emerald-300/70 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest sm:mb-5">
                         <span
                           className={cn(
                             "h-1.5 w-1.5 rounded-full",
@@ -226,7 +233,7 @@ export default function HighlightDeck({
 
                     <div
                       className={[
-                        "mt-auto flex items-center gap-1.5 text-[13px] font-semibold opacity-0 transition-opacity duration-300 group-hover:opacity-100",
+                        "mt-auto flex items-center gap-1.5 text-[13px] font-semibold opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100",
                         "text-[color:var(--text-primary)]",
                       ].join(" ")}
                     >
@@ -241,12 +248,14 @@ export default function HighlightDeck({
         </div>
       </section>
 
-      <MetricDrawer
-        isOpen={isDrawerOpen}
-        onClose={handleCloseDrawer}
-        metric={selectedMetric}
-        linkedExperience={linkedExperience}
-      />
+      {hasLoadedMetricDrawer ? (
+        <MetricDrawer
+          isOpen={isDrawerOpen}
+          onClose={handleCloseDrawer}
+          metric={selectedMetric}
+          linkedExperience={linkedExperience}
+        />
+      ) : null}
     </>
   );
 }

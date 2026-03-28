@@ -20,7 +20,7 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
         duration: 0.5,
         ease: EASING_CURVES.OUT_EXPO,
       }}
-      className="theme-card relative overflow-hidden rounded-[1.7rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_18px_36px_rgba(15,23,42,0.07)] sm:p-6 md:p-8 lg:p-9"
+      className="theme-card relative overflow-hidden rounded-2xl border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-6 md:rounded-[1.7rem] md:p-8 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-9"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(219,234,254,0.62),transparent)]" />
       <div className="relative z-10">
@@ -31,12 +31,12 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
               近期代表性项目
             </h2>
           </div>
-          <div className="theme-chip-strong px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em]">
+          <div className="theme-chip-strong px-3 py-1 text-[11px] font-bold uppercase tracking-[0.1em] sm:text-[10px] sm:tracking-[0.24em]">
             可复核
           </div>
         </div>
 
-        <div className="grid gap-3.5 sm:grid-cols-2 md:gap-5">
+        <div className="grid gap-3 sm:grid-cols-2 md:gap-5">
           {items.map((item) => {
             const content = (
               <>
@@ -63,7 +63,7 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
             );
 
             const cardClasses =
-              "theme-card-muted theme-card-interactive group flex flex-col rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:min-h-[13.5rem] sm:rounded-[1.35rem] sm:p-5";
+              "theme-card-muted theme-card-interactive group flex min-h-[12rem] flex-col rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:min-h-[13.5rem] sm:rounded-[1.35rem] sm:p-5";
 
             if (!item.href) {
               return (

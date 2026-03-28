@@ -154,7 +154,7 @@ test.describe('Portfolio E2E', () => {
             });
 
             await page.getByRole('button', { name: /Engineering|工程实力中枢/i }).click();
-            await expect(page.getByText('123')).toBeVisible();
+            await expect(page.getByText('123', { exact: true })).toBeVisible();
             await expect(page.getByText('wechat-bot')).toBeVisible();
             await expect(page.getByText('★ 5')).toBeVisible();
         });
@@ -256,9 +256,18 @@ test.describe('Portfolio E2E', () => {
             return;
         }
 
+        await expect(
+            page.getByRole('button', { name: /Engineering|工程实力中枢/i }).first(),
+        ).toBeVisible({ timeout: 8000 });
+
         await page.evaluate(() => window.scrollTo(0, 600));
-        await page.waitForTimeout(250);
-        await expect(page.locator('[role="progressbar"]')).toBeVisible();
+        await expect
+            .poll(async () => page.locator('[role="progressbar"]').count(), {
+                timeout: 4000,
+                interval: 200,
+            })
+            .toBeGreaterThan(0);
+        await expect(page.locator('[role="progressbar"]').first()).toBeVisible();
         const backToTopButton = page.getByRole('button', { name: /回到顶部/i }).first();
         await expect(backToTopButton).toBeVisible();
         await backToTopButton.click();

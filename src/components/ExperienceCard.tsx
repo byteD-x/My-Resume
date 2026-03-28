@@ -62,16 +62,16 @@ export const ExperienceCard = memo(function ExperienceCard({
       className="group block h-full"
       onClick={handleOpen}
     >
-      <div className="theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden rounded-[1.4rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_16px_34px_rgba(15,23,42,0.06)] sm:rounded-[1.55rem] sm:p-6">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90" />
+      <div className="theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden rounded-[1.3rem] border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_14px_30px_rgba(15,23,42,0.055)] sm:rounded-[1.55rem] sm:p-6">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[4.5rem] bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90" />
 
-        <div className="relative z-10 mb-5 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-4 sm:mb-6 sm:pb-5">
+        <div className="relative z-10 mb-4 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-6 sm:pb-5">
           <div className="min-w-0 flex-1 pr-4">
-            <h3 className="theme-card-title text-[1.08rem] transition-colors group-hover:text-[color:var(--brand-gold)]">
+            <h3 className="theme-card-title text-[1.04rem] transition-colors group-hover:text-[color:var(--brand-gold)] sm:text-[1.08rem]">
               {title}
             </h3>
             {subtitle ? (
-              <p className="theme-card-kicker mt-2.5">
+              <p className="theme-card-kicker mt-2">
                 {subtitle}
               </p>
             ) : null}
@@ -79,46 +79,46 @@ export const ExperienceCard = memo(function ExperienceCard({
 
           <div className="flex shrink-0 items-center gap-3">
             {!hideDate ? (
-              <div className="theme-chip px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em]">
+              <div className="theme-chip px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-[0.2em]">
                 {date}
               </div>
             ) : null}
-            <div className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(37,99,235,0.14)] bg-white/88 text-[color:var(--text-tertiary)] transition-colors duration-200 group-hover:border-[rgba(37,99,235,0.26)] group-hover:text-[color:var(--brand-gold)]">
+            <div className="motion-chip flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(37,99,235,0.14)] bg-white/88 text-[color:var(--text-tertiary)] transition-colors duration-200 group-hover:border-[rgba(37,99,235,0.26)] group-hover:text-[color:var(--brand-gold)] sm:h-9 sm:w-9">
               <ArrowUpRight className="motion-arrow-shift h-4.5 w-4.5" />
             </div>
           </div>
         </div>
 
         <div
-          className={`theme-card-body relative z-10 mb-6 flex-grow text-[13px] leading-[1.92] sm:mb-7 sm:text-[14px] sm:leading-7 ${
+          className={`theme-card-body relative z-10 mb-5 flex-grow text-[13px] leading-[1.9] sm:mb-7 sm:text-[14px] sm:leading-7 ${
             isProjectCard
-              ? "min-h-[8.5rem] sm:min-h-[9.75rem]"
-              : "min-h-[7.5rem] sm:min-h-[8.5rem]"
+              ? "min-h-[8rem] sm:min-h-[9.5rem]"
+              : "min-h-[7rem] sm:min-h-[8.5rem]"
           }`}
         >
           <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
         </div>
 
-        <div className="relative z-10 mt-auto border-t border-[color:var(--border-default)] pt-4 sm:pt-5">
-          <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-4">
-            <div className="flex min-h-10 flex-wrap content-start gap-2">
+        <div className="relative z-10 mt-auto border-t border-[color:var(--border-default)] pt-3.5 sm:pt-5">
+          <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-4">
+            <div className="flex min-h-9 flex-wrap content-start gap-2">
               {item.techTags?.slice(0, 3).map((tag, idx) => (
                 <span
                   key={idx}
-                  className="theme-chip max-w-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider"
+                  className="theme-chip max-w-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-wider"
                 >
                   {tag}
                 </span>
               ))}
               {(item.techTags?.length || 0) > 3 ? (
-                <span className="theme-chip px-2 py-1 text-[10px] font-semibold uppercase tracking-wider">
+                <span className="theme-chip px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-wider">
                   +{(item.techTags?.length || 0) - 3}
                 </span>
               ) : null}
             </div>
 
             {githubLink || demoLink ? (
-              <div className="flex min-h-10 items-start justify-start gap-1.5 opacity-80 transition-opacity group-hover:opacity-100 sm:justify-end">
+              <div className="flex min-h-9 items-start justify-start gap-2 opacity-80 transition-opacity group-hover:opacity-100 sm:min-h-10 sm:justify-end">
                 {githubLink ? (
                   <button
                     type="button"
@@ -127,7 +127,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                       e.stopPropagation();
                       window.open(githubLink, "_blank", "noopener,noreferrer");
                     }}
-                    className="motion-chip rounded-full border border-transparent p-2 text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)]"
+                    className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
                     aria-label="GitHub"
                     title="查看源码"
                   >
@@ -142,7 +142,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                       e.stopPropagation();
                       window.open(demoLink, "_blank", "noopener,noreferrer");
                     }}
-                    className="motion-chip rounded-full border border-transparent p-2 text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)]"
+                    className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
                     aria-label="Live Demo"
                     title="查看演示"
                   >

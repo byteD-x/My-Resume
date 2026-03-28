@@ -54,14 +54,14 @@ export function HeroCTA({
         ...fadeIn.transition,
         delay: HERO_ANIMATION.DELAY_CTA,
       }}
-      className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4"
+      className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4"
       data-print="hide"
     >
       <a
         href={downloadUrl}
         download={downloadName}
         onClick={handleDownloadClick}
-        className="btn btn-primary min-w-[12.5rem] sm:w-auto"
+        className="btn btn-primary w-full min-w-0 sm:min-w-[12.5rem] sm:w-auto"
         aria-label="下载简历 PDF"
       >
         <Download size={18} />
@@ -72,7 +72,7 @@ export function HeroCTA({
         type="button"
         onClick={handleViewProjects}
         disabled={!isHydrated}
-        className="btn btn-secondary min-w-[12.5rem] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+        className="btn btn-secondary w-full min-w-0 disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[12.5rem] sm:w-auto"
         aria-label="查看项目证据"
       >
         <ArrowRight size={18} />

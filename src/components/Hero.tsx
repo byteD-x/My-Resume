@@ -98,14 +98,14 @@ export default function Hero({ data, proofItems }: HeroProps) {
 
             <motion.h1
               variants={itemVariants}
-              className="theme-title mb-4 max-w-[10.5ch] text-balance text-[2.45rem] font-bold leading-[0.95] sm:text-[3.4rem] md:text-[4.65rem]"
+              className="theme-title mb-4 max-w-[10.5ch] text-balance text-[2.35rem] font-bold leading-[0.98] sm:text-[3.4rem] sm:leading-[0.95] md:text-[4.65rem]"
             >
               {mainTitle}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="theme-copy mb-7 max-w-[37rem] text-[14px] leading-7 sm:text-[15px] md:mb-8 md:text-[1.02rem] md:leading-8"
+              className="theme-copy mb-6 max-w-[37rem] text-[15px] leading-[1.72] sm:mb-7 sm:text-[15px] sm:leading-7 md:mb-8 md:text-[1.02rem] md:leading-8"
             >
               {data.subtitle}
             </motion.p>

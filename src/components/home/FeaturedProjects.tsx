@@ -72,25 +72,25 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                 href={item.href}
                 scroll={false}
                 onClick={handleOpen}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-[1.5rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_18px_38px_rgba(15,23,42,0.06)] sm:p-6 md:rounded-[1.75rem] md:p-8"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-6 md:rounded-[1.75rem] md:p-8 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
               >
-                  <div className="mb-7 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-5 sm:mb-9 sm:pb-6">
+                  <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-9 sm:gap-4 sm:pb-6">
                   <div className="theme-icon-box theme-icon-box-sm motion-chip">
                     <Icon size={18} strokeWidth={2} className="motion-icon-float" />
                   </div>
-                  <div className="theme-chip-strong max-w-[11rem] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-right">
+                  <div className="theme-chip-strong max-w-[10rem] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-right md:max-w-[11rem] md:text-[10px] md:tracking-[0.18em]">
                     {item.focus}
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-7">
+                <div className="flex-1 space-y-5 sm:space-y-7">
                   <div>
-                    <h3 className="theme-card-title text-[1.42rem]">
+                    <h3 className="theme-card-title text-[1.3rem] sm:text-[1.42rem]">
                       {item.name}
                     </h3>
                   </div>
 
-                  <div className="theme-card-muted rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-5">
+                  <div className="theme-card-muted rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:rounded-[1.3rem] sm:p-5">
                     <p className="theme-card-kicker mb-2.5">
                       内容定位
                     </p>
@@ -99,7 +99,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                     </p>
                   </div>
 
-                  <div className="theme-card-muted rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-5">
+                  <div className="theme-card-muted rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:rounded-[1.3rem] sm:p-5">
                     <p className="theme-card-kicker mb-2.5">
                       功能描述
                     </p>
@@ -108,7 +108,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                     </p>
                   </div>
 
-                  <div className="border-t border-[color:var(--border-default)] pt-6">
+                  <div className="border-t border-[color:var(--border-default)] pt-5 sm:pt-6">
                     <p className="theme-card-kicker mb-2.5">
                       技术描述
                     </p>
@@ -118,12 +118,12 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
                 </div>
 
-                <div className="mt-7 flex items-center justify-between border-t border-[color:var(--border-default)] pt-5 sm:mt-9 sm:pt-6">
-                  <div className="flex flex-wrap gap-2">
+                <div className="mt-5 flex items-center justify-between border-t border-[color:var(--border-default)] pt-4 sm:mt-9 sm:pt-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {item.techTags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="theme-chip px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider"
+                        className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] md:text-[10px] md:tracking-wider"
                       >
                         {tag}
                       </span>

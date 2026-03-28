@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import React, { useCallback, useMemo, useState } from "react";
 import { m as motion } from "framer-motion";
 import {
@@ -17,7 +18,6 @@ import {
 } from "lucide-react";
 import { ContactData } from "@/types";
 import { ToastTrigger } from "./Toast";
-import { AppointmentModal } from "./AppointmentModal";
 import { Section } from "./ui/Section";
 import { Container } from "./ui/Container";
 import {
@@ -25,6 +25,17 @@ import {
   trackContactReveal,
   trackExternalLink,
 } from "@/lib/analytics";
+
+const AppointmentModal = dynamic(
+  () =>
+    import("./AppointmentModal").then((mod) => ({
+      default: mod.AppointmentModal,
+    })),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
 
 const GithubIcon = ({
   size = 24,
@@ -65,6 +76,8 @@ interface ContactItem {
 export default function Contact({ contactData }: ContactProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isAppointmentOpen, setIsAppointmentOpen] = useState(false);
+  const [hasLoadedAppointmentModal, setHasLoadedAppointmentModal] =
+    useState(false);
   const [showPrivateChannels, setShowPrivateChannels] = useState(
     contactData.visibility?.defaultExpanded ?? false,
   );
@@ -186,8 +199,8 @@ export default function Contact({ contactData }: ContactProps) {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto max-w-6xl"
           >
-            <div className="theme-card grid gap-8 rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-5 shadow-[0_20px_42px_rgba(15,23,42,0.08)] sm:p-6 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-12 md:rounded-[1.85rem] md:p-10 lg:p-14">
-              <div className="space-y-7 sm:space-y-8">
+            <div className="theme-card grid gap-6 rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.07)] sm:p-6 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-12 md:rounded-[1.85rem] md:p-10 md:shadow-[0_20px_42px_rgba(15,23,42,0.08)] lg:p-14">
+              <div className="space-y-6 sm:space-y-8">
                 <div
                   className="theme-section-header mb-0 max-w-2xl scroll-mt-28"
                   data-scroll-target="contact"
@@ -203,17 +216,17 @@ export default function Contact({ contactData }: ContactProps) {
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-3.5 border-b border-[color:var(--border-default)] pb-6 pt-1 sm:flex-row sm:flex-wrap sm:gap-4">
+                <div className="flex flex-col gap-3 border-b border-[color:var(--border-default)] pb-5 pt-1 sm:flex-row sm:flex-wrap sm:gap-4 sm:pb-6">
                   <a
                     href={mailtoHref}
-                    className="btn btn-primary w-auto px-6 py-3.5 text-[14px]"
+                    className="btn btn-primary w-auto px-5 py-3 text-[14px] sm:px-6 sm:py-3.5"
                   >
                     <Mail size={16} />
                     发邮件沟通
                   </a>
                   <a
                     href="/resume.pdf"
-                    className="btn btn-secondary w-auto px-6 py-3.5 text-[14px]"
+                    className="btn btn-secondary w-auto px-5 py-3 text-[14px] sm:px-6 sm:py-3.5"
                   >
                     <Download size={16} />
                     {contactData.resumeButtonText ?? "下载简历 PDF"}
@@ -222,9 +235,10 @@ export default function Contact({ contactData }: ContactProps) {
                     type="button"
                     onClick={() => {
                       trackAppointmentModalOpen();
+                      setHasLoadedAppointmentModal(true);
                       setIsAppointmentOpen(true);
                     }}
-                    className="btn btn-secondary w-auto px-6 py-3.5 text-[14px]"
+                    className="btn btn-secondary w-auto px-5 py-3 text-[14px] sm:px-6 sm:py-3.5"
                   >
                     <Calendar size={16} />
                     预约沟通
@@ -241,11 +255,11 @@ export default function Contact({ contactData }: ContactProps) {
 
                 {contactData.consultationChecklist &&
                 contactData.consultationChecklist.length > 0 ? (
-                  <div className="mt-8 border-t border-[color:var(--border-default)] pt-8">
+                  <div className="mt-7 border-t border-[color:var(--border-default)] pt-7 sm:mt-8 sm:pt-8">
                     <p className="theme-kicker mb-5 text-[11px]">
                       沟通前准备
                     </p>
-                    <ul className="theme-copy space-y-3.5 text-[14px] leading-relaxed">
+                    <ul className="theme-copy space-y-3 text-[14px] leading-relaxed">
                       {contactData.consultationChecklist.map((item) => (
                         <li key={item} className="flex items-start gap-3">
                           <span className="mt-2.5 h-[1px] w-3 shrink-0 bg-[rgba(37,99,235,0.38)]" />
@@ -257,7 +271,7 @@ export default function Contact({ contactData }: ContactProps) {
                 ) : null}
               </div>
 
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3.5 sm:gap-4">
                 {contactItems.map((item) => {
                   const Icon = item.icon;
                   const isCopied = copiedField === item.id;
@@ -265,14 +279,14 @@ export default function Contact({ contactData }: ContactProps) {
                   return (
                     <div
                       key={item.id}
-                      className="theme-card-muted group flex items-center justify-between rounded-[1.3rem] border-[rgba(148,163,184,0.14)] p-4 transition-colors hover:border-[rgba(37,99,235,0.22)]"
+                      className="theme-card-muted group flex items-center justify-between rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-3.5 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:rounded-[1.3rem] sm:p-4"
                     >
-                      <div className="flex min-w-0 items-center gap-4">
+                      <div className="flex min-w-0 items-center gap-3.5 sm:gap-4">
                         <div className="theme-icon-box theme-icon-box-sm">
                           <Icon size={18} strokeWidth={2} />
                         </div>
                         <div className="min-w-0">
-                          <p className="theme-card-kicker mb-1">
+                          <p className="theme-card-kicker mb-0.5 sm:mb-1">
                             {item.label}
                           </p>
                           <a
@@ -296,12 +310,12 @@ export default function Contact({ contactData }: ContactProps) {
                         </div>
                       </div>
 
-                      <div className="ml-4 flex shrink-0 items-center gap-1.5">
+                      <div className="ml-3.5 flex shrink-0 items-center gap-2 sm:ml-4">
                         {item.canCopy ? (
                           <button
                             type="button"
                             onClick={() => void handleCopy(item.value, item.id)}
-                            className="flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(239,246,255,0.9)] hover:text-[color:var(--brand-gold)]"
+                            className="flex h-10 w-10 items-center justify-center rounded-full text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(239,246,255,0.9)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
                             aria-label={`复制 ${item.label}`}
                           >
                             {isCopied ? (
@@ -322,7 +336,7 @@ export default function Contact({ contactData }: ContactProps) {
                             onClick={() =>
                               trackExternalLink(item.href, `${item.label}_icon`)
                             }
-                            className="flex h-8 w-8 items-center justify-center rounded-full text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(239,246,255,0.9)] hover:text-[color:var(--brand-gold)]"
+                            className="flex h-10 w-10 items-center justify-center rounded-full text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(239,246,255,0.9)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
                             aria-label={`打开 ${item.label}`}
                           >
                             <ExternalLink size={14} />
@@ -359,10 +373,12 @@ export default function Contact({ contactData }: ContactProps) {
         onHide={() => setCopiedField(null)}
       />
 
-      <AppointmentModal
-        isOpen={isAppointmentOpen}
-        onClose={() => setIsAppointmentOpen(false)}
-      />
+      {hasLoadedAppointmentModal ? (
+        <AppointmentModal
+          isOpen={isAppointmentOpen}
+          onClose={() => setIsAppointmentOpen(false)}
+        />
+      ) : null}
     </>
   );
 }

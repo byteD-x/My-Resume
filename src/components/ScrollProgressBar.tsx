@@ -65,7 +65,7 @@ export function ScrollProgressBar({
     return (
       <div
         className={cn(
-          "theme-floating-trigger flex w-full items-center gap-4 rounded-[1.15rem] px-4 py-3",
+          "theme-floating-trigger flex w-full items-center gap-3.5 rounded-[1.1rem] px-3.5 py-3 sm:gap-4 sm:rounded-[1.15rem] sm:px-4",
           className,
         )}
       >
@@ -82,7 +82,7 @@ export function ScrollProgressBar({
             <button
               type="button"
               onClick={scrollToTop}
-              className="motion-chip pointer-events-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3 py-1.5 text-[11px] font-semibold text-[color:var(--text-primary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--brand-gold)]"
+              className="motion-chip pointer-events-auto inline-flex h-9 shrink-0 items-center gap-1.5 rounded-full border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3.5 text-[12px] font-semibold text-[color:var(--text-primary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--brand-gold)]"
               aria-label="回到顶部"
             >
               <ArrowUp size={12} />

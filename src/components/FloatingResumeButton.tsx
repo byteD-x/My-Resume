@@ -3,7 +3,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, m as motion } from "framer-motion";
 import { Download, Mail } from "lucide-react";
-import { defaultPortfolioData } from "@/data";
 import {
   createResumeDownloadHandler,
   formatResumeFileName,
@@ -18,6 +17,8 @@ type DesktopVariant = "fixed" | "dock" | "hidden";
 type MobileVariant = "bar" | "inline" | "hidden";
 
 interface FloatingResumeButtonProps {
+  resumeOwnerName: string;
+  resumeOwnerTitle: string;
   desktopVariant?: DesktopVariant;
   mobileVariant?: MobileVariant;
   className?: string;
@@ -26,6 +27,8 @@ interface FloatingResumeButtonProps {
 }
 
 export default function FloatingResumeButton({
+  resumeOwnerName,
+  resumeOwnerTitle,
   desktopVariant = "fixed",
   mobileVariant = "bar",
   className,
@@ -35,10 +38,7 @@ export default function FloatingResumeButton({
   const [isMobile, setIsMobile] = useState(false);
   const isVisible = useScrollPastThreshold(400);
 
-  const resumeFileName = formatResumeFileName(
-    defaultPortfolioData.hero.title,
-    defaultPortfolioData.hero.name,
-  );
+  const resumeFileName = formatResumeFileName(resumeOwnerTitle, resumeOwnerName);
   const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
   const resumeDownloadHandler = useMemo(
     () => createResumeDownloadHandler(resumeFileName, resumeDownloadUrl),
@@ -104,7 +104,10 @@ export default function FloatingResumeButton({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className={cn("pointer-events-none flex w-full items-center gap-2", mobileClassName)}
+          className={cn(
+            "pointer-events-none flex w-full items-center gap-2.5",
+            mobileClassName,
+          )}
         >
           {mobileActions}
         </motion.div>
@@ -120,7 +123,7 @@ export default function FloatingResumeButton({
           exit={{ y: 100, opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           className={cn(
-            "pointer-events-none fixed right-0 bottom-0 left-0 z-50 flex gap-2 p-3",
+            "pointer-events-none fixed right-0 bottom-0 left-0 z-50 flex gap-2.5 p-3",
             mobileClassName,
           )}
           style={{

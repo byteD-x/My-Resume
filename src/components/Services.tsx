@@ -59,7 +59,7 @@ export default function Services({ services }: ServicesProps) {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
           {services.map((service, index) => {
             const Icon = IconMap[service.icon] || Layout;
             return (
@@ -74,28 +74,28 @@ export default function Services({ services }: ServicesProps) {
                   duration: 0.5,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem] md:p-8"
+                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem] md:p-8"
               >
                 <div className="relative z-10 flex h-full flex-col">
-                  <div className="theme-icon-box theme-icon-box-sm mb-6 transition-transform duration-300 group-hover:scale-110">
+                  <div className="theme-icon-box theme-icon-box-sm mb-5 transition-transform duration-300 group-hover:scale-110 sm:mb-6">
                     <Icon size={18} strokeWidth={2} />
                   </div>
 
-                  <h3 className="theme-card-title mb-3.5 text-[1.08rem]">
+                  <h3 className="theme-card-title mb-3 text-[1.06rem] sm:mb-3.5 sm:text-[1.08rem]">
                     {service.title}
                   </h3>
 
-                  <p className="theme-card-body mb-8 flex-grow text-[13px]">
+                  <p className="theme-card-body mb-6 flex-grow text-[13px] sm:mb-8">
                     {service.description}
                   </p>
 
-                  <div className="mt-auto space-y-5">
+                  <div className="mt-auto space-y-4 sm:space-y-5">
                     {service.techStack && (
-                      <div className="flex flex-wrap gap-2 border-t border-[color:var(--border-default)] pt-5">
+                      <div className="flex flex-wrap gap-1.5 border-t border-[color:var(--border-default)] pt-4 sm:gap-2 sm:pt-5">
                         {service.techStack.map((tech) => (
                           <span
                             key={tech}
-                            className="theme-chip px-2 py-1 text-[10px] font-semibold uppercase tracking-wider"
+                            className="theme-chip px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-wider"
                           >
                             {tech}
                           </span>
@@ -104,7 +104,7 @@ export default function Services({ services }: ServicesProps) {
                     )}
 
                     {service.milestones && service.milestones.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 border-t border-[color:var(--border-default)] pt-5">
+                      <div className="flex flex-wrap gap-1.5 border-t border-[color:var(--border-default)] pt-4 sm:pt-5">
                         {service.milestones.map((step) => (
                           <span
                             key={step}

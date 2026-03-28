@@ -19,15 +19,15 @@ interface HeroStatusBadgesProps {
 
 export function HeroStatusBadges({ location }: HeroStatusBadgesProps) {
   return (
-    <motion.div {...fadeIn} className="flex flex-wrap items-center gap-4">
-      <span className="theme-pill px-3 py-1 text-xs font-medium">
+    <motion.div {...fadeIn} className="flex flex-wrap items-center gap-3 sm:gap-4">
+      <span className="theme-pill px-3 py-1.5 text-[12px] font-medium sm:py-1 sm:text-xs">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
         远程优先
       </span>
-      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[color:var(--text-tertiary)]">
+      <span className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[color:var(--text-tertiary)] sm:text-xs">
         <MapPin size={14} className="opacity-70" />
         {location ?? "深圳 / 南京 / 杭州 / 成都"}
       </span>

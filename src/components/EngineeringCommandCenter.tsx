@@ -136,13 +136,14 @@ const formatCount = (value: number | null) => {
   return value.toLocaleString("zh-CN");
 };
 
-const panelSectionClassName = "theme-card rounded-2xl p-5";
+const panelSectionClassName =
+  "theme-card rounded-[1.15rem] p-4 sm:rounded-2xl sm:p-5";
 
 const MetricCard = React.memo(({ metric }: { metric: RuntimeMetric }) => {
   const rating = metric.value === null ? "pending" : metric.rating;
 
   return (
-    <article className="theme-card-muted flex min-h-[8.5rem] flex-col rounded-2xl p-4">
+    <article className="theme-card-muted flex min-h-[7.75rem] flex-col rounded-[1.05rem] p-3.5 sm:min-h-[8.5rem] sm:rounded-2xl sm:p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <Tooltip content={metricDescriptionMap[metric.name]} position="top">
@@ -310,7 +311,7 @@ export default function EngineeringCommandCenter({
         }}
         className={cn(
           compact
-            ? "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 items-center justify-center gap-2 rounded-[1.15rem] px-3.5 py-3 text-sm font-semibold"
+            ? "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-h-12 min-w-0 items-center justify-center gap-2 rounded-[1.15rem] px-3.5 py-3 text-sm font-semibold"
             : "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 items-center justify-between gap-3 rounded-[1.2rem] px-4 py-3.5 text-left text-sm font-semibold",
           className,
         )}
@@ -358,7 +359,7 @@ export default function EngineeringCommandCenter({
                     : { x: "100%", opacity: 0.96, scale: 0.996 }
                 }
                 transition={panelTransition}
-                className="theme-dialog-shell fixed inset-x-0 bottom-0 top-auto z-[100] flex max-h-[calc(100dvh-0.75rem)] w-full flex-col overflow-hidden rounded-t-[1.6rem] border border-[color:var(--border-default)] md:inset-y-0 md:right-0 md:left-auto md:top-0 md:max-h-none md:max-w-[52rem] md:rounded-none md:rounded-l-[1.6rem] md:border-y-0 md:border-r-0 md:border-l"
+                className="theme-dialog-shell fixed inset-x-0 bottom-0 top-auto z-[100] flex max-h-[calc(100dvh-0.75rem)] w-full flex-col overflow-hidden rounded-t-[1.45rem] border border-[color:var(--border-default)] md:inset-y-0 md:right-0 md:left-auto md:top-0 md:max-h-none md:max-w-[52rem] md:rounded-none md:rounded-l-[1.6rem] md:border-y-0 md:border-r-0 md:border-l"
               >
               <div className="flex justify-center pb-2 pt-3 md:hidden">
                 <div
@@ -368,7 +369,7 @@ export default function EngineeringCommandCenter({
               </div>
 
               <header className="theme-panel theme-dialog-header">
-                <div className="px-4 py-4 md:px-6 md:py-5">
+                <div className="px-3.5 py-3.5 md:px-6 md:py-5">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
                       <p className="theme-kicker text-[11px] font-semibold uppercase tracking-[0.22em]">
@@ -396,7 +397,7 @@ export default function EngineeringCommandCenter({
                         type="button"
                         onClick={() => void fetchTelemetry({ force: true })}
                         disabled={telemetryState === "loading"}
-                        className="motion-chip inline-flex items-center gap-2 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3 py-2 text-sm font-medium text-[color:var(--text-secondary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-60"
+                        className="motion-chip inline-flex h-10 items-center gap-2 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3.5 text-sm font-medium text-[color:var(--text-secondary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-60 sm:h-auto sm:px-3 sm:py-2"
                         aria-label="刷新工程实力中枢数据"
                       >
                         <RefreshCw
@@ -413,7 +414,7 @@ export default function EngineeringCommandCenter({
                         ref={closeButtonRef}
                         type="button"
                         onClick={() => setIsOpen(false)}
-                        className="motion-chip rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] p-2.5 text-[color:var(--text-tertiary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)]"
+                        className="motion-chip h-10 w-10 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] p-0 text-[color:var(--text-tertiary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] sm:h-auto sm:w-auto sm:p-2.5"
                         aria-label="关闭工程实力中枢"
                       >
                         <X size={18} className="motion-icon-float" />
@@ -423,7 +424,7 @@ export default function EngineeringCommandCenter({
                 </div>
               </header>
 
-              <div className="theme-dialog-body flex-1 space-y-6 overflow-y-auto px-4 py-4 md:px-6 md:py-6">
+              <div className="theme-dialog-body flex-1 space-y-5 overflow-y-auto px-3.5 py-3.5 md:space-y-6 md:px-6 md:py-6">
                 <section className={panelSectionClassName}>
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
@@ -435,7 +436,7 @@ export default function EngineeringCommandCenter({
                       </p>
                     </div>
                     <span
-                      className={`rounded-full border px-3 py-1.5 text-xs font-semibold ${telemetryStateClassMap[telemetryState]}`}
+                      className={`rounded-full border px-3 py-1.5 text-[12px] font-semibold ${telemetryStateClassMap[telemetryState]} sm:text-xs`}
                     >
                       {telemetryStateLabelMap[telemetryState]}
                     </span>

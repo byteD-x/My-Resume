@@ -129,7 +129,10 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+            const nextSection = entry.target.id;
+            setActiveSection((prev) =>
+              prev === nextSection ? prev : nextSection,
+            );
           }
         });
       },
@@ -260,7 +263,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               disabled={!isHydrated}
               aria-label="联系我"
               className={cn(
-                "motion-chip inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] text-[color:var(--text-secondary)] shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition-colors hover:border-[rgba(96,165,250,0.22)] hover:text-[color:var(--brand-gold)] disabled:cursor-not-allowed disabled:opacity-60",
+                "motion-chip inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] text-[color:var(--text-secondary)] shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition-colors hover:border-[rgba(96,165,250,0.22)] hover:text-[color:var(--brand-gold)] disabled:cursor-not-allowed disabled:opacity-60",
                 isOpen && "hidden",
               )}
             >
@@ -271,7 +274,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
             <button
               type="button"
               ref={menuToggleButtonRef}
-              className="motion-chip rounded-full p-2.5 text-[color:var(--text-secondary)] transition-colors hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
+              className="motion-chip h-11 w-11 rounded-full p-0 text-[color:var(--text-secondary)] transition-colors hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
               disabled={!isHydrated}
               onClick={() => setIsOpen((value) => !value)}
               aria-label="打开菜单"
@@ -324,7 +327,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                   type="button"
                   ref={menuCloseButtonRef}
                   onClick={() => setIsOpen(false)}
-                  className="motion-chip rounded-full p-2 text-[color:var(--text-tertiary)] hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
+                  className="motion-chip h-11 w-11 rounded-full p-0 text-[color:var(--text-tertiary)] hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
                   aria-label="关闭菜单"
                 >
                   <X size={20} className="motion-icon-float" />

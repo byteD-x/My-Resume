@@ -96,7 +96,10 @@ export default function HomePage() {
       </div>
 
       <ImmersiveBackdrop />
-      <HomePageRuntimeShell />
+      <HomePageRuntimeShell
+        resumeOwnerName={data.hero.name}
+        resumeOwnerTitle={data.hero.title}
+      />
       <Navbar heroData={data.hero} contactData={data.contact} />
       <Hero data={data.hero} proofItems={heroProofItems} />
 

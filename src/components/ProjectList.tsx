@@ -105,14 +105,14 @@ export function ProjectList({ items }: ProjectListProps) {
   const hasMore = visibleCount < filteredItems.length;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-7 sm:space-y-8">
       <motion.div
         initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
         whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         viewport={shouldAnimateInView ? { once: true } : undefined}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="theme-card rounded-[1.45rem] p-4 sm:p-5 md:rounded-[1.65rem] md:p-6"
+        className="theme-card rounded-2xl p-3.5 sm:p-5 md:rounded-[1.65rem] md:p-6"
       >
         <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
           <div className="relative min-w-0 flex-1">
@@ -131,7 +131,7 @@ export function ProjectList({ items }: ProjectListProps) {
                 });
               }}
               placeholder="搜索项目名称、技术栈、年份"
-              className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] py-2.5 pl-10 pr-4 text-[13px] font-medium text-[color:var(--text-primary)] placeholder:font-normal placeholder:text-[color:var(--text-tertiary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
+              className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] py-3 pl-10 pr-4 text-[13px] font-medium text-[color:var(--text-primary)] placeholder:font-normal placeholder:text-[color:var(--text-tertiary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)] sm:py-2.5"
               aria-label="搜索项目"
             />
           </div>
@@ -154,7 +154,7 @@ export function ProjectList({ items }: ProjectListProps) {
                   transition={chipTransition}
                   whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
                   className={cn(
-                    "motion-chip relative rounded-full px-3.5 py-1.5 text-[12px] font-semibold",
+                    "motion-chip relative rounded-full px-3.5 py-2.5 text-[13px] font-semibold md:py-1.5 md:text-[12px]",
                     isActive
                       ? "text-[color:var(--text-primary)]"
                       : "text-[color:var(--text-tertiary)] hover:text-[color:var(--brand-gold)]",
@@ -202,7 +202,7 @@ export function ProjectList({ items }: ProjectListProps) {
                 transition={chipTransition}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
                 className={cn(
-                  "motion-chip relative rounded-full border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider",
+                  "motion-chip relative rounded-full border px-3.5 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] md:px-3 md:py-1.5 md:text-[11px] md:tracking-wider",
                   isActive
                     ? "border-[rgba(37,99,235,0.28)] text-[color:var(--text-primary)]"
                     : "border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] text-[color:var(--text-secondary)] hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--brand-gold)]",
@@ -232,7 +232,7 @@ export function ProjectList({ items }: ProjectListProps) {
           })}
         </div>
 
-        <p className="theme-copy-subtle text-[10px] font-bold uppercase tracking-widest">
+        <p className="theme-copy-subtle text-[11px] font-bold uppercase tracking-[0.12em] md:text-[10px] md:tracking-widest">
           Showing{" "}
           <span className="text-[color:var(--text-primary)]">
             {filteredItems.length}
@@ -245,7 +245,7 @@ export function ProjectList({ items }: ProjectListProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="theme-card-muted flex flex-col items-center justify-center rounded-[1.5rem] border border-dashed p-16 text-center"
+          className="theme-card-muted flex flex-col items-center justify-center rounded-[1.5rem] border border-dashed p-8 text-center sm:p-16"
         >
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[rgba(239,246,255,0.92)] text-[color:var(--brand-gold)]">
             <Search size={18} className="motion-icon-float" />
@@ -305,7 +305,7 @@ export function ProjectList({ items }: ProjectListProps) {
             onClick={() =>
               setVisibleCount((prev) => prev + INITIAL_VISIBLE_COUNT)
             }
-            className="btn btn-secondary w-auto px-8 py-2.5 text-[13px]"
+            className="btn btn-secondary w-auto px-8 py-3 text-[13px] sm:py-2.5"
           >
             加载更多项目
           </button>

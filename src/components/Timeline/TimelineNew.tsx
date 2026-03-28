@@ -6,6 +6,8 @@ import { TimelineItem as TimelineItemType } from "@/types";
 import { TimelineItem } from "./TimelineItem";
 import { cn } from "@/lib/utils";
 import { useHydrated } from "@/hooks/useHydrated";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 
 interface TimelineProps {
   items: TimelineItemType[];
@@ -41,6 +43,8 @@ const itemVariants = {
 
 export function Timeline({ items }: TimelineProps) {
   const isHydrated = useHydrated();
+  const shouldReduceMotion = useReducedMotion();
+  const isLowPerformanceMode = useLowPerformanceMode();
   const [activeTag, setActiveTag] = useState<string>(TAG_ALL);
   const [tagKeyword, setTagKeyword] = useState("");
   const [isTagExpanded, setIsTagExpanded] = useState(false);
@@ -108,6 +112,7 @@ export function Timeline({ items }: TimelineProps) {
     if (activeTag === TAG_ALL) return items;
     return items.filter((item) => item.techTags.includes(activeTag));
   }, [activeTag, items]);
+  const shouldAnimateTimeline = !shouldReduceMotion && !isLowPerformanceMode;
 
   const canExpand =
     tagKeyword.trim().length === 0 &&
@@ -141,8 +146,8 @@ export function Timeline({ items }: TimelineProps) {
   };
 
   return (
-    <div className="space-y-8 sm:space-y-10">
-      <div className="theme-card space-y-5 rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_16px_34px_rgba(15,23,42,0.05)] sm:rounded-[1.6rem] sm:p-5">
+    <div className="space-y-7 sm:space-y-10">
+      <div className="theme-card space-y-[1.125rem] rounded-2xl border-[rgba(148,163,184,0.16)] p-3.5 shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:space-y-5 sm:rounded-[1.6rem] sm:p-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="theme-card-kicker text-xs">
             {tagStats.length > 0
@@ -157,7 +162,7 @@ export function Timeline({ items }: TimelineProps) {
               value={tagKeyword}
               onChange={(event) => setTagKeyword(event.target.value)}
               placeholder="Search technologies..."
-              className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] px-3 py-2 text-sm text-[color:var(--text-primary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
+              className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] px-3.5 py-2.5 text-sm text-[color:var(--text-primary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)] sm:px-3 sm:py-2"
             />
           </label>
         </div>
@@ -171,7 +176,7 @@ export function Timeline({ items }: TimelineProps) {
                 type="button"
                 onClick={() => handleTagSelect(tag)}
                 className={cn(
-                  "cursor-pointer rounded px-2.5 py-1 text-[11px] font-semibold transition-colors",
+                  "cursor-pointer rounded px-3 py-1.5 text-[12px] font-semibold transition-colors sm:px-2.5 sm:py-1 sm:text-[11px]",
                   activeTag === tag
                     ? "bg-[rgba(239,246,255,0.95)] text-[color:var(--text-primary)]"
                     : "theme-chip hover:bg-[rgba(239,246,255,0.92)]",
@@ -191,7 +196,7 @@ export function Timeline({ items }: TimelineProps) {
               type="button"
               onClick={() => handleTagSelect(tag)}
               className={cn(
-                "cursor-pointer rounded border px-3 py-1.5 text-xs font-semibold transition-all duration-200",
+                "cursor-pointer rounded border px-3.5 py-2 text-[13px] font-semibold transition-all duration-200 sm:px-3 sm:py-1.5 sm:text-xs",
                 activeTag === tag
                   ? "border-[rgba(37,99,235,0.28)] bg-[color:var(--brand-ink)] text-[color:var(--text-inverse)]"
                   : "border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] text-[color:var(--text-secondary)] hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--brand-gold)]",
@@ -227,14 +232,18 @@ export function Timeline({ items }: TimelineProps) {
           {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial="hidden"
-              animate="visible"
+              initial={shouldAnimateTimeline ? "hidden" : false}
+              animate={shouldAnimateTimeline ? "visible" : undefined}
               variants={itemVariants}
-              transition={{
-                duration: 0.4,
-                delay: index * 0.05,
-                ease: [0.16, 1, 0.3, 1],
-              }}
+              transition={
+                shouldAnimateTimeline
+                  ? {
+                      duration: 0.4,
+                      delay: index * 0.05,
+                      ease: [0.16, 1, 0.3, 1],
+                    }
+                  : undefined
+              }
             >
               <TimelineItem
                 item={item}
@@ -248,7 +257,7 @@ export function Timeline({ items }: TimelineProps) {
 
         {filteredItems.length === 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={shouldAnimateTimeline ? { opacity: 0 } : false}
             animate={{ opacity: 1 }}
             className="theme-copy py-24 text-center text-sm font-medium"
           >

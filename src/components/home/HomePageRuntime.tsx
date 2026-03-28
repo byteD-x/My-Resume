@@ -35,7 +35,15 @@ const FloatingResumeButton = dynamic(
   },
 );
 
-export function HomePageRuntime() {
+interface HomePageRuntimeProps {
+  resumeOwnerName: string;
+  resumeOwnerTitle: string;
+}
+
+export function HomePageRuntime({
+  resumeOwnerName,
+  resumeOwnerTitle,
+}: HomePageRuntimeProps) {
   const isLowPerformanceMode = useLowPerformanceMode();
   const hasReachedEnhancementZone = useScrollPastThreshold(240);
   const [showCommandCenter, setShowCommandCenter] = useState(false);
@@ -79,10 +87,10 @@ export function HomePageRuntime() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       setShowCommandCenter(true);
-    }, 1200);
+    }, 2200);
 
     return () => window.clearTimeout(timer);
-  }, [isLowPerformanceMode]);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(max-width: 767px)");
@@ -138,6 +146,8 @@ export function HomePageRuntime() {
                     <p className="theme-floating-label mb-2">Actions</p>
                     {shouldRenderSupplementalActions ? (
                       <FloatingResumeButton
+                        resumeOwnerName={resumeOwnerName}
+                        resumeOwnerTitle={resumeOwnerTitle}
                         desktopVariant="dock"
                         mobileVariant="hidden"
                       />
@@ -149,17 +159,19 @@ export function HomePageRuntime() {
           ) : (
             <div
               data-print="hide"
-              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
+              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-2.5 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
             >
-              <div className="theme-floating-dock pointer-events-none rounded-[1.4rem] p-2.5">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center justify-between gap-3 px-1">
+              <div className="theme-floating-dock pointer-events-none rounded-[1.3rem] p-2.5">
+                <div className="flex flex-col gap-2.5">
+                  <div className="flex items-center justify-between gap-3 px-1.5">
                     <p className="theme-floating-label">Quick Access</p>
                     <span className="theme-floating-meta">作品集控制台</span>
                   </div>
                   <EngineeringCommandCenter compact className="w-full" />
                   {shouldRenderSupplementalActions ? (
                     <FloatingResumeButton
+                      resumeOwnerName={resumeOwnerName}
+                      resumeOwnerTitle={resumeOwnerTitle}
                       desktopVariant="hidden"
                       mobileVariant="inline"
                       mobileClassName="w-full"

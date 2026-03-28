@@ -19,12 +19,12 @@ export const TimelineItem = React.memo(function TimelineItem({
   return (
     <div
       id={`timeline-${item.id}`}
-      className={`relative pl-8 md:pl-0 group transition-all duration-300 ${isHighlighted ? "scroll-mt-32" : ""}`}
+      className={`group relative pl-7 transition-all duration-300 md:pl-0 ${isHighlighted ? "scroll-mt-32" : ""}`}
     >
       {/* Mobile Vertical Line */}
       {!isLast && (
         <div
-          className="absolute bottom-[-24px] left-[11px] top-6 w-[1px] bg-[rgba(37,99,235,0.14)] md:hidden"
+          className="absolute bottom-[-24px] left-[10px] top-6 w-[1px] bg-[rgba(37,99,235,0.14)] md:hidden"
           aria-hidden="true"
         />
       )}
@@ -53,12 +53,12 @@ export const TimelineItem = React.memo(function TimelineItem({
         <div className="relative pb-8 md:pb-2">
           {/* Mobile Dot (Absolute) */}
           <div
-            className={`absolute left-[-26px] top-8 z-10 h-2.5 w-2.5 rounded-full border-2 bg-[rgba(255,255,255,0.95)] transition-colors border-[rgba(37,99,235,0.22)] group-hover:border-[rgba(37,99,235,0.45)] md:hidden`}
+            className={`absolute left-[-22px] top-8 z-10 h-2.5 w-2.5 rounded-full border-2 bg-[rgba(255,255,255,0.95)] transition-colors border-[rgba(37,99,235,0.22)] group-hover:border-[rgba(37,99,235,0.45)] md:hidden`}
           />
 
           {/* Mobile Date */}
-          <div className="md:hidden mb-3">
-            <span className="theme-copy-subtle inline-block text-[11px] font-semibold uppercase tracking-widest">
+          <div className="mb-2.5 md:hidden">
+            <span className="theme-copy-subtle inline-block text-[11px] font-semibold uppercase tracking-[0.12em]">
               {item.year}
             </span>
           </div>

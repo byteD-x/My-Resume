@@ -109,7 +109,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           </p>
         </div>
 
-        <div className="theme-card-muted mb-10 rounded-[1.45rem] border-[rgba(148,163,184,0.14)] p-5 shadow-[0_16px_34px_rgba(15,23,42,0.05)] sm:mb-12 sm:p-6 md:rounded-[1.6rem] md:p-8">
+        <div className="theme-card-muted mb-9 rounded-2xl border-[rgba(148,163,184,0.14)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:mb-12 sm:p-6 md:rounded-[1.6rem] md:p-8">
           <div className="flex items-start gap-5">
             <div className="theme-icon-box theme-icon-box-md">
               <BrainCircuit size={22} strokeWidth={2} />
@@ -128,7 +128,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           </div>
         </div>
 
-        <div className="mb-10 grid gap-5 lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6 sm:mb-12">
+        <div className="mb-9 grid gap-[1.125rem] lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6 sm:mb-12 sm:gap-5">
           {strategyCards.map((card, index) => (
             <motion.article
               key={card.id}
@@ -140,19 +140,19 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                 duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem]"
+              className="theme-card theme-card-interactive flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem]"
             >
-              <p className="theme-card-kicker mb-3.5">
+              <p className="theme-card-kicker mb-3">
                 Capability Layer
               </p>
-              <h3 className="theme-card-title mb-3.5 text-[1.08rem]">
+              <h3 className="theme-card-title mb-3 text-[1.06rem] sm:text-[1.08rem]">
                 {card.title}
               </h3>
-              <p className="theme-card-body mb-5 flex-grow text-[13px]">
+              <p className="theme-card-body mb-[1.125rem] flex-grow text-[13px] sm:mb-5">
                 {card.description}
               </p>
               <div className="mt-auto">
-                <p className="theme-copy mb-5 border-b border-[color:var(--border-default)] pb-5 text-[13px] leading-7">
+                <p className="theme-copy mb-[1.125rem] border-b border-[color:var(--border-default)] pb-[1.125rem] text-[13px] leading-7 sm:mb-5 sm:pb-5">
                   <span className="font-semibold text-[color:var(--text-primary)]">
                     承担方式：
                   </span>
@@ -173,7 +173,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:gap-8 xl:grid-cols-3 xl:[grid-auto-rows:1fr]">
+        <div className="grid grid-cols-1 gap-5 lg:gap-8 xl:grid-cols-3 xl:[grid-auto-rows:1fr]">
           {skills.map((category, index) => {
             const Icon = categoryIcons[category.category] ?? Code2;
             const isExpanded = expandedCategories[category.id];
@@ -194,13 +194,13 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive flex h-full flex-col rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-5 sm:p-6 md:rounded-[1.6rem] lg:p-8"
+                className="theme-card theme-card-interactive flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] sm:p-6 md:rounded-[1.6rem] lg:p-8"
               >
-                <div className="mb-7 flex min-h-[7.75rem] items-start gap-4 border-b border-[color:var(--border-default)] pb-5">
+                <div className="mb-6 flex min-h-[7rem] items-start gap-3.5 border-b border-[color:var(--border-default)] pb-[1.125rem] sm:mb-7 sm:min-h-[7.75rem] sm:gap-4 sm:pb-5">
                   <div className="theme-icon-box theme-icon-box-sm">
                     <Icon size={18} strokeWidth={2} />
                   </div>
-                  <div className="flex min-h-[7.5rem] flex-col pt-0.5">
+                  <div className="flex min-h-[6.75rem] flex-col pt-0.5 sm:min-h-[7.5rem]">
                     <h3 className="theme-card-title text-[1.05rem]">
                       {category.category}
                     </h3>
@@ -212,7 +212,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   </div>
                 </div>
 
-                <div className="grid flex-grow auto-rows-fr gap-3 sm:grid-cols-2">
+                <div className="grid flex-grow auto-rows-fr gap-2.5 sm:grid-cols-2 sm:gap-3">
                   {displayItems.map((item) => (
                     <article
                       key={item.raw}
@@ -234,7 +234,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   <button
                     type="button"
                     onClick={() => toggleCategory(category.id)}
-                    className="theme-link mt-6 inline-flex self-start items-center gap-1.5 text-[13px] font-semibold"
+                    className="theme-link mt-5 inline-flex self-start items-center gap-1.5 text-[13px] font-semibold sm:mt-6"
                   >
                     {isExpanded ? "收起" : `查看全部 (+${remainingCount})`}
                     {isExpanded ? (

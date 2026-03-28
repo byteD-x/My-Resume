@@ -13,6 +13,19 @@ const HomePageRuntime = dynamic(
   },
 );
 
-export function HomePageRuntimeShell() {
-  return <HomePageRuntime />;
+interface HomePageRuntimeShellProps {
+  resumeOwnerName: string;
+  resumeOwnerTitle: string;
+}
+
+export function HomePageRuntimeShell({
+  resumeOwnerName,
+  resumeOwnerTitle,
+}: HomePageRuntimeShellProps) {
+  return (
+    <HomePageRuntime
+      resumeOwnerName={resumeOwnerName}
+      resumeOwnerTitle={resumeOwnerTitle}
+    />
+  );
 }

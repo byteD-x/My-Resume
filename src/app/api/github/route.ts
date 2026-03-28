@@ -1,12 +1,18 @@
 ﻿import { NextResponse } from "next/server";
 
 export const dynamic = "force-static";
-export const revalidate = 3600;
+export const revalidate = 300;
 
 const GITHUB_USERNAME = "byteD-x";
 const REPO_NAMES = ["wechat-bot", "easyCloudPan"] as const;
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
-const REQUEST_TIMEOUT_MS = 8_000;
+const REQUEST_TIMEOUT_MS = 5_000;
+const API_FETCH_REVALIDATE_SECONDS = 3600;
+const FALLBACK_FETCH_REVALIDATE_SECONDS = 300;
+const SUCCESS_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400";
+const DEGRADED_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=300, stale-while-revalidate=600";
 
 type TelemetrySource = "github-api" | "github-web" | "fallback";
 
@@ -124,7 +130,7 @@ const fetchText = async (url: string): Promise<string | null> => {
   try {
     const response = await fetchWithTimeout(url, {
       headers: githubWebHeaders,
-      next: { revalidate },
+      next: { revalidate: FALLBACK_FETCH_REVALIDATE_SECONDS },
     });
 
     if (!response.ok) return null;
@@ -133,6 +139,18 @@ const fetchText = async (url: string): Promise<string | null> => {
     return null;
   }
 };
+
+const jsonWithCache = (
+  payload: TelemetryPayload,
+  options?: { degraded?: boolean },
+) =>
+  NextResponse.json(payload, {
+    headers: {
+      "Cache-Control": options?.degraded
+        ? DEGRADED_CACHE_CONTROL
+        : SUCCESS_CACHE_CONTROL,
+    },
+  });
 
 const fetchRepoStatsFromWeb = async (): Promise<GitHubRepoStat[]> => {
   const stats = await Promise.all(
@@ -187,28 +205,76 @@ const fetchUserStatsFromWeb = async (): Promise<Pick<
 
 export async function GET() {
   if (isStaticExport) {
-    return NextResponse.json({
-      ...fallbackPayload,
-      message: "静态导出模式不包含实时 GitHub 数据。",
-    });
+    return jsonWithCache(
+      {
+        ...fallbackPayload,
+        message: "静态导出模式不包含实时 GitHub 数据。",
+      },
+      { degraded: true },
+    );
   }
 
   try {
-    const [userRes, reposRes] = await Promise.all([
-      fetchWithTimeout(`https://api.github.com/users/${GITHUB_USERNAME}`, {
+    let fallbackPromise: Promise<
+      [Awaited<ReturnType<typeof fetchUserStatsFromWeb>>, GitHubRepoStat[]]
+    > | null = null;
+
+    const ensureFallbackPromise = () => {
+      if (!fallbackPromise) {
+        fallbackPromise = Promise.all([
+          fetchUserStatsFromWeb(),
+          fetchRepoStatsFromWeb(),
+        ]);
+      }
+      return fallbackPromise;
+    };
+
+    const userResPromise = fetchWithTimeout(
+      `https://api.github.com/users/${GITHUB_USERNAME}`,
+      {
         headers: githubApiHeaders(),
-        next: { revalidate },
-      }),
-      fetchWithTimeout(
-        `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
-        {
-          headers: githubApiHeaders(),
-          next: { revalidate },
-        },
-      ),
+        next: { revalidate: API_FETCH_REVALIDATE_SECONDS },
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          void ensureFallbackPromise();
+        }
+        return response;
+      })
+      .catch((error) => {
+        void ensureFallbackPromise();
+        throw error;
+      });
+
+    const reposResPromise = fetchWithTimeout(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`,
+      {
+        headers: githubApiHeaders(),
+        next: { revalidate: API_FETCH_REVALIDATE_SECONDS },
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          void ensureFallbackPromise();
+        }
+        return response;
+      })
+      .catch((error) => {
+        void ensureFallbackPromise();
+        throw error;
+      });
+
+    const [userResult, reposResult] = await Promise.allSettled([
+      userResPromise,
+      reposResPromise,
     ]);
 
-    if (userRes.ok && reposRes.ok) {
+    const userRes = userResult.status === "fulfilled" ? userResult.value : null;
+    const reposRes =
+      reposResult.status === "fulfilled" ? reposResult.value : null;
+
+    if (userRes?.ok && reposRes?.ok) {
       const [user, repos] = (await Promise.all([
         userRes.json(),
         reposRes.json(),
@@ -234,7 +300,7 @@ export async function GET() {
         [],
       );
 
-      return NextResponse.json({
+      return jsonWithCache({
         followers: user.followers ?? null,
         public_repos: user.public_repos ?? null,
         totalStars,
@@ -245,10 +311,9 @@ export async function GET() {
       } satisfies TelemetryPayload);
     }
 
-    const [userFromWeb, repoFromWeb] = await Promise.all([
-      fetchUserStatsFromWeb(),
-      fetchRepoStatsFromWeb(),
-    ]);
+    const [userFromWeb, repoFromWeb] = await (
+      fallbackPromise ?? ensureFallbackPromise()
+    );
 
     const repoStarSum =
       repoFromWeb.length > 0
@@ -256,23 +321,32 @@ export async function GET() {
         : null;
 
     if (userFromWeb || repoFromWeb.length > 0) {
-      return NextResponse.json({
-        followers: userFromWeb?.followers ?? null,
-        public_repos: userFromWeb?.public_repos ?? null,
-        totalStars: repoStarSum,
-        specificRepos: repoFromWeb,
-        source: "github-web",
-        isPartial: true,
-        message:
-          "GitHub 接口不可用或被限流，已自动降级为 GitHub 公开页面数据。",
-      } satisfies TelemetryPayload);
+      return jsonWithCache(
+        {
+          followers: userFromWeb?.followers ?? null,
+          public_repos: userFromWeb?.public_repos ?? null,
+          totalStars: repoStarSum,
+          specificRepos: repoFromWeb,
+          source: "github-web",
+          isPartial: true,
+          message:
+            "GitHub 接口不可用或被限流，已自动降级为 GitHub 公开页面数据。",
+        } satisfies TelemetryPayload,
+        { degraded: true },
+      );
     }
 
-    return NextResponse.json({
-      ...fallbackPayload,
-      message: `GitHub 接口请求失败：user=${userRes.status}, repos=${reposRes.status}。`,
-    });
+    const userStatus = userRes ? String(userRes.status) : "error";
+    const reposStatus = reposRes ? String(reposRes.status) : "error";
+
+    return jsonWithCache(
+      {
+        ...fallbackPayload,
+        message: `GitHub 接口请求失败：user=${userStatus}, repos=${reposStatus}。`,
+      },
+      { degraded: true },
+    );
   } catch {
-    return NextResponse.json(fallbackPayload);
+    return jsonWithCache(fallbackPayload, { degraded: true });
   }
 }

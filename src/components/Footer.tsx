@@ -1,5 +1,3 @@
-"use client";
-
 import { Github, Heart, Calendar, Globe } from "lucide-react";
 import { Container } from "./ui/Container";
 
@@ -22,14 +20,14 @@ export default function Footer({ name, githubUrl, websiteLinks = [] }: FooterPro
       data-print="hide"
       className="theme-grid-section border-t section-divider bg-[rgba(255,255,255,0.82)]"
     >
-      <Container className="py-12 md:py-16">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 md:gap-6">
+      <Container className="py-10 md:py-16">
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center md:gap-6">
           {/* Brand */}
           <div className="text-left">
             <h3 className="theme-title mb-1.5 text-lg font-bold tracking-tight">
               {name}
             </h3>
-            <p className="theme-copy flex items-center gap-1.5 text-[13px] font-medium uppercase tracking-widest">
+            <p className="theme-copy flex items-center gap-1.5 text-[13px] font-medium uppercase tracking-[0.12em] sm:tracking-widest">
               Engineer · Innovate · Deliver
               <Heart size={12} className="ml-1 text-[color:var(--brand-gold)]" />
             </p>
@@ -42,7 +40,7 @@ export default function Footer({ name, githubUrl, websiteLinks = [] }: FooterPro
           </div>
 
           {/* Links & Copyright */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
+          <div className="flex flex-col items-start gap-3.5 sm:flex-row sm:items-center sm:gap-6">
             {githubUrl && (
               <a
                 href={githubUrl}
@@ -77,8 +75,8 @@ export default function Footer({ name, githubUrl, websiteLinks = [] }: FooterPro
         </div>
 
         {/* Tech stack badge */}
-        <div className="mt-10 border-t border-[color:var(--border-default)] pt-6 text-left md:text-center">
-          <p className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-widest">
+        <div className="mt-8 border-t border-[color:var(--border-default)] pt-5 text-left md:mt-10 md:pt-6 md:text-center">
+          <p className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.12em] sm:tracking-widest">
             Built with Next.js · Tailwind CSS · Framer Motion
           </p>
         </div>
