@@ -16,10 +16,10 @@ describe('verification confidence assessment', () => {
 
         const assessment = evaluateVerificationConfidence(verification, new Date('2026-02-10T00:00:00.000Z'));
 
-        expect(assessment.confidenceText).toBe('high（高）');
+        expect(assessment.confidenceText).toBe('高');
         expect(assessment.basis).toEqual(
             expect.arrayContaining([
-                expect.stringContaining('证据口径：strict'),
+                expect.stringContaining('证据级别：严格复核'),
                 expect.stringContaining('来源类型：仓库/代码记录'),
                 expect.stringContaining('已提供公开链接'),
             ]),
@@ -39,7 +39,7 @@ describe('verification confidence assessment', () => {
 
         const assessment = evaluateVerificationConfidence(verification, new Date('2026-02-10T00:00:00.000Z'));
 
-        expect(assessment.confidenceText).toBe('medium（中）');
+        expect(assessment.confidenceText).toBe('中');
         expect(assessment.basis).toEqual(
             expect.arrayContaining([
                 expect.stringContaining('来源类型：人工整理与交叉校对'),
