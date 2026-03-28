@@ -25,6 +25,12 @@ interface ExperienceModalProps {
   variant?: ExperienceModalVariant;
 }
 
+const verificationSourceLabelMap = {
+  repo: "仓库",
+  experience: "项目经历",
+  manual: "人工核验",
+} as const;
+
 export function ExperienceModal({
   item,
   variant = "overlay",
@@ -203,9 +209,6 @@ export function ExperienceModal({
               <p className="text-sm leading-7 text-emerald-900 dark:text-emerald-100">
                 {item.businessValue.zh}
               </p>
-              <p className="mt-3 text-xs italic leading-6 text-emerald-800/90 dark:text-emerald-200/90">
-                {item.businessValue.en}
-              </p>
             </section>
           )}
 
@@ -216,9 +219,6 @@ export function ExperienceModal({
               </h4>
               <p className="text-sm leading-7 text-slate-900">
                 {item.engineeringDepth.zh}
-              </p>
-              <p className="mt-3 text-xs italic leading-6 text-blue-800/90">
-                {item.engineeringDepth.en}
               </p>
             </section>
           )}
@@ -241,7 +241,7 @@ export function ExperienceModal({
                         {entry.sourceLabel}
                       </div>
                       <div className="theme-copy mt-1 text-xs leading-6">
-                        {entry.sourceType} · 置信度 {assessment.confidenceText}{" "}
+                        {verificationSourceLabelMap[entry.sourceType]} · 置信度 {assessment.confidenceText}{" "}
                         · 验证时间 {entry.verifiedAt}
                       </div>
 
@@ -271,7 +271,7 @@ export function ExperienceModal({
                           rel="noopener noreferrer"
                           className="theme-link mt-2 inline-flex text-xs font-semibold hover:underline"
                         >
-                          打开证据链接
+                          查看证据
                         </a>
                       )}
                     </div>

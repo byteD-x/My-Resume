@@ -162,7 +162,7 @@ export function AppointmentModal({
                     预约面谈
                   </h2>
                   <p className="theme-copy mt-1 text-sm leading-6">
-                    留下你的联系方式，我会尽快与你取得联系。
+                    提交联系方式后，我会尽快回复。
                   </p>
                 </div>
 
@@ -242,7 +242,7 @@ export function AppointmentModal({
                             ? "border-rose-300 focus:border-rose-300 focus:ring-rose-200"
                             : "focus:ring-[rgba(37,99,235,0.12)]"
                         }`}
-                        placeholder="your@email.com"
+                        placeholder="name@example.com"
                       />
                     </div>
                     {errors.email ? (

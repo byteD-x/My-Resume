@@ -8,7 +8,7 @@ export const defaultPortfolioData: PortfolioData = {
     name: "杜旭嘉",
     title: "AI 应用工程师（RAG / Agent）",
     subtitle:
-      "聚焦 RAG、Agent 运行时与业务系统集成，持续把原型推进为可恢复、可评测、可复核、能接真实业务的工程系统。",
+      "聚焦检索增强、智能体运行时与业务系统集成，持续将原型方案推进为可验证、可维护、可接入真实业务的工程系统。",
     location: "远程优先 ｜ 可到岗：深圳 / 南京 / 杭州 / 成都",
     bullets: [
       {
@@ -27,7 +27,7 @@ export const defaultPortfolioData: PortfolioData = {
         id: "bullet-3",
         title: "成本与交付",
         description:
-          "做过 5x 提速与 40% 成本下降，并以 lint / build / test / e2e / regression gate 约束交付质量",
+          "做过 5x 提速与 40% 成本下降，并通过自动化校验与回归门禁控制交付质量",
       },
     ],
     quickFacts: {
@@ -54,30 +54,30 @@ export const defaultPortfolioData: PortfolioData = {
   },
 
   about: {
-    zh: "AI 应用工程师，主攻 RAG 检索增强、Agent/工作流编排与业务系统集成；习惯把 Demo 收敛成可恢复、可评测、可接入真实业务的系统，并坚持用仓库、测试与指标证明结果。",
+    zh: "AI 应用工程师，主攻检索增强、运行时编排与业务系统集成；注重把原型能力沉淀为可验证、可维护、可接入真实业务的系统，并坚持用仓库、测试与指标证明结果。",
     en: "AI application engineer focused on RAG, workflow orchestration, and business-system integration, with a bias toward recoverable, testable, and evidence-backed delivery.",
   },
 
   aboutLenses: {
     business: [
-      "**6 秒看结果（AI 应用工程师）**",
-      "- 问答可信：支持 citations、grounding_score、trace_id，回答可追溯而不是只给结论",
-      "- 运行时能力：支持 checkpoint、interrupt/resume、人工澄清与回归门禁，不靠“重跑试试”",
-      "- 业务接入：文本 / 语音 / RTC + Auth Bridge + Business Tool，AI 不只会答文档",
+      "**业务要点**",
+      "- 问答可信：支持 citations、grounding_score、trace_id，回答可追溯",
+      "- 运行时能力：支持 checkpoint、interrupt/resume、人工澄清与回归门禁",
+      "- 业务接入：覆盖文本 / 语音 / RTC、Auth Bridge 与 Business Tool",
       "- 成本与性能：做过 40% 推理降本，也做过 20s+ → 4s 的后端性能治理",
       "",
-      "**口径说明（严格可复核）**",
+      "**数据约束**",
       "- 关键数字统一按“指标名-起点-终点-时间窗-来源”管理",
-      "- 无法给出完整口径的数据降级为定性描述，不作为核心卖点",
+      "- 无法给出完整口径的数据仅作定性描述",
     ].join("\n"),
     engineering: [
-      "**ATS 关键词（前半页优先）**",
+      "**技术范围**",
       "- Python / FastAPI / AsyncIO / LangGraph / RAG / Qdrant",
       "- OpenAI / Tool Calling / ASR / TTS / RTC / WebSocket / SSE",
       "- PostgreSQL / Redis / ClickHouse / Docker / CI/CD",
       "- Next.js / Vue 3 / TypeScript",
       "",
-      "**工程方法（可追问）**",
+      "**交付方法**",
       "- Query rewrite -> hybrid retrieval -> rerank -> grounded answer -> evidence review",
       "- Checkpoint -> interrupt/resume -> eval/regression -> release guardrails",
     ].join("\n"),
@@ -92,12 +92,9 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         "RAG-QA System：结构 / 全文 / 向量三路召回 + 加权 RRF + rerank，兼顾命中率与答案可追溯性",
       details: [
-        "**对非技术**：把分散资料整理成可持续同步、可引用出处的企业知识问答系统，减少检索和答复成本。",
-        "",
-        "**关键做法（技术）**",
-        "- 结构检索 + 全文检索 + 向量检索三路召回，结合加权 RRF 融合与 rerank",
-        "- Gateway 与 KB 检索链路统一接入 LangGraph 运行时，支持 checkpoint / interrupt-resume / step_events",
-        "- 补齐多知识库、多源连接器、chunk 治理、retrieve/debug 与评测回归闭环",
+        "将分散资料整理为可持续同步、可引用出处的企业知识问答系统，减少检索与答复成本。",
+        "采用结构、全文、向量三路召回，结合加权 RRF 与 rerank，兼顾命中率和可追溯性。",
+        "问答与检索链路统一接入 LangGraph 运行时，并补齐多知识库、多源连接器、chunk 治理、调试与评测回归。",
       ].join("\n"),
       linkedExperienceId: "exp-chinasoft",
       icon: "TrendingUp",
@@ -118,15 +115,11 @@ export const defaultPortfolioData: PortfolioData = {
       value: "5+",
       label: "开源关注 (Stars)",
       description:
-        "微信 AI 助手：面向微信场景的长期运行机器人，补齐分层记忆、成本治理与运行观测能力",
+        "微信智能助手：面向微信场景的长期运行机器人，补齐分层记忆、成本治理与运行观测能力",
       details: [
-        "**对非技术**：不是一次性自动回复脚本，而是能长期运行、可排障、可控成本的微信 AI 助手。",
-        "",
-        "**关键做法（技术）**",
-        "- 以 `BaseTransport` 抽象微信接入边界，主实现为 `hook_wcferry`，把不稳定接入隔离在传输层",
-        "- 用 `LangChain + LangGraph` 编排回复主链，并把风格同步、事实提取、向量写回等动作后移到后台任务",
-        "- 构建 SQLite 短期记忆 + 运行期向量记忆 + 导出语料 RAG 的三层记忆，并支持轻量重排与可选本地 Cross-Encoder 自动回退",
-        "- 补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析接口与 GitHub Release 发布链路，便于运行诊断与交付",
+        "交付可长期运行的微信智能助手，兼顾接入稳定性、排障效率与成本治理。",
+        "以 `BaseTransport` 抽象微信接入边界，并用 `LangChain + LangGraph` 重构回复主链与后台任务。",
+        "构建三层记忆、可降级 RAG、运行状态接口、配置审计与成本分析能力，补齐长期运行所需的治理链路。",
       ].join("\n"),
       linkedExperienceId: "exp-wechat-bot",
       icon: "Star",
@@ -148,15 +141,11 @@ export const defaultPortfolioData: PortfolioData = {
       value: "7+",
       label: "插件扩展点",
       description:
-        "智能客服运行时：统一文本/语音/RTC、宿主挂载、插件扩展与知识治理，把 AI 从问答 Demo 推进为可接业务的运行时",
+        "智能客服运行时：统一文本/语音/RTC、宿主挂载、插件扩展与知识治理，将问答能力扩展为可接业务的运行时",
       details: [
-        "**对非技术**：把 AI 客服从“只会答文档”升级为“能接业务、能转人工、能嵌入宿主系统”的运行时。",
-        "",
-        "**关键做法（技术）**",
-        "- 分层架构：渠道接入 / 宿主桥接 / 核心引擎 / 业务增强 / 插件平台 / 提供商适配六层解耦",
-        "- 统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载接入，复用同一套 session、routing、handoff 能力",
-        "- 路由治理：`route_confidence` 分层 + `intent_stack` 回退 + `page_context` / `business_objects` 感知路由",
-        "- 知识与治理：知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏",
+        "将客服能力扩展为可接业务、可转人工、可嵌入宿主系统的服务运行时。",
+        "通过渠道接入、宿主桥接、核心引擎、业务增强、插件平台和提供商适配六层解耦，统一文本、语音、RTC 与挂载接入。",
+        "补齐路由治理、知识版本管理、诊断导出、限流与提示词脱敏，便于持续运营与审计。",
       ].join("\n"),
       linkedExperienceId: "exp-customer-ai-runtime",
       icon: "Bot",
@@ -179,12 +168,9 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         "活动统计/报表接口 20s → 4s (5x)，把“等半分钟”变成“秒开”（ClickHouse + SQL 改写）",
       details: [
-        "**对非技术**：核心报表从“等 20 秒”变成“4 秒出结果”，更适合高频运营决策。",
-        "",
-        "**关键做法（技术）**",
-        "- OLTP/OLAP 分离：ClickHouse 承载聚合分析，MySQL 回归事务库",
-        "- SQL 改写与数据建模：利用列存特性优化聚合/过滤",
-        "- 基线压测 → 优化 → 复核，确保收益真实稳定",
+        "将核心报表从约 20 秒压到 4 秒，更适合高频运营决策。",
+        "通过 OLTP / OLAP 分离，让 ClickHouse 承载聚合分析，MySQL 回归事务库。",
+        "结合 SQL 改写、数据建模和基线复核，确保性能收益真实稳定。",
       ].join("\n"),
       linkedExperienceId: "exp-unicom",
       icon: "Zap",
@@ -206,12 +192,9 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         "定价快照、价格刷新、会话汇总与明细接口齐备，把成本治理从经验优化升级为可观测能力",
       details: [
-        "**对非技术**：不只是在“省不省钱”上做经验判断，而是能直接看到模型、会话和价格来源的成本口径。",
-        "",
-        "**关键做法（技术）**",
-        "- 落地 `/api/pricing`、`/api/pricing/refresh`、`/api/costs/summary`、`/api/costs/sessions`、`/api/costs/session_details` 五类接口",
-        "- assistant 消息 `metadata` 回写 `pricing`、`cost`、`price_verified_at` 等字段，形成统一成本快照",
-        "- 对缺少 token 或定价的信息做估算与标记区分，避免把不完整数据伪装成精确结论",
+        "建立模型、会话和价格来源统一可查的成本口径。",
+        "补齐定价快照、价格刷新、汇总与明细接口，并在消息 `metadata` 中回写成本字段。",
+        "对缺少 token 或定价的信息做估算与标记区分，避免把不完整数据当成精确结果。",
       ].join("\n"),
       linkedExperienceId: "exp-wechat-bot",
       icon: "TrendingDown",
@@ -234,12 +217,9 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         "从需求到上线：方案/开发/测试/部署/监控闭环（CI/CD + 可观测性 + 回滚）",
       details: [
-        "**对非技术**：你得到的是可上线、可维护的结果，而不是“能跑的 Demo”。",
-        "",
-        "**关键做法（技术）**",
-        "- 需求拆解：把目标拆成可验收里程碑（What/Why/How to verify）",
-        "- 质量门禁：lint/build/test/e2e + 静态导出/链接检查",
-        "- 部署与运维：容器化、监控告警、回滚预案",
+        "交付范围覆盖方案、开发、测试、部署、监控与回滚。",
+        "需求按可验收里程碑拆解，关键节点明确 What、Why 和验证方式。",
+        "通过 lint、build、test、e2e、静态导出与链接检查控制交付质量。",
       ].join("\n"),
       icon: "Code2",
       colSpan: "md:col-span-2",
@@ -260,12 +240,9 @@ export const defaultPortfolioData: PortfolioData = {
       label: "数据迁移",
       description: "300+ 表、3亿+ 记录无损迁移与校对，脚本化校验确保一致性",
       details: [
-        "**对非技术**：迁移不只是“搬数据”，关键是“搬完还能对得上”。",
-        "",
-        "**关键做法（技术）**",
-        "- 迁移策略：全量回灌 + 增量同步，降低停机窗口",
-        "- 一致性校验：行数/聚合校验 + 抽样比对 + 关键字段 checksum",
-        "- 风险控制：可回滚方案与差异修复脚本，确保可追溯",
+        "完成 300+ 表、3 亿+ 记录迁移，并保证迁移后结果可核对、可追溯。",
+        "采用全量回灌加增量同步，尽量缩短停机窗口。",
+        "通过行数、聚合、抽样和关键字段 checksum 校验，并预留回滚与差异修复脚本。",
       ].join("\n"),
       linkedExperienceId: "exp-unicom",
       icon: "Database",
@@ -286,7 +263,7 @@ export const defaultPortfolioData: PortfolioData = {
       id: "exp-wechat-bot",
       year: "2025.12 - 至今",
       role: "独立开发者 · 开源项目",
-      company: "微信 AI 助手",
+      company: "微信智能助手",
       location: "开源项目",
       summary:
         "面向 Windows 微信生态构建长期运行的微信机器人：支持消息接入、分层记忆、可降级 RAG、配置热重载与成本/诊断能力。",
@@ -310,11 +287,11 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把微信机器人从脚本式自动回复升级为可长期运行、可排障、可控成本的 AI 助手。",
+        zh: "把微信机器人从脚本式自动回复升级为可长期运行、可排障、可控成本的智能助手。",
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
       },
       engineeringDepth: {
-        zh: "展示了微信接入边界抽象、LangGraph 运行时、可降级 RAG、配置快照/热重载、成本分析与运行观测的一体化工程能力。",
+        zh: "覆盖微信接入抽象、LangGraph 运行时、可降级 RAG、配置热重载、成本分析与运行观测。",
         en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, config hot reload, cost analytics, and runtime observability.",
       },
       verification: [
@@ -329,13 +306,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "普通微信机器人通常把接入、回复、记忆和配置揉在一起，能演示但不适合长期运行、排障和迭代增强。",
+          "目标是在 Windows 微信生态下交付可长期运行的机器人，并兼顾记忆增强、配置治理与运行诊断。",
         problem:
           "微信接入边界不稳定，同步阻塞会拖慢主链路；RAG 与记忆能力容易和主回复耦合；配置、诊断与成本口径分散，不利于长期维护。",
         solution:
           "- **运行时骨架**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **接入与记忆**：将微信入口抽象成 `BaseTransport`，并构建 SQLite 短期记忆、运行期向量记忆、导出语料 RAG 三层记忆体系。\n- **可降级增强**：运行期 RAG 默认走轻量重排，只有在本地模型目录与依赖就绪时才启用 `Cross-Encoder`，失败自动回退。\n- **治理能力**：补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析接口、配置热重载与 GitHub Release 发布链路。",
         result:
-          "形成一套面向 Windows 微信生态的长期运行微信机器人，兼顾接入稳定性、记忆增强、运行诊断、配置治理与交付可维护性。",
+          "交付面向 Windows 微信生态的长期运行机器人，覆盖接入稳定性、记忆增强、运行诊断、配置治理与发布链路。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -362,7 +339,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "智能客服运行时",
       location: "开源项目",
       summary:
-        "企业级智能客服运行时参考实现：统一文本/语音/RTC 接入，复用宿主鉴权与业务上下文，并通过插件、多租户知识库与治理能力把 AI 从问答 Demo 推进为可接业务的服务运行时。",
+        "企业级智能客服运行时参考实现：统一文本/语音/RTC 接入，复用宿主鉴权与业务上下文，并通过插件、多租户知识库与治理能力，将问答能力扩展为可接业务的服务运行时。",
       techTags: [
         "Python",
         "FastAPI",
@@ -387,7 +364,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "展示了分层运行时架构、插件注册中心、Auth Bridge、多提供商适配、知识治理、诊断导出与多租户边界控制的完整工程能力。",
+        zh: "覆盖分层运行时架构、插件注册中心、Auth Bridge、多提供商适配、知识治理、诊断导出与多租户边界控制。",
         en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, diagnostics export, and multi-tenant boundary control.",
       },
       verification: [
@@ -402,13 +379,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "很多 AI 客服 Demo 只能回答静态知识，很难同时兼顾实时业务查询、多通道接入、宿主系统复用、转人工和后续治理。",
+          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理的客服运行时。",
         problem:
           "如果把文本、语音、RTC、业务工具、鉴权和转人工都写死在主流程里，宿主系统难接入，租户边界难控制，知识库和运行诊断也难以持续治理。",
         solution:
           "- **分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载模式。\n- **路由与协同**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度、投诉或请求人工场景下优先澄清或转人工。\n- **扩展与治理**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 七类扩展点，并支持插件启停、范围过滤与宿主鉴权复用。\n- **知识与运维**：补齐知识版本、chunk 优化、消息级反馈、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏等治理能力。",
         result:
-          "形成可独立运行或宿主挂载的智能客服运行时参考实现，覆盖业务接入、人工协同、知识治理、租户隔离与运行审计所需的核心能力。",
+          "交付可独立运行或宿主挂载的客服运行时，覆盖业务接入、人工协同、知识治理、租户隔离与运行审计。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -448,7 +425,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Validated solution feasibility with a rapid prototype, reducing project initiation risk.",
       },
       engineeringDepth: {
-        zh: "体现了快速学习业务领域知识并转化为技术实现的能力，以及严格的项目进度管理。",
+        zh: "在需求模糊且周期受限的场景下，完成需求收敛、原型实现与按期交付。",
         en: "Demonstrates rapid domain knowledge absorption and strict project timeline management.",
       },
       verification: [
@@ -501,7 +478,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned scattered documents into an enterprise knowledge QA capability with continuous sync and traceable citations.",
       },
       engineeringDepth: {
-        zh: "体现了混合检索、LangGraph 工作流编排、知识治理、连接器安全边界与评测回归体系的一体化工程能力。",
+        zh: "覆盖混合检索、LangGraph 工作流编排、知识治理、连接器安全边界与评测回归体系。",
         en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, knowledge governance, connector boundaries, and evaluation baselines.",
       },
       verification: [
@@ -573,7 +550,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Greatly improved efficiency for researchers to access frontier information.",
       },
       engineeringDepth: {
-        zh: "体现了在特定垂直领域（医疗）下的需求分析与系统架构落地能力。",
+        zh: "完成医疗场景的需求分析、检索架构设计与后端落地。",
         en: "Demonstrates requirements analysis and system architecture in a vertical domain (Medical).",
       },
       verification: [
@@ -754,7 +731,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Verified feasibility of warehouse automation scheduling algorithms at low cost.",
       },
       engineeringDepth: {
-        zh: "体现了图搜索算法、并发编程及图形化界面开发的综合运用能力。",
+        zh: "覆盖图搜索算法、并发编程与图形化界面开发。",
         en: "Demonstrates synthesis of graph search algorithms, concurrent programming, and GUI development.",
       },
       verification: [
@@ -826,7 +803,7 @@ export const defaultPortfolioData: PortfolioData = {
         "Auth Bridge",
       ],
       summary:
-        "企业级智能客服运行时参考实现：统一文本/语音/RTC 接入，复用宿主鉴权与业务上下文，并通过插件、多租户知识库与治理能力把 AI 从问答 Demo 推进为可接业务的服务运行时。",
+        "企业级智能客服运行时参考实现：统一文本/语音/RTC 接入，复用宿主鉴权与业务上下文，并通过插件、多租户知识库与治理能力，将问答能力扩展为可接业务的服务运行时。",
       impact: "多通道运行时 + 业务挂载 + 知识治理",
       keyOutcomes: [
         "统一文本 / Voice API / RTC WebSocket / FastAPI 挂载四类接入形态，复用同一套 session、routing、handoff 运行时。",
@@ -839,7 +816,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "展示了分层运行时架构、插件注册中心、Auth Bridge、多提供商适配、知识治理、诊断导出与多租户边界控制的完整工程能力。",
+        zh: "覆盖分层运行时架构、插件注册中心、Auth Bridge、多提供商适配、知识治理、诊断导出与多租户边界控制。",
         en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, diagnostics export, and multi-tenant boundary control.",
       },
       verification: [
@@ -854,13 +831,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "很多 AI 客服 Demo 只能回答静态知识，很难同时兼顾实时业务查询、多通道接入、宿主系统复用、转人工和后续治理。",
+          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理的客服运行时。",
         problem:
           "如果把文本、语音、RTC、业务工具、鉴权和转人工都写死在主流程里，宿主系统难接入，租户边界难控制，知识库和运行诊断也难以持续治理。",
         solution:
           "- **分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载模式。\n- **路由与协同**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度、投诉或请求人工场景下优先澄清或转人工。\n- **扩展与治理**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 七类扩展点，并支持插件启停、范围过滤与宿主鉴权复用。\n- **知识与运维**：补齐知识版本、chunk 优化、消息级反馈、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏等治理能力。",
         result:
-          "形成可独立运行或宿主挂载的智能客服运行时参考实现，覆盖业务接入、人工协同、知识治理、租户隔离与运行审计所需的核心能力。",
+          "交付可独立运行或宿主挂载的客服运行时，覆盖业务接入、人工协同、知识治理、租户隔离与运行审计。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -884,7 +861,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-wechat-bot",
       year: "2025 - 至今",
-      name: "微信 AI 助手",
+      name: "微信智能助手",
       link: "https://github.com/byteD-x/wechat-bot",
       demoLink: "",
       techTags: [
@@ -909,11 +886,11 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把微信机器人从脚本式自动回复升级为可长期运行、可排障、可控成本的 AI 助手。",
+        zh: "把微信机器人从脚本式自动回复升级为可长期运行、可排障、可控成本的智能助手。",
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
       },
       engineeringDepth: {
-        zh: "展示了微信接入边界抽象、LangGraph 运行时、可降级 RAG、配置快照/热重载、成本分析与运行观测的一体化工程能力。",
+        zh: "覆盖微信接入抽象、LangGraph 运行时、可降级 RAG、配置热重载、成本分析与运行观测。",
         en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, config hot reload, cost analytics, and runtime observability.",
       },
       verification: [
@@ -928,13 +905,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "普通微信机器人通常把接入、回复、记忆和配置揉在一起，能演示但不适合长期运行、排障和迭代增强。",
+          "目标是在 Windows 微信生态下交付可长期运行的机器人，并兼顾记忆增强、配置治理与运行诊断。",
         problem:
           "微信接入边界不稳定，同步阻塞会拖慢主链路；RAG 与记忆能力容易和主回复耦合；配置、诊断与成本口径分散，不利于长期维护。",
         solution:
           "- **运行时骨架**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **接入与记忆**：将微信入口抽象成 `BaseTransport`，并构建 SQLite 短期记忆、运行期向量记忆、导出语料 RAG 三层记忆体系。\n- **可降级增强**：运行期 RAG 默认走轻量重排，只有在本地模型目录与依赖就绪时才启用 `Cross-Encoder`，失败自动回退。\n- **治理能力**：补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析接口、配置热重载与 GitHub Release 发布链路。",
         result:
-          "形成一套面向 Windows 微信生态的长期运行微信机器人，兼顾接入稳定性、记忆增强、运行诊断、配置治理与交付可维护性。",
+          "交付面向 Windows 微信生态的长期运行机器人，覆盖接入稳定性、记忆增强、运行诊断、配置治理与发布链路。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -981,7 +958,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turns scattered enterprise documents into a continuously synced knowledge QA capability with traceable citations.",
       },
       engineeringDepth: {
-        zh: "体现了混合检索、LangGraph 编排、知识治理、连接器边界控制与评测回归体系的一体化工程能力。",
+        zh: "覆盖混合检索、LangGraph 编排、知识治理、连接器边界控制与评测回归体系。",
         en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, governance workflows, connector boundaries, and evaluation baselines.",
       },
       verification: [
@@ -1040,7 +1017,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Provided not just teaching tools but also a closed-loop monetization system for campus.",
       },
       engineeringDepth: {
-        zh: "体现了支付系统对接、并发流量治理及内容安全防护的工程实践。",
+        zh: "覆盖支付系统对接、并发流量治理与内容安全防护。",
         en: "Shows engineering practice in payment integration, concurrency governance, and content security.",
       },
       verification: [
@@ -1173,7 +1150,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Provided core algorithm verification and simulation tools for AS/RS scheduling.",
       },
       engineeringDepth: {
-        zh: "展示了复杂运筹算法的工程化落地与可视化交互开发能力。",
+        zh: "覆盖运筹算法工程化落地与可视化交互开发。",
         en: "Demonstrates engineering implementation of complex operations research algorithms and GUI dev.",
       },
       verification: [
@@ -1201,21 +1178,21 @@ export const defaultPortfolioData: PortfolioData = {
   skills: [
     {
       id: "skill-primary",
-      category: "核心栈 (Primary)",
-      description: "可独立承担架构设计、核心实现与最终复核的领域。",
+      category: "核心栈",
+      description: "长期主用并可独立负责交付的技术栈。",
       items: [
         "Java / Spring Boot（性能治理、架构演进、CI/CD）",
         "Python / FastAPI / AsyncIO（AI 运行时编排、多通道接入）",
-        "LangGraph / RAG / Qdrant（知识检索增强、复杂代理流）",
-        "OpenAI / Tool Calling（业务系统互联、多模态调度）",
+        "LangGraph / RAG / Qdrant（知识检索增强、复杂流程编排）",
+        "OpenAI / Tool Calling（业务系统互联、模型能力接入）",
         "PostgreSQL / Redis / ClickHouse（存储选型与查询优化）",
         "Next.js / Vue 3 / TypeScript（工程化前端构建与全栈交付）",
       ],
     },
     {
       id: "skill-proficient",
-      category: "扩展栈 (Proficient)",
-      description: "在项目中熟练落地，支撑端到端交付闭环。",
+      category: "扩展栈",
+      description: "已在项目中稳定使用的配套能力。",
       items: [
         "Docker / Linux Shell / Nginx",
         "Jenkins / GitLab CI（流水线与自动化部署）",
@@ -1227,8 +1204,8 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "skill-familiar",
-      category: "周边栈 (Familiar)",
-      description: "具备实践经验，能在跨团队协作中快速接手。",
+      category: "协作栈",
+      description: "具备实践经验，可在协作项目中快速接手。",
       items: [
         "Go（微服务开发）",
         "Kubernetes（容器编排基础）",
@@ -1254,11 +1231,11 @@ export const defaultPortfolioData: PortfolioData = {
       id: "svc-ai-integration",
       title: "AI 工程化落地",
       description:
-        "将 LLM 能力接入业务流程：RAG 知识库、工具调用/Agent、成本与安全控制，支持灰度上线与效果复盘。",
+        "将模型能力接入业务流程，补齐知识检索、工具调用、成本控制与安全约束，支持灰度发布与效果复盘。",
       icon: "Bot",
-      techStack: ["LangChain", "LLM APIs", "RAG", "Vector DB"],
+      techStack: ["LangChain", "OpenAI API", "RAG", "Qdrant"],
       gradient: "from-sky-500/10 to-cyan-500/10",
-      milestones: ["场景梳理", "PoC 验证", "成本评估", "灰度上线"],
+      milestones: ["场景梳理", "方案验证", "成本评估", "灰度发布"],
     },
     {
       id: "svc-performance",
@@ -1266,7 +1243,7 @@ export const defaultPortfolioData: PortfolioData = {
       description:
         "用数据定位瓶颈并复核收益：SQL/索引、缓存、并发、JVM、压测，让系统更快更稳。",
       icon: "Zap",
-      techStack: ["MySQL Tuning", "Redis", "System Design"],
+      techStack: ["MySQL", "Redis", "JVM", "压测"],
       gradient: "from-amber-500/10 to-orange-500/10",
       milestones: ["基线采样", "瓶颈定位", "方案实施", "压测复核"],
     },
@@ -1274,18 +1251,18 @@ export const defaultPortfolioData: PortfolioData = {
       id: "svc-automation",
       title: "自动化与数据处理",
       description:
-        "把重复工作变自动化：数据采集、清洗、报表、流程机器人，减少人工成本与出错率。",
+        "将重复流程脚本化和定时化，覆盖数据采集、清洗、报表与流程处理，降低人工成本与出错率。",
       icon: "Workflow",
-      techStack: ["Python", "Pandas", "Automation", "ETL"],
+      techStack: ["Python", "Pandas", "ETL", "定时任务"],
       gradient: "from-emerald-500/10 to-teal-500/10",
       milestones: ["流程评估", "自动化设计", "试运行", "稳定运维"],
     },
   ],
 
   vibeCoding: {
-    title: "Vibe Coding · AI 原生开发者",
+    title: "开发原则",
     description:
-      "把 AI 当作效率杠杆，但不把质量押在“感觉对了”上：每个迭代都有 lint/build/test/e2e、静态导出与链接检查等门禁；对性能/成本先做基线，再复核收益。",
+      "借助自动化工具提升开发效率，但结果必须通过构建、测试、导出与链接校验验证；涉及性能或成本调整时，先建立基线，再以数据确认收益。",
   },
 
   contact: {
@@ -1348,7 +1325,7 @@ export const defaultPortfolioData: PortfolioData = {
       targetSection: "services",
       primaryCTA: "查看合作能力",
       secondaryCTA: "查看里程碑",
-      highlightMetrics: ["PoC 到交付", "需求澄清机制", "可验收里程碑"],
+      highlightMetrics: ["方案验证到交付", "需求澄清机制", "可验收里程碑"],
     },
     {
       id: "client",
@@ -1357,7 +1334,7 @@ export const defaultPortfolioData: PortfolioData = {
       targetSection: "contact",
       primaryCTA: "进入联系通道",
       secondaryCTA: "查看沟通准备项",
-      highlightMetrics: ["性能与成本收益", "上线风险可控", "响应 SLA 明确"],
+      highlightMetrics: ["性能与成本收益", "上线风险可控", "响应时效明确"],
     },
   ],
 };

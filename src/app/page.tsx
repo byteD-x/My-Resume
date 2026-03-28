@@ -10,6 +10,7 @@ import { defaultPortfolioData } from "@/data";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { CapabilitySummary } from "@/components/home/CapabilitySummary";
 import { HomePageRuntimeShell } from "@/components/home/HomePageRuntimeShell";
+import type { PortfolioData } from "@/types";
 import {
   getHeroSpotlights,
   getHomepageFeaturedProjects,
@@ -77,6 +78,120 @@ function extractTimelineSortKey(period: string): number {
   return year * 100 + Math.min(Math.max(month, 1), 12);
 }
 
+function normalizeTechTagKey(tag: string): string {
+  return tag.toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function collectConcreteTechTokens(data: PortfolioData): Set<string> {
+  const buckets = [
+    ...data.timeline.flatMap((item) => item.techTags ?? []),
+    ...data.projects.flatMap((item) => item.techTags ?? []),
+    ...data.projects.flatMap((item) => item.expandedDetails?.techStack ?? []),
+    ...data.skills.flatMap((category) => category.items),
+  ];
+
+  const tokens = new Set<string>();
+
+  for (const raw of buckets) {
+    const trimmed = raw.trim();
+    if (!trimmed) continue;
+
+    const noDetail = trimmed.replace(/\s*[（(][^（）()]+[）)]$/, "").trim();
+    const parts = noDetail
+      .split(/[\/、,，|]/)
+      .map((part) => normalizeTechTagKey(part))
+      .filter(Boolean);
+
+    tokens.add(normalizeTechTagKey(noDetail));
+    parts.forEach((part) => tokens.add(part));
+  }
+
+  return tokens;
+}
+
+function buildTechOverview(data: PortfolioData): Array<{
+  id: string;
+  label: string;
+  items: string[];
+}> {
+  const tokens = collectConcreteTechTokens(data);
+
+  const groups: Array<{
+    id: string;
+    label: string;
+    candidates: Array<[string, string[]]>;
+  }> = [
+    {
+      id: "backend",
+      label: "后端运行时",
+      candidates: [
+        ["Java", ["java"]],
+        ["Spring Boot", ["spring boot"]],
+        ["Spring Security", ["spring security"]],
+        ["Python", ["python"]],
+        ["FastAPI", ["fastapi"]],
+        ["AsyncIO", ["asyncio"]],
+        ["OAuth2", ["oauth2"]],
+      ],
+    },
+    {
+      id: "ai",
+      label: "AI 接入",
+      candidates: [
+        ["LangGraph", ["langgraph"]],
+        ["OpenAI SDK", ["openai"]],
+        ["Qdrant", ["qdrant"]],
+        ["WebSocket", ["websocket"]],
+        ["RTC", ["rtc"]],
+      ],
+    },
+    {
+      id: "data",
+      label: "数据存储",
+      candidates: [
+        ["PostgreSQL", ["postgresql"]],
+        ["MySQL", ["mysql"]],
+        ["Redis", ["redis"]],
+        ["ClickHouse", ["clickhouse"]],
+        ["MinIO", ["minio"]],
+        ["Kafka", ["kafka"]],
+        ["RabbitMQ", ["rabbitmq"]],
+        ["Elasticsearch", ["elasticsearch"]],
+      ],
+    },
+    {
+      id: "delivery",
+      label: "前端与交付",
+      candidates: [
+        ["React", ["react"]],
+        ["Next.js", ["next.js", "nextjs"]],
+        ["TypeScript", ["typescript"]],
+        ["Vue 3", ["vue 3"]],
+        ["Docker Compose", ["docker compose"]],
+        ["Playwright", ["playwright"]],
+        ["pytest", ["pytest"]],
+        ["Prometheus", ["prometheus"]],
+        ["Grafana", ["grafana"]],
+        ["Nginx", ["nginx"]],
+      ],
+    },
+  ];
+
+  return groups
+    .map((group) => ({
+      id: group.id,
+      label: group.label,
+      items: group.candidates
+        .filter(([, aliases]) =>
+          aliases.some((alias) =>
+            Array.from(tokens).some((token) => token.includes(alias)),
+          ),
+        )
+        .map(([label]) => label),
+    }))
+    .filter((group) => group.items.length > 0);
+}
+
 export default function HomePage() {
   const data = defaultPortfolioData;
   const timelineByDate = [...data.timeline].sort(
@@ -85,6 +200,7 @@ export default function HomePage() {
 
   const homepageFeaturedProjects = getHomepageFeaturedProjects(data.projects);
   const heroProofItems = getHeroSpotlights(data.projects);
+  const techOverview = buildTechOverview(data);
 
   return (
     <main className="relative min-h-screen overflow-x-clip">
@@ -132,19 +248,19 @@ export default function HomePage() {
       <MotionWrapper delay={0.08} duration={0.54} amount={0.12}>
         <Section
           id="experience"
-          className="theme-grid-section theme-section-balanced relative z-10 scroll-mt-24 border-y section-divider"
+          className="theme-grid-section theme-section-dense relative z-10 scroll-mt-24 border-y section-divider !py-8 sm:!py-10 lg:!py-12"
         >
           <Container>
             <div
-              className="theme-section-header scroll-mt-28"
+              className="theme-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
               data-scroll-target="experience"
             >
-              <p className="theme-kicker mb-3">Professional Journey</p>
-              <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+              <p className="theme-kicker mb-2">履历时间线</p>
+              <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
                 专业履历与实践
               </h2>
               <p className="theme-section-copy">
-                从底层架构优化到 AI 原生应用落地，我的工作始终围绕“复杂问题的系统化解决”与“真实业务价值的交付”展开。这里按时间线整理我的关键职责、代表结果与方法沉淀。
+                从后端架构优化、性能治理到智能应用集成，我的工作始终围绕复杂问题的系统化解决与业务价值交付展开。按时间线整理关键职责、代表结果与方法沉淀。
               </p>
             </div>
             <Timeline items={timelineByDate} />
@@ -163,12 +279,12 @@ export default function HomePage() {
               data-scroll-target="projects"
             >
               <div>
-                <p className="theme-kicker mb-3">More Explorations</p>
+                <p className="theme-kicker mb-3">更多项目</p>
                 <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
                   开源与更多探索
                 </h2>
                 <p className="theme-section-copy">
-                  除了核心商业项目，我也持续在开源和个人项目中验证新思路。这里收录的是更完整的工程实践，而不只是 demo 级展示。
+                  除了核心商业项目，我也持续在开源和个人项目中验证新思路。收录完整项目实践与实现细节。
                 </p>
               </div>
               <div className="theme-card rounded-[1.35rem] p-4 sm:p-5">
@@ -180,7 +296,7 @@ export default function HomePage() {
                   阅读导航
                 </p>
                 <p className="theme-copy mt-2.5 text-[13px] leading-7">
-                  默认按项目影响力与技术深度排序。你可以通过下方标签快速筛选感兴趣的技术栈、业务场景或交付类型。
+                  项目默认按影响力排序，可按标签筛选技术栈、业务场景或交付类型。
                 </p>
               </div>
             </div>
@@ -194,7 +310,11 @@ export default function HomePage() {
           id="skills"
           className="theme-grid-section relative z-10 scroll-mt-24"
         >
-          <TechStack skills={data.skills} vibeCoding={data.vibeCoding} />
+          <TechStack
+            skills={data.skills}
+            vibeCoding={data.vibeCoding}
+            techOverview={techOverview}
+          />
         </div>
       </MotionWrapper>
 

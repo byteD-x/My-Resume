@@ -111,18 +111,18 @@ export function HomePageRuntime({
           {!isMobileViewport ? (
             <aside
               data-print="hide"
-              className="pointer-events-none fixed right-4 top-1/2 z-40 w-[16.5rem] -translate-y-1/2 xl:right-6"
+              className="pointer-events-none fixed right-4 top-1/2 z-40 w-[17rem] -translate-y-1/2 xl:right-6 xl:w-[17.5rem]"
               aria-label="快捷操作"
             >
               <div className="theme-floating-dock pointer-events-none rounded-[1.5rem] p-3.5">
                 <div className="border-b border-[color:var(--border-muted)] pb-3">
-                  <p className="theme-floating-label">Quick Access</p>
-                  <p className="mt-1 flex items-center gap-2 text-sm font-semibold text-[color:var(--text-primary)]">
+                  <p className="theme-floating-label">快捷入口</p>
+                  <p className="mt-1 flex items-start gap-2 text-sm font-semibold text-[color:var(--text-primary)]">
                     <Sparkles size={14} className="text-[color:var(--brand-gold)]" />
-                    工程证明入口
+                    <span className="text-balance leading-5">工程证明入口</span>
                   </p>
-                  <p className="theme-floating-meta mt-1">
-                    把运行指标、作品证据和联系动作收在同一个悬浮框里。
+                  <p className="theme-floating-meta mt-1 text-balance leading-5">
+                    汇集指标、项目入口与常用操作。
                   </p>
                 </div>
 
@@ -131,9 +131,9 @@ export function HomePageRuntime({
 
                   <div className="border-t border-[color:var(--border-muted)] pt-3">
                     <div className="mb-2 flex items-center justify-between gap-3">
-                      <p className="theme-floating-label">Secondary</p>
+                      <p className="theme-floating-label">辅助操作</p>
                       <span className="theme-floating-meta inline-flex items-center gap-1">
-                        Scroll
+                        滚动
                         <ArrowUpRight size={12} />
                       </span>
                     </div>
@@ -143,7 +143,7 @@ export function HomePageRuntime({
                   </div>
 
                   <div className="border-t border-[color:var(--border-muted)] pt-3">
-                    <p className="theme-floating-label mb-2">Actions</p>
+                    <p className="theme-floating-label mb-2">常用操作</p>
                     {shouldRenderSupplementalActions ? (
                       <FloatingResumeButton
                         resumeOwnerName={resumeOwnerName}
@@ -164,8 +164,8 @@ export function HomePageRuntime({
               <div className="theme-floating-dock pointer-events-none rounded-[1.3rem] p-2.5">
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center justify-between gap-3 px-1.5">
-                    <p className="theme-floating-label">Quick Access</p>
-                    <span className="theme-floating-meta">作品集控制台</span>
+                    <p className="theme-floating-label">快捷入口</p>
+                    <span className="theme-floating-meta text-right">作品集控制台</span>
                   </div>
                   <EngineeringCommandCenter compact className="w-full" />
                   {shouldRenderSupplementalActions ? (

@@ -166,7 +166,7 @@ export default function MetricDrawer({
               {metric.details && (
                 <div>
                   <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
-                    方法拆解
+                    实现要点
                   </h3>
                   <div style={{ color: "var(--text-secondary)" }}>
                     <MarkdownRenderer tone="muted">
@@ -179,7 +179,7 @@ export default function MetricDrawer({
               {metric.verification && (
                 <div className="rounded-[1.15rem] border border-emerald-200/70 bg-emerald-50/70 p-4 md:p-5 dark:border-emerald-900/50 dark:bg-emerald-900/10">
                   <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-                    证据口径
+                    证据来源
                   </h3>
                   <p className="text-sm text-emerald-800 dark:text-emerald-200">
                     {metric.verification.sourceLabel}
@@ -192,7 +192,7 @@ export default function MetricDrawer({
                     verificationAssessment.basis.length > 0 && (
                       <div className="mt-3">
                         <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                          判定依据
+                          判定说明
                         </p>
                         <ul className="mt-1 space-y-1 text-xs leading-6 text-emerald-800/90 dark:text-emerald-200/90">
                           {verificationAssessment.basis.map(

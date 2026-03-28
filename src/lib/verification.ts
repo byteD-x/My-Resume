@@ -9,8 +9,8 @@ const sourceTypeLabelMap: Record<VerificationInfo["sourceType"], string> = {
 };
 
 const confidenceLabelMap: Record<VerificationInfo["confidence"], string> = {
-  high: "high（高）",
-  medium: "medium（中）",
+  high: "高",
+  medium: "中",
 };
 
 export interface VerificationAssessment {
@@ -43,9 +43,9 @@ function buildDerivedBasis(
   const basis: string[] = [];
 
   if (verification.level === "strict") {
-    basis.push("证据口径：strict（核心区仅展示可复核指标）");
+    basis.push("证据级别：严格复核（核心区仅展示可复核指标）");
   } else {
-    basis.push("证据口径：estimated（估算口径，建议二次复核）");
+    basis.push("证据级别：估算复核（建议二次确认）");
   }
 
   basis.push(`来源类型：${sourceTypeLabelMap[verification.sourceType]}`);
@@ -85,7 +85,7 @@ function buildDerivedReason(
     const positives: string[] = [];
 
     if (verification.level === "strict") {
-      positives.push("口径为 strict");
+      positives.push("按严格口径整理");
     }
 
     if (verification.sourceType === "repo") {
@@ -122,7 +122,7 @@ function buildDerivedReason(
   }
 
   if (verification.level !== "strict") {
-    constraints.push("证据口径不是 strict");
+    constraints.push("采用估算复核口径");
   }
 
   if (daysSince !== null && daysSince > 365) {

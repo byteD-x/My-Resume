@@ -508,17 +508,17 @@ p {
 }
 
 .theme-section-balanced {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 3.25rem;
+  padding-bottom: 3.25rem;
 }
 
 .theme-section-dense {
-  padding-top: 3.5rem;
-  padding-bottom: 3.5rem;
+  padding-top: 2.75rem;
+  padding-bottom: 2.75rem;
 }
 
 .theme-section-header {
-  margin-bottom: 2.25rem;
+  margin-bottom: 1.75rem;
   max-width: 44rem;
 }
 
@@ -531,33 +531,33 @@ p {
 
 @media (min-width: 640px) {
   .theme-section-balanced {
-    padding-top: 5.25rem;
-    padding-bottom: 5.25rem;
+    padding-top: 4.25rem;
+    padding-bottom: 4.25rem;
   }
 
   .theme-section-dense {
-    padding-top: 4.75rem;
-    padding-bottom: 4.75rem;
+    padding-top: 3.75rem;
+    padding-bottom: 3.75rem;
   }
 
   .theme-section-header {
-    margin-bottom: 3rem;
+    margin-bottom: 2.25rem;
   }
 }
 
 @media (min-width: 1024px) {
   .theme-section-balanced {
-    padding-top: 6.25rem;
-    padding-bottom: 6.25rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 
   .theme-section-dense {
-    padding-top: 5.5rem;
-    padding-bottom: 5.5rem;
+    padding-top: 4.5rem;
+    padding-bottom: 4.5rem;
   }
 
   .theme-section-header {
-    margin-bottom: 3.5rem;
+    margin-bottom: 2.75rem;
   }
 }
 

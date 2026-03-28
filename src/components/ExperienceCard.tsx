@@ -42,7 +42,8 @@ export const ExperienceCard = memo(function ExperienceCard({
         ? "experience"
         : "role" in item
           ? "experience"
-          : "projects";
+        : "projects";
+  const isTimelineCard = !isProjectCard;
 
   const handleOpen = () => {
     if (typeof window === "undefined") return;
@@ -62,12 +63,32 @@ export const ExperienceCard = memo(function ExperienceCard({
       className="group block h-full"
       onClick={handleOpen}
     >
-      <div className="theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden rounded-[1.3rem] border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_14px_30px_rgba(15,23,42,0.055)] sm:rounded-[1.55rem] sm:p-5 md:p-6">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-[4.5rem] bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90" />
+      <div
+        className={`theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden border-[rgba(148,163,184,0.16)] shadow-[0_14px_30px_rgba(15,23,42,0.055)] ${
+          isTimelineCard
+            ? "rounded-[1.1rem] p-3.5 sm:rounded-[1.25rem] sm:p-3.5 md:p-4"
+            : "rounded-[1.2rem] p-4 sm:rounded-[1.4rem] sm:p-4 md:p-5"
+        }`}
+      >
+        <div
+          className={`pointer-events-none absolute inset-x-0 top-0 bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90 ${
+            isTimelineCard ? "h-[3.2rem]" : "h-[3.75rem]"
+          }`}
+        />
 
-        <div className="relative z-10 mb-4 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-6 sm:pb-5">
+        <div
+          className={`relative z-10 flex items-start justify-between border-b border-[color:var(--border-default)] ${
+            isTimelineCard
+              ? "mb-3 gap-3 pb-2.5 sm:mb-4 sm:pb-3"
+              : "mb-3.5 gap-3.5 pb-3 sm:mb-5 sm:pb-4"
+          }`}
+        >
           <div className="min-w-0 flex-1 pr-4">
-            <h3 className="theme-card-title text-[1.04rem] transition-colors group-hover:text-[color:var(--brand-gold)] sm:text-[1.08rem]">
+            <h3
+              className={`theme-card-title transition-colors group-hover:text-[color:var(--brand-gold)] ${
+                isTimelineCard ? "text-[0.97rem] sm:text-[1rem]" : "text-[1rem] sm:text-[1.04rem]"
+              }`}
+            >
               {title}
             </h3>
             {subtitle ? (
@@ -90,18 +111,26 @@ export const ExperienceCard = memo(function ExperienceCard({
         </div>
 
         <div
-          className={`theme-card-body relative z-10 mb-5 flex-grow text-[13px] leading-[1.9] sm:mb-7 sm:text-[14px] sm:leading-7 ${
+          className={`theme-card-body relative z-10 flex-grow text-[13px] leading-[1.78] sm:text-[14px] sm:leading-6 ${
             isProjectCard
-              ? "min-h-[7.5rem] sm:min-h-[8.75rem]"
-              : "min-h-[6.5rem] sm:min-h-[7.75rem]"
+              ? "mb-4 min-h-[6rem] sm:mb-5 sm:min-h-[7rem]"
+              : "mb-3.5 min-h-[4.5rem] sm:mb-4 sm:min-h-[5.25rem]"
           }`}
         >
           <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
         </div>
 
-        <div className="relative z-10 mt-auto border-t border-[color:var(--border-default)] pt-3.5 sm:pt-5">
-          <div className="grid gap-2.5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-4">
-            <div className="flex min-h-9 flex-wrap content-start gap-2">
+        <div
+          className={`relative z-10 mt-auto border-t border-[color:var(--border-default)] ${
+            isTimelineCard ? "pt-2.5 sm:pt-3" : "pt-3 sm:pt-4"
+          }`}
+        >
+          <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-3">
+            <div
+              className={`flex flex-wrap content-start gap-1.5 ${
+                isTimelineCard ? "min-h-7 sm:min-h-8" : "min-h-8"
+              }`}
+            >
               {item.techTags?.slice(0, 3).map((tag, idx) => (
                 <span
                   key={idx}
@@ -118,7 +147,7 @@ export const ExperienceCard = memo(function ExperienceCard({
             </div>
 
             {githubLink || demoLink ? (
-              <div className="flex min-h-9 items-start justify-start gap-2 opacity-80 transition-opacity group-hover:opacity-100 sm:min-h-10 sm:justify-end">
+              <div className="flex min-h-8 items-start justify-start gap-1.5 opacity-80 transition-opacity group-hover:opacity-100 sm:min-h-9 sm:justify-end">
                 {githubLink ? (
                   <button
                     type="button"
@@ -128,7 +157,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                       window.open(githubLink, "_blank", "noopener,noreferrer");
                     }}
                     className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
-                    aria-label="GitHub"
+                    aria-label="查看 GitHub 仓库"
                     title="查看源码"
                   >
                     <Github size={15} strokeWidth={2} className="motion-icon-float" />
@@ -143,7 +172,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                       window.open(demoLink, "_blank", "noopener,noreferrer");
                     }}
                     className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
-                    aria-label="Live Demo"
+                    aria-label="查看在线演示"
                     title="查看演示"
                   >
                     <ExternalLink size={15} strokeWidth={2} className="motion-icon-float" />

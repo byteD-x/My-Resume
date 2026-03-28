@@ -37,16 +37,16 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
   };
 
   return (
-    <Section className="theme-grid-section theme-section-balanced relative scroll-mt-24 border-y section-divider">
+    <Section className="theme-grid-section theme-section-dense relative scroll-mt-24 border-y section-divider !py-8 sm:!py-10 lg:!py-12">
       <Container>
-        <div className="theme-section-header grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-8">
+        <div className="theme-section-header !mb-5 grid gap-3.5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-5 sm:!mb-6 lg:!mb-7">
           <div>
-            <p className="theme-kicker mb-3">Featured Work</p>
-            <h2 className="theme-title mb-4 text-3xl font-bold md:text-4xl">
+            <p className="theme-kicker mb-2">精选案例</p>
+            <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
               精选工程实践
             </h2>
             <p className="theme-section-copy">
-              这组案例不只是展示项目结果，而是重点说明我具体做了什么内容、交付了什么功能，以及核心架构和关键链路是怎样落地的。
+              以下案例展示职责范围、交付结果与关键实现。
             </p>
           </div>
           <button
@@ -62,7 +62,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
           </button>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-2">
+        <div className="grid gap-3 xl:grid-cols-2">
           {items.map((item, index) => {
             const Icon = iconByIndex[index] ?? Layers3;
 
@@ -72,9 +72,9 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                 href={item.href}
                 scroll={false}
                 onClick={handleOpen}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-5 md:rounded-[1.75rem] md:p-7 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
               >
-                  <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-7 sm:gap-4 sm:pb-5">
+                  <div className="mb-4 flex items-start justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-5 sm:gap-3.5 sm:pb-4">
                   <div className="theme-icon-box theme-icon-box-sm motion-chip">
                     <Icon size={18} strokeWidth={2} className="motion-icon-float" />
                   </div>
@@ -83,14 +83,14 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-5 sm:space-y-6">
+                <div className="flex-1 space-y-4 sm:space-y-5">
                   <div>
                     <h3 className="theme-card-title text-[1.3rem] sm:text-[1.42rem]">
                       {item.name}
                     </h3>
                   </div>
 
-                  <div className="theme-card-muted rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:rounded-[1.3rem] sm:p-5">
+                  <div className="theme-card-muted rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:rounded-[1.2rem] sm:p-4">
                     <p className="theme-card-kicker mb-2.5">
                       内容定位
                     </p>
@@ -99,7 +99,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                     </p>
                   </div>
 
-                  <div className="theme-card-muted rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:rounded-[1.3rem] sm:p-5">
+                  <div className="theme-card-muted rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:rounded-[1.2rem] sm:p-4">
                     <p className="theme-card-kicker mb-2.5">
                       功能描述
                     </p>
@@ -108,7 +108,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                     </p>
                   </div>
 
-                  <div className="border-t border-[color:var(--border-default)] pt-5 sm:pt-6">
+                  <div className="border-t border-[color:var(--border-default)] pt-4 sm:pt-5">
                     <p className="theme-card-kicker mb-2.5">
                       技术描述
                     </p>
@@ -118,7 +118,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between border-t border-[color:var(--border-default)] pt-4 sm:mt-7 sm:pt-5">
+                <div className="mt-4 flex items-center justify-between border-t border-[color:var(--border-default)] pt-3.5 sm:mt-5 sm:pt-4">
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {item.techTags.slice(0, 3).map((tag) => (
                       <span

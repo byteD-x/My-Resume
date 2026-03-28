@@ -144,12 +144,12 @@ export default function FloatingResumeButton({
 
   const desktopButton = (
     <>
-      <span className="inline-flex items-center gap-2">
+      <span className="inline-flex min-w-0 items-center gap-2">
         <Download size={16} />
-        <span>下载简历</span>
+        <span className="text-balance leading-5">下载简历</span>
       </span>
       {desktopVariant === "dock" ? (
-        <span className="theme-floating-meta text-right">
+        <span className="theme-floating-meta text-left leading-5">
           PDF · 当前版本
         </span>
       ) : null}
@@ -171,7 +171,7 @@ export default function FloatingResumeButton({
         whileTap={{ scale: 0.98 }}
         className={cn(
           desktopVariant === "dock"
-            ? "theme-floating-trigger motion-chip pointer-events-auto flex w-full items-center justify-between gap-3 rounded-[1.15rem] px-4 py-3.5 text-sm font-semibold"
+            ? "theme-floating-trigger motion-chip pointer-events-auto flex w-full flex-col items-start gap-2 rounded-[1.15rem] px-4 py-3.5 text-sm font-semibold"
             : "btn btn-primary pointer-events-auto fixed right-4 bottom-4 z-50 flex items-center gap-2 px-5 py-3 font-medium shadow-lg transition-shadow hover:shadow-xl",
           className,
         )}

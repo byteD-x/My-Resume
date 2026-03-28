@@ -68,7 +68,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
   };
 
   return (
-    <section className="relative overflow-hidden border-b section-divider bg-white pb-10 pt-22 sm:pb-12 sm:pt-24 md:pb-16 md:pt-28">
+    <section className="relative overflow-hidden border-b section-divider bg-white pb-8 pt-20 sm:pb-10 sm:pt-22 md:pb-12 md:pt-24">
       <div className="hero-grid-bg hero-grid-fade pointer-events-none absolute inset-0 z-0 opacity-100" />
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -left-20 top-10 h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.65),transparent_72%)] blur-3xl md:h-[28rem] md:w-[28rem]" />
@@ -76,21 +76,21 @@ export default function Hero({ data, proofItems }: HeroProps) {
         <div className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(180deg,transparent,rgba(246,248,251,0.9))]" />
       </div>
       <Container className="relative z-10">
-        <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10 xl:gap-12">
+        <div className="grid items-start gap-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
           <motion.div
             className="flex flex-col items-start lg:col-span-7 xl:col-span-6"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            <motion.div variants={itemVariants} className="mb-5 sm:mb-6">
+            <motion.div variants={itemVariants} className="mb-4 sm:mb-5">
               <HeroStatusBadges location={data.location} />
             </motion.div>
 
             {focusTitle ? (
               <motion.div
                 variants={itemVariants}
-                className="theme-pill mb-4 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] uppercase"
+                className="theme-pill mb-3 px-3 py-1 text-[11px] font-semibold tracking-[0.2em] uppercase"
               >
                 {focusTitle}
               </motion.div>
@@ -98,24 +98,24 @@ export default function Hero({ data, proofItems }: HeroProps) {
 
             <motion.h1
               variants={itemVariants}
-              className="theme-title mb-4 max-w-[10.5ch] text-balance text-[2.35rem] font-bold leading-[0.98] sm:text-[3.4rem] sm:leading-[0.95] md:text-[4.65rem]"
+              className="theme-title mb-3 max-w-[10.5ch] text-balance text-[2.25rem] font-bold leading-[0.98] sm:text-[3.15rem] sm:leading-[0.95] md:text-[4.4rem]"
             >
               {mainTitle}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="theme-copy mb-6 max-w-[37rem] text-[15px] leading-[1.72] sm:mb-7 sm:text-[15px] sm:leading-7 md:mb-8 md:text-[1.02rem] md:leading-8"
+              className="theme-copy mb-5 max-w-[37rem] text-[15px] leading-[1.68] sm:mb-6 sm:text-[15px] sm:leading-7 md:mb-7 md:text-[1.01rem] md:leading-7"
             >
               {data.subtitle}
             </motion.p>
 
             <motion.div
               variants={itemVariants}
-              className="theme-card-muted mb-7 w-full rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:mb-8 sm:rounded-[1.6rem] sm:p-5 md:p-6"
+              className="theme-card-muted mb-6 w-full rounded-[1.35rem] border-[rgba(148,163,184,0.16)] p-3.5 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:mb-7 sm:rounded-[1.5rem] sm:p-4 md:p-5"
             >
-              <p className="theme-card-kicker mb-5">价值主线</p>
-              <div className="mb-6 border-b border-[color:var(--border-default)] pb-5">
+              <p className="theme-card-kicker mb-4">价值主线</p>
+              <div className="mb-5 border-b border-[color:var(--border-default)] pb-4">
                 <HeroBullets bullets={data.bullets} />
               </div>
 
@@ -126,13 +126,13 @@ export default function Hero({ data, proofItems }: HeroProps) {
                 onDownloadClick={resumeDownloadHandler}
               />
 
-              <p className="theme-copy-subtle mt-5 text-sm leading-7">
+              <p className="theme-copy-subtle mt-4 text-sm leading-6">
                 以上指标均可在项目详情与仓库中复核。
               </p>
             </motion.div>
           </motion.div>
 
-          <div className="relative lg:col-span-5 xl:col-span-6 lg:pt-3 xl:pl-4">
+          <div className="relative lg:col-span-5 xl:col-span-6 lg:pt-2 xl:pl-3">
             <HeroProofPanel items={proofItems} />
           </div>
         </div>

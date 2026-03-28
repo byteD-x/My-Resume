@@ -233,11 +233,11 @@ export function ProjectList({ items }: ProjectListProps) {
         </div>
 
         <p className="theme-copy-subtle text-[11px] font-bold uppercase tracking-[0.12em] md:text-[10px] md:tracking-widest">
-          Showing{" "}
+          共{" "}
           <span className="text-[color:var(--text-primary)]">
             {filteredItems.length}
           </span>{" "}
-          Results
+          个结果
         </p>
       </motion.div>
 

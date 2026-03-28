@@ -15,7 +15,7 @@ const capabilityMeta = [
     icon: BrainCircuit,
     title: "AI 运行时与检索增强",
     summary:
-      "把模型接入做成能恢复、能评测、能接业务的运行时，而不是只停留在问答 Demo。",
+      "覆盖模型接入、检索增强与流程编排能力。",
   },
   {
     id: "delivery",
@@ -29,7 +29,7 @@ const capabilityMeta = [
     icon: Gauge,
     title: "性能、成本与质量门禁",
     summary:
-      "关注的不只是跑起来，而是基线、优化、回归和交付质量能否被证明。",
+      "覆盖基线、优化、回归与交付质量控制。",
   },
 ];
 
@@ -43,9 +43,9 @@ const capabilityBulletSummaryMap: Record<string, string> = {
 };
 
 const capabilityLayerLabelMap: Record<string, string> = {
-  orchestration: "Runtime Layer",
-  delivery: "Delivery Layer",
-  performance: "Quality Layer",
+  orchestration: "运行时层",
+  delivery: "交付层",
+  performance: "质量层",
 };
 
 export function CapabilitySummary({
@@ -69,30 +69,28 @@ export function CapabilitySummary({
   }));
 
   return (
-    <Section className="theme-grid-section theme-section-balanced relative scroll-mt-24">
+    <Section className="theme-grid-section theme-section-dense relative scroll-mt-24 !py-8 sm:!py-10 lg:!py-12">
       <Container>
-        <div className="theme-section-header">
-          <p className="theme-kicker mb-3 text-[11px]">
-            Core Competencies
-          </p>
-          <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+        <div className="theme-section-header !mb-5 sm:!mb-6 lg:!mb-7">
+          <p className="theme-kicker mb-2 text-[11px]">能力概览</p>
+          <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
             核心工程能力
           </h2>
           <p className="theme-section-copy">
-            我更关注系统是否稳定、是否可验证、是否能支撑真实业务，而不是只展示技术名词。这些能力决定了项目能否真正上线并长期维护。
+            能力重点：稳定性、可验证性与可维护性。
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6">
+        <div className="grid gap-3 lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-4">
           {cards.map((card) => {
             const Icon = card.icon;
 
             return (
               <article
                 key={card.id}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-5 md:rounded-[1.6rem] md:p-7"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-4 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-4 md:rounded-[1.5rem] md:p-5"
               >
-                <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-5 sm:gap-4 sm:pb-[1.125rem]">
+                <div className="mb-4 flex items-start justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-4 sm:gap-3.5 sm:pb-4">
                   <div className="theme-icon-box theme-icon-box-md transition-transform group-hover:scale-105">
                     <Icon size={20} strokeWidth={2} />
                   </div>
@@ -105,25 +103,25 @@ export function CapabilitySummary({
                   {card.title}
                 </h3>
 
-                <p className="theme-card-body mt-3.5 text-[14px]">
+                <p className="theme-card-body mt-3 text-[14px]">
                   {card.summary}
                 </p>
 
                 {card.bullet ? (
-                  <div className="theme-card-muted mt-6 rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:mt-6 sm:rounded-[1.3rem] sm:p-[1.125rem]">
+                  <div className="theme-card-muted mt-4 rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:mt-4 sm:rounded-[1.2rem] sm:p-4">
                     <p className="theme-card-kicker mb-2">
-                      Evidence Snapshot / 证据切片
+                      证据切片
                     </p>
                     <p className="theme-title text-[13px] font-semibold">
                       {card.bullet.title}
                     </p>
-                    <p className="theme-copy mt-2.5 text-[13px] leading-7">
+                    <p className="theme-copy mt-2 text-[13px] leading-6">
                       {capabilityBulletSummaryMap[card.bullet.id] ?? card.bullet.description}
                     </p>
                   </div>
                 ) : null}
 
-                <div className="mt-5 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
+                <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
                   {card.tags.map((tag) => (
                     <span
                       key={tag}
@@ -135,8 +133,8 @@ export function CapabilitySummary({
                 </div>
 
                 {card.service ? (
-                  <div className="mt-auto pt-5 sm:pt-6">
-                    <p className="theme-copy border-t border-[color:var(--border-default)] pt-4 text-[13px] leading-7 sm:pt-[1.125rem]">
+                  <div className="mt-auto pt-4 sm:pt-5">
+                    <p className="theme-copy border-t border-[color:var(--border-default)] pt-3.5 text-[13px] leading-6 sm:pt-4">
                       <span className="font-semibold text-[color:var(--text-primary)]">交付方式：</span>
                       {card.service.title}，{card.service.description}
                     </p>

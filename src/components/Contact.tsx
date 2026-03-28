@@ -206,13 +206,13 @@ export default function Contact({ contactData }: ContactProps) {
                   data-scroll-target="contact"
                 >
                   <p className="theme-kicker mb-3">
-                    Get in Touch
+                    联系方式
                   </p>
                   <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
-                    建立连接，开启对话
+                    沟通与合作
                   </h2>
                   <p className="theme-section-copy">
-                    无论是交流岗位机会、探讨 AI 落地路径，还是讨论更深入的技术问题，都欢迎随时联系我。我习惯基于具体场景与明确边界进行高效沟通。
+                    欢迎沟通岗位、合作或技术问题；可按场景快速对齐需求与时间。
                   </p>
                 </div>
 

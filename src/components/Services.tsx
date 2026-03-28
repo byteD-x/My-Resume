@@ -38,23 +38,21 @@ export default function Services({ services }: ServicesProps) {
             className="scroll-mt-28"
             data-scroll-target="services"
           >
-            <p className="theme-kicker mb-3">
-              Delivery Capabilities
-            </p>
+            <p className="theme-kicker mb-3">交付方式</p>
             <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
               商业交付与合作模式
             </h2>
             <p className="theme-section-copy mb-6 max-w-2xl">
-              以工程化思维解决复杂业务问题，不仅提供纯代码层面的实现，更涵盖从需求梳理、架构设计到最终可验证落地的端到端交付闭环。
+              围绕实际业务目标提供方案、实现与交付支持，覆盖需求梳理、架构设计、上线准备与结果验证。
             </p>
             <div className="theme-card inline-flex flex-wrap items-center gap-2 rounded-full border-[rgba(148,163,184,0.16)] px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--text-secondary)]">
-              <span>Workflow: Definition</span>
+              <span>需求定义</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
-              <span>PoC</span>
+              <span>方案验证</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
-              <span>Milestones</span>
+              <span>阶段交付</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
-              <span>Review</span>
+              <span>结果复核</span>
             </div>
           </motion.div>
         </div>

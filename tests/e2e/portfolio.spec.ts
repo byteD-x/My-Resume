@@ -46,9 +46,28 @@ const isLowPerformanceEnvironment = async (page: Page) =>
         return prefersReducedMotion || saveDataEnabled || lowCoreCount || lowMemory || (coarsePointer && noHover);
     });
 
+const gotoHomePage = async (page: Page) => {
+    const homeHeading = page.getByRole('heading', { level: 1, name: 'AI 应用工程师' });
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+        await page.goto('/');
+
+        try {
+            await expect(homeHeading).toBeVisible({ timeout: 8000 });
+            return;
+        } catch (error) {
+            const notFoundHeading = page.getByRole('heading', { level: 1, name: '404' });
+            if (attempt === 2 || !(await notFoundHeading.isVisible().catch(() => false))) {
+                throw error;
+            }
+            await page.waitForTimeout(400);
+        }
+    }
+};
+
 test.describe('Portfolio E2E', () => {
     test.beforeEach(async ({ page }) => {
-        await page.goto('/');
+        await gotoHomePage(page);
     });
 
     test('home page should render key structure', async ({ page }) => {
@@ -118,9 +137,9 @@ test.describe('Portfolio E2E', () => {
             await openButton.click();
             const panelTitle = page.getByRole('heading', { name: /工程实力中枢|Engineering Command Center/i });
             await expect(panelTitle).toBeVisible();
-            await expect(page.getByRole('heading', { name: /实时性能指标|Runtime Metrics/i })).toBeVisible();
-            await expect(page.getByRole('heading', { name: /开源数据看板|Open Source Telemetry/i })).toBeVisible();
-            await expect(page.getByRole('heading', { name: /工程指纹|Engineering Fingerprint/i })).toBeVisible();
+            await expect(page.getByRole('heading', { name: /页面性能|实时性能指标|Runtime Metrics/i })).toBeVisible();
+            await expect(page.getByRole('heading', { name: /开源数据|开源数据看板|Open Source Telemetry/i })).toBeVisible();
+            await expect(page.getByRole('heading', { name: /构建信息|工程指纹|Engineering Fingerprint/i })).toBeVisible();
 
             const closeButton = page.getByRole('button', { name: /关闭工程实力中枢|close/i });
             await expect(closeButton).toBeVisible();

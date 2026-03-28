@@ -102,15 +102,6 @@ const telemetryStateLabelMap: Record<TelemetryState, string> = {
   error: "已降级",
 };
 
-const telemetryStateClassMap: Record<TelemetryState, string> = {
-  idle:
-    "border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.78)] text-[color:var(--text-secondary)]",
-  loading:
-    "border-[rgba(37,99,235,0.22)] bg-[rgba(239,246,255,0.92)] text-[color:var(--brand-gold)]",
-  ready: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  error: "border-rose-200 bg-rose-50 text-rose-700",
-};
-
 const deployTargetLabelMap: Record<string, string> = {
   server: "服务端渲染",
   "static-export": "静态导出",
@@ -137,33 +128,33 @@ const formatCount = (value: number | null) => {
 };
 
 const panelSectionClassName =
-  "theme-card rounded-[1.15rem] p-4 sm:rounded-2xl sm:p-5";
+  "theme-card rounded-[1.05rem] p-4 sm:rounded-[1.3rem] sm:p-4 md:p-5";
 
 const MetricCard = React.memo(({ metric }: { metric: RuntimeMetric }) => {
   const rating = metric.value === null ? "pending" : metric.rating;
 
   return (
-    <article className="theme-card-muted flex min-h-[7.75rem] flex-col rounded-[1.05rem] p-3.5 sm:min-h-[8.5rem] sm:rounded-2xl sm:p-4">
+    <article className="theme-card-muted flex min-h-[6.4rem] flex-col rounded-[1rem] p-3 sm:min-h-[7rem] sm:rounded-[1.2rem] sm:p-3.5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <Tooltip content={metricDescriptionMap[metric.name]} position="top">
-            <p className="theme-copy-subtle w-fit cursor-help border-b border-dashed border-[color:var(--border-default)] text-xs font-semibold transition-colors hover:border-[rgba(37,99,235,0.3)] hover:text-[color:var(--brand-gold)]">
+            <p className="theme-copy-subtle w-fit cursor-help border-b border-dashed border-[color:var(--border-default)] text-[11px] font-semibold transition-colors hover:border-[rgba(37,99,235,0.3)] hover:text-[color:var(--brand-gold)]">
               {metricLabelMap[metric.name]}
             </p>
           </Tooltip>
         </div>
         <span
-          className={`shrink-0 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${ratingClassMap[rating]}`}
+          className={`shrink-0 rounded-full border px-2 py-1 text-[10px] font-semibold ${ratingClassMap[rating]}`}
         >
           {ratingLabelMap[rating]}
         </span>
       </div>
 
-      <div className="mt-auto pt-6">
-        <p className="theme-title text-3xl font-bold tracking-tight">
+      <div className="mt-auto pt-4">
+        <p className="theme-title text-[1.6rem] font-bold tracking-tight sm:text-[1.8rem]">
           {formatMetricValue(metric)}
           {metric.value !== null && metricUnitMap[metric.name] ? (
-            <span className="theme-copy-subtle ml-1 text-sm font-medium">
+            <span className="theme-copy-subtle ml-1 text-[13px] font-medium">
               {metricUnitMap[metric.name]}
             </span>
           ) : null}
@@ -247,25 +238,31 @@ export default function EngineeringCommandCenter({
   const overviewItems = useMemo<OverviewItem[]>(
     () => [
       {
-        label: "运行状态",
+        label: "状态",
         value: telemetryStateLabelMap[telemetryState],
         hint:
           telemetryState === "loading"
-            ? "正在同步运行时指标和 GitHub 数据。"
-            : "打开面板时会自动刷新一次数据。",
+            ? "正在同步"
+            : "打开时自动刷新",
         icon: Activity,
       },
       {
-        label: "数据来源",
+        label: "数据",
         value: sourceLabelMap[githubTelemetry.source ?? "fallback"],
-        hint: "优先读取 GitHub 实时数据，请求失败时自动降级。",
+        hint: "失败时自动降级",
         icon: Github,
       },
       {
-        label: "部署模式",
+        label: "部署",
         value: deployTargetLabelMap[deployTarget] ?? deployTarget,
-        hint: buildTimestamp === "未知" ? "等待构建时间注入" : buildTimestamp,
+        hint: "当前发布形态",
         icon: Cpu,
+      },
+      {
+        label: "构建",
+        value: buildTimestamp,
+        hint: buildTimestamp === "未知" ? "等待注入" : "最近构建时间",
+        icon: Clock3,
       },
     ],
     [githubTelemetry.source, telemetryState],
@@ -276,7 +273,6 @@ export default function EngineeringCommandCenter({
       { label: "Next.js", value: nextVersion },
       { label: "React", value: reactVersion },
       { label: "TypeScript", value: tsVersion },
-      { label: "部署模式", value: deployTargetLabelMap[deployTarget] ?? deployTarget },
       { label: "构建时间", value: buildTimestamp },
     ],
     [],
@@ -284,7 +280,7 @@ export default function EngineeringCommandCenter({
 
   const telemetryMessage =
     telemetryState === "loading"
-      ? "正在从 GitHub 拉取实时数据..."
+      ? "正在同步 GitHub 数据..."
       : telemetryState === "error"
         ? (githubTelemetry.message ?? "GitHub 数据暂不可用。")
         : githubTelemetry.message;
@@ -312,18 +308,20 @@ export default function EngineeringCommandCenter({
         className={cn(
           compact
             ? "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-h-12 min-w-0 items-center justify-center gap-2 rounded-[1.15rem] px-3.5 py-3 text-sm font-semibold"
-            : "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 items-center justify-between gap-3 rounded-[1.2rem] px-4 py-3.5 text-left text-sm font-semibold",
+            : "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 flex-col items-start gap-2 rounded-[1.2rem] px-4 py-3.5 text-left text-sm font-semibold",
           className,
         )}
-        aria-label="Engineering Command Center / 打开工程实力中枢"
+        aria-label="打开工程实力中枢"
       >
-        <span className="inline-flex items-center gap-2">
+        <span className="inline-flex min-w-0 items-center gap-2">
           <Sparkles size={16} className="motion-icon-float shrink-0" />
-          <span className="truncate">{compact ? "工程中枢" : "工程实力中枢"}</span>
+          <span className={compact ? "truncate" : "text-balance leading-5"}>
+            {compact ? "工程中枢" : "工程实力中枢"}
+          </span>
         </span>
         {compact ? null : (
-          <span className="theme-floating-meta hidden text-right lg:inline">
-            实时指标 · GitHub · 栈指纹
+          <span className="theme-floating-meta text-left leading-5">
+            实时指标 · GitHub · 构建信息
           </span>
         )}
       </button>
@@ -359,7 +357,7 @@ export default function EngineeringCommandCenter({
                     : { x: "100%", opacity: 0.96, scale: 0.996 }
                 }
                 transition={panelTransition}
-                className="theme-dialog-shell fixed inset-x-0 bottom-0 top-auto z-[100] flex max-h-[calc(100dvh-0.75rem)] w-full flex-col overflow-hidden rounded-t-[1.45rem] border border-[color:var(--border-default)] md:inset-y-0 md:right-0 md:left-auto md:top-0 md:max-h-none md:max-w-[52rem] md:rounded-none md:rounded-l-[1.6rem] md:border-y-0 md:border-r-0 md:border-l"
+                className="theme-dialog-shell fixed inset-x-0 bottom-0 top-auto z-[100] flex max-h-[calc(100dvh-0.75rem)] w-full flex-col overflow-hidden rounded-t-[1.45rem] border border-[color:var(--border-default)] md:inset-y-0 md:right-0 md:left-auto md:top-0 md:max-h-none md:max-w-[50rem] md:rounded-none md:rounded-l-[1.45rem] md:border-y-0 md:border-r-0 md:border-l"
               >
               <div className="flex justify-center pb-2 pt-3 md:hidden">
                 <div
@@ -370,25 +368,24 @@ export default function EngineeringCommandCenter({
 
               <header className="theme-panel theme-dialog-header">
                 <div className="px-3.5 py-3.5 md:px-6 md:py-5">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start justify-between gap-4 border-b border-[color:var(--border-muted)] pb-4 md:pb-5">
                     <div className="min-w-0">
-                      <p className="theme-kicker text-[11px] font-semibold uppercase tracking-[0.22em]">
-                        Engineering Command Center
+                      <p className="theme-kicker text-[11px] font-semibold tracking-[0.16em]">
+                        工程面板
                       </p>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
                         <h2
                           id="engineering-command-center-title"
-                          className="theme-title text-2xl font-bold tracking-tight"
+                          className="theme-title text-balance text-2xl font-bold tracking-tight"
                         >
                           工程实力中枢
                         </h2>
-                        <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold">
-                          匿名诊断面板
+                        <span className="theme-chip whitespace-nowrap px-2.5 py-1 text-[11px] font-semibold">
+                          只读面板
                         </span>
                       </div>
-                      <p className="theme-copy mt-3 max-w-2xl text-sm leading-6">
-                        把运行时性能、开源数据和工程指纹收拢到同一个侧边面板里，
-                        用来快速判断这个作品集是否具备真实工程交付能力。
+                      <p className="theme-copy mt-3 max-w-2xl text-balance text-sm leading-6">
+                        集中展示性能、仓库与构建信息。
                       </p>
                     </div>
 
@@ -397,7 +394,7 @@ export default function EngineeringCommandCenter({
                         type="button"
                         onClick={() => void fetchTelemetry({ force: true })}
                         disabled={telemetryState === "loading"}
-                        className="motion-chip inline-flex h-10 items-center gap-2 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3.5 text-sm font-medium text-[color:var(--text-secondary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-60 sm:h-auto sm:px-3 sm:py-2"
+                        className="motion-chip inline-flex h-10 items-center gap-2 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3 text-sm font-medium text-[color:var(--text-secondary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-60 sm:h-auto sm:px-3 sm:py-2"
                         aria-label="刷新工程实力中枢数据"
                       >
                         <RefreshCw
@@ -421,62 +418,44 @@ export default function EngineeringCommandCenter({
                       </button>
                     </div>
                   </div>
-                </div>
-              </header>
 
-              <div className="theme-dialog-body flex-1 space-y-5 overflow-y-auto px-3.5 py-3.5 md:space-y-6 md:px-6 md:py-6">
-                <section className={panelSectionClassName}>
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <p className="theme-title text-sm font-semibold">
-                        当前面板状态
-                      </p>
-                      <p className="theme-copy mt-1 text-sm">
-                        仅展示匿名性能指标与公开仓库数据，不包含个人敏感信息。
-                      </p>
-                    </div>
-                    <span
-                      className={`rounded-full border px-3 py-1.5 text-[12px] font-semibold ${telemetryStateClassMap[telemetryState]} sm:text-xs`}
-                    >
-                      {telemetryStateLabelMap[telemetryState]}
-                    </span>
-                  </div>
-
-                  <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
                     {overviewItems.map((item) => {
                       const Icon = item.icon;
 
                       return (
                         <article
                           key={item.label}
-                          className="theme-card-muted rounded-2xl p-4"
+                          className="theme-card-muted rounded-[1rem] border-[rgba(148,163,184,0.14)] p-3"
                         >
-                          <div className="theme-copy-subtle flex items-center gap-2 text-xs font-semibold uppercase tracking-wide">
-                            <Icon size={14} />
+                          <div className="theme-copy-subtle flex items-center gap-2 text-[11px] font-semibold tracking-[0.08em]">
+                            <Icon size={13} />
                             {item.label}
                           </div>
-                          <p className="theme-title mt-3 text-lg font-semibold">
+                          <p className="theme-title mt-2 text-sm font-semibold leading-6">
                             {item.value}
                           </p>
-                          <p className="theme-copy mt-1 text-xs leading-5">
+                          <p className="theme-copy-subtle mt-0.5 text-[11px] leading-5">
                             {item.hint}
                           </p>
                         </article>
                       );
                     })}
                   </div>
-                </section>
+                </div>
+              </header>
 
-                <div className="grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(18rem,0.95fr)]">
+              <div className="theme-dialog-body flex-1 space-y-4 overflow-y-auto px-3.5 py-3.5 md:space-y-5 md:px-6 md:py-5">
+                <div className="grid gap-4 lg:grid-cols-[minmax(0,1.18fr)_minmax(17rem,0.92fr)]">
                   <section className={panelSectionClassName}>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div>
-                        <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+                        <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold tracking-[0.08em]">
                           <Gauge size={16} />
-                          实时性能指标
+                          页面性能
                         </h3>
                         <p className="theme-copy mt-2 text-sm leading-6">
-                          指标来自当前页面生命周期，重点观察加载速度、交互响应和视觉稳定性。
+                          指标来自当前页面生命周期，重点观察加载、交互和视觉稳定性。
                         </p>
                       </div>
                       <span className="theme-chip px-2.5 py-1 text-xs font-medium">
@@ -484,56 +463,56 @@ export default function EngineeringCommandCenter({
                       </span>
                     </div>
 
-                    <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                    <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
                       {metricCards.map((metric) => (
                         <MetricCard key={metric.name} metric={metric} />
                       ))}
                     </div>
 
                     <p className="theme-copy-subtle mt-4 text-xs leading-5">
-                      INP 需要在发生用户交互后才会出现；LCP、FCP、CLS 会在页面生命周期内持续更新。
+                      INP 需交互后显示；其余指标随会话刷新。
                     </p>
                   </section>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     <section className={panelSectionClassName}>
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
-                          <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+                          <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold tracking-[0.08em]">
                             <Github size={16} />
-                            开源数据看板
+                            开源数据
                           </h3>
                           <p className="theme-copy mt-2 text-sm leading-6">
-                            用公开仓库数据补充说明项目活跃度与工程沉淀。
+                            用公开仓库数据呈现项目活跃度与维护情况。
                           </p>
                         </div>
                         <span className="theme-chip px-2.5 py-1 text-xs font-medium">
-                          来源: {sourceLabelMap[githubTelemetry.source ?? "fallback"]}
+                          {sourceLabelMap[githubTelemetry.source ?? "fallback"]}
                         </span>
                       </div>
 
-                      <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                        <article className="theme-card-muted rounded-2xl p-4">
-                          <p className="theme-copy-subtle text-xs font-medium">粉丝数</p>
-                          <p className="theme-title mt-2 text-3xl font-bold tracking-tight">
+                      <div className="mt-4 grid gap-2.5 sm:grid-cols-3">
+                        <article className="theme-card-muted rounded-[1rem] p-3">
+                          <p className="theme-copy-subtle text-[11px] font-medium">粉丝数</p>
+                          <p className="theme-title mt-1.5 text-[1.55rem] font-bold tracking-tight">
                             {formatCount(githubTelemetry.followers)}
                           </p>
                         </article>
-                        <article className="theme-card-muted rounded-2xl p-4">
-                          <p className="theme-copy-subtle text-xs font-medium">仓库数</p>
-                          <p className="theme-title mt-2 text-3xl font-bold tracking-tight">
+                        <article className="theme-card-muted rounded-[1rem] p-3">
+                          <p className="theme-copy-subtle text-[11px] font-medium">仓库数</p>
+                          <p className="theme-title mt-1.5 text-[1.55rem] font-bold tracking-tight">
                             {formatCount(githubTelemetry.public_repos)}
                           </p>
                         </article>
-                        <article className="theme-card-muted rounded-2xl p-4">
-                          <p className="theme-copy-subtle text-xs font-medium">总 Star</p>
-                          <p className="theme-title mt-2 text-3xl font-bold tracking-tight">
+                        <article className="theme-card-muted rounded-[1rem] p-3">
+                          <p className="theme-copy-subtle text-[11px] font-medium">总 Star</p>
+                          <p className="theme-title mt-1.5 text-[1.55rem] font-bold tracking-tight">
                             {formatCount(githubTelemetry.totalStars)}
                           </p>
                         </article>
                       </div>
 
-                      <div className="theme-card mt-4 rounded-2xl p-4">
+                      <div className="theme-card mt-4 rounded-[1rem] p-3.5 sm:p-4">
                         <div className="flex items-center justify-between gap-3">
                           <p className="theme-title text-sm font-semibold">
                             重点仓库
@@ -552,16 +531,16 @@ export default function EngineeringCommandCenter({
                             githubTelemetry.specificRepos.map((repo) => (
                               <li
                                 key={repo.name}
-                                className="flex items-center justify-between gap-4 py-3"
+                                className="flex items-start justify-between gap-4 py-2.5"
                               >
                                 <a
                                   href={repo.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="inline-flex min-w-0 items-center gap-2 font-medium text-[color:var(--text-secondary)] transition hover:text-[color:var(--brand-gold)]"
+                                  className="inline-flex min-w-0 items-start gap-2 font-medium text-[color:var(--text-secondary)] transition hover:text-[color:var(--brand-gold)]"
                                 >
-                                  <span className="truncate">{repo.name}</span>
-                                  <ArrowUpRight size={14} className="shrink-0" />
+                                  <span className="break-words text-sm leading-6">{repo.name}</span>
+                                  <ArrowUpRight size={14} className="mt-1 shrink-0" />
                                 </a>
                                 <span className="theme-title shrink-0 text-sm font-semibold">
                                   ★ {repo.stars.toLocaleString("en-US")}
@@ -583,20 +562,20 @@ export default function EngineeringCommandCenter({
                     </section>
 
                     <section className={panelSectionClassName}>
-                      <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+                      <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold tracking-[0.08em]">
                         <Cpu size={16} />
-                        工程指纹
+                        构建信息
                       </h3>
-                      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
                         {fingerprintItems.map((item) => (
                           <article
                             key={item.label}
-                            className="theme-card-muted rounded-2xl p-4"
+                            className="theme-card-muted rounded-[1rem] p-3"
                           >
-                            <p className="theme-copy-subtle text-xs font-medium">
+                            <p className="theme-copy-subtle text-[11px] font-medium">
                               {item.label}
                             </p>
-                            <p className="theme-title mt-2 break-all text-sm font-semibold">
+                            <p className="theme-title mt-1.5 break-words text-sm font-semibold leading-6">
                               {item.value}
                             </p>
                           </article>
@@ -604,19 +583,19 @@ export default function EngineeringCommandCenter({
                       </div>
                     </section>
 
-                    <section className="theme-card-muted rounded-2xl border-[rgba(37,99,235,0.18)] p-5 text-[color:var(--text-primary)]">
+                    <section className="theme-card-muted rounded-[1.1rem] border-[rgba(37,99,235,0.18)] p-4 text-[color:var(--text-primary)]">
                       <div className="flex items-start gap-3">
                         <div className="rounded-xl bg-[rgba(239,246,255,0.9)] p-2 text-[color:var(--brand-gold)]">
                           <ShieldCheck size={18} />
                         </div>
                         <div>
-                          <p className="theme-title text-sm font-semibold">隐私与采集边界</p>
+                          <p className="theme-title text-sm font-semibold">数据边界</p>
                           <p className="theme-copy mt-2 text-sm leading-6">
-                            本面板只展示匿名性能指标和公开开源数据，不采集姓名、邮箱、留言内容等个人信息。
+                            仅显示匿名性能与公开仓库数据，不记录联系信息。
                           </p>
                           <p className="theme-copy-subtle mt-2 inline-flex items-center gap-2 text-xs font-medium">
                             <Clock3 size={14} />
-                            指标会在页面停留期间持续更新。
+                            指标按页面会话刷新。
                           </p>
                         </div>
                       </div>
