@@ -508,17 +508,17 @@ p {
 }
 
 .theme-section-balanced {
-  padding-top: 3.25rem;
-  padding-bottom: 3.25rem;
-}
-
-.theme-section-dense {
   padding-top: 2.75rem;
   padding-bottom: 2.75rem;
 }
 
+.theme-section-dense {
+  padding-top: 2.35rem;
+  padding-bottom: 2.35rem;
+}
+
 .theme-section-header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.45rem;
   max-width: 44rem;
 }
 
@@ -902,6 +902,19 @@ p {
   border: 1px solid rgba(15, 23, 42, 0.1);
   box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(10px) saturate(1.02);
+}
+
+@media (max-width: 639px) {
+  .btn {
+    min-height: 42px;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+  }
+
+  .theme-floating-dock {
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(8px) saturate(1.01);
+  }
 }
 
 .theme-floating-trigger {

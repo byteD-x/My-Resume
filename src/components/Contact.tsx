@@ -199,8 +199,8 @@ export default function Contact({ contactData }: ContactProps) {
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="mx-auto max-w-6xl"
           >
-            <div className="theme-card grid gap-6 rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.07)] sm:p-6 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-12 md:rounded-[1.85rem] md:p-10 md:shadow-[0_20px_42px_rgba(15,23,42,0.08)] lg:p-14">
-              <div className="space-y-6 sm:space-y-8">
+            <div className="theme-card grid gap-5 rounded-[1.35rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.07)] sm:p-6 md:grid-cols-[minmax(0,1fr)_24rem] md:gap-12 md:rounded-[1.85rem] md:p-10 md:shadow-[0_20px_42px_rgba(15,23,42,0.08)] lg:p-14">
+              <div className="space-y-5 sm:space-y-8">
                 <div
                   className="theme-section-header mb-0 max-w-2xl scroll-mt-28"
                   data-scroll-target="contact"
@@ -216,33 +216,35 @@ export default function Contact({ contactData }: ContactProps) {
                   </p>
                 </div>
 
-                <div className="flex flex-col gap-3 border-b border-[color:var(--border-default)] pb-5 pt-1 sm:flex-row sm:flex-wrap sm:gap-4 sm:pb-6">
+                <div className="grid gap-2.5 border-b border-[color:var(--border-default)] pb-4 pt-1 sm:flex sm:flex-row sm:flex-wrap sm:gap-4 sm:pb-6">
                   <a
                     href={mailtoHref}
-                    className="btn btn-primary w-auto px-5 py-3 text-[14px] sm:px-6 sm:py-3.5"
+                    className="btn btn-primary w-full px-5 py-3 text-[14px] sm:w-auto sm:px-6 sm:py-3.5"
                   >
                     <Mail size={16} />
                     发邮件沟通
                   </a>
-                  <a
-                    href="/resume.pdf"
-                    className="btn btn-secondary w-auto px-5 py-3 text-[14px] sm:px-6 sm:py-3.5"
-                  >
-                    <Download size={16} />
-                    {contactData.resumeButtonText ?? "下载简历 PDF"}
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      trackAppointmentModalOpen();
-                      setHasLoadedAppointmentModal(true);
-                      setIsAppointmentOpen(true);
-                    }}
-                    className="btn btn-secondary w-auto px-5 py-3 text-[14px] sm:px-6 sm:py-3.5"
-                  >
-                    <Calendar size={16} />
-                    预约沟通
-                  </button>
+                  <div className="grid grid-cols-2 gap-2.5 sm:flex sm:contents">
+                    <a
+                      href="/resume.pdf"
+                      className="btn btn-secondary w-full px-4 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-[14px]"
+                    >
+                      <Download size={16} />
+                      简历 PDF
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        trackAppointmentModalOpen();
+                        setHasLoadedAppointmentModal(true);
+                        setIsAppointmentOpen(true);
+                      }}
+                      className="btn btn-secondary w-full px-4 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-[14px]"
+                    >
+                      <Calendar size={16} />
+                      预约沟通
+                    </button>
+                  </div>
                 </div>
 
                 <div className="theme-card-muted inline-flex items-center gap-2.5 rounded-full border-[rgba(148,163,184,0.14)] px-3 py-1.5 text-[12px] font-medium text-[color:var(--text-secondary)]">
@@ -255,11 +257,11 @@ export default function Contact({ contactData }: ContactProps) {
 
                 {contactData.consultationChecklist &&
                 contactData.consultationChecklist.length > 0 ? (
-                  <div className="mt-7 border-t border-[color:var(--border-default)] pt-7 sm:mt-8 sm:pt-8">
-                    <p className="theme-kicker mb-5 text-[11px]">
+                  <div className="mt-6 border-t border-[color:var(--border-default)] pt-6 sm:mt-8 sm:pt-8">
+                    <p className="theme-kicker mb-4 text-[11px]">
                       沟通前准备
                     </p>
-                    <ul className="theme-copy space-y-3 text-[14px] leading-relaxed">
+                    <ul className="theme-copy space-y-2.5 text-[13px] leading-relaxed sm:text-[14px]">
                       {contactData.consultationChecklist.map((item) => (
                         <li key={item} className="flex items-start gap-3">
                           <span className="mt-2.5 h-[1px] w-3 shrink-0 bg-[rgba(37,99,235,0.38)]" />
@@ -279,9 +281,9 @@ export default function Contact({ contactData }: ContactProps) {
                   return (
                     <div
                       key={item.id}
-                      className="theme-card-muted group flex items-center justify-between rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-3.5 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:rounded-[1.3rem] sm:p-4"
+                      className="theme-card-muted group flex items-center justify-between rounded-[1rem] border-[rgba(148,163,184,0.14)] p-3 transition-colors hover:border-[rgba(37,99,235,0.22)] sm:rounded-[1.3rem] sm:p-4"
                     >
-                      <div className="flex min-w-0 items-center gap-3.5 sm:gap-4">
+                      <div className="flex min-w-0 items-center gap-3 sm:gap-4">
                         <div className="theme-icon-box theme-icon-box-sm">
                           <Icon size={18} strokeWidth={2} />
                         </div>
@@ -303,7 +305,7 @@ export default function Contact({ contactData }: ContactProps) {
                                 trackExternalLink(item.href, item.label);
                               }
                             }}
-                            className="theme-link block truncate text-[14px] font-semibold leading-6 underline-offset-4 hover:underline"
+                            className="theme-link block break-all text-[13px] font-semibold leading-5 underline-offset-4 hover:underline sm:text-[14px] sm:leading-6"
                           >
                             {item.value}
                           </a>

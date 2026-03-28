@@ -54,17 +54,17 @@ export function HeroCTA({
         ...fadeIn.transition,
         delay: HERO_ANIMATION.DELAY_CTA,
       }}
-      className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-4"
+      className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:flex sm:flex-row sm:flex-wrap sm:gap-4"
       data-print="hide"
     >
       <a
         href={downloadUrl}
         download={downloadName}
         onClick={handleDownloadClick}
-        className="btn btn-primary w-full min-w-0 sm:min-w-[12.5rem] sm:w-auto"
+        className="btn btn-primary min-w-0 px-3.5 text-[13px] sm:min-w-[12.5rem] sm:px-5 sm:text-[0.9375rem]"
         aria-label="下载简历 PDF"
       >
-        <Download size={18} />
+        <Download size={16} />
         下载简历
       </a>
 
@@ -72,11 +72,11 @@ export function HeroCTA({
         type="button"
         onClick={handleViewProjects}
         disabled={!isHydrated}
-        className="btn btn-secondary w-full min-w-0 disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[12.5rem] sm:w-auto"
+        className="btn btn-secondary min-w-0 px-3 text-[13px] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[12.5rem] sm:px-5 sm:text-[0.9375rem]"
         aria-label="查看项目证据"
       >
-        <ArrowRight size={18} />
-        查看已验证项目
+        <ArrowRight size={16} />
+        查看项目
       </button>
     </motion.div>
   );

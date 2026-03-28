@@ -159,14 +159,10 @@ export function HomePageRuntime({
           ) : (
             <div
               data-print="hide"
-              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-2.5 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
+              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-2 pb-[calc(0.55rem+env(safe-area-inset-bottom))]"
             >
-              <div className="theme-floating-dock pointer-events-none rounded-[1.3rem] p-2.5">
-                <div className="flex flex-col gap-2.5">
-                  <div className="flex items-center justify-between gap-3 px-1.5">
-                    <p className="theme-floating-label">快捷入口</p>
-                    <span className="theme-floating-meta text-right">作品集控制台</span>
-                  </div>
+              <div className="theme-floating-dock pointer-events-none rounded-[1.15rem] p-2">
+                <div className="flex flex-col gap-2">
                   <EngineeringCommandCenter compact className="w-full" />
                   {shouldRenderSupplementalActions ? (
                     <FloatingResumeButton
@@ -175,6 +171,7 @@ export function HomePageRuntime({
                       desktopVariant="hidden"
                       mobileVariant="inline"
                       mobileClassName="w-full"
+                      mobileShowContactAction={false}
                     />
                   ) : null}
                 </div>

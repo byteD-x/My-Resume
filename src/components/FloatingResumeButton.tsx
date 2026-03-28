@@ -24,6 +24,7 @@ interface FloatingResumeButtonProps {
   className?: string;
   mobileClassName?: string;
   extraMobileAction?: React.ReactNode;
+  mobileShowContactAction?: boolean;
 }
 
 export default function FloatingResumeButton({
@@ -34,6 +35,7 @@ export default function FloatingResumeButton({
   className,
   mobileClassName,
   extraMobileAction,
+  mobileShowContactAction = true,
 }: FloatingResumeButtonProps) {
   const [isMobile, setIsMobile] = useState(false);
   const isVisible = useScrollPastThreshold(400);
@@ -85,14 +87,16 @@ export default function FloatingResumeButton({
           <Download size={16} />
           下载简历
         </a>
-        <button
-          type="button"
-          onClick={handleContactClick}
-          className="btn btn-secondary pointer-events-auto flex-1 py-3"
-        >
-          <Mail size={16} />
-          联系我
-        </button>
+        {mobileShowContactAction ? (
+          <button
+            type="button"
+            onClick={handleContactClick}
+            className="btn btn-secondary pointer-events-auto flex-1 py-3"
+          >
+            <Mail size={16} />
+            联系我
+          </button>
+        ) : null}
       </>
     );
 
