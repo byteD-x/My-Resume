@@ -90,9 +90,9 @@ export function CapabilitySummary({
             return (
               <article
                 key={card.id}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem] md:p-8"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-5 md:rounded-[1.6rem] md:p-7"
               >
-                <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-6 sm:gap-4 sm:pb-5">
+                <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-5 sm:gap-4 sm:pb-[1.125rem]">
                   <div className="theme-icon-box theme-icon-box-md transition-transform group-hover:scale-105">
                     <Icon size={20} strokeWidth={2} />
                   </div>
@@ -110,7 +110,7 @@ export function CapabilitySummary({
                 </p>
 
                 {card.bullet ? (
-                  <div className="theme-card-muted mt-6 rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:mt-7 sm:rounded-[1.3rem] sm:p-5">
+                  <div className="theme-card-muted mt-6 rounded-[1.2rem] border-[rgba(148,163,184,0.14)] p-4 sm:mt-6 sm:rounded-[1.3rem] sm:p-[1.125rem]">
                     <p className="theme-card-kicker mb-2">
                       Evidence Snapshot / 证据切片
                     </p>
@@ -123,7 +123,7 @@ export function CapabilitySummary({
                   </div>
                 ) : null}
 
-                <div className="mt-6 flex flex-wrap gap-1.5 sm:mt-7 sm:gap-2">
+                <div className="mt-5 flex flex-wrap gap-1.5 sm:mt-6 sm:gap-2">
                   {card.tags.map((tag) => (
                     <span
                       key={tag}
@@ -135,8 +135,8 @@ export function CapabilitySummary({
                 </div>
 
                 {card.service ? (
-                  <div className="mt-auto pt-6 sm:pt-7">
-                    <p className="theme-copy border-t border-[color:var(--border-default)] pt-4 text-[13px] leading-7 sm:pt-5">
+                  <div className="mt-auto pt-5 sm:pt-6">
+                    <p className="theme-copy border-t border-[color:var(--border-default)] pt-4 text-[13px] leading-7 sm:pt-[1.125rem]">
                       <span className="font-semibold text-[color:var(--text-primary)]">交付方式：</span>
                       {card.service.title}，{card.service.description}
                     </p>

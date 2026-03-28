@@ -20,11 +20,11 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
         duration: 0.5,
         ease: EASING_CURVES.OUT_EXPO,
       }}
-      className="theme-card relative overflow-hidden rounded-2xl border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-6 md:rounded-[1.7rem] md:p-8 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-9"
+      className="theme-card relative overflow-hidden rounded-2xl border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-5 md:rounded-[1.7rem] md:p-7 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-8"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(219,234,254,0.62),transparent)]" />
       <div className="relative z-10">
-        <div className="mb-6 flex items-end justify-between gap-4 border-b border-[color:var(--border-default)] pb-5 sm:mb-8 sm:pb-6">
+        <div className="mb-6 flex items-end justify-between gap-4 border-b border-[color:var(--border-default)] pb-[1.125rem] sm:mb-7 sm:pb-5">
           <div>
             <p className="theme-card-kicker">Selected Evidence</p>
             <h2 className="theme-title mt-2 text-[1.35rem] font-bold tracking-tight">
@@ -63,7 +63,7 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
             );
 
             const cardClasses =
-              "theme-card-muted theme-card-interactive group flex min-h-[12rem] flex-col rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:min-h-[13.5rem] sm:rounded-[1.35rem] sm:p-5";
+              "theme-card-muted theme-card-interactive group flex min-h-[11.5rem] flex-col rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:min-h-[12.5rem] sm:rounded-[1.35rem] sm:p-[1.125rem]";
 
             if (!item.href) {
               return (

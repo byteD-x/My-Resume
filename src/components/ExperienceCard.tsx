@@ -62,7 +62,7 @@ export const ExperienceCard = memo(function ExperienceCard({
       className="group block h-full"
       onClick={handleOpen}
     >
-      <div className="theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden rounded-[1.3rem] border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_14px_30px_rgba(15,23,42,0.055)] sm:rounded-[1.55rem] sm:p-6">
+      <div className="theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden rounded-[1.3rem] border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_14px_30px_rgba(15,23,42,0.055)] sm:rounded-[1.55rem] sm:p-5 md:p-6">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[4.5rem] bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90" />
 
         <div className="relative z-10 mb-4 flex items-start justify-between gap-4 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-6 sm:pb-5">
@@ -92,8 +92,8 @@ export const ExperienceCard = memo(function ExperienceCard({
         <div
           className={`theme-card-body relative z-10 mb-5 flex-grow text-[13px] leading-[1.9] sm:mb-7 sm:text-[14px] sm:leading-7 ${
             isProjectCard
-              ? "min-h-[8rem] sm:min-h-[9.5rem]"
-              : "min-h-[7rem] sm:min-h-[8.5rem]"
+              ? "min-h-[7.5rem] sm:min-h-[8.75rem]"
+              : "min-h-[6.5rem] sm:min-h-[7.75rem]"
           }`}
         >
           <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>

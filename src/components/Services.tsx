@@ -74,7 +74,7 @@ export default function Services({ services }: ServicesProps) {
                   duration: 0.5,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem] md:p-8"
+                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-5 md:rounded-[1.6rem] md:p-7"
               >
                 <div className="relative z-10 flex h-full flex-col">
                   <div className="theme-icon-box theme-icon-box-sm mb-5 transition-transform duration-300 group-hover:scale-110 sm:mb-6">
@@ -85,7 +85,7 @@ export default function Services({ services }: ServicesProps) {
                     {service.title}
                   </h3>
 
-                  <p className="theme-card-body mb-6 flex-grow text-[13px] sm:mb-8">
+                  <p className="theme-card-body mb-6 flex-grow text-[13px] sm:mb-7">
                     {service.description}
                   </p>
 

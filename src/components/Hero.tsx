@@ -68,7 +68,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
   };
 
   return (
-    <section className="relative overflow-hidden border-b section-divider bg-white pb-12 pt-24 sm:pb-16 sm:pt-28 md:pb-20 md:pt-32">
+    <section className="relative overflow-hidden border-b section-divider bg-white pb-10 pt-22 sm:pb-12 sm:pt-24 md:pb-16 md:pt-28">
       <div className="hero-grid-bg hero-grid-fade pointer-events-none absolute inset-0 z-0 opacity-100" />
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -left-20 top-10 h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.65),transparent_72%)] blur-3xl md:h-[28rem] md:w-[28rem]" />
@@ -83,7 +83,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
             initial="hidden"
             animate="visible"
           >
-            <motion.div variants={itemVariants} className="mb-6 sm:mb-8">
+            <motion.div variants={itemVariants} className="mb-5 sm:mb-6">
               <HeroStatusBadges location={data.location} />
             </motion.div>
 
@@ -112,7 +112,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
 
             <motion.div
               variants={itemVariants}
-              className="theme-card-muted mb-8 w-full rounded-[1.6rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:p-6 md:p-7"
+              className="theme-card-muted mb-7 w-full rounded-[1.45rem] border-[rgba(148,163,184,0.16)] p-4 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:mb-8 sm:rounded-[1.6rem] sm:p-5 md:p-6"
             >
               <p className="theme-card-kicker mb-5">价值主线</p>
               <div className="mb-6 border-b border-[color:var(--border-default)] pb-5">

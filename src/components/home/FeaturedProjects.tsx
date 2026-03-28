@@ -72,9 +72,9 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                 href={item.href}
                 scroll={false}
                 onClick={handleOpen}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-6 md:rounded-[1.75rem] md:p-8 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
+                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-5 md:rounded-[1.75rem] md:p-7 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
               >
-                  <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-9 sm:gap-4 sm:pb-6">
+                  <div className="mb-5 flex items-start justify-between gap-3.5 border-b border-[color:var(--border-default)] pb-4 sm:mb-7 sm:gap-4 sm:pb-5">
                   <div className="theme-icon-box theme-icon-box-sm motion-chip">
                     <Icon size={18} strokeWidth={2} className="motion-icon-float" />
                   </div>
@@ -83,7 +83,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-5 sm:space-y-7">
+                <div className="flex-1 space-y-5 sm:space-y-6">
                   <div>
                     <h3 className="theme-card-title text-[1.3rem] sm:text-[1.42rem]">
                       {item.name}
@@ -118,7 +118,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                   </div>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between border-t border-[color:var(--border-default)] pt-4 sm:mt-9 sm:pt-6">
+                <div className="mt-5 flex items-center justify-between border-t border-[color:var(--border-default)] pt-4 sm:mt-7 sm:pt-5">
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {item.techTags.slice(0, 3).map((tag) => (
                       <span

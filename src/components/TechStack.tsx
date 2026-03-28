@@ -109,7 +109,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           </p>
         </div>
 
-        <div className="theme-card-muted mb-9 rounded-2xl border-[rgba(148,163,184,0.14)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:mb-12 sm:p-6 md:rounded-[1.6rem] md:p-8">
+        <div className="theme-card-muted mb-8 rounded-2xl border-[rgba(148,163,184,0.14)] p-[1.125rem] shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:mb-10 sm:p-5 md:rounded-[1.6rem] md:p-7">
           <div className="flex items-start gap-5">
             <div className="theme-icon-box theme-icon-box-md">
               <BrainCircuit size={22} strokeWidth={2} />
@@ -128,7 +128,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           </div>
         </div>
 
-        <div className="mb-9 grid gap-[1.125rem] lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6 sm:mb-12 sm:gap-5">
+        <div className="mb-8 grid gap-[1.125rem] lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-6 sm:mb-10 sm:gap-5">
           {strategyCards.map((card, index) => (
             <motion.article
               key={card.id}
@@ -140,7 +140,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                 duration: 0.4,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="theme-card theme-card-interactive flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-6 md:rounded-[1.6rem]"
+              className="theme-card theme-card-interactive flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-colors hover:border-[rgba(37,99,235,0.22)] sm:p-5 md:rounded-[1.6rem] md:p-6"
             >
               <p className="theme-card-kicker mb-3">
                 Capability Layer
@@ -173,7 +173,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-5 lg:gap-8 xl:grid-cols-3 xl:[grid-auto-rows:1fr]">
+        <div className="grid grid-cols-1 gap-[1.125rem] lg:gap-8 xl:grid-cols-3 xl:[grid-auto-rows:1fr] sm:gap-5">
           {skills.map((category, index) => {
             const Icon = categoryIcons[category.category] ?? Code2;
             const isExpanded = expandedCategories[category.id];
@@ -194,7 +194,7 @@ export default function TechStack({ skills, vibeCoding }: TechStackProps) {
                   duration: 0.4,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] sm:p-6 md:rounded-[1.6rem] lg:p-8"
+                className="theme-card theme-card-interactive flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] sm:p-5 md:rounded-[1.6rem] md:p-6 lg:p-7"
               >
                 <div className="mb-6 flex min-h-[7rem] items-start gap-3.5 border-b border-[color:var(--border-default)] pb-[1.125rem] sm:mb-7 sm:min-h-[7.75rem] sm:gap-4 sm:pb-5">
                   <div className="theme-icon-box theme-icon-box-sm">
