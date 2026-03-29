@@ -26,9 +26,11 @@ import {
   trackExternalLink,
 } from "@/lib/analytics";
 
+const loadAppointmentModal = () => import("./AppointmentModal");
+
 const AppointmentModal = dynamic(
   () =>
-    import("./AppointmentModal").then((mod) => ({
+    loadAppointmentModal().then((mod) => ({
       default: mod.AppointmentModal,
     })),
   {
@@ -90,6 +92,11 @@ export default function Contact({ contactData }: ContactProps) {
     } catch {
       // Ignore clipboard permission failures.
     }
+  }, []);
+
+  const warmAppointmentModal = useCallback(() => {
+    setHasLoadedAppointmentModal(true);
+    void loadAppointmentModal();
   }, []);
 
   const websiteLinks =
@@ -234,9 +241,12 @@ export default function Contact({ contactData }: ContactProps) {
                     </a>
                     <button
                       type="button"
+                      onMouseEnter={warmAppointmentModal}
+                      onFocus={warmAppointmentModal}
+                      onTouchStart={warmAppointmentModal}
                       onClick={() => {
                         trackAppointmentModalOpen();
-                        setHasLoadedAppointmentModal(true);
+                        warmAppointmentModal();
                         setIsAppointmentOpen(true);
                       }}
                       className="btn btn-secondary w-full px-4 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-[14px]"
@@ -247,7 +257,7 @@ export default function Contact({ contactData }: ContactProps) {
                   </div>
                 </div>
 
-                <div className="theme-card-muted inline-flex items-center gap-2.5 rounded-full border-[rgba(148,163,184,0.14)] px-3 py-1.5 text-[12px] font-medium text-[color:var(--text-secondary)]">
+                <div className="theme-card-muted inline-flex items-center gap-2.5 rounded-full border-[rgba(148,163,184,0.14)] px-3 py-1.5 text-[12px] font-medium leading-6 text-[color:var(--text-secondary)]">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-600" />
@@ -261,7 +271,7 @@ export default function Contact({ contactData }: ContactProps) {
                     <p className="theme-kicker mb-4 text-[11px]">
                       沟通前准备
                     </p>
-                    <ul className="theme-copy space-y-2.5 text-[13px] leading-relaxed sm:text-[14px]">
+                    <ul className="theme-copy space-y-2.5 text-[13px] leading-[1.82] sm:text-[14px]">
                       {contactData.consultationChecklist.map((item) => (
                         <li key={item} className="flex items-start gap-3">
                           <span className="mt-2.5 h-[1px] w-3 shrink-0 bg-[rgba(37,99,235,0.38)]" />
@@ -305,7 +315,7 @@ export default function Contact({ contactData }: ContactProps) {
                                 trackExternalLink(item.href, item.label);
                               }
                             }}
-                            className="theme-link block break-all text-[13px] font-semibold leading-5 underline-offset-4 hover:underline sm:text-[14px] sm:leading-6"
+                            className="theme-link block break-all text-[13px] font-semibold leading-[1.74] underline-offset-4 hover:underline sm:text-[14px] sm:leading-[1.82]"
                           >
                             {item.value}
                           </a>

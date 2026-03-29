@@ -12,8 +12,17 @@ import {
 } from "lucide-react";
 import { trackAppointmentSubmit } from "@/lib/analytics";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import {
+  getOverlayFadeTransition,
+  getOverlaySurfaceAnimate,
+  getOverlaySurfaceExit,
+  getOverlaySurfaceInitial,
+  getOverlaySurfaceTransition,
+} from "@/lib/overlay-motion";
 import { DialogCloseButton } from "./ui/DialogCloseButton";
+import { OverlayPortal } from "./ui/OverlayPortal";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -27,6 +36,7 @@ export function AppointmentModal({
   const firstFocusableRef = useRef<HTMLInputElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isDesktopViewport = useMediaQuery("(min-width: 640px)");
   const modalRef = useFocusTrap<HTMLDivElement>(isOpen, {
     onEscape: onClose,
     initialFocusRef: closeButtonRef,
@@ -43,13 +53,11 @@ export function AppointmentModal({
     email: "",
   });
 
-  const overlayTransition = shouldReduceMotion
-    ? { duration: 0.12 }
-    : { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
-
-  const modalTransition = shouldReduceMotion
-    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
-    : ({ type: "spring", stiffness: 320, damping: 28, mass: 0.9 } as const);
+  const motionOptions = {
+    reduceMotion: shouldReduceMotion,
+    desktop: isDesktopViewport,
+    kind: "modal" as const,
+  };
 
   const validateForm = useCallback(() => {
     const newErrors = { name: "", email: "" };
@@ -109,7 +117,7 @@ export function AppointmentModal({
     [],
   );
 
-  return (
+  const content = (
     <AnimatePresence>
       {isOpen ? (
         <>
@@ -117,7 +125,7 @@ export function AppointmentModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={overlayTransition}
+            transition={getOverlayFadeTransition(shouldReduceMotion)}
             className="theme-dialog-overlay fixed inset-0 z-50"
             onClick={onClose}
             aria-hidden="true"
@@ -128,18 +136,10 @@ export function AppointmentModal({
             role="dialog"
             aria-modal="true"
             aria-labelledby="appointment-modal-title"
-            initial={
-              shouldReduceMotion
-                ? { opacity: 0 }
-                : { opacity: 0, scale: 0.965, y: 28 }
-            }
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={
-              shouldReduceMotion
-                ? { opacity: 0 }
-                : { opacity: 0, scale: 0.985, y: 18 }
-            }
-            transition={modalTransition}
+            initial={getOverlaySurfaceInitial(motionOptions)}
+            animate={getOverlaySurfaceAnimate(motionOptions)}
+            exit={getOverlaySurfaceExit(motionOptions)}
+            transition={getOverlaySurfaceTransition(motionOptions)}
             className="theme-dialog-shell fixed inset-x-3 bottom-3 z-50 flex max-h-[calc(100dvh-0.75rem)] flex-col overflow-hidden rounded-[1.4rem] sm:left-1/2 sm:top-1/2 sm:bottom-auto sm:w-full sm:max-w-md sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[1.5rem]"
           >
             <div className="flex justify-center pb-2 pt-3 sm:hidden">
@@ -306,4 +306,6 @@ export function AppointmentModal({
       ) : null}
     </AnimatePresence>
   );
+
+  return <OverlayPortal>{content}</OverlayPortal>;
 }

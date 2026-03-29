@@ -76,9 +76,6 @@ export function CapabilitySummary({
           <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
             核心工程能力
           </h2>
-          <p className="theme-section-copy">
-            能力重点：稳定性、可验证性与可维护性。
-          </p>
         </div>
 
         <div className="grid gap-3 lg:grid-cols-3 lg:[grid-auto-rows:1fr] lg:gap-4">
@@ -99,33 +96,33 @@ export function CapabilitySummary({
                   </div>
                 </div>
 
-                <h3 className="theme-card-title text-[1.28rem]">
+                <h3 className="theme-card-title text-[1.2rem] sm:text-[1.24rem]">
                   {card.title}
                 </h3>
 
-                <p className="theme-card-body mt-3 text-[14px]">
+                <p className="theme-card-body mt-2.5 text-[14px] leading-[1.8]">
                   {card.summary}
                 </p>
 
                 {card.bullet ? (
-                  <div className="theme-card-muted mt-4 rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:mt-4 sm:rounded-[1.2rem] sm:p-4">
+                  <div className="theme-card-muted mt-3.5 rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:mt-4 sm:rounded-[1.2rem] sm:p-4">
                     <p className="theme-card-kicker mb-2">
                       证据切片
                     </p>
-                    <p className="theme-title text-[13px] font-semibold">
+                    <p className="theme-title text-[13px] font-semibold leading-6">
                       {card.bullet.title}
                     </p>
-                    <p className="theme-copy mt-2 text-[13px] leading-6">
+                    <p className="theme-copy mt-1.5 text-[13px] leading-[1.76]">
                       {capabilityBulletSummaryMap[card.bullet.id] ?? card.bullet.description}
                     </p>
                   </div>
                 ) : null}
 
-                <div className="mt-4 flex flex-wrap gap-1.5 sm:mt-5 sm:gap-2">
+                <div className="mt-3.5 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
                   {card.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider"
+                      className="theme-chip theme-chip-readable px-2.5 py-1 font-semibold uppercase tracking-wider"
                     >
                       {tag}
                     </span>
@@ -133,8 +130,8 @@ export function CapabilitySummary({
                 </div>
 
                 {card.service ? (
-                  <div className="mt-auto pt-4 sm:pt-5">
-                    <p className="theme-copy border-t border-[color:var(--border-default)] pt-3.5 text-[13px] leading-6 sm:pt-4">
+                  <div className="mt-auto pt-3.5 sm:pt-4">
+                    <p className="theme-copy theme-card-section text-[13px] leading-[1.76]">
                       <span className="font-semibold text-[color:var(--text-primary)]">交付方式：</span>
                       {card.service.title}，{card.service.description}
                     </p>

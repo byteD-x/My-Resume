@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Sparkles } from "lucide-react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { clearScrollRestore, readScrollRestore } from "@/lib/scroll-restore";
 import { useScrollPastThreshold } from "@/lib/scroll-observer";
 import { scrollToSection } from "@/lib/section-scroll";
@@ -46,8 +47,9 @@ export function HomePageRuntime({
 }: HomePageRuntimeProps) {
   const isLowPerformanceMode = useLowPerformanceMode();
   const hasReachedEnhancementZone = useScrollPastThreshold(240);
+  const isMobileViewport = useMediaQuery("(max-width: 767px)");
+  const isCompactDesktopViewport = useMediaQuery("(max-width: 1535px)");
   const [showCommandCenter, setShowCommandCenter] = useState(false);
-  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     const state = readScrollRestore();
@@ -85,19 +87,31 @@ export function HomePageRuntime({
   }, []);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setShowCommandCenter(true);
-    }, 2200);
+    if (typeof window === "undefined") return;
 
-    return () => window.clearTimeout(timer);
-  }, []);
+    const hasIdleCallback = typeof window.requestIdleCallback === "function";
+    const idleId = hasIdleCallback
+      ? window.requestIdleCallback(
+          () => {
+            setShowCommandCenter(true);
+          },
+          { timeout: 2400 },
+        )
+      : null;
+    const timeoutId = hasIdleCallback
+      ? null
+      : window.setTimeout(() => {
+        setShowCommandCenter(true);
+        }, 2200);
 
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 767px)");
-    const syncViewport = () => setIsMobileViewport(media.matches);
-    syncViewport();
-    media.addEventListener("change", syncViewport);
-    return () => media.removeEventListener("change", syncViewport);
+    return () => {
+      if (idleId !== null) {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   const shouldRenderEnhancements = showCommandCenter;
@@ -108,13 +122,13 @@ export function HomePageRuntime({
     <>
       {shouldRenderEnhancements ? (
         <>
-          {!isMobileViewport ? (
+          {!isMobileViewport && !isCompactDesktopViewport ? (
             <aside
               data-print="hide"
-              className="pointer-events-none fixed right-4 top-1/2 z-40 w-[17rem] -translate-y-1/2 xl:right-6 xl:w-[17.5rem]"
+              className="pointer-events-none fixed right-3 top-1/2 z-40 hidden w-[15.75rem] -translate-y-1/2 2xl:right-5 2xl:block 2xl:w-[16.5rem]"
               aria-label="快捷操作"
             >
-              <div className="theme-floating-dock pointer-events-none rounded-[1.5rem] p-3.5">
+              <div className="theme-floating-dock theme-floating-dock-soft pointer-events-none rounded-[1.45rem] p-3.5">
                 <div className="border-b border-[color:var(--border-muted)] pb-3">
                   <p className="theme-floating-label">快捷入口</p>
                   <p className="mt-1 flex items-start gap-2 text-sm font-semibold text-[color:var(--text-primary)]">
@@ -156,6 +170,19 @@ export function HomePageRuntime({
                 </div>
               </div>
             </aside>
+          ) : !isMobileViewport ? (
+            <div
+              data-print="hide"
+              className="pointer-events-none fixed right-4 bottom-4 z-40 hidden lg:block"
+              aria-label="快捷操作"
+            >
+              <div className="flex flex-col gap-2.5">
+                {shouldRenderSupplementalActions ? (
+                  <ScrollProgressBar variant="dock" className="w-[9.75rem]" />
+                ) : null}
+                <EngineeringCommandCenter compact className="w-[9.75rem]" />
+              </div>
+            </div>
           ) : (
             <div
               data-print="hide"

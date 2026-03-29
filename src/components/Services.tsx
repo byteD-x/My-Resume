@@ -42,10 +42,7 @@ export default function Services({ services }: ServicesProps) {
             <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
               商业交付与合作模式
             </h2>
-            <p className="theme-section-copy mb-6 max-w-2xl">
-              围绕实际业务目标提供方案、实现与交付支持，覆盖需求梳理、架构设计、上线准备与结果验证。
-            </p>
-            <div className="theme-card inline-flex flex-wrap items-center gap-2 rounded-full border-[rgba(148,163,184,0.16)] px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-[color:var(--text-secondary)]">
+            <div className="theme-card theme-chip-readable inline-flex flex-wrap items-center gap-2 rounded-full border-[rgba(148,163,184,0.16)] px-3 py-2 font-semibold uppercase tracking-wider text-[color:var(--text-secondary)]">
               <span>需求定义</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
               <span>方案验证</span>
@@ -57,7 +54,7 @@ export default function Services({ services }: ServicesProps) {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 lg:gap-5">
           {services.map((service, index) => {
             const Icon = IconMap[service.icon] || Layout;
             return (
@@ -72,28 +69,33 @@ export default function Services({ services }: ServicesProps) {
                   duration: 0.5,
                   ease: [0.16, 1, 0.3, 1],
                 }}
-                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-[1.125rem] transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-5 md:rounded-[1.6rem] md:p-7"
+                className="theme-card theme-card-interactive group relative flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-4 transition-all duration-300 hover:border-[rgba(37,99,235,0.22)] sm:p-5 md:rounded-[1.6rem] md:p-6"
               >
                 <div className="relative z-10 flex h-full flex-col">
-                  <div className="theme-icon-box theme-icon-box-sm mb-5 transition-transform duration-300 group-hover:scale-110 sm:mb-6">
-                    <Icon size={18} strokeWidth={2} />
+                  <div className="mb-4 flex items-start justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-5 sm:pb-4">
+                    <div className="theme-icon-box theme-icon-box-sm transition-transform duration-300 group-hover:scale-110">
+                      <Icon size={18} strokeWidth={2} />
+                    </div>
+                    <div className="theme-chip px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-[0.18em]">
+                      交付能力
+                    </div>
                   </div>
 
-                  <h3 className="theme-card-title mb-3 text-[1.06rem] sm:mb-3.5 sm:text-[1.08rem]">
+                  <h3 className="theme-card-title mb-2.5 text-[1.05rem] sm:mb-3 sm:text-[1.08rem]">
                     {service.title}
                   </h3>
 
-                  <p className="theme-card-body mb-6 flex-grow text-[13px] sm:mb-7">
+                  <p className="theme-card-body flex-grow text-[13px] leading-[1.76] sm:text-[14px] sm:leading-[1.84]">
                     {service.description}
                   </p>
 
-                  <div className="mt-auto space-y-4 sm:space-y-5">
+                  <div className="mt-4 space-y-3.5 sm:mt-5 sm:space-y-4">
                     {service.techStack && (
-                      <div className="flex flex-wrap gap-1.5 border-t border-[color:var(--border-default)] pt-4 sm:gap-2 sm:pt-5">
+                      <div className="theme-card-section flex flex-wrap gap-1.5 sm:gap-2">
                         {service.techStack.map((tech) => (
                           <span
                             key={tech}
-                            className="theme-chip px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-wider"
+                            className="theme-chip theme-chip-readable px-2 py-1 font-semibold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-wider"
                           >
                             {tech}
                           </span>
@@ -102,11 +104,11 @@ export default function Services({ services }: ServicesProps) {
                     )}
 
                     {service.milestones && service.milestones.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 border-t border-[color:var(--border-default)] pt-4 sm:pt-5">
+                      <div className="theme-card-section flex flex-wrap gap-1.5">
                         {service.milestones.map((step) => (
                           <span
                             key={step}
-                            className="theme-chip px-2 py-1 text-[11px] font-medium"
+                            className="theme-chip theme-chip-readable px-2 py-1 font-medium"
                           >
                             {step}
                           </span>

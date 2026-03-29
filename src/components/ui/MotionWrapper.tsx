@@ -108,10 +108,6 @@ export const MotionWrapper = ({
       variants={variants}
       transition={transition}
       className={className}
-      style={{
-        willChange: shouldAnimate ? "transform, opacity" : "auto",
-        transform: "translateZ(0)",
-      }}
     >
       {children}
     </motion.div>
@@ -156,7 +152,6 @@ export const StaggerContainer = ({
       viewport={{ once: true, amount: 0.2 }}
       variants={containerVariants}
       className={className}
-      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
     >
       {children}
     </motion.div>

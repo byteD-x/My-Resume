@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   ArrowRight,
   Gauge,
@@ -10,6 +9,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
+import { IntentLink } from "@/components/ui/IntentLink";
 import { saveScrollRestore } from "@/lib/scroll-restore";
 import { scrollToSection } from "@/lib/section-scroll";
 import { HomepageFeaturedCard } from "@/lib/home-highlights";
@@ -45,9 +45,6 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
             <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
               精选工程实践
             </h2>
-            <p className="theme-section-copy">
-              以下案例展示职责范围、交付结果与关键实现。
-            </p>
           </div>
           <button
             type="button"
@@ -62,75 +59,75 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
           </button>
         </div>
 
-        <div className="grid gap-3 xl:grid-cols-2">
+        <div className="grid gap-3 xl:grid-cols-2 xl:[grid-auto-rows:1fr]">
           {items.map((item, index) => {
             const Icon = iconByIndex[index] ?? Layers3;
 
             return (
-              <Link
+              <IntentLink
                 key={item.id}
                 href={item.href}
                 scroll={false}
                 onClick={handleOpen}
-                className="theme-card theme-card-interactive group flex h-full flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
+                className="theme-card theme-card-interactive theme-card-launcher group flex h-full min-w-0 flex-col rounded-2xl border-[rgba(148,163,184,0.16)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.055)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_38px_rgba(15,23,42,0.06)]"
               >
-                  <div className="mb-4 flex items-start justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-5 sm:gap-3.5 sm:pb-4">
+                <div className="mb-4 flex items-start justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-4 sm:gap-3.5 sm:pb-4">
                   <div className="theme-icon-box theme-icon-box-sm motion-chip">
                     <Icon size={18} strokeWidth={2} className="motion-icon-float" />
                   </div>
-                  <div className="theme-chip-strong max-w-[10rem] px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] text-right md:max-w-[11rem] md:text-[10px] md:tracking-[0.18em]">
+                  <div className="theme-chip-strong max-w-[12rem] px-2.5 py-1 text-left text-[10px] font-bold leading-[1.45] tracking-[0.06em] [text-wrap:balance] sm:max-w-[12.5rem] sm:text-right md:text-[10px] md:tracking-[0.14em]">
                     {item.focus}
                   </div>
                 </div>
 
-                <div className="flex-1 space-y-4 sm:space-y-5">
-                  <div>
-                    <h3 className="theme-card-title text-[1.3rem] sm:text-[1.42rem]">
+                <div className="flex-1 min-w-0 space-y-3.5 sm:space-y-4">
+                  <div className="min-w-0">
+                    <h3 className="theme-card-title max-w-[19rem] text-[1.22rem] text-pretty sm:text-[1.34rem]">
                       {item.name}
                     </h3>
                   </div>
 
-                  <div className="theme-card-muted rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:rounded-[1.2rem] sm:p-4">
+                  <div className="theme-card-muted rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3 sm:rounded-[1.2rem] sm:p-3.5">
                     <p className="theme-card-kicker mb-2.5">
                       内容定位
                     </p>
-                    <p className="text-[14px] leading-relaxed text-[color:var(--text-primary)]">
+                    <p className="theme-readable-block break-words text-[13px] text-[color:var(--text-primary)] [overflow-wrap:anywhere] sm:text-[14px]">
                       {item.contentSummary}
                     </p>
                   </div>
 
-                  <div className="theme-card-muted rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3.5 sm:rounded-[1.2rem] sm:p-4">
+                  <div className="theme-card-muted rounded-[1.1rem] border-[rgba(148,163,184,0.14)] p-3 sm:rounded-[1.2rem] sm:p-3.5">
                     <p className="theme-card-kicker mb-2.5">
                       功能描述
                     </p>
-                    <p className="text-[14px] leading-relaxed text-[color:var(--text-primary)]">
+                    <p className="theme-readable-block break-words text-[13px] text-[color:var(--text-primary)] [overflow-wrap:anywhere] sm:text-[14px]">
                       {item.capabilitySummary}
                     </p>
                   </div>
 
-                  <div className="border-t border-[color:var(--border-default)] pt-4 sm:pt-5">
+                  <div className="theme-card-section">
                     <p className="theme-card-kicker mb-2.5">
                       技术描述
                     </p>
-                    <p className="text-[14px] leading-relaxed text-[color:var(--text-primary)]">
+                    <p className="theme-readable-block break-words text-[13px] text-[color:var(--text-primary)] [overflow-wrap:anywhere] sm:text-[14px]">
                       {item.technicalSummary}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between border-t border-[color:var(--border-default)] pt-3.5 sm:mt-5 sm:pt-4">
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                <div className="theme-card-footer mt-4 flex flex-col gap-3 sm:mt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                  <div className="flex min-w-0 flex-wrap gap-1.5 sm:gap-2">
                     {item.techTags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] md:text-[10px] md:tracking-wider"
+                        className="theme-chip theme-chip-readable px-2.5 py-1 font-semibold uppercase md:text-[10px] md:tracking-wider"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="inline-flex items-center gap-2 text-[13px] font-semibold text-[color:var(--text-primary)]">
+                  <div className="inline-flex self-start text-[13px] font-semibold leading-6 text-[color:var(--text-primary)] sm:self-auto">
                     查看案例拆解
                     <ArrowRight
                       size={14}
@@ -138,7 +135,7 @@ export function FeaturedProjects({ items }: FeaturedProjectsProps) {
                     />
                   </div>
                 </div>
-              </Link>
+              </IntentLink>
             );
           })}
         </div>

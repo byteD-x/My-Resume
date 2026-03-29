@@ -7,7 +7,6 @@ import React, {
   useState,
   useSyncExternalStore,
 } from "react";
-import { createPortal } from "react-dom";
 import { AnimatePresence, m as motion } from "framer-motion";
 import {
   Activity,
@@ -25,6 +24,7 @@ import {
 import { Tooltip } from "@/components/ui/Tooltip";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useHydrated } from "@/hooks/useHydrated";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import staticGithubTelemetry from "@/data/github-telemetry.json";
 import {
@@ -38,7 +38,15 @@ import {
   type RuntimeMetric,
   subscribeRuntimeSnapshot,
 } from "@/lib/runtime-metrics-store";
+import {
+  getOverlayFadeTransition,
+  getOverlaySurfaceAnimate,
+  getOverlaySurfaceExit,
+  getOverlaySurfaceInitial,
+  getOverlaySurfaceTransition,
+} from "@/lib/overlay-motion";
 import { cn } from "@/lib/utils";
+import { OverlayPortal } from "@/components/ui/OverlayPortal";
 
 type TelemetryState = "idle" | "loading" | "ready" | "error";
 
@@ -194,6 +202,7 @@ export default function EngineeringCommandCenter({
   );
   const isHydrated = useHydrated();
   const shouldReduceMotion = useReducedMotion();
+  const isDesktopViewport = useMediaQuery("(min-width: 768px)");
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useFocusTrap<HTMLDivElement>(isOpen, {
     onEscape: () => setIsOpen(false),
@@ -285,13 +294,11 @@ export default function EngineeringCommandCenter({
         ? (githubTelemetry.message ?? "GitHub 数据暂不可用。")
         : githubTelemetry.message;
 
-  const overlayTransition = shouldReduceMotion
-    ? { duration: 0.12 }
-    : { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
-
-  const panelTransition = shouldReduceMotion
-    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
-    : ({ type: "spring", stiffness: 290, damping: 30, mass: 0.94 } as const);
+  const motionOptions = {
+    reduceMotion: shouldReduceMotion,
+    desktop: isDesktopViewport,
+    kind: "panel" as const,
+  };
 
   if (!isHydrated || typeof document === "undefined") {
     return null;
@@ -326,7 +333,7 @@ export default function EngineeringCommandCenter({
         )}
       </button>
 
-      {createPortal(
+      <OverlayPortal>
         <AnimatePresence>
           {isOpen ? (
             <>
@@ -334,7 +341,7 @@ export default function EngineeringCommandCenter({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={overlayTransition}
+                transition={getOverlayFadeTransition(shouldReduceMotion)}
                 className="theme-dialog-overlay fixed inset-0 z-[90]"
                 onClick={() => setIsOpen(false)}
                 aria-hidden="true"
@@ -345,18 +352,10 @@ export default function EngineeringCommandCenter({
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="engineering-command-center-title"
-                initial={
-                  shouldReduceMotion
-                    ? { opacity: 0 }
-                    : { x: "100%", opacity: 0.94, scale: 0.992 }
-                }
-                animate={{ x: 0, opacity: 1, scale: 1 }}
-                exit={
-                  shouldReduceMotion
-                    ? { opacity: 0 }
-                    : { x: "100%", opacity: 0.96, scale: 0.996 }
-                }
-                transition={panelTransition}
+                initial={getOverlaySurfaceInitial(motionOptions)}
+                animate={getOverlaySurfaceAnimate(motionOptions)}
+                exit={getOverlaySurfaceExit(motionOptions)}
+                transition={getOverlaySurfaceTransition(motionOptions)}
                 className="theme-dialog-shell fixed inset-x-0 bottom-0 top-auto z-[100] flex max-h-[calc(100dvh-0.75rem)] w-full flex-col overflow-hidden rounded-t-[1.45rem] border border-[color:var(--border-default)] md:inset-y-0 md:right-0 md:left-auto md:top-0 md:max-h-none md:max-w-[50rem] md:rounded-none md:rounded-l-[1.45rem] md:border-y-0 md:border-r-0 md:border-l"
               >
               <div className="flex justify-center pb-2 pt-3 md:hidden">
@@ -380,7 +379,7 @@ export default function EngineeringCommandCenter({
                         >
                           工程实力中枢
                         </h2>
-                        <span className="theme-chip whitespace-nowrap px-2.5 py-1 text-[11px] font-semibold">
+                        <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold">
                           只读面板
                         </span>
                       </div>
@@ -606,9 +605,8 @@ export default function EngineeringCommandCenter({
               </motion.aside>
             </>
           ) : null}
-        </AnimatePresence>,
-        document.body,
-      )}
+        </AnimatePresence>
+      </OverlayPortal>
     </>
   );
 }

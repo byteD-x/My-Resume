@@ -105,16 +105,16 @@ export function ProjectList({ items }: ProjectListProps) {
   const hasMore = visibleCount < filteredItems.length;
 
   return (
-    <div className="space-y-7 sm:space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <motion.div
         initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
         whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         viewport={shouldAnimateInView ? { once: true } : undefined}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="theme-card rounded-2xl p-3.5 sm:p-5 md:rounded-[1.65rem] md:p-6"
+        className="theme-card rounded-2xl p-3.5 sm:p-5 md:rounded-[1.65rem] md:p-5"
       >
-        <div className="mb-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
+        <div className="mb-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
           <div className="relative min-w-0 flex-1">
             <Search
               size={16}
@@ -183,7 +183,7 @@ export function ProjectList({ items }: ProjectListProps) {
           </div>
         </div>
 
-        <div className="mb-4 flex flex-wrap items-center gap-2.5">
+        <div className="mb-3.5 flex flex-wrap items-center gap-2">
           {["all", ...techFilters].map((tag) => {
             const isActive = activeTech === tag;
             const label = tag === "all" ? "全部" : tag;

@@ -266,7 +266,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "微信智能助手",
       location: "开源项目",
       summary:
-        "面向 Windows 微信生态构建长期运行的微信机器人：支持消息接入、分层记忆、可降级 RAG、配置热重载与成本/诊断能力。",
+        "独立设计并持续迭代 Windows 微信生态智能助手运行时，围绕稳定接入、分层记忆、可降级 RAG 与运行治理，交付可长期运行的桌面化 AI 助手。",
       techTags: [
         "Python",
         "Quart",
@@ -281,17 +281,18 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "将微信接入抽象成 `BaseTransport`，并以 `LangGraph` 重构回复主链，把短链路回复与后台成长任务拆开，适合长期运行。",
-        "构建 SQLite 短期记忆 + 运行期向量记忆 + 导出语料 RAG 的三层记忆，并支持轻量重排与可选本地 Cross-Encoder 自动回退。",
-        "补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，使桌面机器人具备观测、配置和交付能力。",
+        "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
+        "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
+        "补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，完善运行观测、配置审计与交付能力。",
+        "落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把微信机器人从脚本式自动回复升级为可长期运行、可排障、可控成本的智能助手。",
+        zh: "将微信自动回复脚本升级为具备接入治理、运行诊断与成本分析能力的桌面智能助手，降低长期运行和排障成本。",
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
       },
       engineeringDepth: {
-        zh: "覆盖微信接入抽象、LangGraph 运行时、可降级 RAG、配置热重载、成本分析与运行观测。",
+        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、配置热重载与 Prometheus 风格观测链路。",
         en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, config hot reload, cost analytics, and runtime observability.",
       },
       verification: [
@@ -306,13 +307,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "目标是在 Windows 微信生态下交付可长期运行的机器人，并兼顾记忆增强、配置治理与运行诊断。",
+          "目标是在 Windows 微信生态下交付可长期运行的智能助手，同时兼顾消息接入稳定性、记忆增强、配置治理与运行诊断。",
         problem:
-          "微信接入边界不稳定，同步阻塞会拖慢主链路；RAG 与记忆能力容易和主回复耦合；配置、诊断与成本口径分散，不利于长期维护。",
+          "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **运行时骨架**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **接入与记忆**：将微信入口抽象成 `BaseTransport`，并构建 SQLite 短期记忆、运行期向量记忆、导出语料 RAG 三层记忆体系。\n- **可降级增强**：运行期 RAG 默认走轻量重排，只有在本地模型目录与依赖就绪时才启用 `Cross-Encoder`，失败自动回退。\n- **治理能力**：补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析接口、配置热重载与 GitHub Release 发布链路。",
+          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析、配置热重载与 GitHub Release 发布链路。",
         result:
-          "交付面向 Windows 微信生态的长期运行机器人，覆盖接入稳定性、记忆增强、运行诊断、配置治理与发布链路。",
+          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到运行观测、配置治理与发布交付的完整闭环。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -339,7 +340,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "智能客服运行时",
       location: "开源项目",
       summary:
-        "企业级智能客服运行时参考实现：统一文本/语音/RTC 接入，复用宿主鉴权与业务上下文，并通过插件、多租户知识库与治理能力，将问答能力扩展为可接业务的服务运行时。",
+        "独立设计企业级智能客服运行时，统一文本、语音、RTC 与宿主挂载接入，并通过插件体系和知识治理将问答能力扩展为可接业务的服务运行时。",
       techTags: [
         "Python",
         "FastAPI",
@@ -354,17 +355,18 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "统一文本 / Voice API / RTC WebSocket / FastAPI 挂载四类接入形态，复用同一套 session、routing、handoff 运行时。",
-        "实现 `route_confidence` 分层、`intent_stack` 回退、`page_context` / `business_objects` 感知路由，低置信度先澄清再转人工。",
-        "补齐 7 类插件扩展点、知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化治理与审计能力。",
+        "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
+        "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
+        "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
+        "补齐知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把 AI 客服从单纯知识问答扩展为可挂载、可接业务、可转人工、可治理的运行时能力，便于宿主系统低改造接入。",
+        zh: "将 AI 客服从单纯知识问答扩展为可挂载、可转人工、可接业务且可治理的运行时能力，降低宿主系统改造成本。",
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "覆盖分层运行时架构、插件注册中心、Auth Bridge、多提供商适配、知识治理、诊断导出与多租户边界控制。",
+        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、反馈闭环与多租户边界控制。",
         en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, diagnostics export, and multi-tenant boundary control.",
       },
       verification: [
@@ -379,13 +381,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理的客服运行时。",
+          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理、可行业扩展的客服运行时。",
         problem:
-          "如果把文本、语音、RTC、业务工具、鉴权和转人工都写死在主流程里，宿主系统难接入，租户边界难控制，知识库和运行诊断也难以持续治理。",
+          "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载模式。\n- **路由与协同**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度、投诉或请求人工场景下优先澄清或转人工。\n- **扩展与治理**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 七类扩展点，并支持插件启停、范围过滤与宿主鉴权复用。\n- **知识与运维**：补齐知识版本、chunk 优化、消息级反馈、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏等治理能力。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
-          "交付可独立运行或宿主挂载的客服运行时，覆盖业务接入、人工协同、知识治理、租户隔离与运行审计。",
+          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -412,20 +414,21 @@ export const defaultPortfolioData: PortfolioData = {
       company: "南方科技大学",
       location: "深圳",
       summary:
-        "独立承接并交付智能流程自动化 (IPA) 原型：从需求澄清到可演示系统闭环，帮助客户快速验证可行性。",
+        "独立承接智能流程自动化（IPA）原型，从需求收敛、方案设计到可演示系统交付，支撑客户在短周期内完成可行性验证。",
       techTags: ["Python", "Automation", "Full Stack", "End-to-End Delivery"],
       highlighted: false,
       keyOutcomes: [
-        "在需求不清晰且周期受限场景下，以敏捷迭代完成 IPA 原型交付，并按期通过客户验收。",
-        "完成自动化脚本与 Web 系统通信验证，为后续工程化立项提供可行性依据。",
+        "主导需求澄清与原型方案拆解，在需求不明确、周期受限条件下快速收敛 MVP 范围。",
+        "负责自动化脚本与 Web 系统联调，完成关键业务流程通信验证，形成端到端演示闭环。",
+        "按期交付 IPA 原型并通过客户验收，为后续工程化立项、预算评估和方案决策提供依据。",
       ],
       audienceTags: ["partner", "client"],
       businessValue: {
-        zh: "通过快速原型交付帮助客户低成本验证方案可行性，降低立项风险。",
+        zh: "通过快速原型交付帮助客户以较低成本验证自动化方案可行性，降低正式立项风险。",
         en: "Validated solution feasibility with a rapid prototype, reducing project initiation risk.",
       },
       engineeringDepth: {
-        zh: "在需求模糊且周期受限的场景下，完成需求收敛、原型实现与按期交付。",
+        zh: "在需求模糊且周期受限的场景下，完成需求收敛、原型实现、联调验证与按期交付。",
         en: "Demonstrates rapid domain knowledge absorption and strict project timeline management.",
       },
       verification: [
@@ -439,10 +442,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background: "客户需要验证自动化技术在特定科研流程中的可行性。",
-        problem: "时间紧迫，需求模糊，需要探索性开发。",
+        problem: "项目周期紧、需求边界不清，需要在有限时间内收敛范围并形成可演示结果。",
         solution:
-          "采用敏捷开发模式，快速迭代原型，与客户保持高频沟通确认需求。",
-        result: "按时交付原型系统，功能满足预期，获得客户好评。",
+          "- **收敛需求范围**：通过高频沟通快速明确关键流程、演示目标与验收口径。\n- **快速搭建原型**：采用敏捷迭代方式推进自动化脚本与 Web 端原型实现。\n- **完成联调验证**：打通脚本与 Web 系统通信链路，确保核心流程可被演示与复核。",
+        result: "按期交付原型系统并通过验收，为客户后续工程化推进提供可行性依据。",
         role: "全栈顾问",
         techStack: ["Python", "Web Development", "Automation"],
       },
@@ -454,7 +457,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "中软国际",
       location: "西安",
       summary:
-        "企业知识问答系统研发：把多源文档接入、混合检索、LangGraph 可恢复运行时、引用溯源与评测回归做成一条完整链路。",
+        "负责企业知识问答系统核心研发，完成多源文档接入、三路混合检索、LangGraph 可恢复运行时与知识治理工作台建设。",
       techTags: [
         "FastAPI",
         "LangGraph",
@@ -468,9 +471,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "搭建结构检索 + 全文检索 + 向量检索三路召回，结合加权 RRF 融合与 rerank，支持 citations、grounding_score 与 trace_id 返回。",
-        "把 Gateway 问答链路与 KB 检索链路都改成 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 step_events。",
-        "补齐 ingest 与治理工作台：支持多知识库、多源连接器、chunk 拆分/合并/禁用、retrieve/debug，以及 smoke-eval / regression gate。",
+        "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
+        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。",
+        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用及 retrieve/debug 调试能力。",
+        "建立 smoke-eval 与 regression gate 回归门禁，将检索质量、可恢复执行与发布验证纳入同一交付流程。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
@@ -478,7 +482,7 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned scattered documents into an enterprise knowledge QA capability with continuous sync and traceable citations.",
       },
       engineeringDepth: {
-        zh: "覆盖混合检索、LangGraph 工作流编排、知识治理、连接器安全边界与评测回归体系。",
+        zh: "覆盖三路混合检索、LangGraph 工作流编排、知识治理、连接器安全边界与评测回归体系。",
         en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, knowledge governance, connector boundaries, and evaluation baselines.",
       },
       verification: [
@@ -502,11 +506,11 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步的知识库问答系统。",
         problem:
-          "传统单路检索对标题、关键词、语义混合场景覆盖不足，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
+          "传统单路检索难以同时覆盖标题、关键词与语义混合场景，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
         solution:
-          "- **混合检索**：结构、全文、向量三路召回，配合 query rewrite、加权 RRF 与 rerank。\n- **可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、step_events 与人工澄清。\n- **知识治理与评测**：落地多知识库、多源连接器、chunk 治理、retrieve/debug、审计、smoke-eval 与 regression gate。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。",
         result:
-          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备可持续回归验证能力。",
+          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备持续回归验证能力。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -531,7 +535,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "国家骨科临床研究中心",
       location: "远程",
       summary:
-        "为医学专家做论文智能检索小程序后端：整合 AI 搜索与订阅推送，把“找文献”从小时级压到分钟级。",
+        "负责医学论文检索小程序后端与接口设计，支撑搜索、订阅、收藏、深度分析等核心能力，将文献获取效率从小时级压缩至分钟级。",
       techTags: [
         "Backend Architecture",
         "AI Search",
@@ -540,17 +544,18 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: false,
       keyOutcomes: [
-        "设计并实现高可用后端架构，支撑医学检索小程序稳定运行。",
-        "整合 AI 搜索与订阅推送，将文献检索时延从小时级降至分钟级，提升科研效率。",
-        "对接自然语言检索能力，降低专家检索门槛并提升结果相关性。",
+        "设计并实现小程序后端接口，支撑论文搜索、推荐、订阅、收藏、深度分析与下载分享等核心能力。",
+        "整合 AI 搜索与自然语言检索能力，将医学专家“找文献”流程从小时级压缩至分钟级，提升科研检索效率。",
+        "建立订阅推送与个性化推荐链路，支持持续追踪特定研究方向的最新论文。",
+        "支撑微信小程序稳定运行，降低医学场景下的检索门槛并提升结果相关性。",
       ],
       audienceTags: ["hr", "jobSeeker"],
       businessValue: {
-        zh: "极大提升了科研人员获取前沿信息的效率，助力科研成果产出。",
+        zh: "提升科研人员获取前沿论文与持续追踪研究方向的效率，增强医学场景下的信息获取能力。",
         en: "Greatly improved efficiency for researchers to access frontier information.",
       },
       engineeringDepth: {
-        zh: "完成医疗场景的需求分析、检索架构设计与后端落地。",
+        zh: "完成医疗场景的需求分析、检索接口设计、小程序后端落地与推荐订阅链路建设。",
         en: "Demonstrates requirements analysis and system architecture in a vertical domain (Medical).",
       },
       verification: [
@@ -565,10 +570,10 @@ export const defaultPortfolioData: PortfolioData = {
       expandedDetails: {
         background:
           "医学专家需要及时获取特定领域的最新论文，通用搜索引擎噪音大。",
-        problem: "信息检索效率低，无法自动跟踪最新进展。",
+        problem: "信息检索效率低，缺少订阅追踪、推荐与深度分析能力，难以满足持续科研需求。",
         solution:
-          "构建垂直领域的论文检索平台，结合 AI 进行语义匹配与精准推送。",
-        result: "小程序上线后获得专家认可，成为日常科研辅助工具。",
+          "- **建设检索接口**：围绕论文搜索、推荐、收藏、订阅、深度分析与分享下载设计后端接口。\n- **引入 AI 搜索**：结合自然语言检索与语义匹配能力，提高医学论文查找效率与结果相关性。\n- **补齐订阅链路**：支持主题订阅、推荐推送与持续追踪，降低重复检索成本。",
+        result: "交付可在科研场景中日常使用的论文检索小程序后端，将“找文献”效率从小时级压缩至分钟级。",
         role: "后端开发",
         techStack: ["Java/Python", "AI API", "Mini Program Backend"],
       },
@@ -580,7 +585,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "中国联通陕西省分公司",
       location: "西安 · 数字化部",
       summary:
-        "参与运营平台与数据中台建设：报表从 20s+ 到 4s，完成 300+ 表迁移与校对，并补齐慢查询治理与 CI/CD 发布链路。",
+        "参与运营平台与数据中台建设，围绕报表性能、海量数据迁移、慢查询治理与发布流程改造推进后端优化与工程化落地。",
       techTags: [
         "Java",
         "ClickHouse",
@@ -592,18 +597,18 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "推动 OLTP/OLAP 分离并引入 ClickHouse，将活动统计接口从 20s+ 优化到 4s（5x），支撑高频运营分析。",
-        "完成 300+ 表、3亿+ 记录迁移与一致性校验，保障数据中台升级可追溯、可回滚。",
-        "重写聚合 SQL 并补充覆盖索引与缓存，将部分核心查询从 10s+ 降至 500ms，持续清理 20+ 慢查询隐患。",
-        "搭建 CI/CD + lint/build/test 门禁与回滚链路，将发布耗时从 30 分钟缩短至 5 分钟，降低人工发布风险。",
+        "推动 OLTP / OLAP 分离并引入 ClickHouse，将活动统计接口从 20s+ 优化至 4s（5x），支撑高频运营分析场景。",
+        "完成 300+ 表、3 亿+ 记录迁移与一致性校验，保障数据中台升级过程可追溯、可回滚。",
+        "重写聚合 SQL 并补充覆盖索引与缓存，将部分核心查询从 10s+ 压缩至 500ms，持续治理 20+ 慢查询隐患。",
+        "搭建 CI/CD、lint/build/test 门禁与回滚链路，将发布耗时从 30 分钟缩短至 5 分钟，降低人工发布风险。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "同时解决了报表分析、接口性能与发布流程的多重瓶颈，既支撑业务实时分析，也降低了线上变更风险。",
+        zh: "同步解决报表分析、接口性能与发布流程瓶颈，既支撑业务实时分析，也降低线上变更风险。",
         en: "Resolved analytics, API latency, and release-process bottlenecks to improve both operations efficiency and delivery stability.",
       },
       engineeringDepth: {
-        zh: "覆盖了 OLAP 架构落地、海量数据迁移、MySQL 性能调优、缓存治理与 CI/CD 工程化的组合型实战经验。",
+        zh: "覆盖 OLAP 架构落地、海量数据迁移、MySQL 性能调优、缓存治理与 CI/CD 工程化的组合型实战经验。",
         en: "Combines OLAP architecture, large-scale migration, MySQL tuning, cache strategy, and CI/CD engineering practice.",
       },
       verification: [
@@ -619,11 +624,11 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "联通数字化部需要整合全省运营数据，原有 MySQL 架构无法支撑复杂聚合查询。",
         problem:
-          "报表加载超时，数据分散难以统一挖掘，同时部分核心接口与发布流程也存在性能和稳定性风险。",
+          "报表加载超时、数据分散难以统一分析，部分核心接口与发布流程也存在明显的性能和稳定性风险。",
         solution:
-          "- **数据平台**：引入 ClickHouse 作为分析引擎，配合 MySQL 到 ClickHouse 的增量同步与 SQL 改写。\n- **性能治理**：重写关联查询、补充覆盖索引，并以 Redis 缓存热点数据。\n- **工程化**：补齐 Docker/Pipeline、lint/build/test 门禁与回滚链路。",
+          "- **重构数据链路**：引入 ClickHouse 作为分析引擎，配合 MySQL 到 ClickHouse 的增量同步与 SQL 改写，推进 OLTP / OLAP 分离。\n- **实施性能治理**：重写关联查询、补充覆盖索引，并以 Redis 缓存热点数据，持续清理慢查询。\n- **补齐工程化基线**：完善 Docker / Pipeline、lint / build / test 门禁与回滚链路。",
         result:
-          "平台查询性能质变，高频分析与关键接口体验明显改善，发布流程更快且可回滚。",
+          "实现报表秒级响应、海量数据迁移可校验可回滚，并显著缩短发布周期，提升数据平台稳定性与交付效率。",
         role: "后端开发",
         techStack: [
           "Java",
@@ -642,7 +647,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "EasyCloudPan",
       location: "开源项目（本地 + Docker）",
       summary:
-        "面向企业内网部署的前后端分离网盘系统：支持本地一键启动与 Docker 全栈部署，覆盖认证、上传下载、分享转存、回收站、文件预览、多租户、安全通信、OAuth 登录与监控告警。",
+        "主导企业内网部署网盘系统建设，完成认证、上传下载、分享转存、文件预览、多租户、安全通信与可观测体系的全栈交付，并同时支持本地一键启动与 Docker 全栈部署。",
       techTags: [
         "Java 21",
         "Spring Boot 3.2",
@@ -660,16 +665,17 @@ export const defaultPortfolioData: PortfolioData = {
       highlighted: true,
       keyOutcomes: [
         "构建“分片上传 + 秒传 + 断点续传 + SSE 状态回传”主链路，结合 `FileChannel.transferTo()` 零拷贝合并与并发控制，支持 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
-        "落地请求签名防重放（HMAC-SHA256 + timestamp + nonce）与 JWT 双 Token + 黑名单治理，兼容 query token 退场；叠加 `@FileAccessCheck`、Magic Number 与多租户校验形成安全闭环。",
-        "建立“本地一键启动 + 健康检查 + 日志分层 + 监控告警 + Web Vitals 入库”工程基线，按 README 口径达到 API P95 <500ms、P99 <1s、缓存命中率 >90%。",
+        "完成 PostgreSQL 复合索引、游标分页与 Caffeine / Redis 多级缓存治理，使 API P95 <500ms、P99 <1s、数据库查询 P95 <100ms，慢查询减少 80%（README 指标口径）。",
+        "落地 HMAC-SHA256 请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离，形成文件平台安全闭环。",
+        "建立“本地一键启动 + Docker 全栈部署 + 健康检查 + Prometheus/Grafana + Web Vitals 入库”工程基线，使核心 P0/P1 流程可复现验证。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "提供可私有化部署的一体化文件平台，兼顾高并发上传、安全治理、可观测与工程交付，降低企业文件服务的稳定性与安全风险。",
+        zh: "提供可私有化部署的一体化文件平台，兼顾高并发上传、安全治理、身份接入扩展与可观测交付，降低企业文件服务的稳定性与安全风险。",
         en: "Delivered a privately deployable cloud-drive platform that balances performance, security, and observability.",
       },
       engineeringDepth: {
-        zh: "覆盖虚拟线程并发、上传状态机、签名防重放、OAuth 扩展接入、多租户隔离、Web Vitals 采集与脚本化验收，具备可回归验证的工程交付能力。",
+        zh: "覆盖 Java 21 虚拟线程、上传状态机、签名防重放、OAuth 扩展接入、多租户隔离、Web Vitals 采集与脚本化验收，具备可回归验证的工程交付能力。",
         en: "Covers virtual-thread concurrency, upload-state governance, signature replay protection, OAuth extensibility, tenant isolation, and observability with script-based verification.",
       },
       verification: [
@@ -689,7 +695,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "需要同时解决大文件上传稳定性、热点查询与深分页性能、安全鉴权一致性、第三方登录接入复杂度，以及上线后的监控与告警闭环。",
         solution:
-          "- **传输链路**：Java 21 虚拟线程 + 分片上传/断点续传/秒传 + `FileChannel.transferTo()` 零拷贝合并，配合上传限流、分片并发控制与 SSE 状态推送。\n- **数据性能**：PostgreSQL 复合索引 + 游标分页，结合 Caffeine(L1)/Redis(L2)、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **安全与隔离**：请求签名防重放（HMAC-SHA256 + timestamp + nonce）+ JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number、`X-Tenant-Id` 多租户上下文隔离。\n- **身份接入**：通过 `OAuthController` + `OAuthLoginService` 接入 GitHub/Google/Microsoft 三方登录，并与既有 QQ 登录兼容。\n- **观测与交付**：Actuator/Micrometer + Prometheus/Grafana + 结构化日志；前端 Web Vitals 上报到 `AnalyticsController` 入库，结合脚本化 smoke test 固化 P0/P1 验收链路。",
+          "- **重构上传链路**：基于 Java 21 虚拟线程实现分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并，并通过 SSE 回传状态。\n- **优化数据性能**：落地 PostgreSQL 复合索引、游标分页、Caffeine(L1)/Redis(L2) 多级缓存、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **完善安全体系**：建设请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与 `X-Tenant-Id` 多租户隔离。\n- **补齐身份与观测**：接入 GitHub / Google / Microsoft OAuth 登录，并通过 Actuator、Micrometer、Prometheus、Grafana 与 Web Vitals 建立可观测闭环。",
         result:
           "形成可私有化部署的一体化文件平台：API P95 <500ms、P99 <1s、数据库查询 P95 <100ms、慢查询减少 80%、缓存命中率 >90%、上传成功率 >99.5%（README 指标口径）。",
         role: "全栈开发（架构设计、后端核心、前端联调、部署验收）",
@@ -717,21 +723,21 @@ export const defaultPortfolioData: PortfolioData = {
       company: "九州通四向穿梭车路径规划系统",
       location: "本地项目",
       summary:
-        "在仓储场景实现多车路径规划原型：A* + CBS 解决冲突与死锁，并提供可视化仿真调试工具。",
+        "主导仓储四向穿梭车路径规划原型开发，基于 A* 与冲突消解策略完成多车协同路径搜索，并构建 PyQt 可视化仿真工具。",
       techTags: ["Python", "A*", "Path Planning", "PyQt5", "Concurrency"],
       highlighted: false,
       keyOutcomes: [
-        "算法落地: 基于 A* 算法实现复杂仓储地图下的最优路径搜索",
-        "冲突消解: 设计 CBS (Constraint-Based Search) 策略处理多车路权冲突",
-        "可视化: 使用 PyQt5 开发动态仿真界面，支持算法过程步进调试",
+        "设计 A* 路径搜索算法，完成复杂仓储地图下的最优路径求解与启发式搜索实现。",
+        "实现多车冲突检测与优先级等待策略，处理节点占用与时序冲突，验证多车协同调度可行性。",
+        "开发 PyQt5 可视化仿真界面，支持地图编辑、起终点设置、路径步进调试及地图保存/加载。",
       ],
       audienceTags: ["hr", "partner"],
       businessValue: {
-        zh: "极低成本验证了自动化仓储调度算法的可行性，为设备上云提供理论支撑。",
+        zh: "以低成本验证自动化仓储调度算法的可行性，为后续仓储设备调度系统建设提供算法依据。",
         en: "Verified feasibility of warehouse automation scheduling algorithms at low cost.",
       },
       engineeringDepth: {
-        zh: "覆盖图搜索算法、并发编程与图形化界面开发。",
+        zh: "覆盖图搜索算法、冲突消解逻辑、仓储地图建模与图形化界面开发。",
         en: "Demonstrates synthesis of graph search algorithms, concurrent programming, and GUI development.",
       },
       verification: [
@@ -745,9 +751,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background: "密集存储仓库需要调度多台四向穿梭车协同工作。",
-        problem: "车辆间路径冲突频发，死锁检测困难。",
-        solution: "基于 A* 算法改进启发式函数，引入时间维度解决动态冲突。",
-        result: "在仿真环境中实现了多车无冲突运行，路径规划效率满足预期。",
+        problem: "多车协同场景下容易出现节点占用冲突、路径交叉与潜在死锁，传统单车寻路难以直接复用。",
+        solution:
+          "- **实现路径搜索**：基于 A* 完成仓储地图下的启发式路径求解。\n- **处理多车冲突**：引入冲突检测与优先级等待策略，解决多车协同时序冲突问题。\n- **构建仿真工具**：基于 PyQt5 开发地图编辑与路径可视化界面，支持调试与演示。",
+        result: "完成多车路径规划原型验证，支持在仿真环境中直观展示路径搜索与冲突消解过程。",
         role: "算法主导",
         techStack: ["Python", "Algorithms", "PyQt5"],
       },
@@ -803,20 +810,21 @@ export const defaultPortfolioData: PortfolioData = {
         "Auth Bridge",
       ],
       summary:
-        "企业级智能客服运行时参考实现：统一文本/语音/RTC 接入，复用宿主鉴权与业务上下文，并通过插件、多租户知识库与治理能力，将问答能力扩展为可接业务的服务运行时。",
-      impact: "多通道运行时 + 业务挂载 + 知识治理",
+        "独立设计企业级智能客服运行时，统一文本、语音、RTC 与宿主挂载接入，并通过插件体系和知识治理将问答能力扩展为可接业务的服务运行时。",
+      impact: "六层运行时 + 7 类插件 + 多通道接入",
       keyOutcomes: [
-        "统一文本 / Voice API / RTC WebSocket / FastAPI 挂载四类接入形态，复用同一套 session、routing、handoff 运行时。",
-        "实现 `route_confidence` 分层、`intent_stack` 回退、`page_context` / `business_objects` 感知路由，低置信度先澄清再转人工。",
-        "补齐 7 类插件扩展点、知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化治理与审计能力。",
+        "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
+        "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
+        "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
+        "补齐知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把 AI 客服从单纯知识问答扩展为可挂载、可接业务、可转人工、可治理的运行时能力，便于宿主系统低改造接入。",
+        zh: "将 AI 客服从单纯知识问答扩展为可挂载、可转人工、可接业务且可治理的运行时能力，降低宿主系统改造成本。",
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "覆盖分层运行时架构、插件注册中心、Auth Bridge、多提供商适配、知识治理、诊断导出与多租户边界控制。",
+        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、反馈闭环与多租户边界控制。",
         en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, diagnostics export, and multi-tenant boundary control.",
       },
       verification: [
@@ -831,13 +839,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理的客服运行时。",
+          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理、可行业扩展的客服运行时。",
         problem:
-          "如果把文本、语音、RTC、业务工具、鉴权和转人工都写死在主流程里，宿主系统难接入，租户边界难控制，知识库和运行诊断也难以持续治理。",
+          "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载模式。\n- **路由与协同**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度、投诉或请求人工场景下优先澄清或转人工。\n- **扩展与治理**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 七类扩展点，并支持插件启停、范围过滤与宿主鉴权复用。\n- **知识与运维**：补齐知识版本、chunk 优化、消息级反馈、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏等治理能力。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
-          "交付可独立运行或宿主挂载的客服运行时，覆盖业务接入、人工协同、知识治理、租户隔离与运行审计。",
+          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -877,20 +885,21 @@ export const defaultPortfolioData: PortfolioData = {
         "Cost Analytics",
       ],
       summary:
-        "面向 Windows 微信生态构建长期运行的微信机器人：支持消息接入、分层记忆、可降级 RAG、配置热重载与成本/诊断能力。",
-      impact: "微信机器人 + 分层记忆 + 运行治理",
+        "独立设计并持续迭代 Windows 微信生态智能助手运行时，围绕稳定接入、分层记忆、可降级 RAG 与运行治理，交付可长期运行的桌面化 AI 助手。",
+      impact: "微信接入运行时 + 三层记忆 + 可观测治理",
       keyOutcomes: [
-        "将微信接入抽象成 `BaseTransport`，并以 `LangGraph` 重构回复主链，把短链路回复与后台成长任务拆开，适合长期运行。",
-        "构建 SQLite 短期记忆 + 运行期向量记忆 + 导出语料 RAG 的三层记忆，并支持轻量重排与可选本地 Cross-Encoder 自动回退。",
-        "补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，使桌面机器人具备观测、配置和交付能力。",
+        "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
+        "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
+        "补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，完善运行观测、配置审计与交付能力。",
+        "落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把微信机器人从脚本式自动回复升级为可长期运行、可排障、可控成本的智能助手。",
+        zh: "将微信自动回复脚本升级为具备接入治理、运行诊断与成本分析能力的桌面智能助手，降低长期运行和排障成本。",
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
       },
       engineeringDepth: {
-        zh: "覆盖微信接入抽象、LangGraph 运行时、可降级 RAG、配置热重载、成本分析与运行观测。",
+        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、配置热重载与 Prometheus 风格观测链路。",
         en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, config hot reload, cost analytics, and runtime observability.",
       },
       verification: [
@@ -905,13 +914,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "目标是在 Windows 微信生态下交付可长期运行的机器人，并兼顾记忆增强、配置治理与运行诊断。",
+          "目标是在 Windows 微信生态下交付可长期运行的智能助手，同时兼顾消息接入稳定性、记忆增强、配置治理与运行诊断。",
         problem:
-          "微信接入边界不稳定，同步阻塞会拖慢主链路；RAG 与记忆能力容易和主回复耦合；配置、诊断与成本口径分散，不利于长期维护。",
+          "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **运行时骨架**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **接入与记忆**：将微信入口抽象成 `BaseTransport`，并构建 SQLite 短期记忆、运行期向量记忆、导出语料 RAG 三层记忆体系。\n- **可降级增强**：运行期 RAG 默认走轻量重排，只有在本地模型目录与依赖就绪时才启用 `Cross-Encoder`，失败自动回退。\n- **治理能力**：补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析接口、配置热重载与 GitHub Release 发布链路。",
+          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析、配置热重载与 GitHub Release 发布链路。",
         result:
-          "交付面向 Windows 微信生态的长期运行机器人，覆盖接入稳定性、记忆增强、运行诊断、配置治理与发布链路。",
+          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到运行观测、配置治理与发布交付的完整闭环。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -945,20 +954,21 @@ export const defaultPortfolioData: PortfolioData = {
         "LangChain",
       ],
       summary:
-        "企业知识问答系统：把多源文档接入、混合检索、LangGraph 可恢复运行时、引用溯源与评测回归做成一条完整链路。",
-      impact: "混合检索 + LangGraph 可恢复运行时",
+        "负责企业知识问答系统核心研发，完成多源文档接入、三路混合检索、LangGraph 可恢复运行时与知识治理工作台建设。",
+      impact: "三路混合检索 + LangGraph 可恢复运行时",
       keyOutcomes: [
-        "搭建结构检索 + 全文检索 + 向量检索三路召回，结合加权 RRF 融合与 rerank，支持 citations、grounding_score 与 trace_id 返回。",
-        "把 Gateway 问答链路与 KB 检索链路都改成 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 step_events。",
-        "补齐 ingest 与治理工作台：支持多知识库、多源连接器、chunk 拆分/合并/禁用、retrieve/debug，以及 smoke-eval / regression gate。",
+        "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
+        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。",
+        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用及 retrieve/debug 调试能力。",
+        "建立 smoke-eval 与 regression gate 回归门禁，将检索质量、可恢复执行与发布验证纳入同一交付流程。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "把企业分散资料沉淀为可持续同步、可追溯引用的知识问答能力，降低检索和答复成本。",
+        zh: "将企业分散资料沉淀为可持续同步、可追溯引用的知识问答能力，降低检索和答复成本。",
         en: "Turns scattered enterprise documents into a continuously synced knowledge QA capability with traceable citations.",
       },
       engineeringDepth: {
-        zh: "覆盖混合检索、LangGraph 编排、知识治理、连接器边界控制与评测回归体系。",
+        zh: "覆盖三路混合检索、LangGraph 编排、知识治理、连接器边界控制与评测回归体系。",
         en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, governance workflows, connector boundaries, and evaluation baselines.",
       },
       verification: [
@@ -975,11 +985,11 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步的知识库问答系统。",
         problem:
-          "传统单路检索对标题、关键词、语义混合场景覆盖不足，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
+          "传统单路检索难以同时覆盖标题、关键词与语义混合场景，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
         solution:
-          "- **混合检索**：结构、全文、向量三路召回，配合 query rewrite、加权 RRF 与 rerank。\n- **可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、step_events 与人工澄清。\n- **知识治理与评测**：落地多知识库、多源连接器、chunk 治理、retrieve/debug、审计、smoke-eval 与 regression gate。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。",
         result:
-          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备可持续回归验证能力。",
+          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备持续回归验证能力。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -1004,20 +1014,20 @@ export const defaultPortfolioData: PortfolioData = {
       name: "乐学网",
       techTags: ["Spring Boot", "Redis", "Spring Security", "Vue.js", "MySQL"],
       summary:
-        "面向校内选课/考试高峰的教育平台：视频点播、支付、实时互动一体化（Redis 缓存 + RBAC + WebSocket）。",
-      impact: "校内应用",
+        "面向校内选课、考试与知识付费场景的教育平台，集成课程管理、支付结算与实时互动能力。",
+      impact: "教育平台 + 支付闭环 + 实时互动",
       keyOutcomes: [
-        "落地支付、课程、互动链路一体化交付，形成校内教学与付费闭环。",
-        "通过 Redis 缓存与 RBAC 权限治理，支撑高峰时段在线考试并保持稳定。",
-        "使用 WebSocket 实现实时互动，提升教学场景响应效率与参与度。",
+        "负责课程、支付与互动链路的全栈实现，形成校内教学与知识付费闭环。",
+        "引入 Redis 缓存与 RBAC 权限治理，支撑选课与考试高峰时段的稳定访问。",
+        "基于 WebSocket 实现实时互动与在线答疑，提升教学场景的响应效率与参与度。",
       ],
       audienceTags: ["jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "为校园不仅提供了教学工具，还打通了知识付费的商业闭环。",
+        zh: "为校园场景提供教学工具与支付能力一体化平台，打通课程服务与知识付费闭环。",
         en: "Provided not just teaching tools but also a closed-loop monetization system for campus.",
       },
       engineeringDepth: {
-        zh: "覆盖支付系统对接、并发流量治理与内容安全防护。",
+        zh: "覆盖支付系统对接、缓存治理、权限控制与实时互动场景落地。",
         en: "Shows engineering practice in payment integration, concurrency governance, and content security.",
       },
       verification: [
@@ -1033,8 +1043,8 @@ export const defaultPortfolioData: PortfolioData = {
         background: "校园需要自有知识付费与在线学习平台。",
         problem: "现有系统功能单一，不支持支付与高并发。",
         solution:
-          "构建全栈微服务化应用，引入 Redis 与支付网关。\n- **高并发架构**：使用 Redis 缓存热点课程数据，削峰填谷。\n- **支付集成**：对接微信支付 API，实现订单/回调/对账闭环。\n- **安全防护**：基于 Spring Security 实现细粒度 RBAC 权限控制与接口限流。\n- **实时互动**：基于 WebSocket 实现直播弹幕与在线答疑。",
-        result: "平台上线并稳定运行，满足校内高峰期使用需求。",
+          "- **构建全栈平台**：围绕课程、支付与互动场景完成后端接口与前端页面开发。\n- **治理高峰流量**：使用 Redis 缓存热点课程数据，提升高峰时段访问稳定性。\n- **补齐交易与安全**：对接支付网关，并通过 Spring Security 实现细粒度 RBAC 权限控制。\n- **落地实时互动**：基于 WebSocket 实现在线互动与答疑能力。",
+        result: "完成校内教育平台原型交付，支持课程服务、支付结算与实时互动场景落地。",
         role: "全栈开发",
         techStack: ["Spring Boot", "Redis", "Vue.js"],
       },
@@ -1062,20 +1072,21 @@ export const defaultPortfolioData: PortfolioData = {
         "Grafana",
       ],
       summary:
-        "前后端分离的一体化网盘系统：覆盖认证、上传下载、分享转存、回收站、文件预览、多租户、安全通信、OAuth 登录与监控告警，支持本地一键启动与 Docker 全栈部署。",
+        "主导企业内网部署网盘系统建设，完成认证、上传下载、分享转存、文件预览、多租户、安全通信与可观测体系的全栈交付，并同时支持本地一键启动与 Docker 全栈部署。",
       impact: "企业级文件平台（私有化部署 + 安全基线 + 可观测）",
       keyOutcomes: [
         "构建“分片上传 + 秒传 + 断点续传 + SSE 状态回传”主链路，结合零拷贝分片合并，支持 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
-        "完成 PostgreSQL 复合索引 + 游标分页 + Caffeine/Redis 多级缓存治理，API P95 <500ms、P99 <1s、数据库查询 P95 <100ms、缓存命中率 >90%。",
-        "构建请求签名防重放 + JWT 双 Token + 黑名单 + 多租户隔离 + OAuth 多提供方登录，并接入 Prometheus/Grafana 与 Web Vitals 入库，核心 P0/P1 流程可复现验证。",
+        "完成 PostgreSQL 复合索引、游标分页与 Caffeine / Redis 多级缓存治理，使 API P95 <500ms、P99 <1s、数据库查询 P95 <100ms，慢查询减少 80%（README 指标口径）。",
+        "落地 HMAC-SHA256 请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离，形成文件平台安全闭环。",
+        "建立“本地一键启动 + Docker 全栈部署 + 健康检查 + Prometheus/Grafana + Web Vitals 入库”工程基线，使核心 P0/P1 流程可复现验证。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "为团队提供可私有化部署的文件协作底座，兼顾高并发上传、安全治理、身份接入扩展、监控告警与脚本化验收。",
+        zh: "提供可私有化部署的文件协作底座，兼顾高并发上传、安全治理、身份接入扩展与监控验收能力。",
         en: "Provides a privately deployable file collaboration platform with lower operational and security risks.",
       },
       engineeringDepth: {
-        zh: "落地虚拟线程、零拷贝、签名防重放、OAuth 扩展接入、索引优化、多级缓存、游标分页与可观测体系，并在本地/容器双部署链路下保持一致交付。",
+        zh: "落地 Java 21 虚拟线程、零拷贝、签名防重放、OAuth 扩展接入、索引优化、多级缓存、游标分页与可观测体系，并在本地/容器双部署链路下保持一致交付。",
         en: "Combines virtual threads, zero-copy transfer, signature replay protection, OAuth extensibility, layered caching, cursor pagination, and observability into an extensible engineering baseline.",
       },
       verification: [
@@ -1095,7 +1106,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "需同时满足高并发上传稳定性、深分页与热点查询性能、安全鉴权一致性、第三方登录扩展能力和上线后可观测闭环。",
         solution:
-          "- **上传与下载链路**：分片上传、断点续传、秒传、令牌桶限流与零拷贝合并（`FileChannel.transferTo()`），并通过 SSE 回传转码状态。\n- **数据与缓存治理**：PostgreSQL 复合索引 + 游标分页，配套 Caffeine/Redis 多级缓存、布隆过滤器与分级 TTL。\n- **安全体系**：请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 文件校验、敏感配置加密与日志脱敏。\n- **身份接入**：`OAuthController` + `OAuthLoginService` 统一接入 GitHub/Google/Microsoft，并与 QQ 登录兼容。\n- **可观测与验收**：Actuator/Micrometer 指标、Prometheus/Grafana 仪表板与告警规则；前端 Web Vitals 通过 `AnalyticsController` 入库，脚本化 smoke test 覆盖核心 P0/P1 流程。",
+          "- **重构上传链路**：基于 Java 21 虚拟线程实现分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并，并通过 SSE 回传状态。\n- **优化数据性能**：落地 PostgreSQL 复合索引、游标分页、Caffeine(L1)/Redis(L2) 多级缓存、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **完善安全体系**：建设请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离。\n- **补齐身份与观测**：接入 GitHub / Google / Microsoft OAuth 登录，并通过 Actuator、Micrometer、Prometheus、Grafana 与 Web Vitals 建立可观测闭环。",
         result:
           "形成可持续迭代的交付基线：API P95 <500ms、P99 <1s、缓存命中率 >90%、上传成功率 >99.5%，并支持本地与 Docker 双链路部署（README 指标口径）。",
         role: "全栈开发（主导）",
@@ -1137,20 +1148,20 @@ export const defaultPortfolioData: PortfolioData = {
         "Concurrent",
       ],
       summary:
-        "面向密集仓储的多车路径规划原型：基于 A* + CBS 解决协同避让与死锁，并提供可视化仿真调试平台。",
+        "主导仓储四向穿梭车路径规划原型开发，基于 A* 与冲突消解策略完成多车协同路径搜索，并构建 PyQt 可视化仿真工具。",
       impact: "仓储自动化算法原型",
       keyOutcomes: [
-        "构建 A* + CBS 路径规划引擎，解决密集仓储多车协同冲突问题。",
-        "建立时空预留与冲突检测机制，保障多车路径规划稳定运行。",
-        "开发 PyQt5 可视化仿真工具，显著提升算法调试与演示效率。",
+        "设计 A* 路径搜索算法，完成复杂仓储地图下的最优路径求解与启发式搜索实现。",
+        "实现多车冲突检测与优先级等待策略，处理节点占用与时序冲突，验证多车协同调度可行性。",
+        "开发 PyQt5 可视化仿真界面，支持地图编辑、起终点设置、路径步进调试及地图保存/加载。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "为自动化立体仓库的调度系统提供了核心算法验证与仿真工具。",
+        zh: "为自动化立体仓库调度系统提供算法可行性验证与仿真支撑。",
         en: "Provided core algorithm verification and simulation tools for AS/RS scheduling.",
       },
       engineeringDepth: {
-        zh: "覆盖运筹算法工程化落地与可视化交互开发。",
+        zh: "覆盖图搜索算法、冲突消解逻辑、仓储地图建模与可视化交互开发。",
         en: "Demonstrates engineering implementation of complex operations research algorithms and GUI dev.",
       },
       verification: [
@@ -1164,10 +1175,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background: "仓储自动化需要智能调度算法。",
-        problem: "路径规划复杂，冲突难处理。",
+        problem: "多车协同场景下容易出现节点占用冲突、路径交叉与潜在死锁，单车寻路算法难以直接复用。",
         solution:
-          "- **路径引擎**：定制 A* 启发式函数，综合考虑曼哈顿距离与拥堵权重。\n- **冲突检测**：建立时空预留表，实时检测多车路径冲突 (CBS)。\n- **并发与仿真**：利用 `multiprocessing` 加速搜索，基于 PyQt5 构建可视化调试环境刷。",
-        result: "算法有效，仿真直观，验证了方案可行性。",
+          "- **实现路径搜索**：基于 A* 完成仓储地图下的启发式路径求解。\n- **处理多车冲突**：引入冲突检测与优先级等待策略，解决多车协同时序冲突问题。\n- **构建仿真工具**：基于 PyQt5 开发地图编辑与路径可视化界面，支持调试与演示。",
+        result: "完成多车路径规划原型验证，支持在仿真环境中直观展示路径搜索与冲突消解过程。",
         role: "算法研发",
         techStack: ["Python", "A*", "PyQt5"],
       },

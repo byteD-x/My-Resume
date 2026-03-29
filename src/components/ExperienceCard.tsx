@@ -1,11 +1,13 @@
 "use client";
 
 import React, { memo } from "react";
-import Link from "next/link";
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import { TimelineItem, ProjectItem } from "../types";
+import { isProjectLikeTimelineSubtitle } from "@/lib/experience-presentation";
 import { saveScrollRestore, ScrollRestoreSection } from "@/lib/scroll-restore";
+import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
+import { IntentLink } from "./ui/IntentLink";
 
 interface ExperienceCardProps {
   item: TimelineItem | ProjectItem;
@@ -78,6 +80,9 @@ export const ExperienceCard = memo(function ExperienceCard({
   const date = item.year;
   const isProjectCard =
     type === "project" || (type !== "timeline" && !("role" in item));
+  const isTimelineCard = !isProjectCard;
+  const isProjectLikeSubtitle =
+    isTimelineCard && "role" in item && isProjectLikeTimelineSubtitle(item);
 
   const githubLink =
     item.link ||
@@ -98,7 +103,6 @@ export const ExperienceCard = memo(function ExperienceCard({
         : "role" in item
           ? "experience"
         : "projects";
-  const isTimelineCard = !isProjectCard;
 
   const handleOpen = () => {
     if (typeof window === "undefined") return;
@@ -112,17 +116,17 @@ export const ExperienceCard = memo(function ExperienceCard({
   };
 
   return (
-    <Link
+    <IntentLink
       href={`/experiences/${item.id}`}
       scroll={false}
       className="group block h-full"
       onClick={handleOpen}
     >
       <div
-        className={`theme-card theme-card-interactive relative flex h-full flex-col overflow-hidden border-[rgba(148,163,184,0.16)] shadow-[0_14px_30px_rgba(15,23,42,0.055)] ${
+        className={`theme-card theme-card-interactive theme-card-launcher relative flex h-full flex-col overflow-hidden border-[rgba(148,163,184,0.16)] shadow-[0_14px_30px_rgba(15,23,42,0.055)] ${
           isTimelineCard
-            ? "rounded-[1.1rem] p-3.5 sm:rounded-[1.25rem] sm:p-3.5 md:p-4"
-            : "rounded-[1.2rem] p-4 sm:rounded-[1.4rem] sm:p-4 md:p-5"
+            ? "experience-timeline-card rounded-[1.1rem] p-3.5 sm:rounded-[1.25rem] sm:p-3.5 md:p-4"
+            : "rounded-[1.2rem] p-4 sm:rounded-[1.4rem] sm:p-4 md:p-[1.125rem]"
         }`}
       >
         <div
@@ -134,20 +138,29 @@ export const ExperienceCard = memo(function ExperienceCard({
         <div
           className={`relative z-10 flex items-start justify-between border-b border-[color:var(--border-default)] ${
             isTimelineCard
-              ? "mb-3 gap-3 pb-2.5 sm:mb-4 sm:pb-3"
-              : "mb-3.5 gap-3.5 pb-3 sm:mb-5 sm:pb-4"
+              ? "experience-timeline-header mb-3 gap-3 pb-2.5 sm:mb-4 sm:pb-3"
+              : "mb-3 gap-3.5 pb-3 sm:mb-4 sm:pb-4"
           }`}
         >
           <div className="min-w-0 flex-1 pr-4">
             <h3
               className={`theme-card-title transition-colors group-hover:text-[color:var(--brand-gold)] ${
-                isTimelineCard ? "text-[0.97rem] sm:text-[1rem]" : "text-[1rem] sm:text-[1.04rem]"
+                isTimelineCard
+                  ? "experience-timeline-title text-[0.97rem] sm:text-[1rem]"
+                  : "text-[1rem] sm:text-[1.04rem]"
               }`}
             >
               {title}
             </h3>
             {subtitle ? (
-              <p className="theme-card-kicker mt-2">
+              <p
+                className={cn(
+                  "mt-2",
+                  isProjectLikeSubtitle
+                    ? "experience-timeline-subtitle-prominent font-heading text-[0.9rem] font-semibold leading-tight tracking-[-0.01em] text-[color:var(--text-primary)] sm:text-[0.96rem]"
+                    : "experience-timeline-subtitle-standard theme-card-kicker",
+                )}
+              >
                 {subtitle}
               </p>
             ) : null}
@@ -166,18 +179,18 @@ export const ExperienceCard = memo(function ExperienceCard({
         </div>
 
         <div
-          className={`theme-card-body relative z-10 flex-grow text-[13px] leading-[1.78] sm:text-[14px] sm:leading-6 ${
+          className={`theme-card-body relative z-10 flex-grow text-[13px] leading-[1.74] sm:text-[14px] sm:leading-[1.82] ${
             isProjectCard
-              ? "mb-4 min-h-[6rem] sm:mb-5 sm:min-h-[7rem]"
-              : "mb-3.5 min-h-[6.25rem] sm:mb-4 sm:min-h-[7rem]"
+              ? "mb-3.5 min-h-[5.4rem] sm:mb-4 sm:min-h-[6.15rem]"
+              : "experience-timeline-body mb-3 min-h-[5.75rem] sm:mb-3.5 sm:min-h-[6.6rem]"
           }`}
         >
           {isTimelineCard ? (
-            <ul className="space-y-1.5">
+            <ul className="experience-timeline-points space-y-1.5">
               {getTimelinePreviewPoints(item).map((point, index) => (
                 <li
                   key={`${item.id}-preview-${index}`}
-                  className="flex items-start gap-1.5"
+                  className="experience-timeline-point flex items-start gap-1.5"
                 >
                   <span className="mt-[0.15rem] shrink-0 text-[color:var(--text-secondary)]">
                     ·
@@ -195,7 +208,7 @@ export const ExperienceCard = memo(function ExperienceCard({
 
         <div
           className={`relative z-10 mt-auto border-t border-[color:var(--border-default)] ${
-            isTimelineCard ? "pt-2.5 sm:pt-3" : "pt-3 sm:pt-4"
+            isTimelineCard ? "pt-2.5 sm:pt-3" : "pt-3 sm:pt-3.5"
           }`}
         >
           <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-3">
@@ -256,6 +269,6 @@ export const ExperienceCard = memo(function ExperienceCard({
           </div>
         </div>
       </div>
-    </Link>
+    </IntentLink>
   );
 });

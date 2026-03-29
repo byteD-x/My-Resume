@@ -78,7 +78,7 @@ export function MarkdownRenderer({
           nodes.push(
             <code
               key={`code-${nodes.length}`}
-              className="rounded border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.82)] px-1 py-0.5 font-mono text-[0.85em] text-[color:var(--text-primary)]"
+              className="break-all whitespace-normal rounded border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.82)] px-1 py-0.5 font-mono text-[0.85em] text-[color:var(--text-primary)]"
             >
               {first}
             </code>,
@@ -92,7 +92,7 @@ export function MarkdownRenderer({
                 href={second}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="theme-link underline decoration-[rgba(37,99,235,0.32)] underline-offset-2"
+                className="theme-link break-words underline decoration-[rgba(37,99,235,0.32)] underline-offset-2"
                 onClick={(e) => e.stopPropagation()} // Prevent card click
               >
                 {first}
@@ -131,7 +131,11 @@ export function MarkdownRenderer({
   };
 
   if (inline) {
-    return <span className={className}>{renderInlineMarkdown(children)}</span>;
+    return (
+      <span className={["markdown-inline", className].filter(Boolean).join(" ")}>
+        {renderInlineMarkdown(children)}
+      </span>
+    );
   }
 
   const renderBlockMarkdown = (text: string) => {
@@ -146,24 +150,24 @@ export function MarkdownRenderer({
 
     const paragraphClass =
       tone === "default"
-        ? "text-sm leading-relaxed text-[color:var(--text-secondary)]"
-        : "text-sm leading-relaxed text-[color:var(--text-tertiary)]";
+        ? "theme-readable-block"
+        : "theme-readable-block text-[color:var(--text-tertiary)]";
     const listClass =
       tone === "default"
-        ? "text-sm leading-relaxed text-[color:var(--text-secondary)]"
-        : "text-sm leading-relaxed text-[color:var(--text-tertiary)]";
+        ? "theme-readable-block-sm"
+        : "theme-readable-block-sm text-[color:var(--text-tertiary)]";
     const quoteClass =
       tone === "default"
-        ? "text-sm leading-relaxed text-[color:var(--text-secondary)]"
-        : "text-sm leading-relaxed text-[color:var(--text-tertiary)]";
+        ? "theme-readable-block-sm"
+        : "theme-readable-block-sm text-[color:var(--text-tertiary)]";
 
     const headingClasses: Record<number, string> = {
-      1: "theme-title mt-4 mb-2 text-base font-semibold",
-      2: "theme-title mt-3 mb-2 text-sm font-semibold",
-      3: "theme-title mt-3 mb-1 text-sm font-semibold",
-      4: "theme-title mt-2 mb-1 text-sm font-semibold",
-      5: "theme-title mt-2 mb-1 text-xs font-semibold",
-      6: "theme-title mt-2 mb-1 text-xs font-semibold",
+      1: "theme-title mt-4 text-[1.02rem] font-semibold",
+      2: "theme-title mt-3 text-[0.97rem] font-semibold",
+      3: "theme-title mt-3 text-[0.92rem] font-semibold",
+      4: "theme-title mt-2 text-[0.89rem] font-semibold",
+      5: "theme-title mt-2 text-[0.84rem] font-semibold",
+      6: "theme-title mt-2 text-[0.84rem] font-semibold",
     };
 
     const flushParagraph = () => {
@@ -183,7 +187,7 @@ export function MarkdownRenderer({
       blocks.push(
         <blockquote
           key={`quote-${blocks.length}`}
-          className="my-2 border-l-2 border-[color:var(--border-default)] pl-3"
+          className="my-1 border-l-2 border-[color:var(--border-default)] pl-3.5"
         >
           <p className={quoteClass}>{renderInlineMarkdown(textContent)}</p>
         </blockquote>,
@@ -202,7 +206,7 @@ export function MarkdownRenderer({
         blocks.push(
           <ol
             key={`ol-${blocks.length}`}
-            className={`${listClass} list-decimal list-outside pl-5 space-y-1 my-2`}
+            className={`${listClass} my-1 list-decimal list-outside space-y-1.5 pl-5`}
           >
             {items}
           </ol>,
@@ -211,7 +215,7 @@ export function MarkdownRenderer({
         blocks.push(
           <ul
             key={`ul-${blocks.length}`}
-            className={`${listClass} list-disc list-outside pl-5 space-y-1 my-2`}
+            className={`${listClass} my-1 list-disc list-outside space-y-1.5 pl-5`}
           >
             {items}
           </ul>,
@@ -227,7 +231,7 @@ export function MarkdownRenderer({
       blocks.push(
         <pre
           key={`code-${blocks.length}`}
-          className="my-2 overflow-x-auto rounded-lg border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.82)] p-3 font-mono text-xs leading-relaxed text-[color:var(--text-primary)]"
+          className="my-1 overflow-x-auto rounded-lg border border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.82)] p-3 font-mono text-xs leading-relaxed text-[color:var(--text-primary)]"
         >
           <code>{codeContent}</code>
         </pre>,
@@ -322,7 +326,7 @@ export function MarkdownRenderer({
     flushQuote();
     flushCode();
 
-    return <div className={`space-y-2 ${className}`}>{blocks}</div>;
+    return <div className={["markdown-block", className].filter(Boolean).join(" ")}>{blocks}</div>;
   };
 
   return renderBlockMarkdown(children);

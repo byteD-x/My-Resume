@@ -6,9 +6,20 @@ import { ExternalLink } from "lucide-react";
 import { ImpactItem, TimelineItem } from "@/types";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { isProjectLikeTimelineSubtitle } from "@/lib/experience-presentation";
+import {
+  getOverlayFadeTransition,
+  getOverlaySurfaceAnimate,
+  getOverlaySurfaceExit,
+  getOverlaySurfaceInitial,
+  getOverlaySurfaceTransition,
+} from "@/lib/overlay-motion";
 import { evaluateVerificationConfidence } from "@/lib/verification";
+import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 import { DialogCloseButton } from "./ui/DialogCloseButton";
+import { OverlayPortal } from "./ui/OverlayPortal";
 
 interface MetricDrawerProps {
   isOpen: boolean;
@@ -25,19 +36,18 @@ export default function MetricDrawer({
 }: MetricDrawerProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const isDesktopViewport = useMediaQuery("(min-width: 768px)");
   const drawerRef = useFocusTrap<HTMLDivElement>(isOpen, {
     onEscape: onClose,
     initialFocusRef: closeButtonRef,
     lockBodyScroll: true,
   });
 
-  const overlayTransition = shouldReduceMotion
-    ? { duration: 0.12 }
-    : { duration: 0.2, ease: [0.22, 1, 0.36, 1] as const };
-
-  const drawerTransition = shouldReduceMotion
-    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
-    : ({ type: "spring", stiffness: 320, damping: 30, mass: 0.92 } as const);
+  const motionOptions = {
+    reduceMotion: shouldReduceMotion,
+    desktop: isDesktopViewport,
+    kind: "drawer" as const,
+  };
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent) => {
@@ -65,11 +75,14 @@ export default function MetricDrawer({
   if (!metric) return null;
 
   const details = linkedExperience?.expandedDetails;
+  const isProjectLikeSubtitle = linkedExperience
+    ? isProjectLikeTimelineSubtitle(linkedExperience)
+    : false;
   const verificationAssessment = metric.verification
     ? evaluateVerificationConfidence(metric.verification)
     : null;
 
-  return (
+  const content = (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -77,12 +90,9 @@ export default function MetricDrawer({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={overlayTransition}
-            className="fixed inset-0 z-50"
-            style={{
-              backgroundColor: "rgba(15, 23, 42, 0.34)",
-              backdropFilter: "blur(10px)",
-            }}
+            transition={getOverlayFadeTransition(shouldReduceMotion)}
+            className="theme-dialog-overlay fixed inset-0 z-50"
+            style={{ backgroundColor: "rgba(15, 23, 42, 0.28)" }}
             onClick={handleBackdropClick}
             aria-hidden="true"
           />
@@ -92,19 +102,11 @@ export default function MetricDrawer({
             role="dialog"
             aria-modal="true"
             aria-labelledby="drawer-title"
-            className="theme-card fixed inset-x-0 bottom-0 z-50 flex max-h-[calc(100dvh-0.75rem)] flex-col overflow-hidden rounded-t-[1.6rem] md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-[34rem] md:max-h-none md:rounded-none md:rounded-l-[1.6rem]"
-            initial={
-              shouldReduceMotion
-                ? { opacity: 0 }
-                : { y: 28, opacity: 0.94, scale: 0.985 }
-            }
-            animate={{ y: 0, x: 0, opacity: 1, scale: 1 }}
-            exit={
-              shouldReduceMotion
-                ? { opacity: 0 }
-                : { y: 20, opacity: 0.96, scale: 0.992 }
-            }
-            transition={drawerTransition}
+            className="theme-card !fixed inset-x-0 bottom-0 z-50 flex max-h-[calc(100dvh-0.75rem)] flex-col overflow-hidden rounded-t-[1.6rem] md:inset-y-0 md:right-0 md:left-auto md:w-full md:max-w-[34rem] md:max-h-none md:rounded-none md:rounded-l-[1.6rem]"
+            initial={getOverlaySurfaceInitial(motionOptions)}
+            animate={getOverlaySurfaceAnimate(motionOptions)}
+            exit={getOverlaySurfaceExit(motionOptions)}
+            transition={getOverlaySurfaceTransition(motionOptions)}
             style={{ boxShadow: "var(--shadow-lg)" }}
           >
             <div className="flex justify-center pb-2 pt-3 md:hidden">
@@ -137,15 +139,12 @@ export default function MetricDrawer({
             <div className="theme-dialog-body flex-1 space-y-5 overflow-y-auto p-4 md:space-y-6 md:p-6">
               <div className="theme-card-muted rounded-[1.25rem] p-5 text-center md:p-6">
                 <div
-                  className="mb-2 text-4xl font-bold md:text-5xl"
+                  className="theme-metric-value mb-2 text-4xl font-bold md:text-5xl"
                   style={{ color: "var(--brand-gold)" }}
                 >
                   {metric.value}
                 </div>
-                <div
-                  className="text-sm font-medium"
-                  style={{ color: "var(--text-secondary)" }}
-                >
+                <div className="theme-metric-label">
                   {metric.label}
                 </div>
               </div>
@@ -155,7 +154,7 @@ export default function MetricDrawer({
                   <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                     概述
                   </h3>
-                  <div style={{ color: "var(--text-secondary)" }}>
+                  <div className="theme-dialog-prose">
                     <MarkdownRenderer inline>
                       {metric.description}
                     </MarkdownRenderer>
@@ -168,7 +167,7 @@ export default function MetricDrawer({
                   <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
                     实现要点
                   </h3>
-                  <div style={{ color: "var(--text-secondary)" }}>
+                  <div className="theme-dialog-prose">
                     <MarkdownRenderer tone="muted">
                       {metric.details}
                     </MarkdownRenderer>
@@ -273,7 +272,7 @@ export default function MetricDrawer({
                         {details.techStack.map((tech, i) => (
                           <span
                             key={i}
-                            className="theme-chip px-2.5 py-1 text-xs font-semibold"
+                            className="theme-chip theme-chip-readable px-2.5 py-1 text-xs font-semibold"
                           >
                             {tech}
                           </span>
@@ -314,7 +313,12 @@ export default function MetricDrawer({
                   <div className="theme-copy-subtle mb-1 text-xs uppercase tracking-wide">
                     来源
                   </div>
-                  <div className="theme-title font-medium">
+                  <div
+                    className={cn(
+                      "theme-title",
+                      isProjectLikeSubtitle ? "text-lg font-semibold" : "font-medium",
+                    )}
+                  >
                     {linkedExperience.company}
                   </div>
                   <div className="theme-copy text-sm">
@@ -335,4 +339,6 @@ export default function MetricDrawer({
       )}
     </AnimatePresence>
   );
+
+  return <OverlayPortal>{content}</OverlayPortal>;
 }

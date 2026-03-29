@@ -98,14 +98,14 @@ export default function Hero({ data, proofItems }: HeroProps) {
 
             <motion.h1
               variants={itemVariants}
-              className="theme-title mb-2.5 max-w-[10.5ch] text-balance text-[2.1rem] font-bold leading-[0.98] sm:text-[3.15rem] sm:leading-[0.95] md:text-[4.4rem]"
+              className="theme-title mb-3 max-w-[11ch] text-balance text-[2.16rem] font-bold leading-[1] sm:mb-3.5 sm:text-[3.15rem] sm:leading-[0.96] md:text-[4.35rem]"
             >
               {mainTitle}
             </motion.h1>
 
             <motion.p
               variants={itemVariants}
-              className="theme-copy mb-4.5 max-w-[37rem] text-[14px] leading-[1.72] sm:mb-6 sm:text-[15px] sm:leading-7 md:mb-7 md:text-[1.01rem] md:leading-7"
+              className="theme-copy mb-5 max-w-[38rem] text-[14px] leading-[1.8] sm:mb-6 sm:text-[15px] sm:leading-[1.9] md:mb-7 md:text-[1.02rem] md:leading-[1.94]"
             >
               {data.subtitle}
             </motion.p>
@@ -126,7 +126,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
                 onDownloadClick={resumeDownloadHandler}
               />
 
-              <p className="theme-copy-subtle mt-3 text-[13px] leading-6 sm:mt-4 sm:text-sm">
+              <p className="theme-copy-subtle mt-3.5 text-[13px] leading-6 sm:mt-4 sm:text-[0.92rem] sm:leading-7">
                 以上指标均可在项目详情与仓库中复核。
               </p>
             </motion.div>

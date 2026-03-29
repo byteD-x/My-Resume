@@ -146,8 +146,8 @@ export function Timeline({ items }: TimelineProps) {
   };
 
   return (
-    <div className="space-y-5 sm:space-y-6">
-      <div className="theme-card space-y-2.5 rounded-2xl border-[rgba(148,163,184,0.16)] p-2.5 shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:space-y-3 sm:rounded-[1.35rem] sm:p-3.5">
+    <div className="experience-timeline-shell space-y-6 sm:space-y-7">
+      <div className="theme-card experience-timeline-filter space-y-2.5 rounded-2xl border-[rgba(148,163,184,0.16)] p-2.5 shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:space-y-3 sm:rounded-[1.35rem] sm:p-3.5">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
           <p className="theme-card-kicker text-xs">
             {tagStats.length > 0
@@ -222,13 +222,13 @@ export function Timeline({ items }: TimelineProps) {
         )}
       </div>
 
-      <div className="relative min-h-[300px] pt-1 sm:min-h-[360px] sm:pt-2">
+      <div className="experience-timeline-list relative min-h-[300px] pt-1 sm:min-h-[360px] sm:pt-2">
         <div
           className="absolute bottom-0 left-[13px] top-3 hidden w-[1px] bg-[rgba(37,99,235,0.14)] md:block"
           aria-hidden="true"
         />
 
-        <div className="space-y-5 sm:space-y-6">
+        <div className="space-y-5 sm:space-y-6 md:space-y-7">
           {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}

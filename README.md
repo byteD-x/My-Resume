@@ -251,6 +251,17 @@ src/
 
 ---
 
+## 🧾 简历支持文档
+
+如果你需要基于本仓库继续打磨简历、项目介绍或面试讲稿，优先查看以下文档：
+
+- [docs/resume-experience-copy.md](./docs/resume-experience-copy.md)：可直接复制到 Word / PDF 简历的经历文案
+- [docs/resume-writing-kit.md](./docs/resume-writing-kit.md)：岗位取舍、量化口径、项目排序和写作约束
+- [docs/resume-star-bank.md](./docs/resume-star-bank.md)：STAR 证据库、结果标签和待补充指标清单
+- [docs/deployment-channels.md](./docs/deployment-channels.md)：部署链路说明，适合补充工程化交付背景
+
+---
+
 ## 🔐 安全特性
 
 已配置的企业级安全措施：

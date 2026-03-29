@@ -5,8 +5,9 @@ import { m as motion } from "framer-motion";
 import { Calendar, MapPin, Building, Globe, Github } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { TimelineItem, ProjectItem } from "../types";
-import { useScrollLock } from "../hooks/useScrollLock";
+import { isProjectLikeTimelineSubtitle } from "@/lib/experience-presentation";
 import { useFocusTrap } from "../hooks/useFocusTrap";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import {
   clearScrollRestore,
@@ -17,6 +18,14 @@ import { evaluateVerificationConfidence } from "@/lib/verification";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 import { DialogCloseButton } from "./ui/DialogCloseButton";
 import { cn } from "@/lib/utils";
+import { OverlayPortal } from "./ui/OverlayPortal";
+import {
+  getOverlayFadeTransition,
+  getOverlaySurfaceAnimate,
+  getOverlaySurfaceExit,
+  getOverlaySurfaceInitial,
+  getOverlaySurfaceTransition,
+} from "@/lib/overlay-motion";
 
 type ExperienceModalVariant = "overlay" | "page";
 
@@ -38,14 +47,14 @@ export function ExperienceModal({
   const router = useRouter();
   const shouldReduceMotion = useReducedMotion();
   const isOverlay = variant === "overlay";
+  const isDesktopViewport = useMediaQuery("(min-width: 640px)");
   const useSharedLayout = isOverlay && !shouldReduceMotion;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const overlayTransition = shouldReduceMotion
-    ? { duration: 0.12 }
-    : { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
-  const contentTransition = shouldReduceMotion
-    ? { duration: 0.16, ease: [0.22, 1, 0.36, 1] as const }
-    : ({ type: "spring", stiffness: 300, damping: 30, mass: 0.92 } as const);
+  const motionOptions = {
+    reduceMotion: shouldReduceMotion,
+    desktop: isDesktopViewport,
+    kind: "modal" as const,
+  };
 
   const closeModal = () => {
     if (
@@ -73,16 +82,18 @@ export function ExperienceModal({
     router.push(saved.path || "/");
   };
 
-  useScrollLock(isOverlay);
   const containerRef = useFocusTrap<HTMLDivElement>(true, {
     onEscape: closeModal,
     initialFocusRef: closeButtonRef,
+    lockBodyScroll: isOverlay,
   });
 
   const title = "role" in item ? item.role : item.name;
   const subtitle = "company" in item ? item.company : "";
+  const isProjectLikeSubtitle =
+    "role" in item && isProjectLikeTimelineSubtitle(item);
 
-  return (
+  const content = (
     <div
       className={cn(
         isOverlay ? "fixed inset-0 z-50" : "relative z-10",
@@ -98,7 +109,7 @@ export function ExperienceModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={overlayTransition}
+          transition={getOverlayFadeTransition(shouldReduceMotion)}
           onClick={closeModal}
           className="theme-dialog-overlay absolute inset-0"
           aria-hidden="true"
@@ -111,21 +122,15 @@ export function ExperienceModal({
         initial={
           useSharedLayout
             ? undefined
-            : shouldReduceMotion
-              ? { opacity: 0 }
-              : { opacity: 0, scale: 0.972, y: 24 }
+            : getOverlaySurfaceInitial(motionOptions)
         }
-        animate={
-          useSharedLayout ? undefined : { opacity: 1, scale: 1, y: 0 }
-        }
+        animate={useSharedLayout ? undefined : getOverlaySurfaceAnimate(motionOptions)}
         exit={
           useSharedLayout
             ? { opacity: 0, scale: 0.99, y: 14 }
-            : shouldReduceMotion
-              ? { opacity: 0 }
-              : { opacity: 0, scale: 0.985, y: 18 }
+            : getOverlaySurfaceExit(motionOptions)
         }
-        transition={contentTransition}
+        transition={getOverlaySurfaceTransition(motionOptions)}
         className={cn(
           "theme-dialog-shell relative flex w-full max-w-2xl flex-col overflow-hidden",
           isOverlay
@@ -156,14 +161,26 @@ export function ExperienceModal({
               {subtitle && (
                 <motion.div
                   layoutId={useSharedLayout ? `subtitle-${item.id}` : undefined}
-                  className="mb-4 flex items-center gap-2 text-[15px] font-medium text-[color:var(--brand-gold)] sm:text-base"
+                  className={cn(
+                    "mb-4 flex items-center gap-2",
+                    isProjectLikeSubtitle
+                      ? "text-[1rem] font-semibold text-[color:var(--text-primary)] sm:text-[1.08rem]"
+                      : "text-[15px] font-medium text-[color:var(--brand-gold)] sm:text-base",
+                  )}
                 >
-                  <Building className="h-4 w-4" />
+                  <Building
+                    className={cn(
+                      "h-4 w-4",
+                      isProjectLikeSubtitle
+                        ? "text-[color:var(--brand-gold)]"
+                        : undefined,
+                    )}
+                  />
                   {subtitle}
                 </motion.div>
               )}
 
-              <div className="theme-copy flex flex-wrap gap-3 text-sm">
+              <div className="theme-copy flex flex-wrap gap-3 text-[0.92rem] leading-7">
                 <motion.div
                   layoutId={useSharedLayout ? `date-${item.id}` : undefined}
                   className="theme-chip flex items-center gap-1.5 px-3 py-1 font-mono"
@@ -196,7 +213,7 @@ export function ExperienceModal({
             <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
               概要
             </h4>
-            <div className="theme-copy text-[15px] leading-8 sm:text-base md:text-lg">
+            <div className="theme-dialog-prose text-[15px] sm:text-base md:text-[1.03rem]">
               <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
             </div>
           </section>
@@ -206,7 +223,7 @@ export function ExperienceModal({
               <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
                 业务价值
               </h4>
-              <p className="text-sm leading-7 text-emerald-900 dark:text-emerald-100">
+              <p className="theme-readable-block text-sm text-emerald-900 dark:text-emerald-100">
                 {item.businessValue.zh}
               </p>
             </section>
@@ -217,7 +234,7 @@ export function ExperienceModal({
               <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-700">
                 工程深度
               </h4>
-              <p className="text-sm leading-7 text-slate-900">
+              <p className="theme-readable-block text-sm text-slate-900">
                 {item.engineeringDepth.zh}
               </p>
             </section>
@@ -406,4 +423,10 @@ export function ExperienceModal({
       </motion.div>
     </div>
   );
+
+  if (!isOverlay) {
+    return content;
+  }
+
+  return <OverlayPortal>{content}</OverlayPortal>;
 }

@@ -252,16 +252,13 @@ export default function HomePage() {
         >
           <Container>
             <div
-              className="theme-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
+              className="theme-section-header experience-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
               data-scroll-target="experience"
             >
               <p className="theme-kicker mb-2">履历时间线</p>
               <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
                 专业履历与实践
               </h2>
-              <p className="theme-section-copy">
-                从后端架构优化、性能治理到智能应用集成，我的工作始终围绕复杂问题的系统化解决与业务价值交付展开。按时间线整理关键职责、代表结果与方法沉淀。
-              </p>
             </div>
             <Timeline items={timelineByDate} />
           </Container>
@@ -275,30 +272,13 @@ export default function HomePage() {
         >
           <Container>
             <div
-              className="theme-section-header grid gap-6 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-end lg:gap-8"
+              className="theme-section-header scroll-mt-28"
               data-scroll-target="projects"
             >
-              <div>
-                <p className="theme-kicker mb-3">更多项目</p>
-                <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
-                  开源与更多探索
-                </h2>
-                <p className="theme-section-copy">
-                  除了核心商业项目，我也持续在开源和个人项目中验证新思路。收录完整项目实践与实现细节。
-                </p>
-              </div>
-              <div className="theme-card rounded-[1.35rem] p-4 sm:p-5">
-                <p className="flex items-center gap-2 text-[13px] font-bold text-[color:var(--text-primary)]">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-600" />
-                  </span>
-                  阅读导航
-                </p>
-                <p className="theme-copy mt-2.5 text-[13px] leading-7">
-                  项目默认按影响力排序，可按标签筛选技术栈、业务场景或交付类型。
-                </p>
-              </div>
+              <p className="theme-kicker mb-3">更多项目</p>
+              <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+                开源与更多探索
+              </h2>
             </div>
             <ProjectList items={data.projects} />
           </Container>
@@ -312,7 +292,6 @@ export default function HomePage() {
         >
           <TechStack
             skills={data.skills}
-            vibeCoding={data.vibeCoding}
             techOverview={techOverview}
           />
         </div>
