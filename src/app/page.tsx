@@ -340,6 +340,9 @@ export default function HomePage() {
         <div className="relative z-10">
           <Footer
             name={data.hero.name}
+            title={data.hero.title}
+            availability={data.hero.location}
+            email={data.contact.email}
             githubUrl={data.contact.github}
             websiteLinks={data.contact.websiteLinks}
           />

@@ -13,6 +13,61 @@ interface ExperienceCardProps {
   hideDate?: boolean;
 }
 
+const MAX_TIMELINE_PREVIEW_POINTS = 3;
+
+function normalizePreviewText(value?: string) {
+  return value?.replace(/\r/g, "").replace(/\s+/g, " ").trim() ?? "";
+}
+
+function extractMarkdownListItems(value?: string) {
+  if (!value) return [];
+
+  return value
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => /^[-*]\s+/.test(line))
+    .map((line) => line.replace(/^[-*]\s+/, "").trim());
+}
+
+function getTimelinePreviewPoints(item: TimelineItem | ProjectItem) {
+  if (!("role" in item)) return [];
+
+  const points: string[] = [];
+  const seen = new Set<string>();
+  const details = item.expandedDetails;
+
+  const pushPoint = (value?: string) => {
+    const normalized = normalizePreviewText(value);
+    if (!normalized || seen.has(normalized)) return;
+    seen.add(normalized);
+    points.push(normalized);
+  };
+
+  if (details) {
+    const solutionPoints = extractMarkdownListItems(details.solution);
+
+    if (solutionPoints.length > 0) {
+      solutionPoints.forEach(pushPoint);
+    } else {
+      pushPoint(details.solution);
+    }
+
+    pushPoint(details.result);
+
+    if (points.length < MAX_TIMELINE_PREVIEW_POINTS && details.techStack?.length) {
+      pushPoint(`技术栈：${details.techStack.slice(0, 4).join(" / ")}`);
+    }
+  }
+
+  if (points.length === 0) {
+    pushPoint(item.engineeringDepth?.zh);
+    pushPoint(item.businessValue?.zh);
+    pushPoint(item.summary);
+  }
+
+  return points.slice(0, MAX_TIMELINE_PREVIEW_POINTS);
+}
+
 export const ExperienceCard = memo(function ExperienceCard({
   item,
   type,
@@ -114,10 +169,28 @@ export const ExperienceCard = memo(function ExperienceCard({
           className={`theme-card-body relative z-10 flex-grow text-[13px] leading-[1.78] sm:text-[14px] sm:leading-6 ${
             isProjectCard
               ? "mb-4 min-h-[6rem] sm:mb-5 sm:min-h-[7rem]"
-              : "mb-3.5 min-h-[4.5rem] sm:mb-4 sm:min-h-[5.25rem]"
+              : "mb-3.5 min-h-[6.25rem] sm:mb-4 sm:min-h-[7rem]"
           }`}
         >
-          <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
+          {isTimelineCard ? (
+            <ul className="space-y-1.5">
+              {getTimelinePreviewPoints(item).map((point, index) => (
+                <li
+                  key={`${item.id}-preview-${index}`}
+                  className="flex items-start gap-1.5"
+                >
+                  <span className="mt-[0.15rem] shrink-0 text-[color:var(--text-secondary)]">
+                    ·
+                  </span>
+                  <MarkdownRenderer inline className="min-w-0 flex-1">
+                    {point}
+                  </MarkdownRenderer>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
+          )}
         </div>
 
         <div
