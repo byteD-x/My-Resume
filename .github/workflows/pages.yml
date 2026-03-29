@@ -16,12 +16,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -31,6 +32,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -40,6 +42,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -49,6 +52,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -73,6 +77,7 @@ jobs:
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     env:
       SKIP_GITHUB_FETCH: "1"
     steps:
@@ -84,6 +89,7 @@ jobs:
         with:
           node-version: "22"
           cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -114,6 +120,7 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -126,6 +133,7 @@ jobs:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     needs: deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -134,6 +142,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "22"
+          cache: "npm"
+          cache-dependency-path: package-lock.json
 
       - name: Verify Vercel, GitHub Pages, and self-hosted endpoints
         env:
