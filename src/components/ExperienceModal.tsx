@@ -251,12 +251,14 @@ export function ExperienceModal({
 
                   return (
                     <div
-                      key={`${entry.sourceLabel}-${idx}`}
+                      key={`${entry.sourceLabel ?? entry.verifiedAt}-${idx}`}
                       className="theme-card-muted rounded-[1rem] p-3 sm:p-4"
                     >
-                      <div className="theme-title text-sm font-medium">
-                        {entry.sourceLabel}
-                      </div>
+                      {entry.sourceLabel && (
+                        <div className="theme-title text-sm font-medium">
+                          {entry.sourceLabel}
+                        </div>
+                      )}
                       <div className="theme-copy mt-1 text-xs leading-6">
                         {verificationSourceLabelMap[entry.sourceType]} · 置信度 {assessment.confidenceText}{" "}
                         · 验证时间 {entry.verifiedAt}

@@ -13,6 +13,12 @@ const confidenceLabelMap: Record<VerificationInfo["confidence"], string> = {
   medium: "中",
 };
 
+export function getVerificationSourceTypeLabel(
+  sourceType: VerificationInfo["sourceType"],
+): string {
+  return sourceTypeLabelMap[sourceType];
+}
+
 export interface VerificationAssessment {
   confidenceText: string;
   basis: string[];

@@ -15,7 +15,10 @@ import {
   getOverlaySurfaceInitial,
   getOverlaySurfaceTransition,
 } from "@/lib/overlay-motion";
-import { evaluateVerificationConfidence } from "@/lib/verification";
+import {
+  evaluateVerificationConfidence,
+  getVerificationSourceTypeLabel,
+} from "@/lib/verification";
 import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 import { DialogCloseButton } from "./ui/DialogCloseButton";
@@ -180,11 +183,13 @@ export default function MetricDrawer({
                   <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
                     证据来源
                   </h3>
-                  <p className="text-sm text-emerald-800 dark:text-emerald-200">
-                    {metric.verification.sourceLabel}
-                  </p>
+                  {metric.verification.sourceLabel && (
+                    <p className="text-sm text-emerald-800 dark:text-emerald-200">
+                      {metric.verification.sourceLabel}
+                    </p>
+                  )}
                   <p className="mt-1 text-xs leading-6 text-emerald-700/80 dark:text-emerald-300/80">
-                    置信度：{verificationAssessment?.confidenceText} ·
+                    来源类型：{getVerificationSourceTypeLabel(metric.verification.sourceType)} · 置信度：{verificationAssessment?.confidenceText} ·
                     验证时间：{metric.verification.verifiedAt}
                   </p>
                   {verificationAssessment &&

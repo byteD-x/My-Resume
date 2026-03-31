@@ -169,17 +169,16 @@ export const defaultPortfolioData: PortfolioData = {
         "活动统计/报表接口 20s → 4s (5x)，把“等半分钟”变成“秒开”（ClickHouse + SQL 改写）",
       details: [
         "将核心报表从约 20 秒压到 4 秒，更适合高频运营决策。",
-        "通过 OLTP / OLAP 分离，让 ClickHouse 承载聚合分析，MySQL 回归事务库。",
-        "结合 SQL 改写、数据建模和基线复核，确保性能收益真实稳定。",
+        "通过 ClickHouse 代替 MySQL 承载海量数据查询，提升统计与报表场景的响应效率。",
+        "该结果来自本地 PDF 简历中的联通项目表述，而非仓库代码推断。",
       ].join("\n"),
       linkedExperienceId: "exp-unicom",
       icon: "Zap",
       colSpan: "md:col-span-1",
       bg: "bg-blue-50",
       verification: {
-        sourceType: "experience",
-        sourceLabel: "联通项目/微信机器人",
-        verifiedAt: "2026-02-15",
+        sourceType: "manual",
+        verifiedAt: "2026-03-31",
         confidence: "high",
         level: "strict",
       },
@@ -236,22 +235,22 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "impact-5",
       title: "海量数据",
-      value: "3亿+",
-      label: "数据迁移",
-      description: "300+ 表、3亿+ 记录无损迁移与校对，脚本化校验确保一致性",
+      value: "300+",
+      label: "百万级表同步",
+      description:
+        "300+ 张百万级数据表同步，数千万条数据迁移至汇总库，并用 `xxl-job` 做每日动态更新",
       details: [
-        "完成 300+ 表、3 亿+ 记录迁移，并保证迁移后结果可核对、可追溯。",
-        "采用全量回灌加增量同步，尽量缩短停机窗口。",
-        "通过行数、聚合、抽样和关键字段 checksum 校验，并预留回滚与差异修复脚本。",
+        "完成 300+ 张百万级数据表同步，并将数千万条数据迁移到汇总库。",
+        "采用 ClickHouse 代替 MySQL 存储海量数据，支撑更快的查询速度。",
+        "通过 `xxl-job` 实现汇总库每日动态更新，优化数据管理流程。",
       ].join("\n"),
       linkedExperienceId: "exp-unicom",
       icon: "Database",
       colSpan: "md:col-span-1",
       bg: "bg-purple-50",
       verification: {
-        sourceType: "experience",
-        sourceLabel: "数据中台迁移记录",
-        verifiedAt: "2026-02-15",
+        sourceType: "manual",
+        verifiedAt: "2026-03-31",
         confidence: "high",
         level: "strict",
       },
@@ -414,21 +413,29 @@ export const defaultPortfolioData: PortfolioData = {
       company: "南方科技大学",
       location: "深圳",
       summary:
-        "独立承接智能流程自动化（IPA）原型，从需求收敛、方案设计到可演示系统交付，支撑客户在短周期内完成可行性验证。",
-      techTags: ["Python", "Automation", "Full Stack", "End-to-End Delivery"],
+        "独立承接并交付 `IPA Demo` 原型：围绕中文方言语音转写做出可演示、可批处理、可导出的 Web 系统，帮助客户快速验证技术路线。",
+      techTags: [
+        "Flask",
+        "PyTorch",
+        "Transformers",
+        "Torchaudio",
+        "ASR",
+        "Pandas",
+        "FFmpeg",
+      ],
       highlighted: false,
       keyOutcomes: [
-        "主导需求澄清与原型方案拆解，在需求不明确、周期受限条件下快速收敛 MVP 范围。",
-        "负责自动化脚本与 Web 系统联调，完成关键业务流程通信验证，形成端到端演示闭环。",
-        "按期交付 IPA 原型并通过客户验收，为后续工程化立项、预算评估和方案决策提供依据。",
+        "将本地方言 ASR 模型封装为 Flask Web 服务，支持上传转写、流式转写、浏览器录音与示例音频体验，形成可直接演示的闭环。",
+        "补齐音频标准化、批量并发处理、IPA 声母/韵母/声调拆分与日志落盘，使原型既能跑通演示也便于问题定位。",
+        "支持 Excel 模板校验、批量识别结果导出与系统手册下载，降低非技术用户试用与验收成本。",
       ],
       audienceTags: ["partner", "client"],
       businessValue: {
-        zh: "通过快速原型交付帮助客户以较低成本验证自动化方案可行性，降低正式立项风险。",
+        zh: "把研究型语音能力收敛成客户可直接试用的演示系统，帮助对方在短周期内验证技术可行性与交互形态，降低立项风险。",
         en: "Validated solution feasibility with a rapid prototype, reducing project initiation risk.",
       },
       engineeringDepth: {
-        zh: "在需求模糊且周期受限的场景下，完成需求收敛、原型实现、联调验证与按期交付。",
+        zh: "覆盖本地 ASR 推理封装、音频预处理、批量并发处理、结构化结果导出与面向演示场景的 Web 化交付。",
         en: "Demonstrates rapid domain knowledge absorption and strict project timeline management.",
       },
       verification: [
@@ -439,15 +446,33 @@ export const defaultPortfolioData: PortfolioData = {
           confidence: "medium",
           level: "strict",
         },
+        {
+          sourceType: "repo",
+          verifiedAt: "2026-03-31",
+          confidence: "high",
+          level: "strict",
+        },
       ],
       expandedDetails: {
-        background: "客户需要验证自动化技术在特定科研流程中的可行性。",
-        problem: "项目周期紧、需求边界不清，需要在有限时间内收敛范围并形成可演示结果。",
+        background:
+          "客户希望验证中文方言语音自动转写在科研场景中的可行性，需要在较短周期内拿到可直接演示和试用的原型系统。",
+        problem:
+          "既要把本地 ASR 模型稳定封装成 Web 应用，又要兼顾批量上传、浏览器录音、结果导出和非技术用户可操作性，时间窗口也比较紧。",
         solution:
-          "- **收敛需求范围**：通过高频沟通快速明确关键流程、演示目标与验收口径。\n- **快速搭建原型**：采用敏捷迭代方式推进自动化脚本与 Web 端原型实现。\n- **完成联调验证**：打通脚本与 Web 系统通信链路，确保核心流程可被演示与复核。",
-        result: "按期交付原型系统并通过验收，为客户后续工程化推进提供可行性依据。",
-        role: "全栈顾问",
-        techStack: ["Python", "Web Development", "Automation"],
+          "- **推理封装**：基于 Flask + `transformers` ASR pipeline 封装本地模型，并结合 `torchaudio`、`ffmpeg` 做音频格式标准化。\n- **交互链路**：支持多文件上传、流式上传、浏览器录音、示例音频体验与上传后再次转写，覆盖演示与试用主路径。\n- **结果结构化**：通过 Excel 表维护声调/声母/韵母映射，输出 IPA 拆分结果，并支持文本/Excel 导出。\n- **可运维性**：加入请求日志、错误日志、批量并发处理和系统手册页面，方便验收与后续排障。",
+        result:
+          "按期交付 `IPA Demo` 原型，形成“上传/录音 -> 转写 -> IPA 拆分 -> 导出”的完整演示闭环，可用于后续工程化讨论与立项评估。",
+        role: "全栈顾问（需求收敛、后端实现、演示交付）",
+        techStack: [
+          "Python",
+          "Flask",
+          "PyTorch",
+          "Transformers",
+          "Torchaudio",
+          "Pandas",
+          "OpenPyXL",
+          "FFmpeg",
+        ],
       },
     },
     {
@@ -535,27 +560,30 @@ export const defaultPortfolioData: PortfolioData = {
       company: "国家骨科临床研究中心",
       location: "远程",
       summary:
-        "负责医学论文检索小程序后端与接口设计，支撑搜索、订阅、收藏、深度分析等核心能力，将文献获取效率从小时级压缩至分钟级。",
+        "参与 `SubMed` 医学论文检索小程序后端：围绕 PubMed 抓取、AI 搜索、深度分析、订阅推送与微信支付形成科研信息服务闭环。",
       techTags: [
-        "Backend Architecture",
-        "AI Search",
+        "Django",
+        "MySQL",
+        "Redis",
+        "Celery",
+        "PubMed",
+        "OpenAI",
         "WeChat Mini Program",
-        "System Design",
+        "WeChat Pay",
       ],
       highlighted: false,
       keyOutcomes: [
-        "设计并实现小程序后端接口，支撑论文搜索、推荐、订阅、收藏、深度分析与下载分享等核心能力。",
-        "整合 AI 搜索与自然语言检索能力，将医学专家“找文献”流程从小时级压缩至分钟级，提升科研检索效率。",
-        "建立订阅推送与个性化推荐链路，支持持续追踪特定研究方向的最新论文。",
-        "支撑微信小程序稳定运行，降低医学场景下的检索门槛并提升结果相关性。",
+        "搭建 PubMed 抓取、文章入库、DOI/期刊补全与定时任务链路，为骨科领域论文检索提供持续更新的数据底座。",
+        "实现 AI 关键词生成、AI 检索与深度分析接口，降低医学专家从自然语言问题到可用检索结果的门槛。",
+        "补齐收藏、订阅、推送历史、积分/VIP、微信支付等业务能力，把内容服务做成可持续运营的小程序后端。",
       ],
       audienceTags: ["hr", "jobSeeker"],
       businessValue: {
-        zh: "提升科研人员获取前沿论文与持续追踪研究方向的效率，增强医学场景下的信息获取能力。",
+        zh: "把医学论文获取、筛选、订阅和深度阅读串成一条连续流程，降低专家跟踪前沿研究的时间成本。",
         en: "Greatly improved efficiency for researchers to access frontier information.",
       },
       engineeringDepth: {
-        zh: "完成医疗场景的需求分析、检索接口设计、小程序后端落地与推荐订阅链路建设。",
+        zh: "覆盖爬取入库、搜索接口、AI 辅助分析、订阅任务、支付积分体系与小程序 API 设计。",
         en: "Demonstrates requirements analysis and system architecture in a vertical domain (Medical).",
       },
       verification: [
@@ -566,16 +594,33 @@ export const defaultPortfolioData: PortfolioData = {
           confidence: "medium",
           level: "strict",
         },
+        {
+          sourceType: "repo",
+          verifiedAt: "2026-03-31",
+          confidence: "high",
+          level: "strict",
+        },
       ],
       expandedDetails: {
         background:
-          "医学专家需要及时获取特定领域的最新论文，通用搜索引擎噪音大。",
-        problem: "信息检索效率低，缺少订阅追踪、推荐与深度分析能力，难以满足持续科研需求。",
+          "医学专家需要持续跟踪骨科等方向的最新论文，但通用搜索入口噪音大、订阅和深度阅读流程割裂，难以形成稳定科研工作流。",
+        problem:
+          "系统既要稳定抓取和入库 PubMed 论文，又要支持面向小程序的搜索、收藏、订阅、深度分析、支付积分和用户行为治理，业务链路较长。",
         solution:
-          "- **建设检索接口**：围绕论文搜索、推荐、收藏、订阅、深度分析与分享下载设计后端接口。\n- **引入 AI 搜索**：结合自然语言检索与语义匹配能力，提高医学论文查找效率与结果相关性。\n- **补齐订阅链路**：支持主题订阅、推荐推送与持续追踪，降低重复检索成本。",
-        result: "交付可在科研场景中日常使用的论文检索小程序后端，将“找文献”效率从小时级压缩至分钟级。",
-        role: "后端开发",
-        techStack: ["Java/Python", "AI API", "Mini Program Backend"],
+          "- **数据底座**：以 Django + MySQL 建模论文、主题、订阅、收藏、推送历史等核心实体，并通过 PubMed spider、DOI/期刊补全命令和 Celery 任务维护数据更新。\n- **搜索与分析**：提供关键词检索、AI 关键词生成、AI 搜索、深度分析与个性化推荐接口，降低从问题到论文集合的检索成本。\n- **用户与运营**：实现收藏、订阅频率/渠道配置、推送历史、积分记录、VIP、邀请码与反馈体系。\n- **交易闭环**：接入微信支付，支持会员/积分商品购买和支付回调处理，支撑小程序持续运营。",
+        result:
+          "形成面向医学专家的小程序后端闭环，覆盖论文抓取、检索、AI 分析、订阅推送与会员积分能力，可支撑日常科研信息获取与运营迭代。",
+        role: "后端开发（检索链路、业务 API、任务与数据模型）",
+        techStack: [
+          "Python",
+          "Django",
+          "MySQL",
+          "Redis",
+          "Celery",
+          "PubMed",
+          "OpenAI API",
+          "WeChat Pay",
+        ],
       },
     },
     {
@@ -585,58 +630,58 @@ export const defaultPortfolioData: PortfolioData = {
       company: "中国联通陕西省分公司",
       location: "西安 · 数字化部",
       summary:
-        "参与运营平台与数据中台建设，围绕报表性能、海量数据迁移、慢查询治理与发布流程改造推进后端优化与工程化落地。",
+        "参与触点赋能中心、陕西运营平台和数据中台相关开发：完成接口二次授权、查询性能优化、海量数据同步与汇总库日更链路建设。",
       techTags: [
         "Java",
         "ClickHouse",
         "MySQL",
-        "Redis",
+        "xxl-job",
+        "API Security",
         "Data Migration",
         "Performance Tuning",
-        "CI/CD",
+        "Responsive Web",
       ],
       highlighted: true,
       keyOutcomes: [
-        "推动 OLTP / OLAP 分离并引入 ClickHouse，将活动统计接口从 20s+ 优化至 4s（5x），支撑高频运营分析场景。",
-        "完成 300+ 表、3 亿+ 记录迁移与一致性校验，保障数据中台升级过程可追溯、可回滚。",
-        "重写聚合 SQL 并补充覆盖索引与缓存，将部分核心查询从 10s+ 压缩至 500ms，持续治理 20+ 慢查询隐患。",
-        "搭建 CI/CD、lint/build/test 门禁与回滚链路，将发布耗时从 30 分钟缩短至 5 分钟，降低人工发布风险。",
+        "改造对外 API，实现接口第二次授权认证，并对前后端请求做初步加解密优化，使载荷与响应数据在浏览器 F12 中不可直接见。",
+        "优化活动查询接口，将响应时间从 20s+ 压到约 4s；在海量数据场景下以 ClickHouse 代替 MySQL，查询速度达到毫秒级。",
+        "完成 300+ 张百万级数据表同步，并将数千万条数据迁移至汇总库，通过 `xxl-job` 实现每日动态更新。",
+        "维护并二次开发陕西号码复通接口，完成基于既有模型的自动扫描与开机逻辑；同时开发能力管理页面及其简单响应式前后端逻辑。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "同步解决报表分析、接口性能与发布流程瓶颈，既支撑业务实时分析，也降低线上变更风险。",
-        en: "Resolved analytics, API latency, and release-process bottlenecks to improve both operations efficiency and delivery stability.",
+        zh: "同时支撑了运营平台接口安全、报表查询效率和数据中台汇总更新，让业务系统更快、更稳，也更便于持续维护。",
+        en: "Improved API security, analytics performance, and summary-database maintenance for the operator platform.",
       },
       engineeringDepth: {
-        zh: "覆盖 OLAP 架构落地、海量数据迁移、MySQL 性能调优、缓存治理与 CI/CD 工程化的组合型实战经验。",
-        en: "Combines OLAP architecture, large-scale migration, MySQL tuning, cache strategy, and CI/CD engineering practice.",
+        zh: "覆盖接口鉴权与加解密、ClickHouse 海量数据承载、百万级表同步、`xxl-job` 定时汇总更新，以及兼顾前后端配合的工程实践。",
+        en: "Covers API auth/encryption, ClickHouse-backed large-scale querying, large-table sync, xxl-job scheduling, and cross-stack delivery.",
       },
       verification: [
         {
-          sourceType: "experience",
-          sourceLabel: "项目代码、数据库日志与发布记录",
-          verifiedAt: "2026-02-15",
+          sourceType: "manual",
+          verifiedAt: "2026-03-31",
           confidence: "high",
           level: "strict",
         },
       ],
       expandedDetails: {
         background:
-          "联通数字化部需要整合全省运营数据，原有 MySQL 架构无法支撑复杂聚合查询。",
+          "联通数字化部需要同时支撑运营平台接口能力、数据中台建设和省市级汇总数据管理，系统既要能跑业务，也要能承载持续增长的数据规模。",
         problem:
-          "报表加载超时、数据分散难以统一分析，部分核心接口与发布流程也存在明显的性能和稳定性风险。",
+          "一方面活动查询接口耗时高、海量数据查询压力大；另一方面对外 API 安全、号码复通接口维护、汇总库动态更新和前后端协作也都需要同步推进。",
         solution:
-          "- **重构数据链路**：引入 ClickHouse 作为分析引擎，配合 MySQL 到 ClickHouse 的增量同步与 SQL 改写，推进 OLTP / OLAP 分离。\n- **实施性能治理**：重写关联查询、补充覆盖索引，并以 Redis 缓存热点数据，持续清理慢查询。\n- **补齐工程化基线**：完善 Docker / Pipeline、lint / build / test 门禁与回滚链路。",
+          "- **接口与安全**：改造对外 API，加入第二次授权认证，并对请求与响应做初步加解密处理。\n- **性能与存储**：优化活动查询接口，将响应时间从 `20s+` 降到约 `4s`；使用 ClickHouse 替代 MySQL 承载海量数据查询。\n- **数据平台**：完成 `300+` 张百万级数据表同步，并将数千万条数据迁移到汇总库。\n- **持续更新与交付**：使用 `xxl-job` 驱动汇总库每日动态更新，同时开发能力管理页面和相关前后端逻辑。",
         result:
-          "实现报表秒级响应、海量数据迁移可校验可回滚，并显著缩短发布周期，提升数据平台稳定性与交付效率。",
+          "联通运营相关系统在接口安全、查询性能和数据汇总更新上都得到明显改善，部分海量查询达到毫秒级，汇总库具备稳定的日更能力。",
         role: "后端开发",
         techStack: [
           "Java",
           "ClickHouse",
           "MySQL",
-          "Redis",
-          "DataX",
-          "Jenkins/GitLab CI",
+          "xxl-job",
+          "API Auth / Encryption",
+          "Responsive Web",
         ],
       },
     },
@@ -743,7 +788,6 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "manual",
-          sourceLabel: "本地项目演示",
           verifiedAt: "2026-02-15",
           confidence: "medium",
           level: "strict",
@@ -1009,6 +1053,131 @@ export const defaultPortfolioData: PortfolioData = {
       highlighted: true,
     },
     {
+      id: "proj-ipa-demo",
+      year: "2025.11 - 2025.12",
+      name: "IPA Demo",
+      techTags: [
+        "Python",
+        "Flask",
+        "PyTorch",
+        "Transformers",
+        "Torchaudio",
+        "ASR",
+        "Pandas",
+        "FFmpeg",
+      ],
+      summary:
+        "中文方言语音转写演示系统：把本地 ASR 模型封装成可试用的 Web 原型，支持上传、录音、批量处理、IPA 拆分和结果导出。",
+      impact: "方言语音转写原型 + 演示闭环",
+      keyOutcomes: [
+        "基于 Flask 封装本地 ASR 模型，支持多文件上传、流式转写、浏览器录音与示例音频体验。",
+        "加入音频标准化、并发处理、IPA 声母/韵母/声调拆分与日志体系，使原型既可演示也便于排障。",
+        "支持 Excel 模板校验、批量导出与系统手册下载，降低客户试用和验收成本。",
+      ],
+      audienceTags: ["jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把研究型语音识别能力快速收敛成可试用原型，帮助客户低成本验证需求与技术路线。",
+        en: "Turned research-oriented speech recognition capability into a usable prototype for low-cost validation.",
+      },
+      engineeringDepth: {
+        zh: "覆盖本地模型推理封装、音频预处理、批处理并发、结构化导出和面向演示场景的 Web 交付。",
+        en: "Showcases local ASR inference packaging, audio preprocessing, batch concurrency, structured export, and web delivery for demos.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          verifiedAt: "2026-03-31",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "目标是在短周期内把中文方言语音转写能力做成可直接演示的系统，用于科研场景验证和客户验收。",
+        problem:
+          "需要同时解决模型推理封装、音频标准化、批量转写、结果导出和非技术用户可操作性，且交付周期有限。",
+        solution:
+          "- **Web 化封装**：用 Flask 承载本地 ASR pipeline，并提供上传、录音、示例音频和二次转写接口。\n- **音频处理**：结合 `torchaudio` 与 `ffmpeg` 做格式检测、标准化转换和并发加载。\n- **结果结构化**：通过 Excel 表维护 IPA 映射，支持声母/韵母/声调拆分与 Excel 导出。\n- **演示交付**：补齐系统手册、模板下载、错误日志与批量处理能力，便于现场演示和验收。",
+        result:
+          "交付完整的 `IPA Demo` 原型，覆盖“录音/上传 -> 转写 -> IPA 拆分 -> 导出”的核心闭环。",
+        role: "全栈顾问",
+        techStack: [
+          "Python",
+          "Flask",
+          "PyTorch",
+          "Transformers",
+          "Torchaudio",
+          "Pandas",
+          "OpenPyXL",
+          "FFmpeg",
+        ],
+      },
+      highlighted: false,
+    },
+    {
+      id: "proj-submed",
+      year: "2024.08 - 2024.10",
+      name: "SubMed 医学论文检索小程序",
+      techTags: [
+        "Python",
+        "Django",
+        "MySQL",
+        "Redis",
+        "Celery",
+        "PubMed",
+        "OpenAI",
+        "WeChat Mini Program",
+        "WeChat Pay",
+      ],
+      summary:
+        "面向医学专家的论文检索与订阅推送后端：围绕 PubMed 抓取、AI 搜索、深度分析、收藏订阅和会员积分体系形成完整服务链路。",
+      impact: "医学论文检索 + AI 分析 + 订阅运营",
+      keyOutcomes: [
+        "构建 PubMed 抓取、文章入库、DOI/期刊补全与定时任务链路，形成持续更新的论文数据底座。",
+        "提供 AI 关键词、AI 检索、深度分析、收藏和推荐接口，提升医学场景的检索效率与阅读深度。",
+        "补齐订阅推送、推送历史、积分/VIP、邀请码和微信支付回调处理，支撑小程序持续运营。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner"],
+      businessValue: {
+        zh: "把医学论文获取、筛选、订阅和深度阅读串成一条连续流程，降低专家跟踪前沿研究的时间成本。",
+        en: "Connected paper retrieval, filtering, subscription, and deep reading into one continuous workflow for medical experts.",
+      },
+      engineeringDepth: {
+        zh: "覆盖爬取入库、API 设计、AI 辅助分析、任务调度、支付积分体系与小程序后端建模。",
+        en: "Combines crawling, API design, AI-assisted analysis, task scheduling, and payment/incentive modeling for a mini-program backend.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          verifiedAt: "2026-03-31",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "目标是为医学专家提供更垂直的论文发现与订阅能力，减少在通用搜索工具中筛选信息的时间成本。",
+        problem:
+          "除了论文抓取和搜索，还要同时处理个性化订阅、深度分析、用户行为、积分/VIP 和支付等运营需求，系统边界较宽。",
+        solution:
+          "- **数据与检索**：基于 Django + MySQL 建立论文、主题、订阅和收藏等模型，通过 PubMed spider 与管理命令维护数据。\n- **AI 能力**：提供 AI 关键词生成、AI 搜索、深度分析和相关推荐接口，增强医学场景的检索表达能力。\n- **异步与缓存**：使用 Celery 和 Redis 支撑定时任务、推送流程和接口性能治理。\n- **商业化闭环**：接入微信支付、积分记录、VIP 与邀请码，支撑小程序持续运营。",
+        result:
+          "形成面向医学检索场景的小程序后端闭环，覆盖数据抓取、搜索分析、订阅推送与支付运营。",
+        role: "后端开发",
+        techStack: [
+          "Python",
+          "Django",
+          "MySQL",
+          "Redis",
+          "Celery",
+          "PubMed",
+          "OpenAI API",
+          "WeChat Pay",
+        ],
+      },
+      highlighted: false,
+    },
+    {
       id: "proj-lexue",
       year: "2024",
       name: "乐学网",
@@ -1167,7 +1336,6 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "本地代码 A-star",
           verifiedAt: "2026-02-15",
           confidence: "medium",
           level: "strict",

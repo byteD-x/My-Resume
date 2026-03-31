@@ -9,7 +9,7 @@ export type EvidenceLevel = "strict" | "estimated";
 
 export interface VerificationInfo {
   sourceType: "repo" | "experience" | "manual";
-  sourceLabel: string;
+  sourceLabel?: string;
   sourceUrl?: string;
   verifiedAt: string;
   confidence: "high" | "medium";
