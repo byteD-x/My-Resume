@@ -141,7 +141,7 @@ export interface SkillCategory {
   items: string[];
 }
 
-export interface VibeCodingData {
+export interface HarnessEngineeringData {
   title: string;
   description: string;
 }
@@ -206,7 +206,7 @@ export interface PortfolioData {
   projects: ProjectItem[];
   skills: SkillCategory[];
   services: ServiceItem[];
-  vibeCoding: VibeCodingData;
+  harnessEngineering: HarnessEngineeringData;
   contact: ContactData;
   audienceCards: AudienceCard[];
 }

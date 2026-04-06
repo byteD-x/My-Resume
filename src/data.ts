@@ -1,4 +1,4 @@
-﻿import { PortfolioData } from "./types";
+import { PortfolioData } from "./types";
 
 // ==========================================
 // 默认内容 JSON（用于 reset）
@@ -1438,7 +1438,7 @@ export const defaultPortfolioData: PortfolioData = {
     },
   ],
 
-  vibeCoding: {
+  harnessEngineering: {
     title: "开发原则",
     description:
       "借助自动化工具提升开发效率，但结果必须通过构建、测试、导出与链接校验验证；涉及性能或成本调整时，先建立基线，再以数据确认收益。",
