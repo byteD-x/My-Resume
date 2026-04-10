@@ -11,34 +11,40 @@
 ## ✨ 核心特性
 
 ### 🎨 现代化设计
+
 - **Glass-morphism 风格** - 毛玻璃效果与渐变背景
 - **平滑动画交互** - Framer Motion 驱动的手势与过渡动画
 - **响应式布局** - 移动优先设计，适配所有设备
 
 ### ♿ 可访问性优先
+
 - **WCAG 2.1 兼容** - 符合国际无障碍标准
 - **键盘导航** - 完整的 Tab 键支持
 - **屏幕阅读器友好** - 语义化 HTML + ARIA 标签
 - **减少动画偏好** - 自动检测用户减少动画设置
 
 ### 🔍 SEO 优化
+
 - **结构化数据** - JSON-LD 语义标记
 - **Open Graph** - 社交分享预览优化
 - **语义化 HTML** - 正确的标题层级与标签
 - **Sitemap & Robots** - 搜索引擎友好
 
 ### 🧭 多角色入口
+
 - **HR 路径** - 快速评估岗位匹配度与履历证据
 - **求职者路径** - 聚焦技术成长、项目拆解与方法复用
 - **合作伙伴路径** - 明确协作边界、交付里程碑与验收节奏
 - **客户路径** - 直达业务价值、风险控制与沟通入口
 
 ### ✅ 数据口径策略
+
 - **严格可验证** - 关键指标附带证据来源与验证时间
 - **证据优先展示** - 无验证来源的数据不进入核心指标区
 - **双语摘要** - 中文主内容 + 英文一句话摘要，兼顾本地与国际可读性
 
 ### 🧾 内容取证规则
+
 - **技术亮点先审源码** - 更新时间线、项目经历、Impact 指标前，必须先阅读对应项目源码、文档、测试或可执行脚本，再写技术实现与工程亮点
 - **PDF 只校对事实骨架** - 简历 PDF 仅用于确认公司、项目名、时间、角色、职责等事实，不单独作为技术细节扩写依据
 - **无源码则保守表述** - 缺少源码或无法验证时，仅保留简历/人工材料能直接支撑的事实，不补推断性技术卖点
@@ -46,18 +52,21 @@
 - **维护流程文档化** - 具体更新规则见 [docs/content-evidence-policy.md](docs/content-evidence-policy.md)
 
 ### 📊 数据分析
+
 - **Google Analytics 4** - 完整的用户行为追踪
 - **滚动深度追踪** - 25%, 50%, 75%, 100%
 - **事件追踪** - CTA 点击、简历下载、角色路径点击、联系方式分层展开
 - **Engineering Command Center** - 实时展示 Web Vitals、开源指标与工程指纹
 
 ### ⚡ 高性能
+
 - **动态导入** - 代码分割与懒加载
 - **动画懒加载** - 仅在需要时加载动画库
 - **SSR 优化** - 首屏内容优先渲染
 - **Tailwind CSS v4** - 自动 purge 未使用样式
 
 ### 🔒 企业级安全
+
 - **Content-Security-Policy** - 严格的资源加载策略
 - **XSS 防护** - 输入验证与转义
 - **Headers 安全** - X-Frame-Options, X-Content-Type-Options 等
@@ -66,33 +75,37 @@
 
 ## 🛠️ 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| **框架** | Next.js 16+ (App Router) |
-| **语言** | TypeScript 5+ |
-| **运行时** | React 19 |
-| **样式** | Tailwind CSS 4 |
-| **动画** | Framer Motion 12+ |
-| **UI 组件** | Lucide React |
-| **分析** | React GA4 |
-| **测试** | Playwright (E2E), Vitest (Unit) |
+| 类别        | 技术                            |
+| ----------- | ------------------------------- |
+| **框架**    | Next.js 16+ (App Router)        |
+| **语言**    | TypeScript 5+                   |
+| **运行时**  | React 19                        |
+| **样式**    | Tailwind CSS 4                  |
+| **动画**    | Framer Motion 12+               |
+| **UI 组件** | Lucide React                    |
+| **分析**    | React GA4                       |
+| **测试**    | Playwright (E2E), Vitest (Unit) |
 
 ---
 
 ## 🧠 技术决策 (Technical Decisions)
 
 ### 为什么选择 Next.js 16 (App Router)?
+
 虽然 Next.js 16 较新，但其 Server Components (RSC) 架构为静态导出提供了极佳的性能基础。本项目采用 **Static Export** 模式，配合 RSC，既享受了 React 的组件化开发体验，又最终生成了轻量级的静态 HTML，确保 GitHub Pages 的加载速度达到极致 (LCP < 1s)。
 
 ### 为什么选择 Tailwind CSS v4?
+
 Tailwind v4 带来了显著的构建速度提升（基于 Rust 的引擎）和更小的 CSS 包体积。虽然处于早期阶段，但对于追求“工程前沿”的个人作品集来说，这是一个展示对新技术敏感度的绝佳机会。
 
 ### 为什么采用各种“过度设计” (Engineering Command Center)?
+
 项目中的 **工程实力中枢** 并非仅为了展示数据，而是为了演示：
+
 1. **复杂状态管理**：处理实时/静态数据的降级策略。
 2. **构建时与运行时分离**：在静态构建中注入数据。
 3. **可访问性细节**：全键盘导航支持与无障碍标签。
-这也是作为后端/全栈工程师，对“系统可观测性”的一种前端映射。
+   这也是作为后端/全栈工程师，对“系统可观测性”的一种前端映射。
 
 ---
 
@@ -123,18 +136,18 @@ npm run start
 
 ## 📝 可用脚本
 
-| 命令 | 描述 |
-|------|------|
-| `npm run dev` | 启动开发服务器 (Turbopack) |
-| `npm run build` | 构建生产版本 |
-| `npm run start` | 启动生产服务器 |
-| `npm run lint` | 运行 ESLint 检查 |
-| `npm run lint:fix` | 自动修复 lint 问题 |
-| `npm run format` | 使用 Prettier 格式化代码 |
-| `npm run test:e2e` | 运行 Playwright E2E 测试 |
-| `npm run test:e2e:ui` | 以 UI 模式运行测试 |
-| `npm run check:links` | 检查死链 |
-| `npm run analyze` | Bundle 大小分析 |
+| 命令                  | 描述                       |
+| --------------------- | -------------------------- |
+| `npm run dev`         | 启动开发服务器 (Turbopack) |
+| `npm run build`       | 构建生产版本               |
+| `npm run start`       | 启动生产服务器             |
+| `npm run lint`        | 运行 ESLint 检查           |
+| `npm run lint:fix`    | 自动修复 lint 问题         |
+| `npm run format`      | 使用 Prettier 格式化代码   |
+| `npm run test:e2e`    | 运行 Playwright E2E 测试   |
+| `npm run test:e2e:ui` | 以 UI 模式运行测试         |
+| `npm run check:links` | 检查死链                   |
+| `npm run analyze`     | Bundle 大小分析            |
 
 ---
 
@@ -154,7 +167,7 @@ NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 NEXT_PUBLIC_STATIC_EXPORT=true
 NEXT_PUBLIC_BASE_PATH=your-repo-name
 # 站点绝对地址（推荐在 CI 中显式设置，避免 sitemap/robots 指向错误域名）
-NEXT_PUBLIC_SITE_URL=https://your-domain-or-pages-url
+NEXT_PUBLIC_SITE_URL=https://www.byted.online
 
 # GitHub 指标（可选，避免 API rate limit）
 GITHUB_TOKEN=ghp_xxx
@@ -163,14 +176,15 @@ GITHUB_TOKEN=ghp_xxx
 LINK_CHECK_OPTIONAL_HOSTS=www.byted.online,106.12.154.163
 
 # 公网探活：自托管 IP 默认作为 required fallback，可按需覆盖
-# SERVER_IP_PUBLIC_URL=https://106.12.154.163
+# SERVER_IP_PUBLIC_URL=http://106.12.154.163
 #
-# 域名备案完成并可公网访问后，在 GitHub Actions 仓库变量中设置
-# SERVER_PUBLIC_URL=https://www.byted.online
-# VERIFY_SERVER_PUBLIC_URL=true
+# 域名备案已完成，建议在 GitHub Actions 仓库变量中设置
+SERVER_PUBLIC_URL=https://www.byted.online
+VERIFY_SERVER_PUBLIC_URL=true
 ```
 
 **支持的事件追踪：**
+
 - 页面浏览 (Page View)
 - 滚动深度 (25%, 50%, 75%, 100%)
 - CTA 按钮点击
@@ -196,6 +210,7 @@ npm run test:e2e:ui
 ```
 
 **测试覆盖范围：**
+
 - Hero 区域加载与渲染
 - CTA 按钮交互
 - 首屏“查看项目证据”按钮跳转
@@ -273,15 +288,15 @@ src/
 
 已配置的企业级安全措施：
 
-| 安全措施 | 配置 |
-|----------|------|
-| Content-Security-Policy | 限制资源加载来源 |
-| X-Content-Type-Options | 防止 MIME 类型嗅探 |
-| X-Frame-Options | 防止点击劫持 |
-| Referrer-Policy | 控制 Referer 发送 |
-| Permissions-Policy | 限制浏览器高风险能力 |
-| Cross-Origin-Opener-Policy | 跨源窗口隔离 |
-| Cross-Origin-Resource-Policy | 跨源资源访问控制 |
+| 安全措施                     | 配置                 |
+| ---------------------------- | -------------------- |
+| Content-Security-Policy      | 限制资源加载来源     |
+| X-Content-Type-Options       | 防止 MIME 类型嗅探   |
+| X-Frame-Options              | 防止点击劫持         |
+| Referrer-Policy              | 控制 Referer 发送    |
+| Permissions-Policy           | 限制浏览器高风险能力 |
+| Cross-Origin-Opener-Policy   | 跨源窗口隔离         |
+| Cross-Origin-Resource-Policy | 跨源资源访问控制     |
 
 ---
 
@@ -294,6 +309,7 @@ npm run analyze
 ```
 
 并重点关注：
+
 - `app/page` 相关 chunk 是否异常增长
 - `framer-motion` 与图标库是否被无意重复打包
 - 首屏关键交互是否保持延迟加载
@@ -310,6 +326,7 @@ npm run analyze
 2. CI 流程：Lint → Test → Build → Deploy
 
 站点地址：
+
 - GitHub 站（Pages）：`https://byted-x.github.io/My-Resume/`
 
 ### Vercel
@@ -320,6 +337,7 @@ npx vercel
 ```
 
 站点地址：
+
 - 国际站（Vercel）：`https://my-resume-gray-five.vercel.app`
 
 ### Self-hosted Server
@@ -327,9 +345,10 @@ npx vercel
 自托管国内站由服务器上的独立 CI/CD 链路负责发布，接收同一次 `git push` 并在服务器本机构建部署。
 
 站点地址：
+
 - 国内站（自托管）：`https://www.byted.online`
 
-GitHub Actions 会始终验证 Vercel、GitHub Pages 和自托管 IP 入口；自托管公网域名默认按 optional endpoint 处理。备案完成后，将仓库变量 `SERVER_PUBLIC_URL` 设为 `https://www.byted.online`，并将 `VERIFY_SERVER_PUBLIC_URL` 设为 `true`，即可把自托管公网域名探活升级为必过门禁。
+GitHub Actions 会始终验证 Vercel、GitHub Pages 和自托管 IP 入口。备案已完成后，应将仓库变量 `SERVER_PUBLIC_URL` 设为 `https://www.byted.online`，并将 `VERIFY_SERVER_PUBLIC_URL` 设为 `true`，把自托管公网域名升级为必过门禁；如果当前证书仍未切正，先执行 `npm run setup:server:https` 并确认 `curl -I https://www.byted.online` 可在不带 `-k` 的情况下通过。
 
 三条发布链路的详细说明见 [docs/deployment-channels.md](./docs/deployment-channels.md)。
 

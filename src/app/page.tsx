@@ -10,6 +10,7 @@ import { defaultPortfolioData } from "@/data";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { CapabilitySummary } from "@/components/home/CapabilitySummary";
 import { HomePageRuntimeShell } from "@/components/home/HomePageRuntimeShell";
+import { siteConfig } from "@/config/site";
 import type { PortfolioData } from "@/types";
 import {
   getHeroSpotlights,
@@ -290,10 +291,7 @@ export default function HomePage() {
           id="skills"
           className="theme-grid-section relative z-10 scroll-mt-24"
         >
-          <TechStack
-            skills={data.skills}
-            techOverview={techOverview}
-          />
+          <TechStack skills={data.skills} techOverview={techOverview} />
         </div>
       </MotionWrapper>
 
@@ -324,6 +322,8 @@ export default function HomePage() {
             email={data.contact.email}
             githubUrl={data.contact.github}
             websiteLinks={data.contact.websiteLinks}
+            icpRecord={siteConfig.icpRecord}
+            icpRecordUrl={siteConfig.icpRecordUrl}
           />
         </div>
       </MotionWrapper>

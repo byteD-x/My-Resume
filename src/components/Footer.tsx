@@ -1,10 +1,4 @@
-import {
-  ArrowUpRight,
-  Calendar,
-  Github,
-  Globe,
-  Mail,
-} from "lucide-react";
+import { ArrowUpRight, Calendar, Github, Globe, Mail } from "lucide-react";
 import { Container } from "./ui/Container";
 
 interface FooterProps {
@@ -14,6 +8,8 @@ interface FooterProps {
   email?: string;
   githubUrl?: string;
   websiteLinks?: { label: string; url: string }[];
+  icpRecord?: string;
+  icpRecordUrl?: string;
 }
 
 function formatHost(url: string) {
@@ -31,6 +27,8 @@ export default function Footer({
   email,
   githubUrl,
   websiteLinks = [],
+  icpRecord,
+  icpRecordUrl,
 }: FooterProps) {
   const now = new Date();
   const currentYear = now.getFullYear();
@@ -172,9 +170,23 @@ export default function Footer({
         </div>
 
         <div className="relative z-10 flex flex-col gap-2.5 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <p className="theme-copy-subtle text-[12px] leading-6">
-            &copy; {currentYear} {name} · 工程化作品集与公开履历
-          </p>
+          <div className="flex flex-col gap-1">
+            <p className="theme-copy-subtle text-[12px] leading-6">
+              &copy; {currentYear} {name} · 工程化作品集与公开履历
+            </p>
+            {icpRecord ? (
+              <a
+                href={icpRecordUrl || "https://beian.miit.gov.cn/"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-fit items-center gap-1 text-[12px] leading-6 text-[color:var(--text-tertiary)] transition-colors hover:text-[color:var(--brand-gold)]"
+                aria-label={`查看备案信息：${icpRecord}`}
+              >
+                <Globe size={13} className="shrink-0 opacity-70" />
+                <span>{icpRecord}</span>
+              </a>
+            ) : null}
+          </div>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] leading-6 text-[color:var(--text-tertiary)]">
             <span className="inline-flex items-center gap-1.5">
               <Calendar size={13} className="shrink-0 opacity-70" />

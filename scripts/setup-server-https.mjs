@@ -2,70 +2,76 @@ import { spawnSync } from "node:child_process";
 import process from "node:process";
 
 function parseCsv(value) {
-    return String(value || "")
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean);
+  return String(value || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 const config = {
-    serverHost: process.env.SERVER_HOST || "106.12.154.163",
-    serverUser: process.env.SERVER_USER || "root",
-    serverPort: process.env.SERVER_PORT || "22",
-    canonicalHost: process.env.SERVER_CANONICAL_HOST || "www.byted.online",
-    additionalDomains: parseCsv(process.env.SERVER_ADDITIONAL_DOMAINS),
-    redirectHosts: parseCsv(process.env.SERVER_REDIRECT_HOSTS || "106.12.154.163"),
-    certName: process.env.SERVER_CERT_NAME || process.env.SERVER_CANONICAL_HOST || "www.byted.online",
-    certbotInstall: process.env.SERVER_CERTBOT_INSTALL || "venv",
-    certbotVenvDir: process.env.SERVER_CERTBOT_VENV_DIR || "/opt/certbot",
-    nginxSitePath: process.env.SERVER_NGINX_SITE_PATH || "/etc/nginx/sites-enabled/portfolio",
-    acmeDir: process.env.SERVER_ACME_DIR || "/var/www/acme-challenge",
-    serverBindHost: process.env.SERVER_BIND_HOST || "127.0.0.1",
-    serverAppPort: process.env.SERVER_APP_PORT || "3000",
+  serverHost: process.env.SERVER_HOST || "106.12.154.163",
+  serverUser: process.env.SERVER_USER || "root",
+  serverPort: process.env.SERVER_PORT || "22",
+  canonicalHost: process.env.SERVER_CANONICAL_HOST || "www.byted.online",
+  additionalDomains: parseCsv(process.env.SERVER_ADDITIONAL_DOMAINS),
+  redirectHosts: parseCsv(
+    process.env.SERVER_REDIRECT_HOSTS || "106.12.154.163",
+  ),
+  certName:
+    process.env.SERVER_CERT_NAME ||
+    process.env.SERVER_CANONICAL_HOST ||
+    "www.byted.online",
+  certbotInstall: process.env.SERVER_CERTBOT_INSTALL || "venv",
+  certbotVenvDir: process.env.SERVER_CERTBOT_VENV_DIR || "/opt/certbot",
+  nginxSitePath:
+    process.env.SERVER_NGINX_SITE_PATH || "/etc/nginx/sites-enabled/portfolio",
+  acmeDir: process.env.SERVER_ACME_DIR || "/var/www/acme-challenge",
+  serverBindHost: process.env.SERVER_BIND_HOST || "127.0.0.1",
+  serverAppPort: process.env.SERVER_APP_PORT || "3000",
 };
 
 function run(command, args, options = {}) {
-    const stdio = options.capture
-        ? ["ignore", "pipe", "pipe"]
-        : options.input !== undefined
-          ? ["pipe", "inherit", "inherit"]
-          : "inherit";
-    const result = spawnSync(command, args, {
-        stdio,
-        encoding: options.capture ? "utf8" : undefined,
-        input: options.input,
-        shell: options.shell ?? false,
-    });
+  const stdio = options.capture
+    ? ["ignore", "pipe", "pipe"]
+    : options.input !== undefined
+      ? ["pipe", "inherit", "inherit"]
+      : "inherit";
+  const result = spawnSync(command, args, {
+    stdio,
+    encoding: options.capture ? "utf8" : undefined,
+    input: options.input,
+    shell: options.shell ?? false,
+  });
 
-    if (result.error) {
-        throw result.error;
-    }
+  if (result.error) {
+    throw result.error;
+  }
 
-    if (result.status !== 0) {
-        const stderr = options.capture ? result.stderr.trim() : "";
-        throw new Error(stderr || `${command} exited with code ${result.status}`);
-    }
+  if (result.status !== 0) {
+    const stderr = options.capture ? result.stderr.trim() : "";
+    throw new Error(stderr || `${command} exited with code ${result.status}`);
+  }
 
-    return options.capture ? result.stdout.trim() : "";
+  return options.capture ? result.stdout.trim() : "";
 }
 
 function singleQuote(value) {
-    return `'${String(value).replace(/'/g, `'\"'\"'`)}'`;
+  return `'${String(value).replace(/'/g, `'\"'\"'`)}'`;
 }
 
 function uniqueHosts(items) {
-    return Array.from(new Set(items.map((item) => item.trim()).filter(Boolean)));
+  return Array.from(new Set(items.map((item) => item.trim()).filter(Boolean)));
 }
 
 function renderBootstrapHttpConfig(serverNames, canonicalHost) {
-    return `server {
+  return `server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
   server_name ${serverNames.join(" ")};
 
   location ^~ /.well-known/acme-challenge/ {
-    alias ${config.acmeDir}/;
+    root ${config.acmeDir};
     default_type "text/plain";
   }
 
@@ -77,16 +83,16 @@ function renderBootstrapHttpConfig(serverNames, canonicalHost) {
 }
 
 function renderFinalHttpsConfig(serverNames, canonicalHost, certName) {
-    const certDir = `/etc/letsencrypt/live/${certName}`;
+  const certDir = `/etc/letsencrypt/live/${certName}`;
 
-    return `server {
+  return `server {
   listen 80 default_server;
   listen [::]:80 default_server;
 
   server_name ${serverNames.join(" ")};
 
   location ^~ /.well-known/acme-challenge/ {
-    alias ${config.acmeDir}/;
+    root ${config.acmeDir};
     default_type "text/plain";
   }
 
@@ -124,13 +130,25 @@ server {
 }
 
 function buildRemoteScript() {
-    const domainSet = uniqueHosts([config.canonicalHost, ...config.additionalDomains]);
-    const serverNames = uniqueHosts([...domainSet, ...config.redirectHosts]);
-    const bootstrapConfig = renderBootstrapHttpConfig(serverNames, config.canonicalHost);
-    const finalConfig = renderFinalHttpsConfig(serverNames, config.canonicalHost, config.certName);
-    const certbotDomainArgs = domainSet.map((domain) => `-d ${singleQuote(domain)}`).join(" ");
+  const domainSet = uniqueHosts([
+    config.canonicalHost,
+    ...config.additionalDomains,
+  ]);
+  const serverNames = uniqueHosts([...domainSet, ...config.redirectHosts]);
+  const bootstrapConfig = renderBootstrapHttpConfig(
+    serverNames,
+    config.canonicalHost,
+  );
+  const finalConfig = renderFinalHttpsConfig(
+    serverNames,
+    config.canonicalHost,
+    config.certName,
+  );
+  const certbotDomainArgs = domainSet
+    .map((domain) => `-d ${singleQuote(domain)}`)
+    .join(" ");
 
-    return `set -euo pipefail
+  return `set -euo pipefail
 
 canonical_host=${singleQuote(config.canonicalHost)}
 cert_name=${singleQuote(config.certName)}
@@ -247,21 +265,21 @@ echo "HTTPS setup complete for $canonical_host"
 }
 
 function main() {
-    const sshTarget = `${config.serverUser}@${config.serverHost}`;
-    const remoteScript = buildRemoteScript();
+  const sshTarget = `${config.serverUser}@${config.serverHost}`;
+  const remoteScript = buildRemoteScript();
 
-    run(
-        "ssh",
-        [
-            "-o",
-            "StrictHostKeyChecking=no",
-            "-p",
-            config.serverPort,
-            sshTarget,
-            "bash -s",
-        ],
-        { input: remoteScript },
-    );
+  run(
+    "ssh",
+    [
+      "-o",
+      "StrictHostKeyChecking=no",
+      "-p",
+      config.serverPort,
+      sshTarget,
+      "bash -s",
+    ],
+    { input: remoteScript },
+  );
 }
 
 main();
