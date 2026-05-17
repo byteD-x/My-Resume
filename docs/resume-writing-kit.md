@@ -4,10 +4,14 @@
 
 ## 文档地图
 
+- `docs/resume-ai-main.md`
+  面向通用 AI 应用工程师岗位的完整中文主简历底稿。
 - `docs/resume-experience-copy.md`
   直接可复制到 Word / PDF 简历中的经历文案。
 - `docs/resume-star-bank.md`
   面向 STAR 结构的项目/经历证据库，适合写项目详情、准备面试追问、扩写自我介绍。
+- `docs/resume-metrics-checklist.md`
+  给主简历补齐业务规模、上线效果与测试覆盖等量化口径的待补数清单。
 - `docs/deployment-channels.md`
   用于补充 GitHub Pages / Vercel / 自托管部署背景，在被问到工程化交付时可直接引用。
 
@@ -33,9 +37,10 @@
 建议排序：
 1. 智能客服运行时
 2. 微信智能助手
-3. 中软国际 / RAG-QA System
-4. EasyCloudPan
-5. 中国联通陕西省分公司
+3. 论文检索任务平台
+4. RentBox
+5. 中软国际 / RAG-QA System
+6. 中国联通陕西省分公司
 
 重点保留关键词：
 - RAG
@@ -51,7 +56,11 @@
 
 可弱化内容：
 - 乐学网
-- 学术论文小程序中的业务页面细节
+- 纯校内练手项目
+
+补充说明：
+- 如果需要一页版主简历，工作经历优先保留“独立 AI 项目 + 中软国际 + 骨科 + 联通”，把 `paper-retrieval-platform` 与 `RentBox` 放进项目经历区。
+- 如果需要突出近半年真实交付，可直接以 `docs/resume-ai-main.md` 为底稿，并按 `docs/resume-metrics-checklist.md` 补齐近期项目数据。
 
 ### 版本 B：后端 / 全栈工程师
 

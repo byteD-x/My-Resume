@@ -1,4 +1,6 @@
 import type { NextConfig } from 'next';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import packageJson from './package.json';
 
 const createBundleAnalyzer = () => {
@@ -19,10 +21,25 @@ const createBundleAnalyzer = () => {
 
 const withBundleAnalyzer = createBundleAnalyzer();
 
+const projectRoot = fileURLToPath(new URL('.', import.meta.url));
+const configuredDistDir = process.env.NEXT_DIST_DIR?.trim();
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ? `/${process.env.NEXT_PUBLIC_BASE_PATH}` : '';
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
 const shouldUpgradeInsecureRequests = siteUrl.startsWith('https://');
+const enableVerboseFetchLogging = process.env.NEXT_FETCH_LOGGING === '1';
+
+if (configuredDistDir) {
+    const resolvedDistDir = path.resolve(projectRoot, configuredDistDir);
+    const normalizedProjectRoot = `${path.resolve(projectRoot)}${path.sep}`;
+    const normalizedDistDir = `${resolvedDistDir}${path.sep}`;
+
+    if (!normalizedDistDir.startsWith(normalizedProjectRoot)) {
+        throw new Error(
+            `NEXT_DIST_DIR must stay inside the project directory. Received: ${configuredDistDir}`,
+        );
+    }
+}
 
 const contentSecurityPolicy = `
   default-src 'self';
@@ -90,13 +107,25 @@ const nextConfig: NextConfig = {
     // Self-hosted server deployments use the standalone output so runtime no longer
     // depends on a separate `npm ci` step or `next` binary in the release directory.
     output: isStaticExport ? 'export' : 'standalone',
+    distDir: configuredDistDir || undefined,
+    allowedDevOrigins: ['127.0.0.1', 'localhost'],
     trailingSlash: isStaticExport ? true : undefined,
     typescript: {
         tsconfigPath: './tsconfig.next.json',
     },
+    turbopack: {
+        root: projectRoot,
+    },
     experimental: {
         optimizePackageImports: ['lucide-react', 'framer-motion'],
     },
+    logging: enableVerboseFetchLogging
+        ? {
+            fetches: {
+                fullUrl: true,
+            },
+        }
+        : undefined,
     images: {
         loader: 'custom',
         loaderFile: './image-loader.ts',

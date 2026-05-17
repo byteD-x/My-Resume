@@ -1,59 +1,49 @@
 "use client";
 
-import { m as motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
-import { EASING_CURVES, HERO_ANIMATION } from "@/config/animation";
 import { useHydrated } from "@/hooks/useHydrated";
 import {
   trackCTAClick,
   trackProjectEvidenceClick,
   trackResumeDownload,
 } from "@/lib/analytics";
-import type { ResumeDownloadClickEvent } from "@/lib/resume";
+import {
+  createResumeDownloadHandler,
+  type ResumeDownloadClickEvent,
+} from "@/lib/resume";
+import {
+  getPreferredScrollBehavior,
+  scrollToSection,
+} from "@/lib/section-scroll";
 
 interface HeroCTAProps {
-  onViewProjects: () => void;
   downloadName: string;
   downloadUrl: string;
-  onDownloadClick?: (event: ResumeDownloadClickEvent) => void;
 }
 
-const fadeIn = {
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: {
-    duration: HERO_ANIMATION.FADE_IN.duration,
-    ease: EASING_CURVES.OUT_EXPO,
-  },
-};
-
-export function HeroCTA({
-  onViewProjects,
-  downloadName,
-  downloadUrl,
-  onDownloadClick,
-}: HeroCTAProps) {
+export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
   const isHydrated = useHydrated();
+  const handleStaticDownload = createResumeDownloadHandler(
+    downloadName,
+    downloadUrl,
+  );
 
   const handleDownloadClick = (event: ResumeDownloadClickEvent) => {
     trackCTAClick("resume_download", "hero");
     trackResumeDownload();
-    onDownloadClick?.(event);
+    handleStaticDownload?.(event);
   };
 
   const handleViewProjects = () => {
     trackCTAClick("project_evidence_click", "hero");
     trackProjectEvidenceClick("hero");
-    onViewProjects();
+    scrollToSection("projects", {
+      behavior: getPreferredScrollBehavior(),
+    });
   };
 
   return (
-    <motion.div
-      {...fadeIn}
-      transition={{
-        ...fadeIn.transition,
-        delay: HERO_ANIMATION.DELAY_CTA,
-      }}
+    <div
       className="grid w-full grid-cols-2 gap-2 sm:w-auto sm:flex sm:flex-row sm:flex-wrap sm:gap-4"
       data-print="hide"
     >
@@ -78,6 +68,6 @@ export function HeroCTA({
         <ArrowRight size={16} />
         查看项目
       </button>
-    </motion.div>
+    </div>
   );
 }

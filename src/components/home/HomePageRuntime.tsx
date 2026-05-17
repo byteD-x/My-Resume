@@ -49,7 +49,7 @@ export function HomePageRuntime({
   const hasReachedEnhancementZone = useScrollPastThreshold(240);
   const isMobileViewport = useMediaQuery("(max-width: 767px)");
   const isCompactDesktopViewport = useMediaQuery("(max-width: 1535px)");
-  const [showCommandCenter, setShowCommandCenter] = useState(false);
+  const [isRuntimeReady, setIsRuntimeReady] = useState(false);
 
   useEffect(() => {
     const state = readScrollRestore();
@@ -93,16 +93,16 @@ export function HomePageRuntime({
     const idleId = hasIdleCallback
       ? window.requestIdleCallback(
           () => {
-            setShowCommandCenter(true);
+            setIsRuntimeReady(true);
           },
-          { timeout: 2400 },
+          { timeout: 3200 },
         )
       : null;
     const timeoutId = hasIdleCallback
       ? null
       : window.setTimeout(() => {
-        setShowCommandCenter(true);
-        }, 2200);
+          setIsRuntimeReady(true);
+        }, 3000);
 
     return () => {
       if (idleId !== null) {
@@ -114,9 +114,10 @@ export function HomePageRuntime({
     };
   }, []);
 
-  const shouldRenderEnhancements = showCommandCenter;
+  const shouldRenderEnhancements =
+    isRuntimeReady && hasReachedEnhancementZone;
   const shouldRenderSupplementalActions =
-    hasReachedEnhancementZone && !isLowPerformanceMode;
+    shouldRenderEnhancements && !isLowPerformanceMode;
 
   return (
     <>

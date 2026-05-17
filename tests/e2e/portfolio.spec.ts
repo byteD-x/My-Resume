@@ -68,6 +68,13 @@ const gotoHomePage = async (page: Page) => {
     }
 };
 
+const revealDeferredDock = async (page: Page) => {
+    await page.evaluate(() => window.scrollTo(0, 720));
+    await expect(
+        page.getByRole('button', { name: /Engineering|工程实力中枢/i }).first(),
+    ).toBeVisible({ timeout: 12000 });
+};
+
 test.describe('Portfolio E2E', () => {
     test.beforeEach(async ({ page }) => {
         await gotoHomePage(page);
@@ -78,6 +85,8 @@ test.describe('Portfolio E2E', () => {
         await expect(page.locator('h1')).toHaveCount(1);
         await expect(page.locator('#impact')).toBeVisible();
         await expect(page.locator('#experience')).toBeVisible();
+        await expect(page.locator('#featured-projects')).toBeVisible();
+        await expect(page.locator('#capability-summary')).toBeVisible();
         await expect(page.locator('#projects')).toBeVisible();
         await expect(page.locator('#contact')).toBeVisible();
     });
@@ -94,9 +103,9 @@ test.describe('Portfolio E2E', () => {
     test('hero should present positioning and quantified outcomes', async ({ page }) => {
         await expect(page.getByRole('heading', { level: 1, name: 'AI 应用工程师' })).toBeVisible();
         await expect(page.getByText('RAG / Agent')).toBeVisible();
-        await expect(page.getByText('混合检索 + LangGraph 运行时')).toBeVisible();
-        await expect(page.getByText('文本 / 语音 / RTC 三通道接入')).toBeVisible();
-        await expect(page.getByText('5x 提速与 40% 成本下降')).toBeVisible();
+        await expect(page.getByText('混合检索 + LangGraph 运行时').first()).toBeVisible();
+        await expect(page.getByText('文本 / 语音 / RTC 三通道接入').first()).toBeVisible();
+        await expect(page.getByText('5x 提速与 40% 成本下降').first()).toBeVisible();
         await expect(page.getByRole('button', { name: /查看项目证据|project evidence/i })).toBeVisible();
         await expect(page.getByText('以上指标均可在项目详情与仓库中复核。')).toBeVisible();
     });
@@ -121,6 +130,35 @@ test.describe('Portfolio E2E', () => {
         await expect(projectsSection).toBeInViewport({ timeout: 5000 });
     });
 
+    test('experience should appear before impact and projects in document order', async ({ page }) => {
+        const sectionOffsets = await page.evaluate(() => {
+            const ids = ['experience', 'impact', 'featured-projects', 'projects'] as const;
+            return Object.fromEntries(
+                ids.map((id) => [
+                    id,
+                    document.getElementById(id)?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY,
+                ]),
+            );
+        });
+
+        expect(sectionOffsets.experience).toBeLessThan(sectionOffsets.impact);
+        expect(sectionOffsets.impact).toBeLessThan(sectionOffsets['featured-projects']);
+        expect(sectionOffsets['featured-projects']).toBeLessThan(sectionOffsets.projects);
+    });
+
+    test('evidence strip should provide quick jumps into full sections', async ({ page }) => {
+        const impactEntry = page.getByRole('link', { name: /量化结果.*查看全部指标/i }).first();
+        await expect(impactEntry).toBeVisible();
+        await impactEntry.click();
+        await expect(page.locator('#impact')).toBeInViewport({ timeout: 5000 });
+
+        await page.goto('/');
+        const capabilityEntry = page.getByRole('link', { name: /工程能力.*查看能力结构/i }).first();
+        await expect(capabilityEntry).toBeVisible();
+        await capabilityEntry.click();
+        await expect(page.locator('#skills')).toBeInViewport({ timeout: 5000 });
+    });
+
     test('about and audience quick-entry sections should not render', async ({ page }) => {
         await expect(page.locator('#about')).toHaveCount(0);
         await expect(page.locator('#audience')).toHaveCount(0);
@@ -137,6 +175,7 @@ test.describe('Portfolio E2E', () => {
 
     test.describe('Engineering Command Center', () => {
         test('should open and close with escape, and trap focus', async ({ page }) => {
+            await revealDeferredDock(page);
             const openButton = page.getByRole('button', { name: /Engineering|工程实力中枢/i });
             await expect(openButton).toBeVisible();
 
@@ -178,6 +217,7 @@ test.describe('Portfolio E2E', () => {
                 });
             });
 
+            await revealDeferredDock(page);
             await page.getByRole('button', { name: /Engineering|工程实力中枢/i }).click();
             await expect(page.getByText('123', { exact: true })).toBeVisible();
             await expect(page.getByText('wechat-bot')).toBeVisible();
@@ -193,6 +233,7 @@ test.describe('Portfolio E2E', () => {
                 });
             });
 
+            await revealDeferredDock(page);
             await page.getByRole('button', { name: /Engineering|工程实力中枢/i }).click();
             await expect(page.getByRole('heading', { name: /工程实力中枢|Engineering Command Center/i })).toBeVisible();
             await expect(page.getByText(/GitHub 数据请求失败|GitHub 数据暂不可用|telemetry.*unavailable|failed/i)).toBeVisible();
@@ -216,11 +257,9 @@ test.describe('Portfolio E2E', () => {
         const jumpButton = page.getByRole('button', { name: /定位到对应经历/i });
         await expect(jumpButton).toBeVisible();
 
-        const experienceSection = page.locator('#experience');
-        await expect(experienceSection).not.toBeInViewport();
-
         await jumpButton.evaluate((el: HTMLButtonElement) => el.click());
         await page.waitForTimeout(400);
+        const experienceSection = page.locator('#experience');
         await expect(experienceSection).toBeInViewport();
     });
 
@@ -263,7 +302,7 @@ test.describe('Portfolio E2E', () => {
     });
 
     test('featured projects should present content, capability and technical structure', async ({ page }) => {
-        await scrollSectionIntoView(page, '#projects');
+        await scrollSectionIntoView(page, '#featured-projects');
 
         await expect(page.getByText('内容定位').first()).toBeVisible();
         await expect(page.getByText('功能描述').first()).toBeVisible();
@@ -281,11 +320,10 @@ test.describe('Portfolio E2E', () => {
             return;
         }
 
+        await page.evaluate(() => window.scrollTo(0, 600));
         await expect(
             page.getByRole('button', { name: /Engineering|工程实力中枢/i }).first(),
-        ).toBeVisible({ timeout: 8000 });
-
-        await page.evaluate(() => window.scrollTo(0, 600));
+        ).toBeVisible({ timeout: 12000 });
         await expect
             .poll(async () => page.locator('[role="progressbar"]').count(), {
                 timeout: 4000,

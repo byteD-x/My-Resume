@@ -9,6 +9,7 @@ import { Section } from "@/components/ui/Section";
 import { defaultPortfolioData } from "@/data";
 import { FeaturedProjects } from "@/components/home/FeaturedProjects";
 import { CapabilitySummary } from "@/components/home/CapabilitySummary";
+import { HomeEvidenceStrip } from "@/components/home/HomeEvidenceStrip";
 import { HomePageRuntimeShell } from "@/components/home/HomePageRuntimeShell";
 import { siteConfig } from "@/config/site";
 import type { PortfolioData } from "@/types";
@@ -193,6 +194,59 @@ function buildTechOverview(data: PortfolioData): Array<{
     .filter((group) => group.items.length > 0);
 }
 
+function buildEvidenceStripItems(
+  data: PortfolioData,
+  heroProofItems: ReturnType<typeof getHeroSpotlights>,
+) {
+  const impactItem = data.impact[0];
+  const featuredItem = heroProofItems[0];
+  const primarySkills = data.skills[0]?.items.slice(0, 3) ?? [];
+  const primaryService = data.services[0];
+  const primaryBullet = data.hero.bullets[0];
+
+  return [
+    {
+      id: "impact-summary",
+      kicker: "量化结果",
+      title: impactItem
+        ? `${impactItem.value} ${impactItem.label}`
+        : "关键指标可复核",
+      summary:
+        impactItem?.description ??
+        "先看结果，再看完整项目拆解与证据口径。",
+      href: "#impact",
+      actionLabel: "查看全部指标",
+      meta: "面试官 30 秒速读",
+    },
+    {
+      id: "featured-proof",
+      kicker: "代表项目",
+      title: featuredItem?.name ?? "近期代表项目",
+      summary:
+        featuredItem?.summary ??
+        "优先看最近、最能代表当前工程能力的案例拆解。",
+      href: featuredItem?.href ?? "#projects",
+      actionLabel: "查看案例拆解",
+      meta: featuredItem?.focus ?? "工程证据优先",
+    },
+    {
+      id: "capability-summary",
+      kicker: "工程能力",
+      title: primaryService?.title ?? primaryBullet?.title ?? "端到端交付",
+      summary:
+        primaryBullet?.description ??
+        primaryService?.description ??
+        "聚焦运行时、检索增强与真实业务系统集成。",
+      href: "#skills",
+      actionLabel: "查看能力结构",
+      meta:
+        primarySkills.length > 0
+          ? primarySkills.join(" 路 ")
+          : "RAG 路 Agent 路 Full-stack",
+    },
+  ];
+}
+
 export default function HomePage() {
   const data = defaultPortfolioData;
   const timelineByDate = [...data.timeline].sort(
@@ -202,6 +256,7 @@ export default function HomePage() {
   const homepageFeaturedProjects = getHomepageFeaturedProjects(data.projects);
   const heroProofItems = getHeroSpotlights(data.projects);
   const techOverview = buildTechOverview(data);
+  const evidenceStripItems = buildEvidenceStripItems(data, heroProofItems);
 
   return (
     <main className="relative min-h-screen overflow-x-clip">
@@ -219,6 +274,25 @@ export default function HomePage() {
       />
       <Navbar heroData={data.hero} contactData={data.contact} />
       <Hero data={data.hero} proofItems={heroProofItems} />
+      <HomeEvidenceStrip items={evidenceStripItems} />
+
+      <Section
+        id="experience"
+        className="theme-grid-section theme-section-dense relative z-10 scroll-mt-24 border-b section-divider !py-8 sm:!py-10 lg:!py-12"
+      >
+        <Container>
+          <div
+            className="theme-section-header experience-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
+            data-scroll-target="experience"
+          >
+            <p className="theme-kicker mb-2">履历时间线</p>
+            <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
+              专业履历与实践
+            </h2>
+          </div>
+          <Timeline items={timelineByDate} />
+        </Container>
+      </Section>
 
       <MotionWrapper delay={0.02} duration={0.5} amount={0.12}>
         <div
@@ -231,13 +305,19 @@ export default function HomePage() {
       </MotionWrapper>
 
       <MotionWrapper delay={0.04} duration={0.52} amount={0.12}>
-        <div className="theme-grid-section relative z-10">
+        <div
+          id="featured-projects"
+          className="theme-grid-section relative z-10 scroll-mt-24"
+        >
           <FeaturedProjects items={homepageFeaturedProjects} />
         </div>
       </MotionWrapper>
 
       <MotionWrapper delay={0.06} duration={0.52} amount={0.12}>
-        <div className="theme-grid-section relative z-10">
+        <div
+          id="capability-summary"
+          className="theme-grid-section relative z-10 scroll-mt-24"
+        >
           <CapabilitySummary
             bullets={data.hero.bullets}
             skills={data.skills}
@@ -247,26 +327,6 @@ export default function HomePage() {
       </MotionWrapper>
 
       <MotionWrapper delay={0.08} duration={0.54} amount={0.12}>
-        <Section
-          id="experience"
-          className="theme-grid-section theme-section-dense relative z-10 scroll-mt-24 border-y section-divider !py-8 sm:!py-10 lg:!py-12"
-        >
-          <Container>
-            <div
-              className="theme-section-header experience-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
-              data-scroll-target="experience"
-            >
-              <p className="theme-kicker mb-2">履历时间线</p>
-              <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
-                专业履历与实践
-              </h2>
-            </div>
-            <Timeline items={timelineByDate} />
-          </Container>
-        </Section>
-      </MotionWrapper>
-
-      <MotionWrapper delay={0.1} duration={0.54} amount={0.12}>
         <Section
           id="projects"
           className="theme-grid-section-strong theme-section-balanced relative z-10 scroll-mt-24"
@@ -286,7 +346,7 @@ export default function HomePage() {
         </Section>
       </MotionWrapper>
 
-      <MotionWrapper delay={0.12} duration={0.56} amount={0.12}>
+      <MotionWrapper delay={0.1} duration={0.56} amount={0.12}>
         <div
           id="skills"
           className="theme-grid-section relative z-10 scroll-mt-24"
@@ -295,7 +355,7 @@ export default function HomePage() {
         </div>
       </MotionWrapper>
 
-      <MotionWrapper delay={0.14} duration={0.56} amount={0.12}>
+      <MotionWrapper delay={0.12} duration={0.56} amount={0.12}>
         <div
           id="services"
           className="theme-grid-section relative z-10 scroll-mt-24"
@@ -304,7 +364,7 @@ export default function HomePage() {
         </div>
       </MotionWrapper>
 
-      <MotionWrapper delay={0.16} duration={0.58} amount={0.12}>
+      <MotionWrapper delay={0.14} duration={0.58} amount={0.12}>
         <div
           id="contact"
           className="theme-grid-section relative z-10 scroll-mt-24 border-t section-divider"
@@ -313,7 +373,7 @@ export default function HomePage() {
         </div>
       </MotionWrapper>
 
-      <MotionWrapper delay={0.18} duration={0.58} amount={0.12}>
+      <MotionWrapper delay={0.16} duration={0.58} amount={0.12}>
         <div className="relative z-10">
           <Footer
             name={data.hero.name}

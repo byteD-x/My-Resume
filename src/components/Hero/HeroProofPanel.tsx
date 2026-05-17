@@ -1,10 +1,6 @@
-"use client";
-
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { m as motion } from "framer-motion";
-import { HERO_ANIMATION, EASING_CURVES } from "@/config/animation";
 import type { HeroSpotlightItem } from "@/lib/home-highlights";
-import { IntentLink } from "@/components/ui/IntentLink";
 
 interface HeroProofPanelProps {
   items: HeroSpotlightItem[];
@@ -12,16 +8,7 @@ interface HeroProofPanelProps {
 
 export function HeroProofPanel({ items }: HeroProofPanelProps) {
   return (
-    <motion.aside
-      initial={{ opacity: 0, x: 16 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{
-        delay: HERO_ANIMATION.DELAY_CARD,
-        duration: 0.5,
-        ease: EASING_CURVES.OUT_EXPO,
-      }}
-      className="theme-card relative overflow-hidden rounded-[1.25rem] border-[rgba(148,163,184,0.16)] p-3 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-6"
-    >
+    <aside className="theme-card relative overflow-hidden rounded-[1.25rem] border-[rgba(148,163,184,0.16)] p-3 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-6">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(219,234,254,0.62),transparent)]" />
       <div className="relative z-10">
         <div className="mb-4 flex items-end justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-6 sm:pb-4">
@@ -40,9 +27,7 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
           {items.map((item) => {
             const content = (
               <>
-                <p className="theme-card-kicker">
-                  {item.focus}
-                </p>
+                <p className="theme-card-kicker">{item.focus}</p>
                 <div className="mt-2 flex items-start justify-between gap-2.5">
                   <h3 className="theme-card-title pr-2 text-[0.98rem] sm:text-[1.03rem]">
                     {item.name}
@@ -62,30 +47,25 @@ export function HeroProofPanel({ items }: HeroProofPanelProps) {
               </>
             );
 
-            const cardClasses =
+            const className =
               "theme-card-muted theme-card-interactive theme-card-launcher group flex min-h-[8.6rem] snap-start flex-col rounded-[1rem] border-[rgba(148,163,184,0.14)] p-3 sm:min-h-[10.5rem] sm:rounded-[1.25rem] sm:p-3.5";
 
             if (!item.href) {
               return (
-                <article key={item.id} className={cardClasses}>
+                <article key={item.id} className={className}>
                   {content}
                 </article>
               );
             }
 
             return (
-              <IntentLink
-                key={item.id}
-                href={item.href}
-                scroll={false}
-                className={cardClasses}
-              >
+              <Link key={item.id} href={item.href} className={className}>
                 {content}
-              </IntentLink>
+              </Link>
             );
           })}
         </div>
       </div>
-    </motion.aside>
+    </aside>
   );
 }

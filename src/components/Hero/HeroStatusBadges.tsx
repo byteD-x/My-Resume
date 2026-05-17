@@ -1,17 +1,4 @@
-"use client";
-
-import { m as motion } from "framer-motion";
 import { MapPin } from "lucide-react";
-import { HERO_ANIMATION, EASING_CURVES } from "@/config/animation";
-
-const fadeIn = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: {
-    duration: HERO_ANIMATION.FADE_IN.duration,
-    ease: EASING_CURVES.OUT_EXPO,
-  },
-};
 
 interface HeroStatusBadgesProps {
   location?: string;
@@ -19,11 +6,11 @@ interface HeroStatusBadgesProps {
 
 export function HeroStatusBadges({ location }: HeroStatusBadgesProps) {
   return (
-    <motion.div {...fadeIn} className="flex flex-wrap items-center gap-3 sm:gap-4">
+    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
       <span className="theme-pill px-3 py-1.5 text-[12px] font-medium sm:py-1 sm:text-xs">
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
         </span>
         远程优先
       </span>
@@ -31,6 +18,6 @@ export function HeroStatusBadges({ location }: HeroStatusBadgesProps) {
         <MapPin size={14} className="opacity-70" />
         {location ?? "深圳 / 南京 / 杭州 / 成都"}
       </span>
-    </motion.div>
+    </div>
   );
 }
