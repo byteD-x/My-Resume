@@ -1,6 +1,8 @@
-const INVALID_FILENAME_CHARS = /[\/\\:*?"<>|]+/g;
-const TRAILING_SPACES_OR_DOTS = /[. ]+$/g;
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
+
+export const RESUME_FILE_NAME =
+  "\u675c\u65ed\u5609_AI\u5e94\u7528\u5de5\u7a0b\u5e08_15035925107.pdf";
+export const RESUME_FILE_PATH = `/${encodeURIComponent(RESUME_FILE_NAME)}`;
 
 export interface ResumeDownloadClickEvent {
   preventDefault: () => void;
@@ -11,24 +13,11 @@ export function formatResumeFileName(
   name?: string,
   separator = "-",
 ): string {
-  const parts = [title, name]
-    .map((value) => (value ?? "").trim())
-    .filter(Boolean);
+  void title;
+  void name;
+  void separator;
 
-  const baseName = parts.join(separator);
-  let cleaned = baseName
-    .replace(INVALID_FILENAME_CHARS, "-")
-    .replace(/\s+/g, " ")
-    .trim()
-    .replace(TRAILING_SPACES_OR_DOTS, "");
-
-  if (!cleaned) return "resume.pdf";
-
-  if (!cleaned.toLowerCase().endsWith(".pdf")) {
-    cleaned = `${cleaned}.pdf`;
-  }
-
-  return cleaned;
+  return RESUME_FILE_NAME;
 }
 
 export function getResumeDownloadUrl(_fileName: string): string {
@@ -39,7 +28,7 @@ export function getResumeDownloadUrl(_fileName: string): string {
     const normalizedBasePath = basePath
       ? `/${basePath.replace(/^\/+|\/+$/g, "")}`
       : "";
-    return `${normalizedBasePath}/resume.pdf`;
+    return `${normalizedBasePath}${RESUME_FILE_PATH}`;
   }
 
   return "/api/resume";

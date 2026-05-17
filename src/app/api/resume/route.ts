@@ -1,19 +1,15 @@
 import { promises as fs } from "fs";
 import path from "path";
-import { defaultPortfolioData } from "@/data";
-import { formatResumeFileName } from "@/lib/resume";
+import { RESUME_FILE_NAME } from "@/lib/resume";
 
 export const runtime = "nodejs";
 
 // Static export ignores API routes but needs a static segment config to avoid build errors.
 export const dynamic = "force-static";
 
-const RESUME_PATH = path.join(process.cwd(), "public", "resume.pdf");
-const FALLBACK_NAME = "resume.pdf";
-const DEFAULT_FILE_NAME = formatResumeFileName(
-  defaultPortfolioData.hero.title,
-  defaultPortfolioData.hero.name,
-);
+const RESUME_PATH = path.join(process.cwd(), "public", RESUME_FILE_NAME);
+const FALLBACK_NAME = RESUME_FILE_NAME;
+const DEFAULT_FILE_NAME = RESUME_FILE_NAME;
 
 const sanitizeAsciiFilename = (value: string) => {
   const ascii = value.replace(/[^\x20-\x7E]/g, "_");

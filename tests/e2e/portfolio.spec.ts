@@ -1,5 +1,8 @@
 ﻿import { expect, test, type Page } from '@playwright/test';
 
+const RESUME_FILE_NAME = '\u675c\u65ed\u5609_AI\u5e94\u7528\u5de5\u7a0b\u5e08_15035925107.pdf';
+const RESUME_FILE_PATH = `/${encodeURIComponent(RESUME_FILE_NAME)}`;
+
 const openMobileMenuIfNeeded = async (page: Page) => {
     const viewport = page.viewportSize();
     if (!viewport || viewport.width >= 768) return;
@@ -101,7 +104,10 @@ test.describe('Portfolio E2E', () => {
     test('resume download link should be valid', async ({ page }) => {
         const downloadLink = page.getByRole('link', { name: /下载|简历|resume|pdf/i }).first();
         await expect(downloadLink).toBeVisible();
-        await expect(downloadLink).toHaveAttribute('href', /^\/(?:api\/resume(?:\?filename=.+)?|resume\.pdf)$/);
+        await expect(downloadLink).toHaveAttribute('download', RESUME_FILE_NAME);
+
+        const href = await downloadLink.getAttribute('href');
+        expect(href === '/api/resume' || href === RESUME_FILE_PATH).toBeTruthy();
     });
 
     test('hero project evidence cta should scroll to projects section', async ({ page }) => {

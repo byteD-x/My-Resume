@@ -5,6 +5,8 @@
  * NEXT_PUBLIC_GA_MEASUREMENT_ID - Your GA4 Measurement ID (e.g., G-XXXXXXXXXX)
  */
 
+import { RESUME_FILE_NAME } from "@/lib/resume";
+
 let analyticsEnabled = false;
 let reactGAInstance: typeof import("react-ga4").default | null = null;
 let reactGALoader: Promise<typeof import("react-ga4").default> | null = null;
@@ -199,7 +201,7 @@ export const trackResumeDownload = (): void => {
 
     // GA4 recommended event for file download
     reactGAInstance.event("file_download", {
-      file_name: "resume.pdf",
+      file_name: RESUME_FILE_NAME,
       file_extension: "pdf",
     });
   } catch {

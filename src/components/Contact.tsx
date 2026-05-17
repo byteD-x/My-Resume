@@ -24,7 +24,13 @@ import {
   trackAppointmentModalOpen,
   trackContactReveal,
   trackExternalLink,
+  trackResumeDownload,
 } from "@/lib/analytics";
+import {
+  createResumeDownloadHandler,
+  getResumeDownloadUrl,
+  RESUME_FILE_NAME,
+} from "@/lib/resume";
 
 const loadAppointmentModal = () => import("./AppointmentModal");
 
@@ -111,6 +117,11 @@ export default function Contact({ contactData }: ContactProps) {
           ? [{ label: "在线站点", url: contactData.website }]
           : [];
   const websiteUrls = websiteLinks.map(({ url }) => url);
+  const resumeDownloadUrl = getResumeDownloadUrl(RESUME_FILE_NAME);
+  const resumeDownloadHandler = useMemo(
+    () => createResumeDownloadHandler(RESUME_FILE_NAME, resumeDownloadUrl),
+    [resumeDownloadUrl],
+  );
 
   const emailSubject = "合作咨询 / 岗位沟通";
   const resumeLinks = websiteUrls
@@ -233,7 +244,12 @@ export default function Contact({ contactData }: ContactProps) {
                   </a>
                   <div className="grid grid-cols-2 gap-2.5 sm:flex sm:contents">
                     <a
-                      href="/resume.pdf"
+                      href={resumeDownloadUrl}
+                      download={RESUME_FILE_NAME}
+                      onClick={(event) => {
+                        trackResumeDownload();
+                        resumeDownloadHandler?.(event);
+                      }}
                       className="btn btn-secondary w-full px-4 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-[14px]"
                     >
                       <Download size={16} />
