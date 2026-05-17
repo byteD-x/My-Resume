@@ -259,6 +259,155 @@ export const defaultPortfolioData: PortfolioData = {
 
   timeline: [
     {
+      id: "exp-rentbox",
+      year: "2026.05 - 至今",
+      role: "独立开发者 · 全栈项目",
+      company: "RentBox 共享擦窗宝小程序",
+      location: "本地项目 / 多端交付",
+      summary:
+        "独立推进共享擦窗宝租赁系统的多端闭环，覆盖终端用户小程序、管理端、渠道端与 Spring Boot 后端，围绕支付、免押、设备、归还、结算和审计收敛测试期上线链路。",
+      techTags: [
+        "Java 21",
+        "Spring Boot 3.5",
+        "MySQL",
+        "Redis",
+        "Flyway",
+        "React 19",
+        "TypeScript",
+        "Vite",
+        "uni-app",
+        "WeChat Pay",
+        "WeChat Pay Score",
+        "Device Gateway",
+      ],
+      highlighted: true,
+      keyOutcomes: [
+        "按单仓多端组织 `server / admin / channel / miniapp / shared / deploy`，让用户租借、后台运营、渠道结算和宿主机发布处在同一套可验证工程链路里。",
+        "围绕订单、支付、免押、设备开锁、归还审核和资金补偿建立服务端状态真相，结合 Redis / JDBC 幂等、分布式锁、状态历史与审计日志降低重复回调和乱序推进风险。",
+        "抽象 `DeviceGateway` 与 `DepositFreeGateway`，对接微信支付 v3、微信支付分和柜机厂商 WebApi；外部参数未就绪时返回真实阻塞态，而不是用模拟成功绕过风险。",
+        "沉淀 Maven 测试、Vite 构建、小程序真机验证清单、Flyway 版本策略和宿主机 release 切换脚本，保证多端交付可回归、可回滚、可审计。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把共享租赁业务从小程序下单、支付担保、柜机开锁、归还审核到渠道结算串成可上线闭环，降低线下设备、资金和运营协同的交付风险。",
+        en: "Connected mini-program rental, payment guarantee, cabinet operations, returns, and channel settlement into a verifiable delivery loop.",
+      },
+      engineeringDepth: {
+        zh: "覆盖模块化单体、支付/免押网关、设备适配层、回调验签、幂等与重放防护、渠道结算、审计日志、Flyway 迁移和多端前端工程化。",
+        en: "Combines a modular monolith, payment/deposit-free gateways, device adapters, callback verification, idempotency, settlement, audit logs, Flyway migrations, and multi-client delivery.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel:
+            "本地仓库 README / AGENTS / doc/技术方案说明 / server / miniapp / tests / deploy",
+          verifiedAt: "2026-05-17",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "目标是面向共享擦窗宝租赁场景交付可测试上线的业务系统，同时承接用户端、后台运营、渠道合作、支付担保和柜机厂商联调。",
+        problem:
+          "支付、免押、设备开锁、归还审核和渠道结算都存在外部回调、人工补偿和状态乱序风险；如果仅靠前端流程推进，容易出现重复扣款、错发开锁或状态倒退。",
+        solution:
+          "- **组织多端闭环**：用 `server / admin / channel / miniapp / shared` 单仓组织后端、管理端、渠道端和 uni-app 小程序，统一接口、状态文案和交付文档。\n- **收敛状态真相**：将订单、支付、免押、设备指令、归还审核和资金补偿收敛到服务端状态机，并保留状态历史、审计日志和人工处理入口。\n- **隔离外部集成**：通过 `DeviceGateway`、`DepositFreeGateway`、支付网关和回调验签服务隔离微信支付、微信支付分、柜机厂商 WebApi 与业务主流程。\n- **固化交付路径**：补齐 Flyway 版本策略、Maven 测试、前端构建、小程序验证清单和宿主机 release 上传/切换脚本，控制上线与回滚风险。",
+        result:
+          "形成共享租赁业务的测试期最小闭环，覆盖扫码租用、在线预约、支付/免押、开门取机、归还审核、渠道结算、后台运维和宿主机发布链路。",
+        role: "独立开发者（产品收敛、后端核心、多端联调、部署交付）",
+        techStack: [
+          "Java 21",
+          "Spring Boot 3.5",
+          "Spring JDBC",
+          "Flyway",
+          "MySQL",
+          "Redis",
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "uni-app",
+          "WeChat Pay",
+          "WeChat Pay Score",
+        ],
+      },
+    },
+    {
+      id: "exp-paper-retrieval-platform",
+      year: "2026.04",
+      role: "独立开发者 · 全栈项目",
+      company: "论文检索任务平台",
+      location: "本地项目 / 测试验收版",
+      summary:
+        "独立交付论文检索任务平台，围绕手机号认证、任务创建、Worker 共享表对接、SSE 状态同步、额度流水、支付宝升级和管理后台形成测试验收版闭环。",
+      techTags: [
+        "Python",
+        "FastAPI",
+        "AsyncIO",
+        "SQLAlchemy",
+        "PostgreSQL",
+        "Redis",
+        "Alembic",
+        "React 19",
+        "TypeScript",
+        "Vite",
+        "Zustand",
+        "SWR",
+        "Playwright",
+      ],
+      highlighted: true,
+      keyOutcomes: [
+        "基于 FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis 和 React/Vite 搭建用户端、管理端、任务、支付、额度与健康检查等核心模块。",
+        "在甲方 Worker 只读写共享 `tasks` 表的约束下，设计 `pending -> running -> success/failed` 状态契约，并通过数据库触发器约束终态回退、完成时间和成功结果数。",
+        "实现任务状态 LISTEN/NOTIFY 监听、按任务 SSE、多任务 SSE、全局活动任务 SSE 与轮询兜底，减少用户侧等待时的状态盲区。",
+        "将额度扣减延后到任务成功后执行，结合 `SELECT ... FOR UPDATE`、唯一额度事件、并发测试和月度额度流水，避免任务失败或重复通知造成额度误扣。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把甲方论文检索 Worker 与用户侧平台边界隔离，用户只需要创建任务、观察进度、下载结果和管理额度，便于测试验收和后续生产联调。",
+        en: "Separated the customer worker from the user-facing platform while keeping task creation, progress tracking, result download, and quota management coherent.",
+      },
+      engineeringDepth: {
+        zh: "覆盖异步任务契约、PostgreSQL 触发器、LISTEN/NOTIFY、SSE 推送、额度流水、支付宝回调、FastAPI 分层、React 功能模块和 pytest/Vitest/Playwright 回归。",
+        en: "Covers async task contracts, PostgreSQL triggers, LISTEN/NOTIFY, SSE, quota ledgers, payment callbacks, layered FastAPI services, React modules, and automated tests.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel:
+            "本地仓库 README / docs/架构说明 / docs/交付文档 / apps/api / apps/web / tests",
+          verifiedAt: "2026-05-17",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "平台需要为用户提供论文检索任务入口，但实际检索由甲方 Worker 通过共享 PostgreSQL `tasks` 表执行，系统必须清晰隔离用户侧和 Worker 边界。",
+        problem:
+          "任务执行是异步且跨系统的：用户需要看到实时进度，Worker 需要按数据库契约回写结果，额度又不能在任务失败或重复通知时被误扣。",
+        solution:
+          "- **搭建全栈平台**：用 FastAPI + React/Vite 交付登录、任务工作台、个人中心、额度流水、支付升级和管理后台。\n- **固化 Worker 契约**：通过 Alembic check constraint 和触发器约束任务状态流转、终态字段和结果数，避免 Worker 回写破坏用户侧假设。\n- **实现状态同步**：使用 PostgreSQL `pg_notify` + asyncpg LISTEN 唤醒 SSE，前端同时保留轮询兜底，覆盖单任务、多任务和全局活动任务。\n- **治理额度与支付**：成功任务再扣减额度，使用锁与唯一事件防重复；支付宝支付成功后恢复 Pro 额度，并在额度流水中留痕。",
+        result:
+          "交付测试验收版论文检索平台，形成用户认证、任务提交、状态同步、结果下载、额度流水、支付升级和管理后台的完整闭环。",
+        role: "独立开发者（后端架构、前端页面、Worker 契约、测试交付）",
+        techStack: [
+          "Python",
+          "FastAPI",
+          "SQLAlchemy",
+          "Alembic",
+          "PostgreSQL",
+          "Redis",
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "Zustand",
+          "SWR",
+          "Playwright",
+        ],
+      },
+    },
+    {
       id: "exp-wechat-bot",
       year: "2025.12 - 至今",
       role: "独立开发者 · 开源项目",
@@ -835,6 +984,149 @@ export const defaultPortfolioData: PortfolioData = {
   ],
 
   projects: [
+    {
+      id: "proj-rentbox",
+      year: "2026.05 - 至今",
+      name: "RentBox 共享擦窗宝小程序",
+      demoLink: "",
+      techTags: [
+        "Java 21",
+        "Spring Boot 3.5",
+        "MySQL",
+        "Redis",
+        "Flyway",
+        "React 19",
+        "TypeScript",
+        "Vite",
+        "uni-app",
+        "WeChat Pay",
+        "WeChat Pay Score",
+        "Device Gateway",
+      ],
+      summary:
+        "面向共享擦窗宝租赁场景的单仓多端系统，覆盖用户小程序、管理端、渠道端和后端服务，将租借、支付担保、柜机开锁、归还审核与渠道结算串成测试期闭环。",
+      impact: "共享租赁多端闭环 + 支付设备一致性",
+      keyOutcomes: [
+        "按 `server / admin / channel / miniapp / shared / deploy` 组织单仓多端工程，统一用户端、后台、渠道端与部署链路。",
+        "将订单、支付、免押、开锁、归还、补偿和结算状态收敛到服务端，以幂等、锁、状态历史和审计日志处理外部回调乱序风险。",
+        "通过 `DeviceGateway`、`DepositFreeGateway` 和回调验签服务隔离柜机厂商、微信支付 v3 与微信支付分，缺配置时返回真实阻塞态。",
+        "补齐 Maven 测试、前端构建、小程序验证清单、Flyway 版本策略和宿主机 release 脚本，保证交付和回滚路径清晰。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "把线下设备租赁中的用户操作、资金担保、柜机状态、渠道结算和后台运维统一到可追踪系统内，降低测试上线和后续运营风险。",
+        en: "Unified user rental flows, payment guarantees, cabinet state, channel settlement, and operations into a traceable delivery system.",
+      },
+      engineeringDepth: {
+        zh: "覆盖 Spring Boot 模块化单体、微信支付/支付分、厂商设备适配、Redis 幂等与锁、审计日志、Flyway 迁移、多端 React/uni-app 工程和宿主机发布。",
+        en: "Combines Spring Boot modular delivery, WeChat payment integrations, vendor device adapters, Redis idempotency and locking, audit logs, Flyway, multi-client frontends, and host deployment.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel:
+            "本地仓库 README / doc/技术方案说明 / server / miniapp / tests / deploy",
+          verifiedAt: "2026-05-17",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "共享擦窗宝租赁需要同时处理微信小程序用户体验、后台运营、渠道合作、支付担保、柜机开锁和归还审核。",
+        problem:
+          "租赁链路涉及多方外部系统，支付、免押和设备回调可能重复、延迟或乱序；如果缺少统一状态和审计，资金与设备动作很难安全闭环。",
+        solution:
+          "- **多端工程组织**：单仓维护 Spring Boot 后端、React 管理端/渠道端、uni-app 小程序和共享组件，接口与文档同步推进。\n- **状态与幂等治理**：围绕订单生命周期建立状态历史、审计日志、Redis/JDBC 幂等、分布式锁和人工补偿入口。\n- **外部能力适配**：通过支付、免押和设备网关隔离微信支付、微信支付分和柜机厂商协议，真实配置缺失时暴露阻塞态。\n- **发布与回滚**：沉淀 Flyway 迁移策略、Maven/Vite 门禁、小程序验证清单和宿主机 release 切换流程。",
+        result:
+          "完成测试期租赁闭环主体能力：扫码租用、在线预约、支付/免押、开门取机、归还审核、异常反馈、渠道结算、后台运维与服务器发布。",
+        role: "独立开发者",
+        techStack: [
+          "Java 21",
+          "Spring Boot 3.5",
+          "Spring JDBC",
+          "Flyway",
+          "MySQL",
+          "Redis",
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "uni-app",
+        ],
+      },
+      highlighted: true,
+    },
+    {
+      id: "proj-paper-retrieval-platform",
+      year: "2026.04",
+      name: "论文检索任务平台",
+      techTags: [
+        "Python",
+        "FastAPI",
+        "AsyncIO",
+        "SQLAlchemy",
+        "PostgreSQL",
+        "Redis",
+        "Alembic",
+        "React 19",
+        "TypeScript",
+        "Vite",
+        "SSE",
+        "Playwright",
+      ],
+      summary:
+        "面向论文检索服务的全栈任务平台，提供认证、任务提交、Worker 共享表对接、状态同步、结果下载、额度流水、支付宝升级与管理后台。",
+      impact: "共享表 Worker 契约 + SSE 状态同步 + 额度流水",
+      keyOutcomes: [
+        "使用 FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis 和 React/Vite 搭建用户端、管理端、任务、支付和额度模块。",
+        "通过数据库约束与触发器固化 Worker 对 `tasks` 表的状态回写契约，禁止终态回退并要求成功任务具备结果数。",
+        "实现 LISTEN/NOTIFY、按任务 SSE、多任务 SSE、全局活动任务 SSE 与轮询兜底，让用户侧能持续感知检索进度。",
+        "将任务额度扣减延后到成功完成后执行，并通过锁、唯一额度事件和并发测试避免失败任务或重复通知误扣。",
+      ],
+      audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      businessValue: {
+        zh: "在甲方 Worker 不接入用户系统的前提下，交付可验收的用户侧任务平台，降低跨团队联调和后续生产化风险。",
+        en: "Delivered a testable user-facing task platform while keeping the customer worker integration isolated through the database contract.",
+      },
+      engineeringDepth: {
+        zh: "覆盖 FastAPI 分层、异步 SQLAlchemy、PostgreSQL 触发器、LISTEN/NOTIFY、SSE、额度流水、支付宝回调、React 功能分层和自动化回归。",
+        en: "Covers layered FastAPI services, async SQLAlchemy, PostgreSQL triggers, LISTEN/NOTIFY, SSE, quota ledgers, payment callbacks, React feature modules, and automated regression.",
+      },
+      verification: [
+        {
+          sourceType: "repo",
+          sourceLabel:
+            "本地仓库 README / docs/架构说明 / docs/交付文档 / apps/api / apps/web / tests",
+          verifiedAt: "2026-05-17",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "用户需要提交论文检索任务并跟踪结果，但真正执行检索的 Worker 由甲方维护，只通过共享数据库表与平台对接。",
+        problem:
+          "异步任务跨系统执行，状态同步、终态契约、结果链接安全和额度扣减都需要由平台侧兜住，否则容易出现进度不可见、终态回退或重复扣费。",
+        solution:
+          "- **用户侧闭环**：交付登录注册、任务工作台、结果下载、个人中心、额度流水、支付升级和管理后台。\n- **Worker 契约**：使用 Alembic 迁移加入 check constraint 与触发器，约束状态流转、终态完成时间和成功任务结果数。\n- **状态同步**：通过 PostgreSQL `pg_notify` + asyncpg LISTEN 唤醒 SSE，前端保留轮询兜底。\n- **额度治理**：成功任务再扣减额度，结合 `SELECT ... FOR UPDATE`、唯一额度事件和测试覆盖处理并发。",
+        result:
+          "形成测试验收版论文检索任务平台，覆盖用户认证、任务提交、进度同步、结果下载、额度流水、支付宝升级和管理后台。",
+        role: "独立开发者",
+        techStack: [
+          "Python",
+          "FastAPI",
+          "SQLAlchemy",
+          "Alembic",
+          "PostgreSQL",
+          "Redis",
+          "React 19",
+          "TypeScript",
+          "Vite",
+          "Playwright",
+        ],
+      },
+      highlighted: true,
+    },
     {
       id: "proj-customer-ai-runtime",
       year: "2026 - 至今",
