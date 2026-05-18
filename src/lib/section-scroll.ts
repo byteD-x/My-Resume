@@ -1,6 +1,34 @@
 "use client";
 
 const DEFAULT_SECTION_GAP = 20;
+export const SECTION_REQUEST_EVENT = "portfolio:section-request";
+const SECTION_REQUEST_STATE_KEY = "__portfolioRequestedSection";
+
+declare global {
+  interface Window {
+    [SECTION_REQUEST_STATE_KEY]?: string;
+  }
+}
+
+function emitSectionRequest(id: string) {
+  if (typeof window === "undefined") return;
+  window[SECTION_REQUEST_STATE_KEY] = id;
+
+  window.dispatchEvent(
+    new CustomEvent(SECTION_REQUEST_EVENT, {
+      detail: { id },
+    }),
+  );
+}
+
+export function getRequestedSectionId(): string {
+  if (typeof window === "undefined") return "";
+
+  return (
+    window[SECTION_REQUEST_STATE_KEY]?.trim() ||
+    window.location.hash.replace(/^#/, "").trim()
+  );
+}
 
 export function getPreferredScrollBehavior(): ScrollBehavior {
   if (typeof window === "undefined") return "auto";
@@ -31,6 +59,7 @@ function getNavbarHeight(): number {
 interface ScrollToSectionOptions {
   behavior?: ScrollBehavior;
   updateHash?: boolean;
+  emitRequest?: boolean;
   gap?: number;
 }
 
@@ -39,6 +68,10 @@ export function scrollToSection(
   options?: ScrollToSectionOptions,
 ): boolean {
   if (typeof window === "undefined") return false;
+
+  if (options?.emitRequest !== false) {
+    emitSectionRequest(id);
+  }
 
   const target = getSectionScrollTarget(id);
   if (!target) return false;

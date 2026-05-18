@@ -18,20 +18,17 @@ export default function ImmersiveBackdrop() {
   return (
     <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden">
       <div
-        className="absolute -top-32 -left-20 h-[18rem] w-[18rem] rounded-full bg-sky-200/40 blur-[72px] animate-pulse md:-top-40 md:-left-28 md:h-[30rem] md:w-[30rem] md:blur-[96px]"
-        style={{ animationDuration: "6s" }}
+        className="absolute -top-28 -left-20 h-[16rem] w-[16rem] rounded-full bg-sky-200/26 blur-[60px] md:-top-36 md:-left-24 md:h-[26rem] md:w-[26rem] md:blur-[82px]"
       />
       <div
-        className="absolute top-[16%] right-[6%] h-[14rem] w-[14rem] rounded-full bg-blue-200/28 blur-[56px] animate-pulse md:h-[22rem] md:w-[22rem] md:blur-[80px]"
-        style={{ animationDuration: "7.5s" }}
+        className="absolute top-[18%] right-[8%] h-[12rem] w-[12rem] rounded-full bg-blue-200/18 blur-[46px] md:h-[18rem] md:w-[18rem] md:blur-[68px]"
       />
       <div
-        className="absolute bottom-[-5rem] left-[18%] h-[14rem] w-[14rem] rounded-full bg-cyan-100/50 blur-[60px] animate-pulse md:bottom-[-8rem] md:h-[24rem] md:w-[24rem] md:blur-[84px]"
-        style={{ animationDuration: "9s" }}
+        className="absolute bottom-[-4rem] left-[22%] h-[12rem] w-[12rem] rounded-full bg-cyan-100/28 blur-[52px] md:bottom-[-7rem] md:h-[18rem] md:w-[18rem] md:blur-[72px]"
       />
 
-      <div className="immersive-grid absolute inset-0 hidden opacity-50 md:block" />
-      <div className="immersive-grain absolute inset-0 hidden opacity-40 md:block" />
+      <div className="immersive-grid absolute inset-0 hidden opacity-32 md:block" />
+      <div className="immersive-grain absolute inset-0 hidden opacity-24 md:block" />
     </div>
   );
 }

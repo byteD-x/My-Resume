@@ -17,7 +17,11 @@ const outDir = path.join(rootDir, 'out');
 const argBasePath = process.argv[2];
 const basePath = typeof argBasePath === 'string' ? argBasePath : process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-const env = { ...process.env, NEXT_PUBLIC_STATIC_EXPORT: 'true' };
+const env = {
+    ...process.env,
+    NEXT_PUBLIC_STATIC_EXPORT: 'true',
+    NEXT_PUBLIC_DEFAULT_LOCALE: process.env.NEXT_PUBLIC_DEFAULT_LOCALE || 'zh',
+};
 if (basePath) {
     env.NEXT_PUBLIC_BASE_PATH = basePath;
 } else {

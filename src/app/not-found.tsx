@@ -4,12 +4,16 @@ import Link from "next/link";
 import { m as motion } from "framer-motion";
 import { Home, ArrowLeft, Search } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
 
 /**
  * 自定义 404 页面
  * 保持品牌一致性，提供返回首页的快速入口
  */
 export default function NotFound() {
+  const { localizedHref } = useLocale();
+  const copy = useUiCopy();
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)]">
       <Container>
@@ -34,7 +38,7 @@ export default function NotFound() {
 
           {/* 错误信息 */}
           <h2 className="theme-title mb-3 text-2xl font-bold">
-            页面被垃圾回收了 (GC)
+            {copy.notFound.title}
           </h2>
           <p className="theme-card-muted mb-8 rounded-[1.25rem] p-4 text-left font-mono text-sm leading-relaxed text-[color:var(--text-secondary)]">
             {`> Error: 404 Not Found`}
@@ -47,18 +51,18 @@ export default function NotFound() {
           {/* 操作按钮 */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/"
+              href={localizedHref("/")}
               className="btn btn-primary px-6 py-3 inline-flex items-center justify-center gap-2"
             >
               <Home className="w-4 h-4" />
-              返回首页
+              {copy.notFound.home}
             </Link>
             <button
               onClick={() => window.history.back()}
               className="btn btn-secondary px-6 py-3 inline-flex items-center justify-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
-              返回上页
+              {copy.notFound.back}
             </button>
           </div>
 

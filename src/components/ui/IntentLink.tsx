@@ -7,6 +7,7 @@ import {
   useCallback,
   useState,
 } from "react";
+import { useLocale } from "@/lib/LocaleProvider";
 
 type IntentLinkProps = PropsWithChildren<
   LinkProps &
@@ -24,16 +25,20 @@ export function IntentLink({
   prefetch,
   ...props
 }: IntentLinkProps) {
+  const { localizedHref } = useLocale();
   const [hasIntent, setHasIntent] = useState(false);
 
   const activateIntent = useCallback(() => {
     if (!preloadOnIntent || hasIntent) return;
     setHasIntent(true);
   }, [hasIntent, preloadOnIntent]);
+  const href =
+    typeof props.href === "string" ? localizedHref(props.href) : props.href;
 
   return (
     <Link
       {...props}
+      href={href}
       prefetch={
         preloadOnIntent ? (hasIntent ? null : false) : prefetch
       }

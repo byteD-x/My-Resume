@@ -1,22 +1,37 @@
 import { VerificationInfo } from "@/types";
+import type { Locale } from "@/lib/locale";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-const sourceTypeLabelMap: Record<VerificationInfo["sourceType"], string> = {
-  repo: "仓库/代码记录",
-  experience: "项目经历/交付记录",
-  manual: "人工整理与交叉校对",
-};
+const sourceTypeLabelMap = {
+  zh: {
+    repo: "仓库/代码记录",
+    experience: "项目经历/交付记录",
+    manual: "人工整理与交叉校对",
+  },
+  en: {
+    repo: "Repository / code records",
+    experience: "Project delivery record",
+    manual: "Manual cross-check",
+  },
+} satisfies Record<Locale, Record<VerificationInfo["sourceType"], string>>;
 
-const confidenceLabelMap: Record<VerificationInfo["confidence"], string> = {
-  high: "高",
-  medium: "中",
-};
+const confidenceLabelMap = {
+  zh: {
+    high: "高",
+    medium: "中",
+  },
+  en: {
+    high: "High",
+    medium: "Medium",
+  },
+} satisfies Record<Locale, Record<VerificationInfo["confidence"], string>>;
 
 export function getVerificationSourceTypeLabel(
   sourceType: VerificationInfo["sourceType"],
+  locale: Locale = "zh",
 ): string {
-  return sourceTypeLabelMap[sourceType];
+  return sourceTypeLabelMap[locale][sourceType];
 }
 
 export interface VerificationAssessment {
@@ -45,38 +60,67 @@ function getDaysSince(verifiedAt: string, referenceDate: Date): number | null {
 function buildDerivedBasis(
   verification: VerificationInfo,
   daysSince: number | null,
+  locale: Locale,
 ): string[] {
   const basis: string[] = [];
 
   if (verification.level === "strict") {
-    basis.push("证据级别：严格复核（核心区仅展示可复核指标）");
+    basis.push(
+      locale === "en"
+        ? "Evidence level: strict review (core sections only show verifiable metrics)"
+        : "证据级别：严格复核（核心区仅展示可复核指标）",
+    );
   } else {
-    basis.push("证据级别：估算复核（建议二次确认）");
+    basis.push(
+      locale === "en"
+        ? "Evidence level: estimated review (recommended to double-check)"
+        : "证据级别：估算复核（建议二次确认）",
+    );
   }
 
-  basis.push(`来源类型：${sourceTypeLabelMap[verification.sourceType]}`);
+  basis.push(
+    locale === "en"
+      ? `Source type: ${sourceTypeLabelMap.en[verification.sourceType]}`
+      : `来源类型：${sourceTypeLabelMap.zh[verification.sourceType]}`,
+  );
 
   if (verification.sourceUrl) {
-    basis.push("来源链接：已提供公开链接，可独立复核");
+    basis.push(
+      locale === "en"
+        ? "Source link: public link provided for independent review"
+        : "来源链接：已提供公开链接，可独立复核",
+    );
   } else {
-    basis.push("来源链接：未提供公开链接，需结合履历或交付记录复核");
+    basis.push(
+      locale === "en"
+        ? "Source link: no public link provided, review against delivery records"
+        : "来源链接：未提供公开链接，需结合履历或交付记录复核",
+    );
   }
 
   if (daysSince === null) {
     basis.push(
-      `验证时间：${verification.verifiedAt}（格式异常，无法计算距今天数）`,
+      locale === "en"
+        ? `Verified at: ${verification.verifiedAt} (invalid format, unable to compute age)`
+        : `验证时间：${verification.verifiedAt}（格式异常，无法计算距今天数）`,
     );
   } else if (daysSince <= 180) {
     basis.push(
-      `验证时间：${verification.verifiedAt}（距今 ${daysSince} 天，时效性高）`,
+      locale === "en"
+        ? `Verified at: ${verification.verifiedAt} (${daysSince} days ago, fresh evidence)`
+        : `验证时间：${verification.verifiedAt}（距今 ${daysSince} 天，时效性高）`,
     );
   } else if (daysSince <= 365) {
     basis.push(
-      `验证时间：${verification.verifiedAt}（距今 ${daysSince} 天，时效性可接受）`,
+      locale === "en"
+        ? `Verified at: ${verification.verifiedAt} (${daysSince} days ago, acceptable recency)`
+        : `验证时间：${verification.verifiedAt}（距今 ${daysSince} 天，时效性可接受）`,
     );
   } else {
     basis.push(
-      `验证时间：${verification.verifiedAt}（距今 ${daysSince} 天，建议更新复核）`,
+      locale === "en"
+        ? `Verified at: ${verification.verifiedAt} (${daysSince} days ago, refresh recommended)`
+        : `验证时间：${verification.verifiedAt}（距今 ${daysSince} 天，建议更新复核）`,
     );
   }
 
@@ -86,85 +130,106 @@ function buildDerivedBasis(
 function buildDerivedReason(
   verification: VerificationInfo,
   daysSince: number | null,
+  locale: Locale,
 ): string {
   if (verification.confidence === "high") {
     const positives: string[] = [];
 
     if (verification.level === "strict") {
-      positives.push("按严格口径整理");
+      positives.push(locale === "en" ? "organized under strict evidence rules" : "按严格口径整理");
     }
 
     if (verification.sourceType === "repo") {
-      positives.push("可回溯到仓库或代码记录");
+      positives.push(locale === "en" ? "traceable to repository or code records" : "可回溯到仓库或代码记录");
     } else if (verification.sourceType === "experience") {
-      positives.push("可与项目经历交叉验证");
+      positives.push(locale === "en" ? "cross-checkable against project delivery" : "可与项目经历交叉验证");
     } else {
-      positives.push("已完成人工交叉校对");
+      positives.push(locale === "en" ? "manually cross-checked" : "已完成人工交叉校对");
     }
 
     if (verification.sourceUrl) {
-      positives.push("包含可访问来源链接");
+      positives.push(locale === "en" ? "includes an accessible source link" : "包含可访问来源链接");
     }
 
     if (daysSince !== null && daysSince <= 365) {
-      positives.push(`验证时间距今 ${daysSince} 天`);
+      positives.push(
+        locale === "en"
+          ? `verified ${daysSince} days ago`
+          : `验证时间距今 ${daysSince} 天`,
+      );
     }
 
     if (positives.length === 0) {
-      return "判定为高置信度：当前证据链完整且可复核。";
+      return locale === "en"
+        ? "High confidence: the current evidence chain is complete and reviewable."
+        : "判定为高置信度：当前证据链完整且可复核。";
     }
 
-    return `判定为高置信度：${positives.join("，")}。`;
+    return locale === "en"
+      ? `High confidence: ${positives.join(", ")}.`
+      : `判定为高置信度：${positives.join("，")}。`;
   }
 
   const constraints: string[] = [];
 
   if (verification.sourceType === "manual") {
-    constraints.push("证据主要来自人工整理");
+    constraints.push(locale === "en" ? "evidence mainly comes from manual collation" : "证据主要来自人工整理");
   }
 
   if (!verification.sourceUrl) {
-    constraints.push("缺少公开来源链接");
+    constraints.push(locale === "en" ? "missing a public source link" : "缺少公开来源链接");
   }
 
   if (verification.level !== "strict") {
-    constraints.push("采用估算复核口径");
+    constraints.push(locale === "en" ? "uses estimated review rules" : "采用估算复核口径");
   }
 
   if (daysSince !== null && daysSince > 365) {
-    constraints.push(`验证时间距今 ${daysSince} 天，时效性偏弱`);
+    constraints.push(
+      locale === "en"
+        ? `verified ${daysSince} days ago, recency is weaker`
+        : `验证时间距今 ${daysSince} 天，时效性偏弱`,
+    );
   }
 
   if (constraints.length === 0) {
-    constraints.push("可公开交叉验证信息不足");
+    constraints.push(locale === "en" ? "publicly reviewable evidence is limited" : "可公开交叉验证信息不足");
   }
 
-  return `判定为中置信度：${constraints.join("；")}。`;
+  return locale === "en"
+    ? `Medium confidence: ${constraints.join("; ")}.`
+    : `判定为中置信度：${constraints.join("；")}。`;
 }
 
 export function getConfidenceDisplayText(
   confidence: VerificationInfo["confidence"],
+  locale: Locale = "zh",
 ): string {
-  return confidenceLabelMap[confidence];
+  return confidenceLabelMap[locale][confidence];
 }
 
 export function evaluateVerificationConfidence(
   verification: VerificationInfo,
   referenceDate: Date = new Date(),
+  locale: Locale = "zh",
 ): VerificationAssessment {
   const daysSince = getDaysSince(verification.verifiedAt, referenceDate);
-  const derivedBasis = buildDerivedBasis(verification, daysSince);
+  const derivedBasis = buildDerivedBasis(verification, daysSince, locale);
 
   const manualBasis = (verification.confidenceBasis ?? [])
     .map((item) => item.trim())
     .filter(Boolean);
-  const basis = manualBasis.length > 0 ? manualBasis : derivedBasis;
+  const basis =
+    manualBasis.length > 0 && locale === "zh" ? manualBasis : derivedBasis;
 
   const manualReason = verification.confidenceReason?.trim();
-  const reason = manualReason || buildDerivedReason(verification, daysSince);
+  const reason =
+    manualReason && locale === "zh"
+      ? manualReason
+      : buildDerivedReason(verification, daysSince, locale);
 
   return {
-    confidenceText: getConfidenceDisplayText(verification.confidence),
+    confidenceText: getConfidenceDisplayText(verification.confidence, locale),
     basis,
     reason,
   };

@@ -12,6 +12,7 @@ import { trackCTAClick, trackResumeDownload } from "@/lib/analytics";
 import { scrollToSection } from "@/lib/section-scroll";
 import { useScrollPastThreshold } from "@/lib/scroll-observer";
 import { cn } from "@/lib/utils";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
 
 type DesktopVariant = "fixed" | "dock" | "hidden";
 type MobileVariant = "bar" | "inline" | "hidden";
@@ -37,11 +38,18 @@ export default function FloatingResumeButton({
   extraMobileAction,
   mobileShowContactAction = true,
 }: FloatingResumeButtonProps) {
+  const { locale } = useLocale();
+  const copy = useUiCopy();
   const [isMobile, setIsMobile] = useState(false);
   const isVisible = useScrollPastThreshold(400);
 
-  const resumeFileName = formatResumeFileName(resumeOwnerTitle, resumeOwnerName);
-  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
+  const resumeFileName = formatResumeFileName(
+    resumeOwnerTitle,
+    resumeOwnerName,
+    "-",
+    locale,
+  );
+  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName, locale);
   const resumeDownloadHandler = useMemo(
     () => createResumeDownloadHandler(resumeFileName, resumeDownloadUrl),
     [resumeDownloadUrl, resumeFileName],
@@ -82,19 +90,19 @@ export default function FloatingResumeButton({
           href={resumeDownloadUrl}
           download={resumeFileName}
           onClick={handleResumeClick}
-          className="btn btn-primary pointer-events-auto flex-1 py-3"
+          className="btn btn-primary pointer-events-auto flex-1 px-3 py-3 text-[13px]"
         >
           <Download size={16} />
-          下载简历
+          {copy.runtime.resume}
         </a>
         {mobileShowContactAction ? (
           <button
             type="button"
             onClick={handleContactClick}
-            className="btn btn-secondary pointer-events-auto flex-1 py-3"
+            className="btn btn-secondary pointer-events-auto flex-1 px-3 py-3 text-[13px]"
           >
             <Mail size={16} />
-            联系我
+            {copy.nav.contact}
           </button>
         ) : null}
       </>
@@ -109,7 +117,7 @@ export default function FloatingResumeButton({
           exit={{ y: 20, opacity: 0 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
           className={cn(
-            "pointer-events-none flex w-full items-center gap-2.5",
+            "pointer-events-none flex w-full items-stretch gap-2",
             mobileClassName,
           )}
         >
@@ -150,11 +158,11 @@ export default function FloatingResumeButton({
     <>
       <span className="inline-flex min-w-0 items-center gap-2">
         <Download size={16} />
-        <span className="text-balance leading-5">下载简历</span>
+        <span className="text-balance leading-5">{copy.runtime.resume}</span>
       </span>
       {desktopVariant === "dock" ? (
         <span className="theme-floating-meta text-left leading-5">
-          PDF · 当前版本
+          {copy.runtime.currentPdf}
         </span>
       ) : null}
     </>

@@ -28,9 +28,10 @@ import {
 } from "@/lib/analytics";
 import {
   createResumeDownloadHandler,
+  formatResumeFileName,
   getResumeDownloadUrl,
-  RESUME_FILE_NAME,
 } from "@/lib/resume";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
 
 const loadAppointmentModal = () => import("./AppointmentModal");
 
@@ -82,6 +83,8 @@ interface ContactItem {
 }
 
 export default function Contact({ contactData }: ContactProps) {
+  const { locale } = useLocale();
+  const copy = useUiCopy();
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [isAppointmentOpen, setIsAppointmentOpen] = useState(false);
   const [hasLoadedAppointmentModal, setHasLoadedAppointmentModal] =
@@ -110,33 +113,39 @@ export default function Contact({ contactData }: ContactProps) {
       ? contactData.websiteLinks
       : contactData.websites && contactData.websites.length > 0
         ? contactData.websites.map((url, index) => ({
-            label: contactData.websites!.length > 1 ? `在线站点 ${index + 1}` : "在线站点",
+            label:
+              contactData.websites!.length > 1
+                ? copy.contact.onlineSiteWithIndex(index + 1)
+                : copy.contact.onlineSite,
             url,
           }))
         : contactData.website
-          ? [{ label: "在线站点", url: contactData.website }]
+          ? [{ label: copy.contact.onlineSite, url: contactData.website }]
           : [];
   const websiteUrls = websiteLinks.map(({ url }) => url);
-  const resumeDownloadUrl = getResumeDownloadUrl(RESUME_FILE_NAME);
+  const resumeFileName = formatResumeFileName(undefined, undefined, "-", locale);
+  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName, locale);
   const resumeDownloadHandler = useMemo(
-    () => createResumeDownloadHandler(RESUME_FILE_NAME, resumeDownloadUrl),
-    [resumeDownloadUrl],
+    () => createResumeDownloadHandler(resumeFileName, resumeDownloadUrl),
+    [resumeDownloadUrl, resumeFileName],
   );
 
-  const emailSubject = "合作咨询 / 岗位沟通";
+  const emailSubject = copy.contact.emailSubject;
   const resumeLinks = websiteUrls
-    .map((url) => `在线站点：${url}`)
+    .map((url) => `${copy.contact.emailBodySiteLabel}：${url}`)
     .join("\n");
-  const emailBody = `你好，我想进一步沟通合作或岗位机会。\n\n${
+  const emailBody = `${copy.contact.emailBodyIntro}\n\n${
     resumeLinks ? `${resumeLinks}\n` : ""
-  }GitHub: ${contactData.github}\n\n请告知方便沟通的时间，谢谢。`;
+  }GitHub: ${contactData.github}\n\n${copy.contact.emailBodyOutro}`;
   const mailtoHref = `mailto:${contactData.email}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+  const phoneLabel = copy.contact.phone;
+  const wechatLabel = copy.contact.wechat;
 
   const baseItems: ContactItem[] = [
     {
       id: "email",
       icon: Mail,
-      label: "邮箱",
+      label: copy.contact.email,
       value: contactData.email,
       href: mailtoHref,
       canCopy: true,
@@ -172,7 +181,7 @@ export default function Contact({ contactData }: ContactProps) {
       items.push({
         id: "phone",
         icon: Phone,
-        label: "电话",
+        label: phoneLabel,
         value: contactData.phone,
         href: `tel:${contactData.phone.replace(/\s+/g, "")}`,
         canCopy: true,
@@ -183,7 +192,7 @@ export default function Contact({ contactData }: ContactProps) {
       items.push({
         id: "wechat",
         icon: MessageSquare,
-        label: "微信",
+        label: wechatLabel,
         value: contactData.wechat,
         href: "#",
         canCopy: true,
@@ -196,7 +205,9 @@ export default function Contact({ contactData }: ContactProps) {
     contactData.visibility?.showPhoneByDefault,
     contactData.visibility?.showWechatByDefault,
     contactData.wechat,
+    phoneLabel,
     showPrivateChannels,
+    wechatLabel,
   ]);
 
   const hasHiddenPrivateChannels = Boolean(
@@ -224,13 +235,13 @@ export default function Contact({ contactData }: ContactProps) {
                   data-scroll-target="contact"
                 >
                   <p className="theme-kicker mb-3">
-                    联系方式
+                    {copy.contact.kicker}
                   </p>
                   <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
-                    沟通与合作
+                    {copy.contact.title}
                   </h2>
                   <p className="theme-section-copy">
-                    欢迎沟通岗位、合作或技术问题；可按场景快速对齐需求与时间。
+                    {copy.contact.description}
                   </p>
                 </div>
 
@@ -240,12 +251,12 @@ export default function Contact({ contactData }: ContactProps) {
                     className="btn btn-primary w-full px-5 py-3 text-[14px] sm:w-auto sm:px-6 sm:py-3.5"
                   >
                     <Mail size={16} />
-                    发邮件沟通
+                    {copy.contact.emailCta}
                   </a>
                   <div className="grid grid-cols-2 gap-2.5 sm:flex sm:contents">
                     <a
                       href={resumeDownloadUrl}
-                      download={RESUME_FILE_NAME}
+                      download={resumeFileName}
                       onClick={(event) => {
                         trackResumeDownload();
                         resumeDownloadHandler?.(event);
@@ -253,7 +264,7 @@ export default function Contact({ contactData }: ContactProps) {
                       className="btn btn-secondary w-full px-4 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-[14px]"
                     >
                       <Download size={16} />
-                      简历 PDF
+                      {copy.contact.resume}
                     </a>
                     <button
                       type="button"
@@ -268,7 +279,7 @@ export default function Contact({ contactData }: ContactProps) {
                       className="btn btn-secondary w-full px-4 py-3 text-[13px] sm:w-auto sm:px-6 sm:py-3.5 sm:text-[14px]"
                     >
                       <Calendar size={16} />
-                      预约沟通
+                      {copy.contact.appointment}
                     </button>
                   </div>
                 </div>
@@ -278,14 +289,14 @@ export default function Contact({ contactData }: ContactProps) {
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-blue-600" />
                   </span>
-                  {contactData.responseSlaText ?? "通常在 24 小时内回复（工作日更快）"}
+                  {contactData.responseSlaText ?? copy.contact.responseSla}
                 </div>
 
                 {contactData.consultationChecklist &&
                 contactData.consultationChecklist.length > 0 ? (
                   <div className="mt-6 border-t border-[color:var(--border-default)] pt-6 sm:mt-8 sm:pt-8">
                     <p className="theme-kicker mb-4 text-[11px]">
-                      沟通前准备
+                      {copy.contact.checklist}
                     </p>
                     <ul className="theme-copy space-y-2.5 text-[13px] leading-[1.82] sm:text-[14px]">
                       {contactData.consultationChecklist.map((item) => (
@@ -344,7 +355,7 @@ export default function Contact({ contactData }: ContactProps) {
                             type="button"
                             onClick={() => void handleCopy(item.value, item.id)}
                             className="flex h-10 w-10 items-center justify-center rounded-full text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(239,246,255,0.9)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
-                            aria-label={`复制 ${item.label}`}
+                            aria-label={copy.contact.copy(item.label)}
                           >
                             {isCopied ? (
                               <Check
@@ -365,7 +376,7 @@ export default function Contact({ contactData }: ContactProps) {
                               trackExternalLink(item.href, `${item.label}_icon`)
                             }
                             className="flex h-10 w-10 items-center justify-center rounded-full text-[color:var(--text-tertiary)] transition-colors hover:bg-[rgba(239,246,255,0.9)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
-                            aria-label={`打开 ${item.label}`}
+                            aria-label={copy.contact.open(item.label)}
                           >
                             <ExternalLink size={14} />
                           </a>
@@ -385,7 +396,7 @@ export default function Contact({ contactData }: ContactProps) {
                     className="theme-link mt-2 inline-flex w-full items-center justify-center gap-2 rounded-[1.25rem] border border-dashed border-[color:var(--border-default)] bg-transparent px-4 py-3.5 text-[13px] font-semibold hover:border-[rgba(37,99,235,0.22)]"
                   >
                     <Eye size={16} />
-                    展开更多联系方式
+                    {copy.contact.reveal}
                   </button>
                 ) : null}
               </div>
@@ -396,7 +407,7 @@ export default function Contact({ contactData }: ContactProps) {
 
       <ToastTrigger
         show={copiedField !== null}
-        message="已复制到剪贴板"
+        message={copy.contact.copied}
         type="success"
         onHide={() => setCopiedField(null)}
       />

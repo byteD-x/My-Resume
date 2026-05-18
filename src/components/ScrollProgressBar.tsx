@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { getPreferredScrollBehavior } from "@/lib/section-scroll";
+import { useUiCopy } from "@/lib/LocaleProvider";
 
 interface ScrollProgressBarProps {
   className?: string;
@@ -23,6 +24,7 @@ export function ScrollProgressBar({
   className,
   variant = "fixed",
 }: ScrollProgressBarProps) {
+  const copy = useUiCopy();
   const prefersReducedMotion = useReducedMotion();
   const isLowPerformanceMode = useLowPerformanceMode();
   const { scrollYProgress } = useScroll();
@@ -73,7 +75,7 @@ export function ScrollProgressBar({
           <div className="min-w-0 flex-1">
             <div className="min-w-0">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[color:var(--text-tertiary)]">
-                阅读进度
+                {copy.runtime.readingProgress}
               </p>
               <p className="mt-1 text-balance text-sm font-semibold leading-5 text-[color:var(--text-primary)]">
                 {progressText}
@@ -84,7 +86,7 @@ export function ScrollProgressBar({
           <div
             className="relative h-16 w-2 shrink-0 overflow-hidden rounded-full border border-[rgba(37,99,235,0.14)] bg-[rgba(241,245,249,0.82)] shadow-sm"
             role="progressbar"
-            aria-label="页面滚动进度"
+            aria-label={copy.runtime.progressAria}
             aria-valuenow={progressValue}
             aria-valuemin={0}
             aria-valuemax={100}
@@ -105,14 +107,14 @@ export function ScrollProgressBar({
           type="button"
           onClick={scrollToTop}
           className="motion-chip pointer-events-auto inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3.5 py-2.5 text-[12px] font-semibold text-[color:var(--text-primary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--brand-gold)]"
-          aria-label="回到顶部"
+          aria-label={copy.runtime.backToTop}
         >
           <ArrowUp size={12} />
-          回到顶部
+          {copy.runtime.backToTop}
         </button>
 
         <p className="theme-floating-meta leading-5">
-          继续阅读前可快速返回首屏。
+          {copy.runtime.backToTopHint}
         </p>
       </div>
     );
@@ -125,7 +127,7 @@ export function ScrollProgressBar({
         className,
       )}
       role="progressbar"
-      aria-label="页面滚动进度"
+      aria-label={copy.runtime.progressAria}
       aria-valuenow={progressValue}
       aria-valuemin={0}
       aria-valuemax={100}

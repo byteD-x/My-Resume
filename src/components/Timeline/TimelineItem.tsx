@@ -9,12 +9,14 @@ interface TimelineItemProps {
   isLast: boolean;
   index: number;
   isHighlighted?: boolean;
+  groupChildren?: TimelineItemType[];
 }
 
 export const TimelineItem = React.memo(function TimelineItem({
   item,
   isLast,
   isHighlighted = false,
+  groupChildren = [],
 }: TimelineItemProps) {
   return (
     <div
@@ -63,7 +65,12 @@ export const TimelineItem = React.memo(function TimelineItem({
             </span>
           </div>
 
-          <ExperienceCard item={item} hideDate={true} type="timeline" />
+          <ExperienceCard
+            item={item}
+            hideDate={true}
+            type="timeline"
+            groupChildren={groupChildren}
+          />
         </div>
       </div>
     </div>

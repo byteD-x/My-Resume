@@ -82,6 +82,37 @@ function renderBootstrapHttpConfig(serverNames, canonicalHost) {
 `;
 }
 
+const pageCacheControl =
+  "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400";
+const apiCacheControl =
+  "public, max-age=0, s-maxage=600, stale-while-revalidate=3600";
+const mediaCacheControl =
+  "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400";
+const immutableStaticCacheControl = "public, max-age=31536000, immutable";
+
+function renderProxyDirectives(indent = "    ") {
+  return `${indent}proxy_pass http://${config.serverBindHost}:${config.serverAppPort};
+${indent}proxy_http_version 1.1;
+
+${indent}proxy_set_header Host $host;
+${indent}proxy_set_header X-Real-IP $remote_addr;
+${indent}proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+${indent}proxy_set_header X-Forwarded-Proto $scheme;
+
+${indent}proxy_set_header Upgrade $http_upgrade;
+${indent}proxy_set_header Connection upgrade;`;
+}
+
+function renderCachedProxyLocation(locationMatcher, cacheControl) {
+  return `  location ${locationMatcher} {
+${renderProxyDirectives()}
+
+    proxy_hide_header Cache-Control;
+    add_header Cache-Control "${cacheControl}" always;
+  }
+`;
+}
+
 function renderFinalHttpsConfig(serverNames, canonicalHost, certName) {
   const certDir = `/etc/letsencrypt/live/${certName}`;
 
@@ -113,17 +144,15 @@ server {
   ssl_session_cache shared:SSL:10m;
   ssl_session_timeout 1d;
 
+${renderCachedProxyLocation("^~ /_next/static/", immutableStaticCacheControl)}
+${renderCachedProxyLocation("= /api/github", apiCacheControl)}
+${renderCachedProxyLocation("= /api/resume", mediaCacheControl)}
+${renderCachedProxyLocation("~* \\.(?:avif|css|gif|ico|jpe?g|js|pdf|png|svg|webp|woff2?)$", mediaCacheControl)}
   location / {
-    proxy_pass http://${config.serverBindHost}:${config.serverAppPort};
-    proxy_http_version 1.1;
+${renderProxyDirectives()}
 
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection upgrade;
+    proxy_hide_header Cache-Control;
+    add_header Cache-Control "${pageCacheControl}" always;
   }
 }
 `;

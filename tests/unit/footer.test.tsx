@@ -17,6 +17,7 @@ describe("Footer", () => {
         ]}
         icpRecord={siteConfig.icpRecord}
         icpRecordUrl={siteConfig.icpRecordUrl}
+        locale="zh"
       />,
     );
 

@@ -25,24 +25,19 @@ import {
   scrollToSection,
 } from "@/lib/section-scroll";
 import { cn } from "@/lib/utils";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
 
 interface NavbarProps {
   heroData: HeroData;
   contactData: ContactData;
 }
 
-const navItems = [
-  { name: "成果", href: "#impact" },
-  { name: "经历", href: "#experience" },
-  { name: "项目", href: "#projects" },
-  { name: "技能", href: "#skills" },
-  { name: "服务", href: "#services" },
-  { name: "联系", href: "#contact" },
-];
-
 const MOBILE_MENU_ID = "mobile-navigation-drawer";
 
 export default function Navbar({ heroData, contactData }: NavbarProps) {
+  const { locale, switchLocaleHref } = useLocale();
+  const copy = useUiCopy();
+  const navItems = copy.nav.items;
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const scrolled = useScrollPastThreshold(40);
@@ -51,8 +46,13 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
   const menuToggleButtonRef = useRef<HTMLButtonElement>(null);
   const menuCloseButtonRef = useRef<HTMLButtonElement>(null);
 
-  const resumeFileName = formatResumeFileName(heroData.title, heroData.name);
-  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
+  const resumeFileName = formatResumeFileName(
+    heroData.title,
+    heroData.name,
+    "-",
+    locale,
+  );
+  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName, locale);
   const resumeDownloadHandler = createResumeDownloadHandler(
     resumeFileName,
     resumeDownloadUrl,
@@ -145,7 +145,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [navItems]);
 
   return (
     <nav
@@ -175,7 +175,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               })
             }
             className="group flex items-center gap-3"
-            aria-label="返回顶部"
+            aria-label={copy.nav.backToTop}
           >
             <div
               className={cn(
@@ -194,12 +194,18 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                 {heroData.name}
               </div>
               <div className="mt-1 text-xs font-medium text-[color:var(--text-tertiary)]">
-                AI 应用工程师
+                {copy.nav.roleLabel}
               </div>
             </div>
           </button>
 
           <div className="hidden items-center gap-1 rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.82)] p-1 shadow-sm md:flex">
+            <a
+              href={switchLocaleHref(locale === "zh" ? "en" : "zh")}
+              className="motion-chip rounded px-3 py-1.5 text-sm font-medium text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--brand-gold)]"
+            >
+              {copy.nav.switchLanguage}
+            </a>
             {navItems.map((item) => {
               const isActive = activeSection === item.href.slice(1);
               return (
@@ -228,7 +234,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               rel="noopener noreferrer"
               onClick={handleGithubClick}
               className="motion-chip inline-flex h-9 w-9 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] text-[color:var(--text-secondary)] shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition-colors hover:border-[rgba(96,165,250,0.22)] hover:text-[color:var(--brand-gold)]"
-              aria-label="访问 GitHub 主页"
+              aria-label={copy.nav.github}
             >
               <Github size={16} className="motion-icon-float shrink-0" />
             </a>
@@ -238,18 +244,18 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               download={resumeFileName}
               onClick={handleResumeClick}
               className="btn btn-secondary h-9 px-4 text-sm"
-              aria-label="下载简历 PDF"
+              aria-label={copy.nav.resumeAria}
             >
-              下载简历
+              {copy.nav.resume}
             </a>
 
             <button
               type="button"
               onClick={handleContactClick}
               className="btn btn-primary h-9 px-4 text-sm"
-              aria-label="联系我"
+              aria-label={copy.nav.contactAria}
             >
-              联系我
+              {copy.nav.contact}
             </button>
           </div>
 
@@ -261,14 +267,14 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                 scrollTo("#contact");
               }}
               disabled={!isHydrated}
-              aria-label="联系我"
+              aria-label={copy.nav.contactAria}
               className={cn(
                 "motion-chip inline-flex h-11 w-11 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,250,252,0.92))] text-[color:var(--text-secondary)] shadow-[0_10px_22px_rgba(15,23,42,0.06)] transition-colors hover:border-[rgba(96,165,250,0.22)] hover:text-[color:var(--brand-gold)] disabled:cursor-not-allowed disabled:opacity-60",
                 isOpen && "hidden",
               )}
             >
               <Mail size={18} className="motion-icon-float" />
-              <span className="sr-only">联系</span>
+              <span className="sr-only">{copy.nav.contact}</span>
             </button>
 
             <button
@@ -277,7 +283,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               className="motion-chip h-11 w-11 rounded-full p-0 text-[color:var(--text-secondary)] transition-colors hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
               disabled={!isHydrated}
               onClick={() => setIsOpen((value) => !value)}
-              aria-label="打开菜单"
+              aria-label={copy.nav.openMenu}
               aria-haspopup="dialog"
               aria-expanded={isOpen}
               aria-controls={MOBILE_MENU_ID}
@@ -317,18 +323,18 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               className="fixed bottom-0 right-0 top-0 z-50 flex w-[85%] max-w-sm origin-right flex-col border-l border-[color:var(--border-default)] bg-[rgba(255,255,255,0.98)] shadow-2xl backdrop-blur-xl md:hidden"
               role="dialog"
               aria-modal="true"
-              aria-label="移动端导航菜单"
+              aria-label={copy.nav.mobileMenu}
             >
               <div className="flex items-center justify-between border-b border-[color:var(--border-default)] p-5">
                 <span className="text-sm font-semibold uppercase tracking-wider text-[color:var(--text-primary)]">
-                  Menu
+                  {copy.nav.language}
                 </span>
                 <button
                   type="button"
                   ref={menuCloseButtonRef}
                   onClick={() => setIsOpen(false)}
                   className="motion-chip h-11 w-11 rounded-full p-0 text-[color:var(--text-tertiary)] hover:bg-[rgba(239,246,255,0.8)] hover:text-[color:var(--brand-gold)]"
-                  aria-label="关闭菜单"
+                  aria-label={copy.nav.closeMenu}
                 >
                   <X size={20} className="motion-icon-float" />
                 </button>
@@ -388,8 +394,15 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                   }}
                   className="btn btn-primary w-full py-3"
                 >
-                  联系我
+                  {copy.nav.contact}
                 </button>
+
+                <a
+                  href={switchLocaleHref(locale === "zh" ? "en" : "zh")}
+                  className="btn btn-secondary w-full py-3"
+                >
+                  {copy.nav.switchLanguage}
+                </a>
 
                 <a
                   href={resumeDownloadUrl}
@@ -397,7 +410,7 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                   onClick={handleResumeClick}
                   className="btn btn-secondary w-full py-3"
                 >
-                  下载简历
+                  {copy.nav.resume}
                 </a>
               </div>
             </motion.div>

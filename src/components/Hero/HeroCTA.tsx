@@ -15,6 +15,7 @@ import {
   getPreferredScrollBehavior,
   scrollToSection,
 } from "@/lib/section-scroll";
+import { useUiCopy } from "@/lib/LocaleProvider";
 
 interface HeroCTAProps {
   downloadName: string;
@@ -22,6 +23,7 @@ interface HeroCTAProps {
 }
 
 export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
+  const copy = useUiCopy();
   const isHydrated = useHydrated();
   const handleStaticDownload = createResumeDownloadHandler(
     downloadName,
@@ -52,10 +54,10 @@ export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
         download={downloadName}
         onClick={handleDownloadClick}
         className="btn btn-primary min-w-0 px-3.5 text-[13px] sm:min-w-[12.5rem] sm:px-5 sm:text-[0.9375rem]"
-        aria-label="下载简历 PDF"
+        aria-label={copy.hero.resumeAria}
       >
         <Download size={16} />
-        下载简历
+        {copy.hero.resume}
       </a>
 
       <button
@@ -63,10 +65,10 @@ export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
         onClick={handleViewProjects}
         disabled={!isHydrated}
         className="btn btn-secondary min-w-0 px-3 text-[13px] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[12.5rem] sm:px-5 sm:text-[0.9375rem]"
-        aria-label="查看项目证据"
+        aria-label={copy.hero.projectsAria}
       >
         <ArrowRight size={16} />
-        查看项目
+        {copy.hero.projects}
       </button>
     </div>
   );

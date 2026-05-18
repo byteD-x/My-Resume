@@ -1,16 +1,20 @@
 import { Container } from "@/components/ui/Container";
+import { getDefaultLocale } from "@/lib/locale";
+import { getUiCopy } from "@/lib/locale-copy";
 
 /**
  * 全局加载状态页面
  * 在路由切换时显示骨架屏，提升用户体验
  */
 export default function Loading() {
+  const copy = getUiCopy(getDefaultLocale());
+
   return (
     <div
       className="min-h-screen bg-[rgba(255,250,242,0.78)]"
       role="status"
       aria-live="polite"
-      aria-label="页面加载中"
+      aria-label={copy.loadingLabel}
     >
       {/* Navbar 骨架 */}
       <div className="h-16 border-b border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] backdrop-blur-sm">

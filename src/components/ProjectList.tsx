@@ -5,6 +5,12 @@ import { AnimatePresence, m as motion } from "framer-motion";
 import { ArrowUpDown, Search, Sparkles } from "lucide-react";
 import { ProjectItem } from "@/types";
 import { ExperienceCard } from "./ExperienceCard";
+import {
+  getGroupedChildren,
+  getVisibleSectionItems,
+} from "@/lib/experience-presentation";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
+import { IntentLink } from "./ui/IntentLink";
 import { cn } from "@/lib/utils";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -16,6 +22,12 @@ interface ProjectListProps {
 const INITIAL_VISIBLE_COUNT = 6;
 
 type SortMode = "latest" | "highlight";
+
+interface ProjectListEntry {
+  item: ProjectItem;
+  visibleChildren: ProjectItem[];
+  allChildren: ProjectItem[];
+}
 
 function extractSortKey(period: string): number {
   const match = period.match(/(\d{4})(?:\.(\d{1,2}))?/);
@@ -30,7 +42,46 @@ function extractSortKey(period: string): number {
   return year * 100 + Math.min(Math.max(month, 1), 12);
 }
 
+function getProjectSearchText(item: ProjectItem) {
+  const details = item.expandedDetails;
+
+  return [
+    item.name,
+    item.summary,
+    item.year,
+    item.impact,
+    item.businessValue?.zh,
+    item.businessValue?.en,
+    item.engineeringDepth?.zh,
+    item.engineeringDepth?.en,
+    details?.background,
+    details?.problem,
+    details?.solution,
+    details?.result,
+    details?.role,
+    ...(details?.techStack ?? []),
+    ...(details?.links?.map((link) => `${link.label} ${link.url}`) ?? []),
+    ...(item.techTags ?? []),
+    ...(item.keyOutcomes ?? []),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+function matchesProjectQuery(item: ProjectItem, normalizedQuery: string) {
+  if (!normalizedQuery) return true;
+  return getProjectSearchText(item).includes(normalizedQuery);
+}
+
+function matchesProjectTech(item: ProjectItem, activeTech: string) {
+  if (activeTech === "all") return true;
+  return item.techTags.includes(activeTech);
+}
+
 export function ProjectList({ items }: ProjectListProps) {
+  const { locale } = useLocale();
+  const copy = useUiCopy();
   const isLowPerformanceMode = useLowPerformanceMode();
   const shouldReduceMotion = useReducedMotion();
   const shouldAnimateInView = !isLowPerformanceMode && !shouldReduceMotion;
@@ -49,12 +100,12 @@ export function ProjectList({ items }: ProjectListProps) {
       [
         {
           key: "highlight" as const,
-          label: "重点优先",
+          label: copy.projectList.sortHighlight,
           icon: Sparkles,
         },
         {
           key: "latest" as const,
-          label: "按时间",
+          label: copy.projectList.sortLatest,
           icon: ArrowUpDown,
         },
       ] satisfies Array<{
@@ -62,7 +113,7 @@ export function ProjectList({ items }: ProjectListProps) {
         label: string;
         icon: typeof Sparkles;
       }>,
-    [],
+    [copy.projectList.sortHighlight, copy.projectList.sortLatest],
   );
 
   const techFilters = useMemo(() => {
@@ -81,23 +132,57 @@ export function ProjectList({ items }: ProjectListProps) {
 
   const filteredItems = useMemo(() => {
     const normalizedQuery = deferredQuery.trim().toLowerCase();
-    const queried = items.filter((item) => {
-      const queryText = [item.name, item.summary, item.year, ...item.techTags]
-        .join(" ")
-        .toLowerCase();
-      const queryMatched =
-        normalizedQuery.length === 0 || queryText.includes(normalizedQuery);
-      const techMatched =
-        activeTech === "all" || item.techTags.includes(activeTech);
-      return queryMatched && techMatched;
-    });
+    const visibleItems = getVisibleSectionItems(items);
+    const queried = visibleItems
+      .map((item) => {
+        const allChildren = getGroupedChildren(item, items);
+        const parentQueryMatch = matchesProjectQuery(item, normalizedQuery);
+        const parentTechMatch = matchesProjectTech(item, activeTech);
+
+        if (allChildren.length === 0) {
+          return parentQueryMatch && parentTechMatch
+            ? { item, visibleChildren: [], allChildren: [] }
+            : null;
+        }
+
+        const matchedChildren = allChildren.filter(
+          (child) =>
+            matchesProjectQuery(child, normalizedQuery) &&
+            matchesProjectTech(child, activeTech),
+        );
+
+        const shouldInclude =
+          matchedChildren.length > 0 || (parentQueryMatch && parentTechMatch);
+
+        if (!shouldInclude) return null;
+
+        return {
+          item,
+          visibleChildren:
+            matchedChildren.length > 0 ||
+            activeTech !== "all" ||
+            normalizedQuery.length > 0
+              ? matchedChildren
+              : allChildren,
+          allChildren,
+        } satisfies ProjectListEntry;
+      })
+      .filter((entry): entry is ProjectListEntry => Boolean(entry));
 
     return queried.sort((a, b) => {
       if (sortMode === "highlight") {
-        if (a.highlighted && !b.highlighted) return -1;
-        if (!a.highlighted && b.highlighted) return 1;
+        if (a.item.highlighted && !b.item.highlighted) return -1;
+        if (!a.item.highlighted && b.item.highlighted) return 1;
       }
-      return extractSortKey(b.year) - extractSortKey(a.year);
+      const aSortKey = Math.max(
+        extractSortKey(a.item.year),
+        ...a.allChildren.map((child) => extractSortKey(child.year)),
+      );
+      const bSortKey = Math.max(
+        extractSortKey(b.item.year),
+        ...b.allChildren.map((child) => extractSortKey(child.year)),
+      );
+      return bSortKey - aSortKey;
     });
   }, [activeTech, deferredQuery, items, sortMode]);
 
@@ -130,9 +215,9 @@ export function ProjectList({ items }: ProjectListProps) {
                   setVisibleCount(INITIAL_VISIBLE_COUNT);
                 });
               }}
-              placeholder="搜索项目名称、技术栈、年份"
+              placeholder={copy.projectList.placeholder}
               className="w-full rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] py-3 pl-10 pr-4 text-[13px] font-medium text-[color:var(--text-primary)] placeholder:font-normal placeholder:text-[color:var(--text-tertiary)] outline-none transition-colors focus:border-[rgba(37,99,235,0.28)] focus:ring-2 focus:ring-[rgba(37,99,235,0.12)] sm:py-2.5"
-              aria-label="搜索项目"
+              aria-label={copy.projectList.searchAria}
             />
           </div>
 
@@ -186,7 +271,7 @@ export function ProjectList({ items }: ProjectListProps) {
         <div className="mb-3.5 flex flex-wrap items-center gap-2">
           {["all", ...techFilters].map((tag) => {
             const isActive = activeTech === tag;
-            const label = tag === "all" ? "全部" : tag;
+            const label = tag === "all" ? copy.projectList.all : tag;
 
             return (
               <motion.button
@@ -233,11 +318,11 @@ export function ProjectList({ items }: ProjectListProps) {
         </div>
 
         <p className="theme-copy-subtle text-[11px] font-bold uppercase tracking-[0.12em] md:text-[10px] md:tracking-widest">
-          共{" "}
+          {copy.projectList.resultPrefix ? `${copy.projectList.resultPrefix} ` : ""}
           <span className="text-[color:var(--text-primary)]">
             {filteredItems.length}
-          </span>{" "}
-          个结果
+          </span>
+          {copy.projectList.resultSuffix ? ` ${copy.projectList.resultSuffix}` : ""}
         </p>
       </motion.div>
 
@@ -251,10 +336,10 @@ export function ProjectList({ items }: ProjectListProps) {
             <Search size={18} className="motion-icon-float" />
           </div>
           <p className="theme-title text-[14px] font-semibold">
-            未找到匹配的工程实践
+            {copy.projectList.emptyTitle}
           </p>
           <p className="theme-copy mt-2 max-w-sm text-[13px]">
-            你可以尝试更换搜索关键词，或重置当前的技术栈筛选条件。
+            {copy.projectList.emptyBody}
           </p>
           <button
             type="button"
@@ -267,13 +352,13 @@ export function ProjectList({ items }: ProjectListProps) {
             }}
             className="theme-link mt-6 text-[13px] font-semibold underline underline-offset-4"
           >
-            重置筛选条件
+            {copy.projectList.reset}
           </button>
         </motion.div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
           <AnimatePresence mode="popLayout">
-            {visibleItems.map((item) => (
+            {visibleItems.map(({ item, visibleChildren, allChildren }) => (
               <motion.div
                 key={item.id}
                 layout
@@ -289,9 +374,65 @@ export function ProjectList({ items }: ProjectListProps) {
                         ease: [0.16, 1, 0.3, 1],
                       }
                 }
-                className="h-full"
+                className={cn(
+                  "h-full",
+                  visibleChildren.length > 0 && "lg:col-span-3",
+                )}
               >
-                <ExperienceCard item={item} type="project" />
+                {visibleChildren.length > 0 ? (
+                  <section className="space-y-4">
+                    <div className="theme-card-muted min-w-0 rounded-[1.35rem] border border-[rgba(148,163,184,0.16)] px-4 py-4 sm:px-5 sm:py-5">
+                      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]">
+                              {item.year}
+                            </span>
+                            <span className="theme-card-kicker break-words text-[11px] [overflow-wrap:anywhere]">
+                              {locale === "en"
+                                ? `${visibleChildren.length}/${allChildren.length} visible child projects`
+                                : `当前显示 ${visibleChildren.length}/${allChildren.length} 个子项目`}
+                            </span>
+                          </div>
+                          <h3 className="theme-title mt-3 break-words text-[1.1rem] font-semibold leading-7 sm:text-[1.2rem]">
+                            {item.name}
+                          </h3>
+                          <p className="theme-copy mt-2 break-words text-[13px] leading-[1.82] [overflow-wrap:anywhere] sm:text-[14px]">
+                            {item.summary}
+                          </p>
+                        </div>
+
+                        <IntentLink
+                          href={`/experiences/${item.id}`}
+                          className="theme-link min-w-0 shrink-0 break-words text-sm font-semibold hover:underline [overflow-wrap:anywhere]"
+                        >
+                          {locale === "en" ? "View grouped detail" : "查看分组详情"}
+                        </IntentLink>
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {item.techTags.slice(0, 8).map((tag) => (
+                          <span
+                            key={`${item.id}-${tag}`}
+                            className="theme-chip max-w-full px-2.5 py-1 text-[11px] font-medium [overflow-wrap:anywhere]"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:gap-5">
+                      {visibleChildren.map((child) => (
+                        <div key={child.id} className="h-full">
+                          <ExperienceCard item={child} type="project" />
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : (
+                  <ExperienceCard item={item} type="project" />
+                )}
               </motion.div>
             ))}
           </AnimatePresence>
@@ -307,7 +448,7 @@ export function ProjectList({ items }: ProjectListProps) {
             }
             className="btn btn-secondary w-auto px-8 py-3 text-[13px] sm:py-2.5"
           >
-            加载更多项目
+            {copy.projectList.loadMore}
           </button>
         </div>
       ) : null}

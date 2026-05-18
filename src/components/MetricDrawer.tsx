@@ -7,7 +7,10 @@ import { ImpactItem, TimelineItem } from "@/types";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { isProjectLikeTimelineSubtitle } from "@/lib/experience-presentation";
+import {
+  getExperienceScrollTargetId,
+  isProjectLikeTimelineSubtitle,
+} from "@/lib/experience-presentation";
 import {
   getOverlayFadeTransition,
   getOverlaySurfaceAnimate,
@@ -20,6 +23,7 @@ import {
   getVerificationSourceTypeLabel,
 } from "@/lib/verification";
 import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/lib/LocaleProvider";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 import { DialogCloseButton } from "./ui/DialogCloseButton";
 import { OverlayPortal } from "./ui/OverlayPortal";
@@ -37,6 +41,7 @@ export default function MetricDrawer({
   metric,
   linkedExperience,
 }: MetricDrawerProps) {
+  const copy = useUiCopy();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const isDesktopViewport = useMediaQuery("(min-width: 768px)");
@@ -66,9 +71,10 @@ export default function MetricDrawer({
 
     onClose();
     window.setTimeout(() => {
+      const targetId = getExperienceScrollTargetId(linkedExperience);
       const target =
-        document.getElementById(`timeline-${linkedExperience.id}`) ??
-        document.getElementById(linkedExperience.id);
+        document.getElementById(`timeline-${targetId}`) ??
+        document.getElementById(targetId);
       if (target) {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -132,7 +138,7 @@ export default function MetricDrawer({
                 <DialogCloseButton
                   ref={closeButtonRef}
                   onClick={onClose}
-                  ariaLabel="关闭指标详情面板"
+                  ariaLabel={copy.metric.close}
                   className="shrink-0"
                   iconSize={20}
                 />
@@ -155,7 +161,7 @@ export default function MetricDrawer({
               {metric.description && (
                 <div>
                   <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
-                    概述
+                    {copy.metric.overview}
                   </h3>
                   <div className="theme-dialog-prose">
                     <MarkdownRenderer inline>
@@ -168,7 +174,7 @@ export default function MetricDrawer({
               {metric.details && (
                 <div>
                   <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
-                    实现要点
+                    {copy.metric.details}
                   </h3>
                   <div className="theme-dialog-prose">
                     <MarkdownRenderer tone="muted">
@@ -181,7 +187,7 @@ export default function MetricDrawer({
               {metric.verification && (
                 <div className="rounded-[1.15rem] border border-emerald-200/70 bg-emerald-50/70 p-4 md:p-5 dark:border-emerald-900/50 dark:bg-emerald-900/10">
                   <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-                    证据来源
+                    {copy.metric.evidence}
                   </h3>
                   {metric.verification.sourceLabel && (
                     <p className="text-sm text-emerald-800 dark:text-emerald-200">
@@ -189,14 +195,20 @@ export default function MetricDrawer({
                     </p>
                   )}
                   <p className="mt-1 text-xs leading-6 text-emerald-700/80 dark:text-emerald-300/80">
-                    来源类型：{getVerificationSourceTypeLabel(metric.verification.sourceType)} · 置信度：{verificationAssessment?.confidenceText} ·
-                    验证时间：{metric.verification.verifiedAt}
+                    {copy.metric.sourceType}
+                    {getVerificationSourceTypeLabel(metric.verification.sourceType)}
+                    {" · "}
+                    {copy.metric.confidence}
+                    {verificationAssessment?.confidenceText}
+                    {" · "}
+                    {copy.metric.verifiedAt}
+                    {metric.verification.verifiedAt}
                   </p>
                   {verificationAssessment &&
                     verificationAssessment.basis.length > 0 && (
                       <div className="mt-3">
                         <p className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
-                          判定说明
+                          {copy.metric.notes}
                         </p>
                         <ul className="mt-1 space-y-1 text-xs leading-6 text-emerald-800/90 dark:text-emerald-200/90">
                           {verificationAssessment.basis.map(
@@ -215,7 +227,7 @@ export default function MetricDrawer({
                     )}
                   {verificationAssessment && (
                     <p className="mt-2 text-xs leading-6 text-emerald-800/90 dark:text-emerald-200/90">
-                      <span className="font-semibold">判定原因：</span>
+                      <span className="font-semibold">{copy.metric.reason}</span>
                       {verificationAssessment.reason}
                     </p>
                   )}
@@ -226,7 +238,7 @@ export default function MetricDrawer({
                       rel="noopener noreferrer"
                       className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 hover:underline dark:text-emerald-300"
                     >
-                      查看来源
+                      {copy.metric.viewSource}
                       <ExternalLink size={12} />
                     </a>
                   )}
@@ -238,7 +250,7 @@ export default function MetricDrawer({
                   {details.background && (
                     <div>
                       <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
-                        背景
+                        {copy.metric.background}
                       </h3>
                       <div style={{ color: "var(--text-secondary)" }}>
                         <MarkdownRenderer tone="muted">
@@ -251,7 +263,7 @@ export default function MetricDrawer({
                   {details.solution && (
                     <div>
                       <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
-                        我的行动
+                        {copy.metric.action}
                       </h3>
                       <MarkdownRenderer>{details.solution}</MarkdownRenderer>
                     </div>
@@ -260,7 +272,7 @@ export default function MetricDrawer({
                   {details.result && (
                     <div>
                       <h3 className="theme-copy-subtle mb-2 text-sm font-semibold uppercase tracking-wide">
-                        成果
+                        {copy.metric.result}
                       </h3>
                       <MarkdownRenderer tone="default">
                         {details.result}
@@ -271,7 +283,7 @@ export default function MetricDrawer({
                   {details.techStack && details.techStack.length > 0 && (
                     <div>
                       <h3 className="theme-copy-subtle mb-3 text-sm font-semibold uppercase tracking-wide">
-                        技术要点
+                        {copy.metric.tech}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {details.techStack.map((tech, i) => (
@@ -289,7 +301,7 @@ export default function MetricDrawer({
                   {details.links && details.links.length > 0 && (
                     <div>
                       <h3 className="theme-copy-subtle mb-3 text-sm font-semibold uppercase tracking-wide">
-                        查看证据
+                        {copy.metric.viewEvidence}
                       </h3>
                       <div className="flex flex-wrap gap-2">
                         {details.links.map((link, i) => (
@@ -316,7 +328,7 @@ export default function MetricDrawer({
                   style={{ borderColor: "var(--border-default)" }}
                 >
                   <div className="theme-copy-subtle mb-1 text-xs uppercase tracking-wide">
-                    来源
+                    {copy.metric.source}
                   </div>
                   <div
                     className={cn(
@@ -334,7 +346,7 @@ export default function MetricDrawer({
                     className="btn btn-secondary mt-3"
                     onClick={jumpToLinkedExperience}
                   >
-                    定位到对应经历
+                    {copy.metric.jump}
                   </button>
                 </div>
               )}

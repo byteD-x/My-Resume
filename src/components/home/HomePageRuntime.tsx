@@ -8,6 +8,7 @@ import { clearScrollRestore, readScrollRestore } from "@/lib/scroll-restore";
 import { useScrollPastThreshold } from "@/lib/scroll-observer";
 import { scrollToSection } from "@/lib/section-scroll";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
+import { useUiCopy } from "@/lib/LocaleProvider";
 
 const EngineeringCommandCenter = dynamic(
   () => import("@/components/EngineeringCommandCenter"),
@@ -45,6 +46,7 @@ export function HomePageRuntime({
   resumeOwnerName,
   resumeOwnerTitle,
 }: HomePageRuntimeProps) {
+  const copy = useUiCopy();
   const isLowPerformanceMode = useLowPerformanceMode();
   const hasReachedEnhancementZone = useScrollPastThreshold(240);
   const isMobileViewport = useMediaQuery("(max-width: 767px)");
@@ -127,17 +129,17 @@ export function HomePageRuntime({
             <aside
               data-print="hide"
               className="pointer-events-none fixed right-3 top-1/2 z-40 hidden w-[15.75rem] -translate-y-1/2 2xl:right-5 2xl:block 2xl:w-[16.5rem]"
-              aria-label="快捷操作"
+              aria-label={copy.runtime.quickActions}
             >
               <div className="theme-floating-dock theme-floating-dock-soft pointer-events-none rounded-[1.45rem] p-3.5">
                 <div className="border-b border-[color:var(--border-muted)] pb-3">
-                  <p className="theme-floating-label">快捷入口</p>
+                  <p className="theme-floating-label">{copy.runtime.quickEntry}</p>
                   <p className="mt-1 flex items-start gap-2 text-sm font-semibold text-[color:var(--text-primary)]">
                     <Sparkles size={14} className="text-[color:var(--brand-gold)]" />
-                    <span className="text-balance leading-5">工程证明入口</span>
+                    <span className="text-balance leading-5">{copy.runtime.proofEntry}</span>
                   </p>
                   <p className="theme-floating-meta mt-1 text-balance leading-5">
-                    汇集指标、项目入口与常用操作。
+                    {copy.runtime.proofMeta}
                   </p>
                 </div>
 
@@ -146,9 +148,9 @@ export function HomePageRuntime({
 
                   <div className="border-t border-[color:var(--border-muted)] pt-3">
                     <div className="mb-2 flex items-center justify-between gap-3">
-                      <p className="theme-floating-label">辅助操作</p>
+                      <p className="theme-floating-label">{copy.runtime.auxiliary}</p>
                       <span className="theme-floating-meta inline-flex items-center gap-1">
-                        滚动
+                        {copy.runtime.scroll}
                         <ArrowUpRight size={12} />
                       </span>
                     </div>
@@ -158,7 +160,7 @@ export function HomePageRuntime({
                   </div>
 
                   <div className="border-t border-[color:var(--border-muted)] pt-3">
-                    <p className="theme-floating-label mb-2">常用操作</p>
+                    <p className="theme-floating-label mb-2">{copy.runtime.commonActions}</p>
                     {shouldRenderSupplementalActions ? (
                       <FloatingResumeButton
                         resumeOwnerName={resumeOwnerName}
@@ -175,7 +177,7 @@ export function HomePageRuntime({
             <div
               data-print="hide"
               className="pointer-events-none fixed right-4 bottom-4 z-40 hidden lg:block"
-              aria-label="快捷操作"
+              aria-label={copy.runtime.quickActions}
             >
               <div className="flex flex-col gap-2.5">
                 {shouldRenderSupplementalActions ? (
@@ -187,18 +189,21 @@ export function HomePageRuntime({
           ) : (
             <div
               data-print="hide"
-              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-2 pb-[calc(0.55rem+env(safe-area-inset-bottom))]"
+              className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))]"
             >
-              <div className="theme-floating-dock pointer-events-none rounded-[1.15rem] p-2">
-                <div className="flex flex-col gap-2">
-                  <EngineeringCommandCenter compact className="w-full" />
+              <div className="theme-floating-dock pointer-events-none rounded-[1rem] p-1.5">
+                <div className="grid grid-cols-2 gap-2">
+                  <EngineeringCommandCenter
+                    compact
+                    className="min-h-[3rem] w-full rounded-[0.95rem] px-3 py-2.5 text-[13px]"
+                  />
                   {shouldRenderSupplementalActions ? (
                     <FloatingResumeButton
                       resumeOwnerName={resumeOwnerName}
                       resumeOwnerTitle={resumeOwnerTitle}
                       desktopVariant="hidden"
                       mobileVariant="inline"
-                      mobileClassName="w-full"
+                      mobileClassName="min-h-[3rem] w-full"
                       mobileShowContactAction={false}
                     />
                   ) : null}

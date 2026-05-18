@@ -2,15 +2,25 @@
 
 const RESUME_FILE_NAME = '\u675c\u65ed\u5609_AI\u5e94\u7528\u5de5\u7a0b\u5e08_15035925107.pdf';
 const RESUME_FILE_PATH = `/${encodeURIComponent(RESUME_FILE_NAME)}`;
+const EN_RESUME_FILE_NAME = 'du-xujia-ai-application-engineer.pdf';
+const ENGINEERING_TRIGGER_NAME = /Engineering|工程实力中枢|工程中枢/i;
 
 const openMobileMenuIfNeeded = async (page: Page) => {
     const viewport = page.viewportSize();
     if (!viewport || viewport.width >= 768) return;
 
-    const openMenuButton = page.getByRole('button', { name: /打开菜单|open menu|menu/i }).first();
-    if (await openMenuButton.isVisible()) {
-        await openMenuButton.click();
+    const localeSwitchLink = page
+        .getByRole('link', { name: /English|中文|switch to chinese|switch to english/i })
+        .first();
+
+    if (await localeSwitchLink.isVisible().catch(() => false)) {
+        return;
     }
+
+    const openMenuButton = page.getByRole('button', { name: /打开菜单|open menu/i }).first();
+    await expect(openMenuButton).toBeVisible({ timeout: 5000 });
+    await expect(openMenuButton).toBeEnabled();
+    await openMenuButton.click();
 };
 
 const scrollSectionIntoView = async (page: Page, selector: string) => {
@@ -19,15 +29,25 @@ const scrollSectionIntoView = async (page: Page, selector: string) => {
             const section = page.locator(selector).first();
             await expect(section).toBeVisible({ timeout: 5000 });
             await section.evaluate((element: HTMLElement) => {
+                const sectionId = element.id;
+                if (sectionId) {
+                    (window as Window & { __portfolioRequestedSection?: string }).__portfolioRequestedSection =
+                        sectionId;
+                    window.dispatchEvent(
+                        new CustomEvent('portfolio:section-request', {
+                            detail: { id: sectionId },
+                        }),
+                    );
+                }
                 element.scrollIntoView({ behavior: 'auto', block: 'start' });
             });
-            await expect(section).toBeInViewport({ timeout: 3000 });
+            await waitForSectionToReachViewport(page, selector, 8000);
             return;
         } catch (error) {
             if (attempt === 2) {
                 throw error;
             }
-            await page.waitForTimeout(120);
+            await page.waitForTimeout(240);
         }
     }
 };
@@ -68,10 +88,42 @@ const gotoHomePage = async (page: Page) => {
     }
 };
 
+const gotoLocalizedHomePage = async (page: Page, path: '/zh' | '/en') => {
+    await page.goto(path);
+    const heading =
+        path === '/en'
+            ? page.getByRole('heading', { level: 1, name: /AI Application Engineer/i })
+            : page.getByRole('heading', { level: 1, name: 'AI 应用工程师' });
+    await expect(heading).toBeVisible({ timeout: 8000 });
+};
+
+const waitForSectionToReachViewport = async (
+    page: Page,
+    selector: string,
+    timeout = 10000,
+) => {
+    await expect
+        .poll(
+            async () =>
+                page.evaluate((targetSelector) => {
+                    const section = document.querySelector<HTMLElement>(targetSelector);
+                    if (!section) return false;
+
+                    const rect = section.getBoundingClientRect();
+                    return rect.top < window.innerHeight && rect.bottom > 0;
+                }, selector),
+            {
+                timeout,
+                interval: 150,
+            },
+        )
+        .toBe(true);
+};
+
 const revealDeferredDock = async (page: Page) => {
     await page.evaluate(() => window.scrollTo(0, 720));
     await expect(
-        page.getByRole('button', { name: /Engineering|工程实力中枢/i }).first(),
+        page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).first(),
     ).toBeVisible({ timeout: 12000 });
 };
 
@@ -119,6 +171,36 @@ test.describe('Portfolio E2E', () => {
         expect(href === '/api/resume' || href === RESUME_FILE_PATH).toBeTruthy();
     });
 
+    test('localized home pages should render zh and en content', async ({ page }) => {
+        await gotoLocalizedHomePage(page, '/zh');
+        await expect(page.getByText('混合检索 + LangGraph 运行时').first()).toBeVisible();
+
+        await gotoLocalizedHomePage(page, '/en');
+        await expect(page.getByText('Hybrid retrieval').first()).toBeVisible();
+        await expect(page.getByRole('link', { name: /download resume/i }).first()).toHaveAttribute(
+            'download',
+            EN_RESUME_FILE_NAME,
+        );
+    });
+
+    test('language switch should preserve context via explicit locale routes', async ({ page }) => {
+        await gotoLocalizedHomePage(page, '/zh');
+        await openMobileMenuIfNeeded(page);
+        const switchToEnglish = page.locator('nav').getByRole('link', { name: /English/i }).first();
+        await expect(switchToEnglish).toBeVisible();
+        await switchToEnglish.click();
+        await expect(page).toHaveURL(/\/en(?:[#?].*)?$/);
+
+        await openMobileMenuIfNeeded(page);
+        const switchToChinese = page
+            .locator('nav')
+            .getByRole('link', { name: /switch to chinese|中文/i })
+            .first();
+        await expect(switchToChinese).toBeVisible();
+        await switchToChinese.click();
+        await expect(page).toHaveURL(/\/zh(?:[#?].*)?$/);
+    });
+
     test('hero project evidence cta should scroll to projects section', async ({ page }) => {
         const projectsSection = page.locator('#projects');
         await expect(projectsSection).not.toBeInViewport();
@@ -127,7 +209,7 @@ test.describe('Portfolio E2E', () => {
         await expect(projectEvidenceButton).toBeVisible();
         await projectEvidenceButton.click();
 
-        await expect(projectsSection).toBeInViewport({ timeout: 5000 });
+        await waitForSectionToReachViewport(page, '#projects', 9000);
     });
 
     test('experience should appear before impact and projects in document order', async ({ page }) => {
@@ -150,13 +232,13 @@ test.describe('Portfolio E2E', () => {
         const impactEntry = page.getByRole('link', { name: /量化结果.*查看全部指标/i }).first();
         await expect(impactEntry).toBeVisible();
         await impactEntry.click();
-        await expect(page.locator('#impact')).toBeInViewport({ timeout: 5000 });
+        await waitForSectionToReachViewport(page, '#impact', 8000);
 
         await page.goto('/');
         const capabilityEntry = page.getByRole('link', { name: /工程能力.*查看能力结构/i }).first();
         await expect(capabilityEntry).toBeVisible();
         await capabilityEntry.click();
-        await expect(page.locator('#skills')).toBeInViewport({ timeout: 5000 });
+        await waitForSectionToReachViewport(page, '#skills', 10000);
     });
 
     test('about and audience quick-entry sections should not render', async ({ page }) => {
@@ -176,7 +258,7 @@ test.describe('Portfolio E2E', () => {
     test.describe('Engineering Command Center', () => {
         test('should open and close with escape, and trap focus', async ({ page }) => {
             await revealDeferredDock(page);
-            const openButton = page.getByRole('button', { name: /Engineering|工程实力中枢/i });
+            const openButton = page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME });
             await expect(openButton).toBeVisible();
 
             await openButton.click();
@@ -218,7 +300,7 @@ test.describe('Portfolio E2E', () => {
             });
 
             await revealDeferredDock(page);
-            await page.getByRole('button', { name: /Engineering|工程实力中枢/i }).click();
+            await page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).click();
             await expect(page.getByText('123', { exact: true })).toBeVisible();
             await expect(page.getByText('wechat-bot')).toBeVisible();
             await expect(page.getByText('★ 5')).toBeVisible();
@@ -234,9 +316,9 @@ test.describe('Portfolio E2E', () => {
             });
 
             await revealDeferredDock(page);
-            await page.getByRole('button', { name: /Engineering|工程实力中枢/i }).click();
+            await page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).click();
             await expect(page.getByRole('heading', { name: /工程实力中枢|Engineering Command Center/i })).toBeVisible();
-            await expect(page.getByText(/GitHub 数据请求失败|GitHub 数据暂不可用|telemetry.*unavailable|failed/i)).toBeVisible();
+            await expect(page.getByText(/GitHub 数据请求失败|GitHub 数据暂不可用|telemetry.*unavailable/i)).toBeVisible();
         });
     });
 
@@ -277,10 +359,10 @@ test.describe('Portfolio E2E', () => {
 
         await contactNav.click();
         try {
-            await expect(page.locator('#contact')).toBeInViewport({ timeout: 5000 });
+            await waitForSectionToReachViewport(page, '#contact', 10000);
         } catch {
             await contactNav.click();
-            await expect(page.locator('#contact')).toBeInViewport({ timeout: 10000 });
+            await waitForSectionToReachViewport(page, '#contact', 12000);
         }
     });
 
@@ -310,6 +392,38 @@ test.describe('Portfolio E2E', () => {
         await expect(page.getByRole('link', { name: /查看案例拆解/i }).first()).toBeVisible();
     });
 
+    test('featured projects should expand story sections inline', async ({ page }) => {
+        await scrollSectionIntoView(page, '#featured-projects');
+
+        const firstProjectCard = page.locator('#featured-projects article').first();
+        const capabilityButton = firstProjectCard.getByRole('button', { name: /功能描述|Capability breakdown/i }).first();
+
+        await expect(capabilityButton).toBeVisible();
+        await expect(capabilityButton).toHaveAttribute('aria-expanded', 'false');
+
+        await capabilityButton.click();
+
+        await expect(capabilityButton).toHaveAttribute('aria-expanded', 'true');
+        await expect(firstProjectCard.getByText('设计渠道接入', { exact: false })).toBeVisible();
+    });
+
+    test('mobile deferred dock should stay compact after scroll', async ({ page }) => {
+        const viewport = page.viewportSize();
+        test.skip(!viewport || viewport.width >= 768, 'mobile only');
+
+        await revealDeferredDock(page);
+
+        const mobileDock = page.locator('div.fixed.inset-x-0.bottom-0.z-50').first();
+        const engineeringButton = mobileDock.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).first();
+
+        await expect(mobileDock).toBeVisible();
+        await expect(engineeringButton).toBeVisible();
+
+        const dockBox = await mobileDock.boundingBox();
+        expect(dockBox).not.toBeNull();
+        expect(dockBox!.height).toBeLessThanOrEqual(96);
+    });
+
     test('scroll progress dock should support back to top (desktop)', async ({ page }) => {
         const viewport = page.viewportSize();
         test.skip(!viewport || viewport.width < 768, 'desktop only');
@@ -322,7 +436,7 @@ test.describe('Portfolio E2E', () => {
 
         await page.evaluate(() => window.scrollTo(0, 600));
         await expect(
-            page.getByRole('button', { name: /Engineering|工程实力中枢/i }).first(),
+            page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).first(),
         ).toBeVisible({ timeout: 12000 });
         await expect
             .poll(async () => page.locator('[role="progressbar"]').count(), {

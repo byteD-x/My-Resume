@@ -1,25 +1,30 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { HeroSpotlightItem } from "@/lib/home-highlights";
+import { getUiCopy } from "@/lib/locale-copy";
+import type { Locale } from "@/lib/locale";
 
 interface HeroProofPanelProps {
   items: HeroSpotlightItem[];
+  locale: Locale;
 }
 
-export function HeroProofPanel({ items }: HeroProofPanelProps) {
+export function HeroProofPanel({ items, locale }: HeroProofPanelProps) {
+  const copy = getUiCopy(locale);
+
   return (
     <aside className="theme-card relative overflow-hidden rounded-[1.25rem] border-[rgba(148,163,184,0.16)] p-3 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-6">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(219,234,254,0.62),transparent)]" />
       <div className="relative z-10">
         <div className="mb-4 flex items-end justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-6 sm:pb-4">
           <div>
-            <p className="theme-card-kicker">项目证据</p>
+            <p className="theme-card-kicker">{copy.runtime.proofEntry}</p>
             <h2 className="theme-title mt-1 text-[1.1rem] font-bold tracking-tight sm:mt-1.5 sm:text-[1.28rem]">
-              近期代表性项目
+              {copy.featured.fallbackRecent}
             </h2>
           </div>
           <div className="theme-chip-strong px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-[0.24em]">
-            可复核
+            {copy.metric.verified}
           </div>
         </div>
 

@@ -1,9 +1,21 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getExperience, getAllExperienceSlugs } from "@/lib/experiences";
-import { ExperienceModal } from "@/components/ExperienceModal";
+import { ExperiencePageView } from "@/components/pages/ExperiencePageView";
+import { getAllExperienceSlugs, getExperience } from "@/lib/experiences";
+import { getDefaultLocale } from "@/lib/locale";
+import { getExperiencePageMetadata } from "@/lib/page-metadata";
 
 export async function generateStaticParams() {
   return getAllExperienceSlugs();
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  return getExperiencePageMetadata(slug, getDefaultLocale()) ?? {};
 }
 
 export default async function ExperiencePage({
@@ -12,15 +24,12 @@ export default async function ExperiencePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = getExperience(slug);
+  const locale = getDefaultLocale();
+  const item = getExperience(slug, locale);
 
   if (!item) {
     notFound();
   }
 
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)] p-4">
-      <ExperienceModal item={item} variant="page" />
-    </div>
-  );
+  return <ExperiencePageView slug={slug} locale={locale} />;
 }

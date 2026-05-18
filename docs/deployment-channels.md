@@ -2,6 +2,20 @@
 
 This project publishes through three separate channels:
 
+## Language Strategy
+
+- Build-time default locale is controlled by `NEXT_PUBLIC_DEFAULT_LOCALE`.
+- `Self-hosted` uses `zh`.
+- `GitHub Pages` uses `zh`.
+- `Vercel` uses `en`.
+- Shareable locale paths are always available:
+  - `/zh`
+  - `/en`
+  - `/zh/experiences/[slug]`
+  - `/en/experiences/[slug]`
+- Root path `/` renders the deployment default locale directly.
+- Static export does not depend on middleware, cookies, or runtime redirects.
+
 ## Public URLs
 
 - `International site (Vercel)`: `https://my-resume-gray-five.vercel.app`
@@ -13,17 +27,20 @@ This project publishes through three separate channels:
    - Trigger: Vercel Git integration on `main`
    - Purpose: international site
    - URL: `https://my-resume-gray-five.vercel.app`
+   - Default locale: `en`
    - Verify: `curl -I https://my-resume-gray-five.vercel.app`
 
 2. `GitHub Pages`
    - Trigger: `.github/workflows/pages.yml`
    - Purpose: GitHub-hosted static site
    - URL: `https://byted-x.github.io/My-Resume/`
+   - Default locale: `zh`
    - Verify: `curl -I https://byted-x.github.io/My-Resume/`
 
 3. `Self-hosted server`
    - Trigger: `git push` to the SSH bare repo on `106.12.154.163`
    - Purpose: China mainland site via standalone Next.js behind Nginx with a canonical domain
+   - Default locale: `zh`
    - Public URLs:
      - canonical domain: `https://www.byted.online`
      - fallback IP: `http://106.12.154.163`
@@ -116,6 +133,31 @@ Check self-hosted deployment status:
 
 ```bash
 npm run deploy:server:status
+```
+
+## Locale Verification
+
+Verify deployed roots and explicit locale paths:
+
+```bash
+curl -I https://my-resume-gray-five.vercel.app/
+curl -I https://my-resume-gray-five.vercel.app/en
+curl -I https://my-resume-gray-five.vercel.app/zh
+curl -I https://byted-x.github.io/My-Resume/
+curl -I https://byted-x.github.io/My-Resume/en
+curl -I https://byted-x.github.io/My-Resume/zh
+curl -I https://www.byted.online/
+curl -I https://www.byted.online/en
+curl -I https://www.byted.online/zh
+```
+
+Static export verification:
+
+```bash
+npm run build:pages
+test -f out/index.html
+test -f out/zh/index.html
+test -f out/en/index.html
 ```
 
 ## Rollback

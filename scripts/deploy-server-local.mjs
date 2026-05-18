@@ -21,6 +21,7 @@ const config = {
     serverBindHost: process.env.SERVER_BIND_HOST || "127.0.0.1",
     serverAppPort: process.env.SERVER_APP_PORT || "3000",
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byted.online",
+    defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "zh",
     keepReleases: process.env.KEEP_RELEASES || "5",
     skipBuild: process.env.SKIP_BUILD === "1",
 };
@@ -147,6 +148,7 @@ function main() {
                 env: {
                     SKIP_GITHUB_FETCH: "1",
                     NEXT_PUBLIC_SITE_URL: config.siteUrl,
+                    NEXT_PUBLIC_DEFAULT_LOCALE: config.defaultLocale,
                 },
             });
         }
@@ -221,6 +223,7 @@ WorkingDirectory=\${app_dir}/current
 Environment=NODE_ENV=production
 Environment=NEXT_TELEMETRY_DISABLED=1
 Environment=NEXT_PUBLIC_SITE_URL=\${site_url}
+Environment=NEXT_PUBLIC_DEFAULT_LOCALE=${config.defaultLocale}
 Environment=PORT=\${app_port}
 Environment=HOSTNAME=\${bind_host}
 ExecStart=\${node_bin} server.js

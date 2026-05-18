@@ -7,6 +7,7 @@ import { ServiceItem } from "@/types";
 import { Section } from "./ui/Section";
 import { Container } from "./ui/Container";
 import { useLowPerformanceMode } from "@/hooks/useLowPerformanceMode";
+import { useUiCopy } from "@/lib/LocaleProvider";
 
 const IconMap: Record<string, React.ComponentType<LucideProps>> = {
   Layout,
@@ -20,6 +21,7 @@ interface ServicesProps {
 }
 
 export default function Services({ services }: ServicesProps) {
+  const copy = useUiCopy();
   const isLowPerformanceMode = useLowPerformanceMode();
   const shouldAnimateInView = !isLowPerformanceMode;
 
@@ -38,18 +40,18 @@ export default function Services({ services }: ServicesProps) {
             className="scroll-mt-28"
             data-scroll-target="services"
           >
-            <p className="theme-kicker mb-3">交付方式</p>
+            <p className="theme-kicker mb-3">{copy.sections.servicesKicker}</p>
             <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
-              商业交付与合作模式
+              {copy.sections.servicesTitle}
             </h2>
             <div className="theme-card theme-chip-readable inline-flex flex-wrap items-center gap-2 rounded-full border-[rgba(148,163,184,0.16)] px-3 py-2 font-semibold uppercase tracking-wider text-[color:var(--text-secondary)]">
-              <span>需求定义</span>
+              <span>{copy.services.workflow[0]}</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
-              <span>方案验证</span>
+              <span>{copy.services.workflow[1]}</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
-              <span>阶段交付</span>
+              <span>{copy.services.workflow[2]}</span>
               <span className="text-[rgba(37,99,235,0.32)]">-&gt;</span>
-              <span>结果复核</span>
+              <span>{copy.services.workflow[3]}</span>
             </div>
           </motion.div>
         </div>
@@ -77,7 +79,7 @@ export default function Services({ services }: ServicesProps) {
                       <Icon size={18} strokeWidth={2} />
                     </div>
                     <div className="theme-chip px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-[0.18em]">
-                      交付能力
+                      {copy.services.capability}
                     </div>
                   </div>
 

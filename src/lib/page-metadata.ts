@@ -1,0 +1,215 @@
+import type { Metadata } from "next";
+import { localizedSiteConfig, siteConfig } from "@/config/site";
+import { getExperience } from "@/lib/experiences";
+import {
+  getDefaultLocale,
+  getOpenGraphLocale,
+  type Locale,
+} from "@/lib/locale";
+import { getPortfolioData } from "@/lib/portfolio-data";
+
+function normalizePagePath(pathname: string): string {
+  if (!pathname || pathname === "/") return "/";
+  return pathname.startsWith("/") ? pathname : `/${pathname}`;
+}
+
+function buildRoutePath(
+  locale: Locale,
+  pathname: string,
+  explicitLocale = false,
+): string {
+  const normalizedPath = normalizePagePath(pathname);
+  if (explicitLocale) {
+    return normalizedPath === "/"
+      ? `/${locale}`
+      : `/${locale}${normalizedPath}`;
+  }
+
+  const defaultLocale = getDefaultLocale();
+  if (locale === defaultLocale) {
+    return normalizedPath;
+  }
+
+  return normalizedPath === "/" ? `/${locale}` : `/${locale}${normalizedPath}`;
+}
+
+function buildAbsoluteUrl(pathname: string): string {
+  return new URL(pathname, siteConfig.siteUrl).toString();
+}
+
+function buildAlternates(pathname: string): NonNullable<Metadata["alternates"]> {
+  const languages = {
+    "zh-CN": buildAbsoluteUrl(buildRoutePath("zh", pathname)),
+    "en-US": buildAbsoluteUrl(buildRoutePath("en", pathname)),
+    "x-default": buildAbsoluteUrl(
+      buildRoutePath(getDefaultLocale(), pathname),
+    ),
+  } as const;
+
+  return {
+    canonical: buildAbsoluteUrl(pathname),
+    languages,
+  };
+}
+
+function buildBaseMetadata(
+  locale: Locale,
+  pathname: string,
+  options?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  },
+): Metadata {
+  const localeConfig = localizedSiteConfig[locale];
+  const description = options?.description ?? localeConfig.description;
+  const title =
+    options?.title ?? `${localeConfig.name} - ${localeConfig.role}`;
+  const absoluteUrl = buildAbsoluteUrl(pathname);
+
+  return {
+    metadataBase: new URL(siteConfig.siteUrl),
+    title,
+    description,
+    keywords: [...(options?.keywords ?? localeConfig.keywords)],
+    authors: [{ name: localeConfig.name }],
+    alternates: buildAlternates(pathname),
+    openGraph: {
+      title,
+      description,
+      url: absoluteUrl,
+      siteName:
+        locale === "en"
+          ? `${localeConfig.name} Portfolio`
+          : `${localeConfig.name}作品集`,
+      type: "website",
+      locale: getOpenGraphLocale(locale),
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [siteConfig.ogImagePath],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
+
+export function getHomePageMetadata(
+  locale: Locale,
+  explicitLocale = false,
+): Metadata {
+  const pathname = buildRoutePath(locale, "/", explicitLocale);
+  return buildBaseMetadata(locale, pathname);
+}
+
+export function getExperiencePageMetadata(
+  slug: string,
+  locale: Locale,
+  explicitLocale = false,
+): Metadata | null {
+  const item = getExperience(slug, locale);
+  if (!item) return null;
+
+  const localeConfig = localizedSiteConfig[locale];
+  const title = "role" in item ? `${item.role} | ${item.company}` : item.name;
+  const description = item.summary;
+  const keywords = Array.from(
+    new Set([...localeConfig.keywords, ...item.techTags]),
+  );
+  const pathname = buildRoutePath(
+    locale,
+    `/experiences/${item.id}`,
+    explicitLocale,
+  );
+
+  return buildBaseMetadata(locale, pathname, {
+    title: `${title} | ${localeConfig.name}`,
+    description,
+    keywords,
+  });
+}
+
+export function getHomePageStructuredData(locale: Locale) {
+  const localeConfig = localizedSiteConfig[locale];
+  const data = getPortfolioData(locale);
+  const works = data.projects
+    .filter((project) => project.link?.includes("github.com"))
+    .map((project) => ({
+      "@type": "SoftwareSourceCode",
+      name: project.name,
+      description: project.summary,
+      codeRepository: project.link,
+      programmingLanguage: project.techTags.join(", "),
+      author: {
+        "@type": "Person",
+        name: localeConfig.name,
+      },
+    }));
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        name: localeConfig.name,
+        url: buildAbsoluteUrl(buildRoutePath(locale, "/")),
+        jobTitle: localeConfig.role,
+        description: localeConfig.description,
+        image: `${siteConfig.siteUrl}/og.png`,
+        sameAs: ["https://github.com/byteD-x", siteConfig.siteUrl],
+      },
+      ...works,
+    ],
+  };
+}
+
+export function getExperienceStructuredData(
+  slug: string,
+  locale: Locale,
+  explicitLocale = false,
+) {
+  const item = getExperience(slug, locale);
+  if (!item) return null;
+
+  const localeConfig = localizedSiteConfig[locale];
+  const name = "role" in item ? `${item.role} - ${item.company}` : item.name;
+  const url = buildAbsoluteUrl(
+    buildRoutePath(locale, `/experiences/${slug}`, explicitLocale),
+  );
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        name: localeConfig.name,
+        url: buildAbsoluteUrl(buildRoutePath(locale, "/")),
+        jobTitle: localeConfig.role,
+      },
+      {
+        "@type": item.link?.includes("github.com")
+          ? "SoftwareSourceCode"
+          : "CreativeWork",
+        name,
+        description: item.summary,
+        url,
+        ...(item.link ? { codeRepository: item.link } : {}),
+        ...(item.techTags.length > 0
+          ? { programmingLanguage: item.techTags.join(", ") }
+          : {}),
+      },
+    ],
+  };
+}

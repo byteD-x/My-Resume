@@ -17,6 +17,7 @@ const config = {
     serverBindHost: process.env.SERVER_BIND_HOST || "127.0.0.1",
     serverAppPort: process.env.SERVER_APP_PORT || "3000",
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://www.byted.online",
+    defaultLocale: process.env.NEXT_PUBLIC_DEFAULT_LOCALE || "zh",
     keepReleases: process.env.KEEP_RELEASES || "5",
     localOriginRemote: process.env.LOCAL_ORIGIN_REMOTE || "origin",
     localServerRemote: process.env.LOCAL_SERVER_REMOTE || "server",
@@ -217,7 +218,7 @@ git --git-dir="$git_dir" --work-tree="$repo_dir" clean -fdx
   export PATH="$(dirname "$node_bin"):$PATH"
   export npm_config_cache="$npm_cache_dir"
   "$node_bin" "$npm_cli" ci --no-audit --no-fund
-  SKIP_GITHUB_FETCH=1 NEXT_PUBLIC_SITE_URL="$site_url" "$node_bin" "$npm_cli" run build
+  SKIP_GITHUB_FETCH=1 NEXT_PUBLIC_SITE_URL="$site_url" NEXT_PUBLIC_DEFAULT_LOCALE="${config.defaultLocale}" "$node_bin" "$npm_cli" run build
 )
 
 short_sha="$(printf '%s' "$target_sha" | cut -c1-12)"
@@ -275,6 +276,7 @@ WorkingDirectory=${config.serverAppDir}/current
 Environment=NODE_ENV=production
 Environment=NEXT_TELEMETRY_DISABLED=1
 Environment=NEXT_PUBLIC_SITE_URL=${config.siteUrl}
+Environment=NEXT_PUBLIC_DEFAULT_LOCALE=${config.defaultLocale}
 Environment=PORT=${config.serverAppPort}
 Environment=HOSTNAME=${config.serverBindHost}
 ExecStart=${config.serverNodeBin} server.js

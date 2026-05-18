@@ -1,4 +1,6 @@
 import { ProjectItem } from "@/types";
+import type { Locale } from "@/lib/locale";
+import { getUiCopy } from "@/lib/locale-copy";
 
 export interface HeroSpotlightItem {
   id: string;
@@ -7,6 +9,12 @@ export interface HeroSpotlightItem {
   summary: string;
   detail?: string;
   href?: string;
+}
+
+export interface HomepageProjectStorySection {
+  id: string;
+  title: string;
+  body: string;
 }
 
 export interface HomepageFeaturedCard {
@@ -18,6 +26,7 @@ export interface HomepageFeaturedCard {
   contentSummary: string;
   capabilitySummary: string;
   technicalSummary: string;
+  storySections: HomepageProjectStorySection[];
 }
 
 export const FEATURED_PROJECT_IDS = [
@@ -27,7 +36,7 @@ export const FEATURED_PROJECT_IDS = [
   "proj-cloudpan",
 ] as const;
 
-const spotlightCopy: Record<
+const zhSpotlightCopy: Record<
   (typeof FEATURED_PROJECT_IDS)[number],
   {
     name?: string;
@@ -59,9 +68,9 @@ const spotlightCopy: Record<
     contentSummary:
       "企业知识问答系统，覆盖多源文档接入、知识治理与答案引用依据。",
     capabilitySummary:
-      "功能覆盖多源资料接入、三路混合检索、答案引用溯源、人工澄清、知识治理工作台和回归评测。",
+      "功能覆盖多源资料接入、三路混合检索、答案引用溯源、人工澄清、知识治理工作台、检索调试和回归评测。",
     technicalSummary:
-      "技术实现重点在结构检索 + 全文检索 + 向量检索三路召回、LangGraph 可恢复运行时、chunk 治理、retrieve/debug 以及 smoke-eval / regression gate 的整条链路。",
+      "技术实现重点在三路召回、LangGraph 可恢复运行时、chunk 治理、`signal_scores / evidence_path` 可解释调试，以及 deterministic fixture 驱动的 smoke-eval / regression gate。",
   },
   "proj-customer-ai-runtime": {
     focus: "客服运行时 / 业务挂载 / 人工协同",
@@ -71,9 +80,9 @@ const spotlightCopy: Record<
     contentSummary:
       "面向客服场景的运行时底座，支持文本、语音、RTC 与宿主挂载接入真实业务系统。",
     capabilitySummary:
-      "覆盖宿主挂载、业务工具调用、Auth Bridge、低置信度澄清、转人工协同、知识版本治理与租户级插件扩展。",
+      "覆盖宿主挂载、业务工具调用、Auth Bridge、低置信度澄清、转人工队列、知识版本治理、成本摘要与租户级插件扩展。",
     technicalSummary:
-      "技术实现重点在分层运行时架构、插件注册与启停机制、`route_confidence + intent_stack` 决策链、Voice/RTC 链路、多租户边界控制以及 request_id / diagnostics / rate limit / redaction 治理能力。",
+      "技术实现重点在分层运行时架构、插件注册与启停机制、`route_confidence + intent_stack` 决策链、Voice/RTC 链路、多租户边界控制，以及 cost summary / safe cache / RAG eval / handoff queue 治理能力。",
   },
   "proj-wechat-bot": {
     focus: "微信机器人 / 分层记忆 / 长期运行",
@@ -89,9 +98,132 @@ const spotlightCopy: Record<
   },
 };
 
+const enSpotlightCopy: typeof zhSpotlightCopy = {
+  "proj-cloudpan": {
+    focus: "File platform / access control / observable delivery",
+    heroSummary:
+      "A deployable file platform where upload, sharing, permissions, and monitoring can all be verified.",
+    heroDetail: "Focus on the high-concurrency upload path, cache governance, and security boundaries.",
+    contentSummary:
+      "An enterprise file platform for private deployment, covering auth, sharing, recycle bin, preview, and operations.",
+    capabilitySummary:
+      "Supports chunked upload, instant upload, resumable upload, share transfer, tenant isolation, OAuth login, and monitoring.",
+    technicalSummary:
+      "The implementation connects upload state, zero-copy merge, PostgreSQL indexes, cursor pagination, Redis/Caffeine caching, replay-safe signatures, and observability.",
+  },
+  "proj-rag-qa-system": {
+    focus: "Knowledge QA / content governance / recoverable runtime",
+    heroSummary:
+      "Turns scattered documents into a stable knowledge system with ingestion, traceable answers, and human correction paths.",
+    heroDetail: "Focus on multi-source ingestion, answer evidence, and regression closure.",
+    contentSummary:
+      "Enterprise knowledge QA system covering multi-source documents, governance, and citation-backed answers.",
+    capabilitySummary:
+      "Covers ingestion, three-way hybrid retrieval, answer citations, clarification, knowledge governance, and evaluation.",
+    technicalSummary:
+      "The core is structured retrieval + full-text retrieval + vector retrieval, weighted RRF, reranking, LangGraph recovery, chunk governance, retrieve/debug, and regression gates.",
+  },
+  "proj-customer-ai-runtime": {
+    focus: "Customer-service runtime / host mounting / human handoff",
+    heroSummary:
+      "Makes customer-service AI mountable into business systems with tools, handoff, knowledge governance, and extensions.",
+    heroDetail: "Focus on host mounting, auth bridging, multi-channel access, and governance.",
+    contentSummary:
+      "A customer-service runtime for text, voice, RTC, and host-system integration.",
+    capabilitySummary:
+      "Covers host mounting, business tool calls, Auth Bridge, low-confidence clarification, human handoff, knowledge versions, and tenant plugins.",
+    technicalSummary:
+      "The implementation emphasizes layered runtime design, plugin lifecycle, route_confidence + intent_stack, voice/RTC flows, tenant boundaries, diagnostics, rate limits, and redaction.",
+  },
+  "proj-wechat-bot": {
+    focus: "WeChat bot / layered memory / long-running assistant",
+    heroSummary:
+      "A long-running WeChat assistant that balances message access, memory, diagnostics, and cost control.",
+    heroDetail: "Focus on WeChat access, LangGraph orchestration, memory, and runtime governance.",
+    contentSummary:
+      "A Windows WeChat assistant project for long-running auto-reply and runtime governance.",
+    capabilitySummary:
+      "Covers WeChat access abstraction, layered memory, runtime RAG, config hot reload, observability, cost analytics, and release flow.",
+    technicalSummary:
+      "The implementation centers on BaseTransport, LangGraph runtime, lightweight reranking, optional local Cross-Encoder fallback, config snapshots, and status/metrics/cost APIs.",
+  },
+};
+
+function getSpotlightCopy(locale: Locale) {
+  return locale === "en" ? enSpotlightCopy : zhSpotlightCopy;
+}
+
+function buildProjectStorySections(
+  item: ProjectItem,
+  locale: Locale,
+  copy?: {
+    contentSummary: string;
+    capabilitySummary: string;
+    technicalSummary: string;
+  },
+): HomepageProjectStorySection[] {
+  const details = item.expandedDetails;
+  const localeBusinessValue = item.businessValue?.[locale] ?? item.businessValue?.zh;
+  const localeEngineeringDepth =
+    item.engineeringDepth?.[locale] ?? item.engineeringDepth?.zh;
+  const techStackLine =
+    details?.techStack && details.techStack.length > 0
+      ? locale === "en"
+        ? `Tech stack: ${details.techStack.join(" / ")}`
+        : `技术栈：${details.techStack.join(" / ")}`
+      : "";
+  const outcomeList =
+    item.keyOutcomes && item.keyOutcomes.length > 0
+      ? item.keyOutcomes.slice(0, 3).map((entry) => `- ${entry}`).join("\n")
+      : "";
+
+  const sections = [
+    {
+      id: "positioning",
+      title: locale === "en" ? "Content focus" : "内容定位",
+      body:
+        [details?.background, details?.problem].filter(Boolean).join("\n\n") ||
+        copy?.contentSummary ||
+        item.summary,
+    },
+    {
+      id: "capability",
+      title: locale === "en" ? "Capability breakdown" : "功能描述",
+      body:
+        details?.solution ||
+        outcomeList ||
+        copy?.capabilitySummary ||
+        localeBusinessValue ||
+        item.summary,
+    },
+    {
+      id: "technical",
+      title: locale === "en" ? "Technical implementation" : "技术描述",
+      body:
+        [copy?.technicalSummary || localeEngineeringDepth, techStackLine]
+          .filter(Boolean)
+          .join("\n\n") || item.summary,
+    },
+    {
+      id: "result",
+      title: locale === "en" ? "Delivery result" : "交付结果",
+      body:
+        [details?.result, localeBusinessValue, outcomeList]
+          .filter(Boolean)
+          .join("\n\n") || item.impact || item.summary,
+    },
+  ];
+
+  return sections.filter((section) => section.body.trim().length > 0);
+}
+
 export function getHomepageFeaturedProjects(
   projects: ProjectItem[],
+  locale: Locale,
 ): HomepageFeaturedCard[] {
+  const spotlightCopy = getSpotlightCopy(locale);
+  const ui = getUiCopy(locale);
+
   return FEATURED_PROJECT_IDS.map((id) => projects.find((item) => item.id === id))
     .filter((item): item is ProjectItem => Boolean(item))
     .map((item) => {
@@ -100,7 +232,7 @@ export function getHomepageFeaturedProjects(
       return {
         id: item.id,
         name: copy?.name ?? item.name,
-        focus: copy?.focus ?? item.impact ?? "重点项目",
+        focus: copy?.focus ?? item.impact ?? ui.featured.fallbackFocus,
         href: `/experiences/${item.id}`,
         techTags: item.techTags,
         contentSummary: copy?.contentSummary ?? item.summary,
@@ -114,11 +246,18 @@ export function getHomepageFeaturedProjects(
           item.engineeringDepth?.zh ??
           item.keyOutcomes?.[1] ??
           item.summary,
+        storySections: buildProjectStorySections(item, locale, copy),
       };
     });
 }
 
-export function getHeroSpotlights(projects: ProjectItem[]): HeroSpotlightItem[] {
+export function getHeroSpotlights(
+  projects: ProjectItem[],
+  locale: Locale,
+): HeroSpotlightItem[] {
+  const spotlightCopy = getSpotlightCopy(locale);
+  const ui = getUiCopy(locale);
+
   return FEATURED_PROJECT_IDS.map((id) => projects.find((item) => item.id === id))
     .filter((item): item is ProjectItem => Boolean(item))
     .map((item) => {
@@ -127,7 +266,7 @@ export function getHeroSpotlights(projects: ProjectItem[]): HeroSpotlightItem[] 
       return {
         id: item.id,
         name: copy?.name ?? item.name,
-        focus: copy?.focus ?? item.impact ?? "近期项目",
+        focus: copy?.focus ?? item.impact ?? ui.featured.fallbackRecent,
         summary: copy?.heroSummary ?? item.summary,
         detail: copy?.heroDetail ?? item.keyOutcomes?.[0],
         href: `/experiences/${item.id}`,

@@ -8,11 +8,13 @@ import { saveScrollRestore, ScrollRestoreSection } from "@/lib/scroll-restore";
 import { cn } from "@/lib/utils";
 import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 import { IntentLink } from "./ui/IntentLink";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
 
 interface ExperienceCardProps {
   item: TimelineItem | ProjectItem;
   type?: "timeline" | "project";
   hideDate?: boolean;
+  groupChildren?: Array<TimelineItem | ProjectItem>;
 }
 
 const MAX_TIMELINE_PREVIEW_POINTS = 3;
@@ -31,7 +33,10 @@ function extractMarkdownListItems(value?: string) {
     .map((line) => line.replace(/^[-*]\s+/, "").trim());
 }
 
-function getTimelinePreviewPoints(item: TimelineItem | ProjectItem) {
+function getTimelinePreviewPoints(
+  item: TimelineItem | ProjectItem,
+  locale: "zh" | "en",
+) {
   if (!("role" in item)) return [];
 
   const points: string[] = [];
@@ -45,36 +50,51 @@ function getTimelinePreviewPoints(item: TimelineItem | ProjectItem) {
     points.push(normalized);
   };
 
+  item.keyOutcomes?.forEach(pushPoint);
+
   if (details) {
     const solutionPoints = extractMarkdownListItems(details.solution);
 
-    if (solutionPoints.length > 0) {
+    if (points.length === 0 && solutionPoints.length > 0) {
       solutionPoints.forEach(pushPoint);
-    } else {
+    } else if (points.length === 0) {
       pushPoint(details.solution);
     }
 
-    pushPoint(details.result);
+    if (points.length < MAX_TIMELINE_PREVIEW_POINTS) {
+      pushPoint(details.result);
+    }
 
     if (points.length < MAX_TIMELINE_PREVIEW_POINTS && details.techStack?.length) {
-      pushPoint(`技术栈：${details.techStack.slice(0, 4).join(" / ")}`);
+      pushPoint(
+        locale === "en"
+          ? `Tech stack: ${details.techStack.slice(0, 4).join(" / ")}`
+          : `技术栈：${details.techStack.slice(0, 4).join(" / ")}`,
+      );
     }
   }
 
   if (points.length === 0) {
-    pushPoint(item.engineeringDepth?.zh);
-    pushPoint(item.businessValue?.zh);
+    pushPoint(item.engineeringDepth?.[locale] ?? item.engineeringDepth?.zh);
+    pushPoint(item.businessValue?.[locale] ?? item.businessValue?.zh);
     pushPoint(item.summary);
   }
 
   return points.slice(0, MAX_TIMELINE_PREVIEW_POINTS);
 }
 
+function getGroupChildTitle(item: TimelineItem | ProjectItem) {
+  return "company" in item ? item.company : item.name;
+}
+
 export const ExperienceCard = memo(function ExperienceCard({
   item,
   type,
   hideDate = false,
+  groupChildren = [],
 }: ExperienceCardProps) {
+  const { locale } = useLocale();
+  const copy = useUiCopy();
   const title = "role" in item ? item.role : item.name;
   const subtitle = "company" in item ? item.company : "";
   const date = item.year;
@@ -83,6 +103,7 @@ export const ExperienceCard = memo(function ExperienceCard({
   const isTimelineCard = !isProjectCard;
   const isProjectLikeSubtitle =
     isTimelineCard && "role" in item && isProjectLikeTimelineSubtitle(item);
+  const isGroupedItem = groupChildren.length > 0;
 
   const githubLink =
     item.link ||
@@ -142,20 +163,20 @@ export const ExperienceCard = memo(function ExperienceCard({
               : "mb-3 gap-3.5 pb-3 sm:mb-4 sm:pb-4"
           }`}
         >
-          <div className="min-w-0 flex-1 pr-4">
+          <div className="min-w-0 flex-1 pr-2 sm:pr-4">
             <h3
               className={`theme-card-title transition-colors group-hover:text-[color:var(--brand-gold)] ${
                 isTimelineCard
                   ? "experience-timeline-title text-[0.97rem] sm:text-[1rem]"
                   : "text-[1rem] sm:text-[1.04rem]"
-              }`}
+              } break-words [overflow-wrap:anywhere]`}
             >
               {title}
             </h3>
             {subtitle ? (
               <p
                 className={cn(
-                  "mt-2",
+                  "mt-2 min-w-0 break-words [overflow-wrap:anywhere]",
                   isProjectLikeSubtitle
                     ? "experience-timeline-subtitle-prominent font-heading text-[0.9rem] font-semibold leading-tight tracking-[-0.01em] text-[color:var(--text-primary)] sm:text-[0.96rem]"
                     : "experience-timeline-subtitle-standard theme-card-kicker",
@@ -166,9 +187,9 @@ export const ExperienceCard = memo(function ExperienceCard({
             ) : null}
           </div>
 
-          <div className="flex shrink-0 items-center gap-3">
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2.5 sm:flex-nowrap sm:gap-3">
             {!hideDate ? (
-              <div className="theme-chip px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-[0.2em]">
+              <div className="theme-chip max-w-[8.75rem] whitespace-normal break-words px-2.5 py-1 text-right text-[11px] font-bold uppercase leading-[1.45] tracking-[0.08em] [overflow-wrap:anywhere] sm:max-w-none sm:text-[10px] sm:tracking-[0.2em]">
                 {date}
               </div>
             ) : null}
@@ -180,14 +201,45 @@ export const ExperienceCard = memo(function ExperienceCard({
 
         <div
           className={`theme-card-body relative z-10 flex-grow text-[13px] leading-[1.74] sm:text-[14px] sm:leading-[1.82] ${
-            isProjectCard
+            isGroupedItem
+              ? "mb-3.5 sm:mb-4"
+              : isProjectCard
               ? "mb-3.5 min-h-[5.4rem] sm:mb-4 sm:min-h-[6.15rem]"
               : "experience-timeline-body mb-3 min-h-[5.75rem] sm:mb-3.5 sm:min-h-[6.6rem]"
           }`}
         >
-          {isTimelineCard ? (
+          {isGroupedItem ? (
+            <div className="space-y-3">
+              <MarkdownRenderer
+                inline
+                className="block min-w-0 break-words [overflow-wrap:anywhere]"
+              >
+                {item.summary}
+              </MarkdownRenderer>
+              <div className="space-y-2.5">
+                {groupChildren.map((child) => (
+                  <div
+                    key={child.id}
+                    className="min-w-0 rounded-[0.95rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(248,250,252,0.8)] px-3 py-2.5"
+                  >
+                    <div className="flex flex-wrap items-start gap-2">
+                      <span className="theme-title min-w-0 flex-1 break-words text-[13px] font-semibold leading-6">
+                        {getGroupChildTitle(child)}
+                      </span>
+                      <span className="theme-chip-readable max-w-full break-words text-[10px] font-semibold uppercase tracking-[0.08em] text-[color:var(--text-tertiary)] [overflow-wrap:anywhere]">
+                        {child.year}
+                      </span>
+                    </div>
+                    <p className="theme-copy-subtle mt-1 break-words text-[12px] leading-[1.7] [overflow-wrap:anywhere]">
+                      {child.techTags.slice(0, 4).join(" / ")}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : isTimelineCard ? (
             <ul className="experience-timeline-points space-y-1.5">
-              {getTimelinePreviewPoints(item).map((point, index) => (
+              {getTimelinePreviewPoints(item, locale).map((point, index) => (
                 <li
                   key={`${item.id}-preview-${index}`}
                   className="experience-timeline-point flex items-start gap-1.5"
@@ -202,7 +254,12 @@ export const ExperienceCard = memo(function ExperienceCard({
               ))}
             </ul>
           ) : (
-            <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
+            <MarkdownRenderer
+              inline
+              className="block min-w-0 break-words [overflow-wrap:anywhere]"
+            >
+              {item.summary}
+            </MarkdownRenderer>
           )}
         </div>
 
@@ -243,8 +300,8 @@ export const ExperienceCard = memo(function ExperienceCard({
                       window.open(githubLink, "_blank", "noopener,noreferrer");
                     }}
                     className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
-                    aria-label="查看 GitHub 仓库"
-                    title="查看源码"
+                    aria-label={copy.experience.githubAria}
+                    title={copy.experience.githubTitle}
                   >
                     <Github size={15} strokeWidth={2} className="motion-icon-float" />
                   </button>
@@ -258,8 +315,8 @@ export const ExperienceCard = memo(function ExperienceCard({
                       window.open(demoLink, "_blank", "noopener,noreferrer");
                     }}
                     className="motion-chip flex h-9 w-9 items-center justify-center rounded-full border border-transparent text-[color:var(--text-tertiary)] transition-colors hover:border-[rgba(37,99,235,0.14)] hover:bg-[rgba(239,246,255,0.92)] hover:text-[color:var(--brand-gold)] sm:h-8 sm:w-8"
-                    aria-label="查看在线演示"
-                    title="查看演示"
+                    aria-label={copy.experience.demoAria}
+                    title={copy.experience.demoTitle}
                   >
                     <ExternalLink size={15} strokeWidth={2} className="motion-icon-float" />
                   </button>
@@ -272,3 +329,4 @@ export const ExperienceCard = memo(function ExperienceCard({
     </IntentLink>
   );
 });
+

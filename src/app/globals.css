@@ -134,13 +134,13 @@ body {
   background:
     radial-gradient(
       circle at top left,
-      rgba(191, 219, 254, 0.16),
-      transparent 26%
+      rgba(191, 219, 254, 0.1),
+      transparent 24%
     ),
     radial-gradient(
       circle at 88% 14%,
-      rgba(219, 234, 254, 0.52),
-      transparent 32%
+      rgba(219, 234, 254, 0.3),
+      transparent 30%
     ),
     linear-gradient(180deg, #fdfefe 0%, #f5f8fb 56%, #edf2f7 100%);
   color: var(--text-primary);
@@ -385,7 +385,7 @@ p {
     rgba(250, 252, 254, 0.985) 100%
   );
   border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.055);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
 }
 
 .theme-card::before,
@@ -411,7 +411,7 @@ p {
     rgba(255, 255, 255, 0.99) 100%
   );
   border: 1px solid rgba(15, 23, 42, 0.11);
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.046);
 }
 
 .theme-card-strong {
@@ -468,19 +468,15 @@ p {
   position: relative;
   isolation: isolate;
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.026) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.026) 1px, transparent 1px),
-    radial-gradient(
-      circle at top right,
-      rgba(219, 234, 254, 0.42),
-      transparent 28%
-    ),
+    linear-gradient(rgba(15, 23, 42, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.018) 1px, transparent 1px),
+    radial-gradient(circle at top right, rgba(219, 234, 254, 0.28), transparent 26%),
     linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.9) 0%,
       rgba(245, 248, 251, 0.94) 100%
     );
-  background-size: 36px 36px, 36px 36px, auto, auto;
+  background-size: 44px 44px, 44px 44px, auto, auto;
   background-position: center;
 }
 
@@ -488,19 +484,15 @@ p {
   position: relative;
   isolation: isolate;
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    radial-gradient(
-      circle at top right,
-      rgba(191, 219, 254, 0.46),
-      transparent 26%
-    ),
+    linear-gradient(rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at top right, rgba(191, 219, 254, 0.32), transparent 24%),
     linear-gradient(
       180deg,
       rgba(255, 255, 255, 0.93) 0%,
       rgba(241, 245, 249, 0.96) 100%
     );
-  background-size: 32px 32px, 32px 32px, auto, auto;
+  background-size: 40px 40px, 40px 40px, auto, auto;
   background-position: center;
 }
 
@@ -521,7 +513,7 @@ p {
   background: rgba(255, 255, 255, 0.965);
   border: 1px solid rgba(15, 23, 42, 0.11);
   box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
-  backdrop-filter: blur(10px) saturate(1.02);
+  backdrop-filter: blur(8px) saturate(1.02);
 }
 
 .theme-section-balanced {
@@ -1241,12 +1233,12 @@ p {
     rgba(242, 246, 250, 0.94) 100%
   );
   border: 1px solid rgba(15, 23, 42, 0.1);
-  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.08);
-  backdrop-filter: blur(10px) saturate(1.02);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+  backdrop-filter: blur(8px) saturate(1.02);
 }
 
 .theme-floating-dock-soft {
-  box-shadow: 0 14px 34px rgba(15, 23, 42, 0.065);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.058);
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.945) 0%,
@@ -1371,11 +1363,11 @@ p {
 
 .page-grid-bg {
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px),
-    linear-gradient(rgba(37, 99, 235, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(37, 99, 235, 0.03) 1px, transparent 1px);
-  background-size: 36px 36px, 36px 36px, 144px 144px, 144px 144px;
+    linear-gradient(rgba(15, 23, 42, 0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.022) 1px, transparent 1px),
+    linear-gradient(rgba(37, 99, 235, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 99, 235, 0.018) 1px, transparent 1px);
+  background-size: 42px 42px, 42px 42px, 168px 168px, 168px 168px;
 }
 
 .page-grid-fade {
@@ -1437,8 +1429,8 @@ img.loaded {
     background:
       radial-gradient(
         circle at top,
-        rgba(191, 219, 254, 0.22),
-        transparent 34%
+        rgba(191, 219, 254, 0.15),
+        transparent 30%
       ),
       linear-gradient(
         180deg,
@@ -1446,6 +1438,21 @@ img.loaded {
         rgba(246, 248, 251, 1)
       );
     line-height: 1.8;
+  }
+
+  .theme-grid-section,
+  .theme-grid-section-strong {
+    background-image: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(245, 248, 251, 0.98) 100%
+    );
+  }
+
+  .page-grid-bg,
+  .section-grid-fade,
+  .hero-grid-bg {
+    display: none;
   }
 
   .btn {

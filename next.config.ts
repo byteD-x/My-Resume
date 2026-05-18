@@ -28,6 +28,7 @@ const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
 const shouldUpgradeInsecureRequests = siteUrl.startsWith('https://');
 const enableVerboseFetchLogging = process.env.NEXT_FETCH_LOGGING === '1';
+const isDevelopment = process.env.NODE_ENV === 'development';
 
 if (configuredDistDir) {
     const resolvedDistDir = path.resolve(projectRoot, configuredDistDir);
@@ -43,7 +44,7 @@ if (configuredDistDir) {
 
 const contentSecurityPolicy = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
+  script-src 'self' 'unsafe-inline' ${isDevelopment ? "'unsafe-eval' " : ''}https://www.googletagmanager.com https://www.google-analytics.com;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data: https: blob:;
   font-src 'self' https://fonts.gstatic.com;
@@ -88,14 +89,79 @@ const securityHeaders = [
     },
 ];
 
+const withSecurityHeaders = (
+    headers: Array<{ key: string; value: string }>,
+) => [...securityHeaders, ...headers];
+
+const pageCacheHeaders = [
+    {
+        key: 'Cache-Control',
+        value: 'public, max-age=60, s-maxage=3600, stale-while-revalidate=86400',
+    },
+    {
+        key: 'CDN-Cache-Control',
+        value: 'public, max-age=3600, stale-while-revalidate=86400',
+    },
+    {
+        key: 'Vercel-CDN-Cache-Control',
+        value: 'public, max-age=3600, stale-while-revalidate=86400',
+    },
+];
+
+const mediaAssetHeaders = [
+    {
+        key: 'Cache-Control',
+        value: 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400',
+    },
+    {
+        key: 'CDN-Cache-Control',
+        value: 'public, max-age=604800, stale-while-revalidate=86400',
+    },
+    {
+        key: 'Vercel-CDN-Cache-Control',
+        value: 'public, max-age=604800, stale-while-revalidate=86400',
+    },
+];
+
+const apiHeaders = [
+    {
+        key: 'Cache-Control',
+        value: 'public, max-age=0, s-maxage=600, stale-while-revalidate=3600',
+    },
+    {
+        key: 'CDN-Cache-Control',
+        value: 'public, max-age=600, stale-while-revalidate=3600',
+    },
+    {
+        key: 'Vercel-CDN-Cache-Control',
+        value: 'public, max-age=600, stale-while-revalidate=3600',
+    },
+];
+
 const headersConfig = isStaticExport
     ? {}
     : {
         async headers() {
             return [
                 {
-                    source: '/(.*)',
-                    headers: securityHeaders,
+                    source: '/og.png',
+                    headers: withSecurityHeaders(mediaAssetHeaders),
+                },
+                {
+                    source: '/api/github',
+                    headers: withSecurityHeaders(apiHeaders),
+                },
+                {
+                    source: '/api/resume',
+                    headers: withSecurityHeaders(mediaAssetHeaders),
+                },
+                {
+                    source: '/',
+                    headers: withSecurityHeaders(pageCacheHeaders),
+                },
+                {
+                    source: '/:path((?!api/|_next/|.*\\..*).*)',
+                    headers: withSecurityHeaders(pageCacheHeaders),
                 },
             ];
         },

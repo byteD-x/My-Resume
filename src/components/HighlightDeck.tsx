@@ -21,6 +21,7 @@ import {
   type GitHubTelemetryPayload,
 } from "@/lib/github-telemetry";
 import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/lib/LocaleProvider";
 
 const iconMap: Record<string, LucideIcon> = {
   Star,
@@ -51,6 +52,7 @@ export default function HighlightDeck({
   items,
   timeline = [],
 }: HighlightDeckProps) {
+  const copy = useUiCopy();
   const [selectedMetric, setSelectedMetric] = useState<ImpactItem | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [hasLoadedMetricDrawer, setHasLoadedMetricDrawer] = useState(false);
@@ -137,9 +139,9 @@ export default function HighlightDeck({
             className="theme-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
             data-scroll-target="impact"
           >
-            <p className="theme-kicker text-[11px]">量化结果</p>
+            <p className="theme-kicker text-[11px]">{copy.sections.impactKicker}</p>
             <h2 className="theme-title mt-2.5 text-3xl font-bold md:text-4xl">
-              业务价值与工程量化
+              {copy.sections.impactTitle}
             </h2>
           </motion.div>
 
@@ -232,7 +234,7 @@ export default function HighlightDeck({
                           )}
                         />
                         <span className="text-emerald-700 dark:text-emerald-300">
-                          已核验
+                          {copy.metric.verified}
                         </span>
                         </div>
                       )}
@@ -243,7 +245,7 @@ export default function HighlightDeck({
                           "text-[color:var(--text-primary)]",
                         ].join(" ")}
                       >
-                        查看详情
+                        {copy.metric.detail}
                         <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
                       </div>
                     </div>

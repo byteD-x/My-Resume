@@ -259,6 +259,60 @@ export const defaultPortfolioData: PortfolioData = {
 
   timeline: [
     {
+      id: "exp-independent-developer",
+      year: "2025.12 - 至今",
+      role: "独立开发者",
+      company: "AI 应用 / 全栈项目",
+      location: "独立开发阶段代表项目",
+      summary:
+        "围绕 4 个代表项目持续推进方案设计、全栈实现、联调验证、测试交付与运行治理，覆盖租赁业务、任务平台、客服运行时和桌面智能助手。",
+      techTags: [
+        "Java 21",
+        "Spring Boot 3.5",
+        "Python",
+        "FastAPI",
+        "React 19",
+        "TypeScript",
+        "LangGraph",
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+      ],
+      highlighted: true,
+      childIds: [
+        "exp-rentbox",
+        "exp-paper-retrieval-platform",
+        "exp-customer-ai-runtime",
+        "exp-wechat-bot",
+      ],
+      verification: [
+        {
+          sourceType: "manual",
+          sourceLabel: "主简历 / 英文 PDF 交叉校对",
+          verifiedAt: "2026-05-18",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "这是最新简历中独立开发阶段的主线，覆盖多个 AI 应用与全栈项目的并行推进。",
+        solution:
+          "- 统一承接 RentBox、论文检索任务平台、智能客服运行时与微信智能助手四个子项目。\n- 以独立开发者视角完成方案设计、全栈实现、联调验证、测试交付和运行治理。\n- 按子项目分别保留独立 slug 与详情页能力，方便继续追溯单个项目证据。",
+        result:
+          "把独立开发阶段收敛成一个工作经历主项，同时保留每个代表项目的可追溯性与单项展示能力。",
+        role: "独立开发者",
+        techStack: [
+          "Java 21",
+          "Spring Boot 3.5",
+          "Python",
+          "FastAPI",
+          "React 19",
+          "LangGraph",
+        ],
+      },
+    },
+    {
       id: "exp-rentbox",
       year: "2026.05 - 至今",
       role: "独立开发者 · 全栈项目",
@@ -288,6 +342,8 @@ export const defaultPortfolioData: PortfolioData = {
         "沉淀 Maven 测试、Vite 构建、小程序真机验证清单、Flyway 版本策略和宿主机 release 切换脚本，保证多端交付可回归、可回滚、可审计。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      groupParentId: "exp-independent-developer",
+      hideFromSection: true,
       businessValue: {
         zh: "把共享租赁业务从小程序下单、支付担保、柜机开锁、归还审核到渠道结算串成可上线闭环，降低线下设备、资金和运营协同的交付风险。",
         en: "Connected mini-program rental, payment guarantee, cabinet operations, returns, and channel settlement into a verifiable delivery loop.",
@@ -363,6 +419,8 @@ export const defaultPortfolioData: PortfolioData = {
         "将额度扣减延后到任务成功后执行，结合 `SELECT ... FOR UPDATE`、唯一额度事件、并发测试和月度额度流水，避免任务失败或重复通知造成额度误扣。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      groupParentId: "exp-independent-developer",
+      hideFromSection: true,
       businessValue: {
         zh: "把甲方论文检索 Worker 与用户侧平台边界隔离，用户只需要创建任务、观察进度、下载结果和管理额度，便于测试验收和后续生产联调。",
         en: "Separated the customer worker from the user-facing platform while keeping task creation, progress tracking, result download, and quota management coherent.",
@@ -435,6 +493,8 @@ export const defaultPortfolioData: PortfolioData = {
         "落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      groupParentId: "exp-independent-developer",
+      hideFromSection: true,
       businessValue: {
         zh: "将微信自动回复脚本升级为具备接入治理、运行诊断与成本分析能力的桌面智能助手，降低长期运行和排障成本。",
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
@@ -506,23 +566,25 @@ export const defaultPortfolioData: PortfolioData = {
         "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
         "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
         "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "补齐知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "补齐知识版本管理、chunk 优化、消息级反馈、成本摘要、安全知识缓存、RAG 本地评测、人工接管队列、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
+      groupParentId: "exp-independent-developer",
+      hideFromSection: true,
       businessValue: {
         zh: "将 AI 客服从单纯知识问答扩展为可挂载、可转人工、可接业务且可治理的运行时能力，降低宿主系统改造成本。",
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、反馈闭环与多租户边界控制。",
-        en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, diagnostics export, and multi-tenant boundary control.",
+        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本治理、RAG eval、人工队列与多租户边界控制。",
+        en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
       },
       verification: [
         {
           sourceType: "repo",
           sourceLabel: "README / architecture / API tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-          verifiedAt: "2026-03-19",
+          verifiedAt: "2026-05-18",
           confidence: "high",
           level: "strict",
         },
@@ -533,9 +595,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、成本摘要、安全知识缓存、RAG eval、人工接管队列、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
-          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、租户隔离与运行审计的工程基线。",
+          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -558,6 +620,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "exp-sustech",
       year: "2025.11 - 2025.12",
+      hideFromSection: true,
       role: "外包技术顾问",
       company: "南方科技大学",
       location: "深圳",
@@ -647,8 +710,8 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
         "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。",
-        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用及 retrieve/debug 调试能力。",
-        "建立 smoke-eval 与 regression gate 回归门禁，将检索质量、可恢复执行与发布验证纳入同一交付流程。",
+        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用，并在 retrieve/debug 中展示 `signal_scores`、`evidence_path` 与 retrieval stats。",
+        "补齐 deterministic retrieval fixture 与 local ingest fixture，打通 retrieval ablation、embedding benchmark、local ingest benchmark 和 regression gate。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
@@ -656,8 +719,8 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned scattered documents into an enterprise knowledge QA capability with continuous sync and traceable citations.",
       },
       engineeringDepth: {
-        zh: "覆盖三路混合检索、LangGraph 工作流编排、知识治理、连接器安全边界与评测回归体系。",
-        en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, knowledge governance, connector boundaries, and evaluation baselines.",
+        zh: "覆盖三路混合检索、LangGraph 工作流编排、知识治理、连接器安全边界、可解释检索调试与评测回归体系。",
+        en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, knowledge governance, connector boundaries, explainable retrieval debugging, and evaluation baselines.",
       },
       verification: [
         {
@@ -671,7 +734,7 @@ export const defaultPortfolioData: PortfolioData = {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库 README / docs/reference / tests",
           sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-          verifiedAt: "2026-03-13",
+          verifiedAt: "2026-05-18",
           confidence: "high",
           level: "strict",
         },
@@ -682,9 +745,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "传统单路检索难以同时覆盖标题、关键词与语义混合场景，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
         solution:
-          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。\n- **强化可解释评测**：调试页展示 `signal_scores`、`evidence_path`、retrieval stats，最小 fixture 输出 recall@K、MRR、NDCG 与 ingest throughput 报告。",
         result:
-          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备持续回归验证能力。",
+          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行与最小评测回归闭环。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -837,6 +900,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "exp-cloudpan",
       year: "2024.04 - 2026.02",
+      hideFromSection: true,
       role: "全栈开发 · 开源项目",
       company: "EasyCloudPan",
       location: "开源项目（本地 + Docker）",
@@ -913,6 +977,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "exp-jzt-shuttle-path",
       year: "2023.05 - 2023.07",
+      hideFromSection: true,
       role: "项目经理 / 算法研发",
       company: "九州通四向穿梭车路径规划系统",
       location: "本地项目",
@@ -955,6 +1020,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "exp-education",
       year: "2021.09 - 2025.06",
+      hideFromSection: true,
       role: "本科 · 数据科学与大数据技术",
       company: "南阳理工学院",
       location: "河南",
@@ -985,8 +1051,63 @@ export const defaultPortfolioData: PortfolioData = {
 
   projects: [
     {
+      id: "proj-independent-developer",
+      year: "2025.12 - 至今",
+      name: "独立开发者｜AI 应用 / 全栈项目",
+      techTags: [
+        "Java 21",
+        "Spring Boot 3.5",
+        "Python",
+        "FastAPI",
+        "React 19",
+        "TypeScript",
+        "LangGraph",
+        "PostgreSQL",
+        "MySQL",
+        "Redis",
+      ],
+      summary:
+        "以独立开发者身份推进 4 个代表项目，覆盖租赁业务闭环、任务平台、客服运行时与桌面智能助手，并按子项目保留独立详情与证据入口。",
+      impact: "4 个代表项目的方案设计 / 全栈实现 / 联调验证 / 运行治理",
+      highlighted: true,
+      childIds: [
+        "proj-rentbox",
+        "proj-paper-retrieval-platform",
+        "proj-customer-ai-runtime",
+        "proj-wechat-bot",
+      ],
+      verification: [
+        {
+          sourceType: "manual",
+          sourceLabel: "主简历 / 英文 PDF 交叉校对",
+          verifiedAt: "2026-05-18",
+          confidence: "high",
+          level: "strict",
+        },
+      ],
+      expandedDetails: {
+        background:
+          "该分组用于承接最新简历中的独立开发阶段，把并行推进的代表项目集中展示。",
+        solution:
+          "- 统一展示 RentBox、论文检索任务平台、智能客服运行时和微信智能助手四个子项目。\n- 在项目区保留每个子项目的独立卡片能力，同时提供父项视角的整体概览。\n- 通过父子关系维持最新简历结构与现有详情页 slug 的兼容。",
+        result:
+          "让独立开发者相关项目在项目区以一个大项聚合展示，同时保留单个项目的独立访问路径。",
+        role: "独立开发者",
+        techStack: [
+          "Java 21",
+          "Spring Boot 3.5",
+          "Python",
+          "FastAPI",
+          "React 19",
+          "LangGraph",
+        ],
+      },
+    },
+    {
       id: "proj-rentbox",
       year: "2026.05 - 至今",
+      groupParentId: "proj-independent-developer",
+      hideFromSection: true,
       name: "RentBox 共享擦窗宝小程序",
       demoLink: "",
       techTags: [
@@ -1059,6 +1180,8 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-paper-retrieval-platform",
       year: "2026.04",
+      groupParentId: "proj-independent-developer",
+      hideFromSection: true,
       name: "论文检索任务平台",
       techTags: [
         "Python",
@@ -1130,6 +1253,8 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-customer-ai-runtime",
       year: "2026 - 至今",
+      groupParentId: "proj-independent-developer",
+      hideFromSection: true,
       name: "智能客服运行时",
       link: "https://github.com/byteD-x/customer-ai-runtime",
       demoLink: "",
@@ -1152,7 +1277,7 @@ export const defaultPortfolioData: PortfolioData = {
         "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
         "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
         "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "补齐知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "补齐知识版本管理、chunk 优化、消息级反馈、成本摘要、安全知识缓存、RAG 本地评测、人工接管队列、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1160,15 +1285,15 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、反馈闭环与多租户边界控制。",
-        en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, diagnostics export, and multi-tenant boundary control.",
+        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本治理、RAG eval、人工队列与多租户边界控制。",
+        en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
       },
       verification: [
         {
           sourceType: "repo",
           sourceLabel: "README / architecture / API tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-          verifiedAt: "2026-03-19",
+          verifiedAt: "2026-05-18",
           confidence: "high",
           level: "strict",
         },
@@ -1179,9 +1304,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、健康巡检、诊断导出、request_id 贯通、限流与提示词脱敏。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、成本摘要、安全知识缓存、RAG eval、人工接管队列、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
-          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、租户隔离与运行审计的工程基线。",
+          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -1205,6 +1330,8 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-wechat-bot",
       year: "2025 - 至今",
+      groupParentId: "proj-independent-developer",
+      hideFromSection: true,
       name: "微信智能助手",
       link: "https://github.com/byteD-x/wechat-bot",
       demoLink: "",
@@ -1295,8 +1422,8 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
         "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。",
-        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用及 retrieve/debug 调试能力。",
-        "建立 smoke-eval 与 regression gate 回归门禁，将检索质量、可恢复执行与发布验证纳入同一交付流程。",
+        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用，并在 retrieve/debug 中展示 `signal_scores`、`evidence_path` 与 retrieval stats。",
+        "补齐 deterministic retrieval fixture 与 local ingest fixture，打通 retrieval ablation、embedding benchmark、local ingest benchmark 和 regression gate。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1304,15 +1431,15 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turns scattered enterprise documents into a continuously synced knowledge QA capability with traceable citations.",
       },
       engineeringDepth: {
-        zh: "覆盖三路混合检索、LangGraph 编排、知识治理、连接器边界控制与评测回归体系。",
-        en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, governance workflows, connector boundaries, and evaluation baselines.",
+        zh: "覆盖三路混合检索、LangGraph 编排、知识治理、连接器边界控制、可解释检索调试与评测回归体系。",
+        en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, governance workflows, connector boundaries, explainable retrieval debugging, and evaluation baselines.",
       },
       verification: [
         {
           sourceType: "repo",
           sourceLabel: "GitHub 仓库 README / docs/reference / tests",
           sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-          verifiedAt: "2026-03-13",
+          verifiedAt: "2026-05-18",
           confidence: "high",
           level: "strict",
         },
@@ -1323,9 +1450,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "传统单路检索难以同时覆盖标题、关键词与语义混合场景，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
         solution:
-          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。\n- **强化可解释评测**：调试页展示 `signal_scores`、`evidence_path`、retrieval stats，最小 fixture 输出 recall@K、MRR、NDCG 与 ingest throughput 报告。",
         result:
-          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、检索调试与可恢复执行，并具备持续回归验证能力。",
+          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行与最小评测回归闭环。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",

@@ -6,10 +6,13 @@ import { HeroCTA } from "./Hero/HeroCTA";
 import { HeroProofPanel } from "./Hero/HeroProofPanel";
 import type { HeroSpotlightItem } from "@/lib/home-highlights";
 import { formatResumeFileName, getResumeDownloadUrl } from "@/lib/resume";
+import { getUiCopy } from "@/lib/locale-copy";
+import type { Locale } from "@/lib/locale";
 
 interface HeroProps {
   data: HeroData;
   proofItems: HeroSpotlightItem[];
+  locale: Locale;
 }
 
 function splitHeroTitle(title: string) {
@@ -21,9 +24,10 @@ function splitHeroTitle(title: string) {
   };
 }
 
-export default function Hero({ data, proofItems }: HeroProps) {
-  const resumeFileName = formatResumeFileName(data.title, data.name);
-  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName);
+export default function Hero({ data, proofItems, locale }: HeroProps) {
+  const copy = getUiCopy(locale);
+  const resumeFileName = formatResumeFileName(data.title, data.name, "-", locale);
+  const resumeDownloadUrl = getResumeDownloadUrl(resumeFileName, locale);
   const { mainTitle, focusTitle } = splitHeroTitle(data.title);
 
   return (
@@ -38,7 +42,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
         <div className="grid items-start gap-6 lg:grid-cols-12 lg:gap-8 xl:gap-10">
           <div className="flex flex-col items-start lg:col-span-7 xl:col-span-6">
             <div className="mb-3.5 sm:mb-5">
-              <HeroStatusBadges location={data.location} />
+              <HeroStatusBadges location={data.location} locale={locale} />
             </div>
 
             {focusTitle ? (
@@ -56,7 +60,7 @@ export default function Hero({ data, proofItems }: HeroProps) {
             </p>
 
             <div className="theme-card-muted mb-5 w-full rounded-[1.2rem] border-[rgba(148,163,184,0.16)] p-3 shadow-[0_16px_32px_rgba(15,23,42,0.05)] sm:mb-7 sm:rounded-[1.5rem] sm:p-4 md:p-5">
-              <p className="theme-card-kicker mb-3">价值主线</p>
+              <p className="theme-card-kicker mb-3">{copy.hero.valueLine}</p>
               <div className="mb-4 border-b border-[color:var(--border-default)] pb-3.5">
                 <HeroBullets bullets={data.bullets} />
               </div>
@@ -67,13 +71,13 @@ export default function Hero({ data, proofItems }: HeroProps) {
               />
 
               <p className="theme-copy-subtle mt-3.5 text-[13px] leading-6 sm:mt-4 sm:text-[0.92rem] sm:leading-7">
-                以上指标均可在项目详情与仓库中复核。
+                {copy.hero.evidenceNote}
               </p>
             </div>
           </div>
 
           <div className="relative lg:col-span-5 xl:col-span-6 lg:pt-2 xl:pl-3">
-            <HeroProofPanel items={proofItems} />
+            <HeroProofPanel items={proofItems} locale={locale} />
           </div>
         </div>
       </Container>

@@ -57,6 +57,9 @@ export interface BaseExperienceItem {
   businessValue?: BilingualText; // 面向业务/客户视角
   engineeringDepth?: BilingualText; // 面向工程/求职视角
   verification?: VerificationInfo[]; // 证据来源
+  groupParentId?: string; // 父分组 ID
+  childIds?: string[]; // 子项 ID 列表
+  hideFromSection?: boolean; // 是否在对应 section 中隐藏顶层渲染
 }
 
 // ==========================================

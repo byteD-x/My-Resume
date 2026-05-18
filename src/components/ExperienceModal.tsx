@@ -1,11 +1,12 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { m as motion } from "framer-motion";
 import { Calendar, MapPin, Building, Globe, Github } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { TimelineItem, ProjectItem } from "../types";
 import { isProjectLikeTimelineSubtitle } from "@/lib/experience-presentation";
+import { getExperienceGroupChildren } from "@/lib/experiences";
 import { useFocusTrap } from "../hooks/useFocusTrap";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useReducedMotion } from "../hooks/useReducedMotion";
@@ -19,6 +20,7 @@ import { MarkdownRenderer } from "./ui/MarkdownRenderer";
 import { DialogCloseButton } from "./ui/DialogCloseButton";
 import { cn } from "@/lib/utils";
 import { OverlayPortal } from "./ui/OverlayPortal";
+import { IntentLink } from "./ui/IntentLink";
 import {
   getOverlayFadeTransition,
   getOverlaySurfaceAnimate,
@@ -26,6 +28,7 @@ import {
   getOverlaySurfaceInitial,
   getOverlaySurfaceTransition,
 } from "@/lib/overlay-motion";
+import { useLocale, useUiCopy } from "@/lib/LocaleProvider";
 
 type ExperienceModalVariant = "overlay" | "page";
 
@@ -34,16 +37,12 @@ interface ExperienceModalProps {
   variant?: ExperienceModalVariant;
 }
 
-const verificationSourceLabelMap = {
-  repo: "仓库",
-  experience: "项目经历",
-  manual: "人工核验",
-} as const;
-
 export function ExperienceModal({
   item,
   variant = "overlay",
 }: ExperienceModalProps) {
+  const { locale } = useLocale();
+  const copy = useUiCopy();
   const router = useRouter();
   const shouldReduceMotion = useReducedMotion();
   const isOverlay = variant === "overlay";
@@ -92,6 +91,10 @@ export function ExperienceModal({
   const subtitle = "company" in item ? item.company : "";
   const isProjectLikeSubtitle =
     "role" in item && isProjectLikeTimelineSubtitle(item);
+  const groupedChildren = useMemo(
+    () => getExperienceGroupChildren(item, locale),
+    [item, locale],
+  );
 
   const content = (
     <div
@@ -153,7 +156,7 @@ export function ExperienceModal({
               <motion.h2
                 layoutId={useSharedLayout ? `title-${item.id}` : undefined}
                 id={`modal-title-${item.id}`}
-                className="theme-title mb-2 text-[1.4rem] font-bold leading-tight sm:text-[1.7rem]"
+                className="theme-title mb-2 break-words text-[1.4rem] font-bold leading-tight [overflow-wrap:anywhere] sm:text-[1.7rem]"
               >
                 {title}
               </motion.h2>
@@ -162,7 +165,7 @@ export function ExperienceModal({
                 <motion.div
                   layoutId={useSharedLayout ? `subtitle-${item.id}` : undefined}
                   className={cn(
-                    "mb-4 flex items-center gap-2",
+                    "mb-4 flex min-w-0 flex-wrap items-center gap-2 break-words [overflow-wrap:anywhere]",
                     isProjectLikeSubtitle
                       ? "text-[1rem] font-semibold text-[color:var(--text-primary)] sm:text-[1.08rem]"
                       : "text-[15px] font-medium text-[color:var(--brand-gold)] sm:text-base",
@@ -183,14 +186,14 @@ export function ExperienceModal({
               <div className="theme-copy flex flex-wrap gap-3 text-[0.92rem] leading-7">
                 <motion.div
                   layoutId={useSharedLayout ? `date-${item.id}` : undefined}
-                  className="theme-chip flex items-center gap-1.5 px-3 py-1 font-mono"
+                  className="theme-chip flex max-w-full items-center gap-1.5 break-words px-3 py-1 font-mono whitespace-normal [overflow-wrap:anywhere]"
                 >
                   <Calendar className="h-3.5 w-3.5" />
                   {item.year}
                 </motion.div>
 
                 {"location" in item && item.location && (
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex min-w-0 items-center gap-1.5 break-words [overflow-wrap:anywhere]">
                     <MapPin className="h-3.5 w-3.5" />
                     {item.location}
                   </div>
@@ -201,7 +204,7 @@ export function ExperienceModal({
             <DialogCloseButton
               ref={closeButtonRef}
               onClick={closeModal}
-              ariaLabel="关闭经历详情面板"
+              ariaLabel={copy.experience.close}
               className="shrink-0"
               iconSize={20}
             />
@@ -211,20 +214,110 @@ export function ExperienceModal({
         <div className="theme-dialog-body flex-1 space-y-6 overflow-y-auto p-4 sm:space-y-7 sm:p-6 md:p-7">
           <section>
             <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
-              概要
+              {copy.experience.summary}
             </h4>
-            <div className="theme-dialog-prose text-[15px] sm:text-base md:text-[1.03rem]">
+            <div className="theme-dialog-prose min-w-0 break-words text-[15px] [overflow-wrap:anywhere] sm:text-base md:text-[1.03rem]">
               <MarkdownRenderer inline>{item.summary}</MarkdownRenderer>
             </div>
           </section>
 
+          {groupedChildren.length > 0 && (
+            <section>
+              <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
+                {locale === "en" ? "Grouped projects" : "分组子项目"}
+              </h4>
+              <div className="space-y-3">
+                {groupedChildren.map((child) => {
+                  const childTitle = "company" in child ? child.company : child.name;
+                  const childLinks = child.expandedDetails?.links ?? [];
+
+                  return (
+                    <div
+                      key={child.id}
+                      className="theme-card-muted rounded-[1rem] p-4 sm:p-5"
+                    >
+                      <div className="flex flex-wrap items-start gap-3">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-start gap-2">
+                            <h5 className="theme-title min-w-0 flex-1 break-words text-[1rem] font-semibold leading-7">
+                              {childTitle}
+                            </h5>
+                            <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]">
+                              {child.year}
+                            </span>
+                          </div>
+                          <p className="theme-copy mt-2 break-words text-sm leading-7 [overflow-wrap:anywhere]">
+                            {child.summary}
+                          </p>
+                        </div>
+                      </div>
+
+                      {child.keyOutcomes && child.keyOutcomes.length > 0 && (
+                        <ul className="mt-3 space-y-2">
+                          {child.keyOutcomes.slice(0, 3).map((outcome, index) => (
+                            <li
+                              key={`${child.id}-outcome-${index}`}
+                              className="flex items-start gap-2"
+                            >
+                              <span className="mt-[0.6rem] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                              <span className="theme-copy break-words text-sm leading-7 [overflow-wrap:anywhere]">
+                                {outcome}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {child.techTags.map((tech) => (
+                          <span
+                            key={`${child.id}-${tech}`}
+                            className="theme-chip max-w-full px-2.5 py-1 text-[11px] font-medium [overflow-wrap:anywhere]"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap items-center gap-3">
+                        <IntentLink
+                          href={`/experiences/${child.id}`}
+                          className="theme-link min-w-0 break-words text-sm font-semibold hover:underline [overflow-wrap:anywhere]"
+                        >
+                          {locale === "en" ? "View child detail" : "查看子项目详情"}
+                        </IntentLink>
+
+                        {childLinks.map((link) => (
+                          <a
+                            key={`${child.id}-${link.url}`}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="theme-link inline-flex min-w-0 items-center gap-2 break-words text-sm font-medium hover:underline [overflow-wrap:anywhere]"
+                          >
+                            {link.label.toLowerCase().includes("github") ? (
+                              <Github className="h-4 w-4" />
+                            ) : (
+                              <Globe className="h-4 w-4" />
+                            )}
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
+
           {item.businessValue && (
             <section className="rounded-[1.15rem] border border-emerald-200/70 bg-emerald-50/72 p-4 sm:p-5 dark:border-emerald-900/40 dark:bg-emerald-900/10">
               <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
-                业务价值
+                {copy.experience.businessValue}
               </h4>
-              <p className="theme-readable-block text-sm text-emerald-900 dark:text-emerald-100">
-                {item.businessValue.zh}
+              <p className="theme-readable-block break-words text-sm text-emerald-900 [overflow-wrap:anywhere] dark:text-emerald-100">
+                {item.businessValue[locale] ?? item.businessValue.zh}
               </p>
             </section>
           )}
@@ -232,10 +325,10 @@ export function ExperienceModal({
           {item.engineeringDepth && (
             <section className="rounded-[1.15rem] border border-blue-200/70 bg-blue-50/80 p-4 sm:p-5">
               <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-blue-700">
-                工程深度
+                {copy.experience.engineeringDepth}
               </h4>
-              <p className="theme-readable-block text-sm text-slate-900">
-                {item.engineeringDepth.zh}
+              <p className="theme-readable-block break-words text-sm text-slate-900 [overflow-wrap:anywhere]">
+                {item.engineeringDepth[locale] ?? item.engineeringDepth.zh}
               </p>
             </section>
           )}
@@ -243,11 +336,15 @@ export function ExperienceModal({
           {item.verification && item.verification.length > 0 && (
             <section>
               <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
-                证据来源
+                {copy.experience.evidence}
               </h4>
               <div className="space-y-2.5">
                 {item.verification.map((entry, idx) => {
-                  const assessment = evaluateVerificationConfidence(entry);
+                  const assessment = evaluateVerificationConfidence(
+                    entry,
+                    new Date(),
+                    locale,
+                  );
 
                   return (
                     <div
@@ -260,8 +357,7 @@ export function ExperienceModal({
                         </div>
                       )}
                       <div className="theme-copy mt-1 text-xs leading-6">
-                        {verificationSourceLabelMap[entry.sourceType]} · 置信度 {assessment.confidenceText}{" "}
-                        · 验证时间 {entry.verifiedAt}
+                        {copy.experience.sourceLabels[entry.sourceType]} · {copy.experience.confidence} {assessment.confidenceText} · {copy.experience.verifiedAt} {entry.verifiedAt}
                       </div>
 
                       {assessment.basis.length > 0 && (
@@ -279,7 +375,7 @@ export function ExperienceModal({
                       )}
 
                       <p className="theme-copy mt-2 text-xs leading-6">
-                        <span className="font-semibold">判定原因：</span>
+                        <span className="font-semibold">{copy.experience.reason}</span>
                         {assessment.reason}
                       </p>
 
@@ -290,7 +386,7 @@ export function ExperienceModal({
                           rel="noopener noreferrer"
                           className="theme-link mt-2 inline-flex text-xs font-semibold hover:underline"
                         >
-                          查看证据
+                          {copy.experience.viewEvidence}
                         </a>
                       )}
                     </div>
@@ -308,7 +404,7 @@ export function ExperienceModal({
                   {item.expandedDetails.background && (
                     <section>
                       <h4 className="theme-copy-subtle mb-2 text-xs font-semibold uppercase tracking-wider">
-                        背景
+                        {copy.experience.background}
                       </h4>
                       <MarkdownRenderer tone="muted">
                         {item.expandedDetails.background}
@@ -318,7 +414,7 @@ export function ExperienceModal({
                   {item.expandedDetails.problem && (
                     <section>
                       <h4 className="theme-copy-subtle mb-2 text-xs font-semibold uppercase tracking-wider">
-                        挑战
+                        {copy.experience.challenge}
                       </h4>
                       <MarkdownRenderer tone="muted">
                         {item.expandedDetails.problem}
@@ -330,13 +426,13 @@ export function ExperienceModal({
 
               <section className="rounded-[1.15rem] border border-blue-200/70 bg-blue-50/72 p-4 sm:p-5">
                 <h4 className="mb-3 text-xs font-semibold uppercase tracking-wider text-blue-700">
-                  行动与成果
+                  {copy.experience.actionResult}
                 </h4>
                 <div className="space-y-4">
                   {item.expandedDetails.solution && (
                     <div>
                       <div className="theme-title mb-2 font-semibold">
-                        解决方案
+                        {copy.experience.solution}
                       </div>
                       <MarkdownRenderer>
                         {item.expandedDetails.solution}
@@ -346,7 +442,7 @@ export function ExperienceModal({
                   {item.expandedDetails.result && (
                     <div>
                       <div className="theme-title mb-2 font-semibold">
-                        成果
+                        {copy.experience.result}
                       </div>
                       <MarkdownRenderer>
                         {item.expandedDetails.result}
@@ -361,7 +457,7 @@ export function ExperienceModal({
           {item.keyOutcomes && item.keyOutcomes.length > 0 && (
             <section>
               <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
-                关键指标
+                {copy.experience.keyMetrics}
               </h4>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {item.keyOutcomes.map((outcome, idx) => (
@@ -381,7 +477,7 @@ export function ExperienceModal({
 
           <section>
             <h4 className="theme-copy-subtle mb-3 text-xs font-semibold uppercase tracking-wider">
-              技术栈
+              {copy.experience.techStack}
             </h4>
             <div className="flex flex-wrap gap-2">
               {item.techTags?.map((tech, idx) => (

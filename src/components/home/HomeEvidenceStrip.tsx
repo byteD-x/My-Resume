@@ -1,6 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { useLocale } from "@/lib/LocaleProvider";
+import {
+  getPreferredScrollBehavior,
+  scrollToSection,
+} from "@/lib/section-scroll";
 
 export interface HomeEvidenceStripItem {
   id: string;
@@ -21,6 +28,17 @@ function isHashLink(href: string) {
 }
 
 export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
+  const { locale } = useLocale();
+  const handleHashLinkClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    event.preventDefault();
+    scrollToSection(href.slice(1), {
+      behavior: getPreferredScrollBehavior(),
+    });
+  };
+
   return (
     <section className="theme-grid-section relative z-10 border-b section-divider !py-5 sm:!py-6 lg:!py-7">
       <Container>
@@ -44,7 +62,10 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
                 </p>
                 <div className="mt-3 flex items-center justify-between gap-3 border-t border-[color:var(--border-default)] pt-3">
                   <span className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.08em]">
-                    {item.meta ?? "招聘方优先浏览路径"}
+                    {item.meta ??
+                      (locale === "en"
+                        ? "Recruiter-first path"
+                        : "招聘方优先浏览路径")}
                   </span>
                   <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-[color:var(--text-primary)]">
                     {item.actionLabel}
@@ -56,14 +77,16 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
 
             const className =
               "theme-card-muted theme-card-interactive group flex min-h-[11rem] flex-col rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.045)] sm:min-h-[11.5rem] sm:p-[1.125rem]";
+            const ariaLabel = `${item.kicker} · ${item.actionLabel}`;
 
             if (isHashLink(item.href)) {
               return (
                 <a
                   key={item.id}
                   href={item.href}
+                  onClick={(event) => handleHashLinkClick(event, item.href)}
                   className={className}
-                  aria-label={`${item.kicker} 路 ${item.actionLabel}`}
+                  aria-label={ariaLabel}
                 >
                   {content}
                 </a>
@@ -75,7 +98,7 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
                 key={item.id}
                 href={item.href}
                 className={className}
-                aria-label={`${item.kicker} 路 ${item.actionLabel}`}
+                aria-label={ariaLabel}
               >
                 {content}
               </Link>

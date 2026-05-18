@@ -1,4 +1,6 @@
 import { ArrowUpRight, Calendar, Github, Globe, Mail } from "lucide-react";
+import { getUiCopy } from "@/lib/locale-copy";
+import type { Locale } from "@/lib/locale";
 import { Container } from "./ui/Container";
 
 interface FooterProps {
@@ -10,6 +12,7 @@ interface FooterProps {
   websiteLinks?: { label: string; url: string }[];
   icpRecord?: string;
   icpRecordUrl?: string;
+  locale: Locale;
 }
 
 function formatHost(url: string) {
@@ -29,25 +32,22 @@ export default function Footer({
   websiteLinks = [],
   icpRecord,
   icpRecordUrl,
+  locale,
 }: FooterProps) {
+  const copy = getUiCopy(locale);
   const now = new Date();
   const currentYear = now.getFullYear();
-  const lastUpdated = now.toLocaleDateString("zh-CN", {
+  const lastUpdated = now.toLocaleDateString(copy.footer.dateLocale, {
     year: "numeric",
     month: "long",
   });
   const footerTitle = title?.replace(/（[^）]+）/g, "").trim();
-  const quickLinks = [
-    { label: "价值亮点", href: "#impact", hint: "关键结果与验证口径" },
-    { label: "项目案例", href: "#projects", hint: "代表作品与交付结构" },
-    { label: "履历时间线", href: "#experience", hint: "阶段实践与技术演进" },
-    { label: "联系入口", href: "#contact", hint: "合作方式与公开渠道" },
-  ];
+  const quickLinks = copy.footer.links;
   const publicLinks = [
     ...(githubUrl
       ? [
           {
-            label: "GitHub",
+            label: copy.footer.githubLabel,
             url: githubUrl,
             icon: Github,
           },
@@ -86,7 +86,7 @@ export default function Footer({
               {email ? (
                 <div className="min-w-0">
                   <p className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.14em]">
-                    Email
+                    {copy.footer.emailLabel}
                   </p>
                   <a
                     href={`mailto:${email}`}
@@ -100,7 +100,7 @@ export default function Footer({
               {availability ? (
                 <div className="min-w-0">
                   <p className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.14em]">
-                    Availability
+                    {copy.footer.availabilityLabel}
                   </p>
                   <p className="mt-2 text-[14px] leading-7 text-[color:var(--text-secondary)]">
                     {availability}
@@ -112,7 +112,7 @@ export default function Footer({
 
           <div className="grid gap-7 sm:grid-cols-2">
             <section>
-              <p className="theme-kicker mb-3">站内跳转</p>
+              <p className="theme-kicker mb-3">{copy.footer.navTitle}</p>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.href}>
@@ -135,7 +135,7 @@ export default function Footer({
             </section>
 
             <section>
-              <p className="theme-kicker mb-3">公开入口</p>
+              <p className="theme-kicker mb-3">{copy.footer.publicTitle}</p>
               <ul className="space-y-3">
                 {publicLinks.map((link) => {
                   const Icon = link.icon;
@@ -172,7 +172,7 @@ export default function Footer({
         <div className="relative z-10 flex flex-col gap-2.5 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <div className="flex flex-col gap-1">
             <p className="theme-copy-subtle text-[12px] leading-6">
-              &copy; {currentYear} {name} · 工程化作品集与公开履历
+              &copy; {currentYear} {name} · {copy.footer.copyrightSuffix}
             </p>
             {icpRecord ? (
               <a
@@ -180,7 +180,7 @@ export default function Footer({
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex w-fit items-center gap-1 text-[12px] leading-6 text-[color:var(--text-tertiary)] transition-colors hover:text-[color:var(--brand-gold)]"
-                aria-label={`查看备案信息：${icpRecord}`}
+                aria-label={copy.footer.icpAria(icpRecord)}
               >
                 <Globe size={13} className="shrink-0 opacity-70" />
                 <span>{icpRecord}</span>
@@ -190,9 +190,10 @@ export default function Footer({
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] leading-6 text-[color:var(--text-tertiary)]">
             <span className="inline-flex items-center gap-1.5">
               <Calendar size={13} className="shrink-0 opacity-70" />
-              最后更新：{lastUpdated}
+              {copy.footer.lastUpdated}
+              {lastUpdated}
             </span>
-            <span>Built with Next.js / Tailwind CSS / Framer Motion</span>
+            <span>{copy.footer.builtWith}</span>
           </div>
         </div>
       </Container>

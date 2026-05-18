@@ -15,6 +15,7 @@ import {
 import { SkillCategory } from "@/types";
 import { Container } from "./ui/Container";
 import { Section } from "./ui/Section";
+import { useUiCopy } from "@/lib/LocaleProvider";
 
 const categoryIcons: Record<string, LucideIcon> = {
   Backend: Code2,
@@ -80,6 +81,7 @@ export default function TechStack({
   skills,
   techOverview = [],
 }: TechStackProps) {
+  const copy = useUiCopy();
   const [expandedCategories, setExpandedCategories] = useState<
     Record<string, boolean>
   >({});
@@ -95,9 +97,9 @@ export default function TechStack({
           className="theme-section-header scroll-mt-28"
           data-scroll-target="skills"
         >
-          <p className="theme-kicker mb-3">技术版图</p>
+          <p className="theme-kicker mb-3">{copy.sections.skillsKicker}</p>
           <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
-            技术栈与能力边界
+            {copy.sections.skillsTitle}
           </h2>
         </div>
 
@@ -193,13 +195,12 @@ export default function TechStack({
 
                 <p className="theme-copy-subtle theme-card-section mt-3 text-[11px] leading-[1.72] sm:mt-4 sm:text-[12px] sm:leading-[1.82]">
                   <span className="font-semibold text-[color:var(--text-primary)]">
-                    承担方式：
+                    {copy.techStack.ownership}
                   </span>
-                  {index === 0
-                    ? "可独立负责设计、实现与结果复核。"
-                    : index === 1
-                      ? "可负责落地、联调与质量控制。"
-                      : "可在协作项目中快速接手。"}
+                  {copy.techStack.ownershipByIndex[index] ??
+                    copy.techStack.ownershipByIndex[
+                      copy.techStack.ownershipByIndex.length - 1
+                    ]}
                 </p>
 
                 {remainingCount > 0 ? (
@@ -208,7 +209,9 @@ export default function TechStack({
                     onClick={() => toggleCategory(category.id)}
                     className="theme-link mt-3 inline-flex self-start items-center gap-1.5 text-[12px] font-semibold sm:mt-4 sm:text-[13px]"
                   >
-                    {isExpanded ? "收起" : `查看全部 (+${remainingCount})`}
+                    {isExpanded
+                      ? copy.techStack.collapse
+                      : copy.techStack.expand(remainingCount)}
                     {isExpanded ? (
                       <ChevronUp size={14} strokeWidth={2.5} />
                     ) : (

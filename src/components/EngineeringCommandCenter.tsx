@@ -45,6 +45,7 @@ import {
   getOverlaySurfaceInitial,
   getOverlaySurfaceTransition,
 } from "@/lib/overlay-motion";
+import { useUiCopy } from "@/lib/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { OverlayPortal } from "@/components/ui/OverlayPortal";
 
@@ -66,22 +67,6 @@ const metricUnitMap: Record<RuntimeMetric["name"], string> = {
   TTFB: "ms",
 };
 
-const metricLabelMap: Record<RuntimeMetric["name"], string> = {
-  LCP: "最大内容渲染时间 (LCP)",
-  INP: "交互到下次绘制时间 (INP)",
-  CLS: "累计布局偏移 (CLS)",
-  FCP: "首次内容绘制 (FCP)",
-  TTFB: "首字节到达时间 (TTFB)",
-};
-
-const metricDescriptionMap: Record<RuntimeMetric["name"], string> = {
-  LCP: "衡量首屏主要内容完成渲染所需时间。",
-  INP: "衡量用户交互后的整体响应延迟。",
-  CLS: "衡量页面加载过程中的视觉稳定性。",
-  FCP: "衡量浏览器首次绘制有效内容的时间点。",
-  TTFB: "衡量服务端和网络链路返回首字节的速度。",
-};
-
 const ratingClassMap = {
   pending:
     "border-[color:var(--border-default)] bg-[rgba(var(--surface-muted-rgb),0.78)] text-[color:var(--text-secondary)]",
@@ -90,39 +75,14 @@ const ratingClassMap = {
   poor: "border-rose-200 bg-rose-50 text-rose-700",
 } as const;
 
-const sourceLabelMap: Record<TelemetrySource, string> = {
-  "github-api": "GitHub API",
-  "github-web": "GitHub 页面降级",
-  fallback: "本地降级数据",
-};
-
-const ratingLabelMap = {
-  pending: "等待采集",
-  good: "良好",
-  "needs-improvement": "待优化",
-  poor: "风险",
-} as const;
-
-const telemetryStateLabelMap: Record<TelemetryState, string> = {
-  idle: "待同步",
-  loading: "同步中",
-  ready: "已更新",
-  error: "已降级",
-};
-
-const deployTargetLabelMap: Record<string, string> = {
-  server: "服务端渲染",
-  "static-export": "静态导出",
-};
-
 const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
-const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP ?? "未知";
+const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP;
 const deployTarget =
   process.env.NEXT_PUBLIC_DEPLOY_TARGET ??
   (isStaticExport ? "static-export" : "server");
-const nextVersion = process.env.NEXT_PUBLIC_NEXT_VERSION ?? "未知";
-const reactVersion = process.env.NEXT_PUBLIC_REACT_VERSION ?? "未知";
-const tsVersion = process.env.NEXT_PUBLIC_TYPESCRIPT_VERSION ?? "未知";
+const nextVersion = process.env.NEXT_PUBLIC_NEXT_VERSION;
+const reactVersion = process.env.NEXT_PUBLIC_REACT_VERSION;
+const tsVersion = process.env.NEXT_PUBLIC_TYPESCRIPT_VERSION;
 
 const formatMetricValue = (metric: RuntimeMetric) => {
   if (metric.value === null) return "--";
@@ -135,26 +95,53 @@ const formatCount = (value: number | null) => {
   return value.toLocaleString("zh-CN");
 };
 
+const getLocalizedTelemetryMessage = (
+  message: string | undefined,
+  source: TelemetrySource | undefined,
+  isPartial: boolean | undefined,
+  copy: ReturnType<typeof useUiCopy>["engineering"],
+) => {
+  if (!message) return undefined;
+
+  if (source === "github-api") {
+    return copy.liveGithubData;
+  }
+
+  if (source === "github-web" || isPartial) {
+    return copy.githubWebFallback;
+  }
+
+  const snapshotMatch = message.match(
+    /(\d{4}[\/-]\d{1,2}[\/-]\d{1,2}[^\d]*\d{1,2}:\d{2}:\d{2})/,
+  );
+  if (snapshotMatch) {
+    return `${copy.updatedAtPrefix}${snapshotMatch[1]} (${copy.buildSnapshotLabel})`;
+  }
+
+  return source === "fallback" ? copy.staticSnapshot : message;
+};
+
 const panelSectionClassName =
   "theme-card rounded-[1.05rem] p-4 sm:rounded-[1.3rem] sm:p-4 md:p-5";
 
 const MetricCard = React.memo(({ metric }: { metric: RuntimeMetric }) => {
+  const copy = useUiCopy();
   const rating = metric.value === null ? "pending" : metric.rating;
 
   return (
     <article className="theme-card-muted flex min-h-[6.4rem] flex-col rounded-[1rem] p-3 sm:min-h-[7rem] sm:rounded-[1.2rem] sm:p-3.5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <Tooltip content={metricDescriptionMap[metric.name]} position="top">
+          <Tooltip content={copy.engineering.metricHelp[metric.name]} position="top">
             <p className="theme-copy-subtle w-fit cursor-help border-b border-dashed border-[color:var(--border-default)] text-[11px] font-semibold transition-colors hover:border-[rgba(37,99,235,0.3)] hover:text-[color:var(--brand-gold)]">
-              {metricLabelMap[metric.name]}
+              {copy.engineering.metrics[metric.name]}
             </p>
           </Tooltip>
         </div>
         <span
           className={`shrink-0 rounded-full border px-2 py-1 text-[10px] font-semibold ${ratingClassMap[rating]}`}
         >
-          {ratingLabelMap[rating]}
+          {copy.engineering.qualityLabels[rating]}
         </span>
       </div>
 
@@ -190,6 +177,7 @@ export default function EngineeringCommandCenter({
   className,
   compact = false,
 }: EngineeringCommandCenterProps) {
+  const copy = useUiCopy();
   const [isOpen, setIsOpen] = useState(false);
   const [githubTelemetry, setGithubTelemetry] =
     useState<GitHubTelemetryPayload>(
@@ -234,10 +222,18 @@ export default function EngineeringCommandCenter({
       setTelemetryState("error");
       setGithubTelemetry({
         ...fallbackGithubTelemetry,
-        message: "GitHub 数据请求失败，请稍后重试。",
+        message: copy.engineering.githubError,
       });
     }
-  }, []);
+  }, [copy.engineering.githubError]);
+
+  const sourceLabelMap = copy.engineering.sourceLabels;
+  const telemetryStateLabelMap = copy.engineering.telemetryStatus;
+  const deployTargetLabelMap = copy.engineering.deployTargets;
+  const displayBuildTimestamp = buildTimestamp ?? copy.engineering.unknown;
+  const displayNextVersion = nextVersion ?? copy.engineering.unknown;
+  const displayReactVersion = reactVersion ?? copy.engineering.unknown;
+  const displayTsVersion = tsVersion ?? copy.engineering.unknown;
 
   const metricCards = useMemo(
     () => metricOrder.map((name) => runtimeSnapshot.metrics[name]),
@@ -247,52 +243,83 @@ export default function EngineeringCommandCenter({
   const overviewItems = useMemo<OverviewItem[]>(
     () => [
       {
-        label: "状态",
+        label: copy.engineering.status,
         value: telemetryStateLabelMap[telemetryState],
         hint:
           telemetryState === "loading"
-            ? "正在同步"
-            : "打开时自动刷新",
+            ? copy.engineering.syncing
+            : copy.engineering.autoRefresh,
         icon: Activity,
       },
       {
-        label: "数据",
+        label: copy.engineering.data,
         value: sourceLabelMap[githubTelemetry.source ?? "fallback"],
-        hint: "失败时自动降级",
+        hint: copy.engineering.fallbackHint,
         icon: Github,
       },
       {
-        label: "部署",
-        value: deployTargetLabelMap[deployTarget] ?? deployTarget,
-        hint: "当前发布形态",
+        label: copy.engineering.deploy,
+        value:
+          deployTarget in deployTargetLabelMap
+            ? deployTargetLabelMap[deployTarget as keyof typeof deployTargetLabelMap]
+            : deployTarget,
+        hint: copy.engineering.deployHint,
         icon: Cpu,
       },
       {
-        label: "构建",
-        value: buildTimestamp,
-        hint: buildTimestamp === "未知" ? "等待注入" : "最近构建时间",
+        label: copy.engineering.build,
+        value: displayBuildTimestamp,
+        hint: buildTimestamp ? copy.engineering.buildHint : copy.engineering.buildWaiting,
         icon: Clock3,
       },
     ],
-    [githubTelemetry.source, telemetryState],
+    [
+      copy.engineering.autoRefresh,
+      copy.engineering.build,
+      copy.engineering.buildHint,
+      copy.engineering.buildWaiting,
+      copy.engineering.data,
+      copy.engineering.deploy,
+      copy.engineering.deployHint,
+      copy.engineering.fallbackHint,
+      copy.engineering.status,
+      copy.engineering.syncing,
+      deployTargetLabelMap,
+      displayBuildTimestamp,
+      githubTelemetry.source,
+      sourceLabelMap,
+      telemetryState,
+      telemetryStateLabelMap,
+    ],
   );
 
   const fingerprintItems = useMemo(
     () => [
-      { label: "Next.js", value: nextVersion },
-      { label: "React", value: reactVersion },
-      { label: "TypeScript", value: tsVersion },
-      { label: "构建时间", value: buildTimestamp },
+      { label: "Next.js", value: displayNextVersion },
+      { label: "React", value: displayReactVersion },
+      { label: "TypeScript", value: displayTsVersion },
+      { label: copy.engineering.buildTime, value: displayBuildTimestamp },
     ],
-    [],
+    [
+      copy.engineering.buildTime,
+      displayBuildTimestamp,
+      displayNextVersion,
+      displayReactVersion,
+      displayTsVersion,
+    ],
   );
 
   const telemetryMessage =
     telemetryState === "loading"
-      ? "正在同步 GitHub 数据..."
+      ? copy.engineering.syncingGithub
       : telemetryState === "error"
-        ? (githubTelemetry.message ?? "GitHub 数据暂不可用。")
-        : githubTelemetry.message;
+        ? (githubTelemetry.message ?? copy.engineering.githubUnavailable)
+        : getLocalizedTelemetryMessage(
+            githubTelemetry.message,
+            githubTelemetry.source,
+            githubTelemetry.isPartial,
+            copy.engineering,
+          );
 
   const motionOptions = {
     reduceMotion: shouldReduceMotion,
@@ -318,17 +345,17 @@ export default function EngineeringCommandCenter({
             : "theme-floating-trigger-strong motion-chip pointer-events-auto inline-flex min-w-0 flex-col items-start gap-2 rounded-[1.2rem] px-4 py-3.5 text-left text-sm font-semibold",
           className,
         )}
-        aria-label="打开工程实力中枢"
+        aria-label={copy.engineering.openAria}
       >
         <span className="inline-flex min-w-0 items-center gap-2">
           <Sparkles size={16} className="motion-icon-float shrink-0" />
           <span className={compact ? "truncate" : "text-balance leading-5"}>
-            {compact ? "工程中枢" : "工程实力中枢"}
+            {compact ? copy.engineering.compactTrigger : copy.engineering.trigger}
           </span>
         </span>
         {compact ? null : (
           <span className="theme-floating-meta text-left leading-5">
-            实时指标 · GitHub · 构建信息
+            {copy.engineering.triggerMeta}
           </span>
         )}
       </button>
@@ -370,21 +397,21 @@ export default function EngineeringCommandCenter({
                   <div className="flex items-start justify-between gap-4 border-b border-[color:var(--border-muted)] pb-4 md:pb-5">
                     <div className="min-w-0">
                       <p className="theme-kicker text-[11px] font-semibold tracking-[0.16em]">
-                        工程面板
+                        {copy.engineering.panel}
                       </p>
                       <div className="mt-2 flex flex-wrap items-center gap-2">
                         <h2
                           id="engineering-command-center-title"
                           className="theme-title text-balance text-2xl font-bold tracking-tight"
                         >
-                          工程实力中枢
+                          {copy.engineering.title}
                         </h2>
                         <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold">
-                          只读面板
+                          {copy.engineering.readOnly}
                         </span>
                       </div>
                       <p className="theme-copy mt-3 max-w-2xl text-balance text-sm leading-6">
-                        集中展示性能、仓库与构建信息。
+                        {copy.engineering.subtitle}
                       </p>
                     </div>
 
@@ -394,7 +421,7 @@ export default function EngineeringCommandCenter({
                         onClick={() => void fetchTelemetry({ force: true })}
                         disabled={telemetryState === "loading"}
                         className="motion-chip inline-flex h-10 items-center gap-2 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] px-3 text-sm font-medium text-[color:var(--text-secondary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-60 sm:h-auto sm:px-3 sm:py-2"
-                        aria-label="刷新工程实力中枢数据"
+                        aria-label={copy.engineering.refreshAria}
                       >
                         <RefreshCw
                           size={15}
@@ -404,14 +431,14 @@ export default function EngineeringCommandCenter({
                               : "motion-icon-float"
                           }
                         />
-                        刷新
+                        {copy.engineering.refresh}
                       </button>
                       <button
                         ref={closeButtonRef}
                         type="button"
                         onClick={() => setIsOpen(false)}
                         className="motion-chip h-10 w-10 rounded-xl border border-[color:var(--border-default)] bg-[rgba(var(--surface-rgb),0.92)] p-0 text-[color:var(--text-tertiary)] transition hover:border-[rgba(37,99,235,0.22)] hover:text-[color:var(--text-primary)] sm:h-auto sm:w-auto sm:p-2.5"
-                        aria-label="关闭工程实力中枢"
+                        aria-label={copy.engineering.close}
                       >
                         <X size={18} className="motion-icon-float" />
                       </button>
@@ -451,14 +478,14 @@ export default function EngineeringCommandCenter({
                       <div>
                         <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold tracking-[0.08em]">
                           <Gauge size={16} />
-                          页面性能
+                          {copy.engineering.performance}
                         </h3>
                         <p className="theme-copy mt-2 text-sm leading-6">
-                          指标来自当前页面生命周期，重点观察加载、交互和视觉稳定性。
+                          {copy.engineering.performanceCopy}
                         </p>
                       </div>
                       <span className="theme-chip px-2.5 py-1 text-xs font-medium">
-                        自动采集
+                        {copy.engineering.autoCollect}
                       </span>
                     </div>
 
@@ -469,7 +496,7 @@ export default function EngineeringCommandCenter({
                     </div>
 
                     <p className="theme-copy-subtle mt-4 text-xs leading-5">
-                      INP 需交互后显示；其余指标随会话刷新。
+                      {copy.engineering.inpNote}
                     </p>
                   </section>
 
@@ -479,10 +506,10 @@ export default function EngineeringCommandCenter({
                         <div>
                           <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold tracking-[0.08em]">
                             <Github size={16} />
-                            开源数据
+                            {copy.engineering.telemetry}
                           </h3>
                           <p className="theme-copy mt-2 text-sm leading-6">
-                            用公开仓库数据呈现项目活跃度与维护情况。
+                            {copy.engineering.telemetryCopy}
                           </p>
                         </div>
                         <span className="theme-chip px-2.5 py-1 text-xs font-medium">
@@ -492,19 +519,19 @@ export default function EngineeringCommandCenter({
 
                       <div className="mt-4 grid gap-2.5 sm:grid-cols-3">
                         <article className="theme-card-muted rounded-[1rem] p-3">
-                          <p className="theme-copy-subtle text-[11px] font-medium">粉丝数</p>
+                          <p className="theme-copy-subtle text-[11px] font-medium">{copy.engineering.followers}</p>
                           <p className="theme-title mt-1.5 text-[1.55rem] font-bold tracking-tight">
                             {formatCount(githubTelemetry.followers)}
                           </p>
                         </article>
                         <article className="theme-card-muted rounded-[1rem] p-3">
-                          <p className="theme-copy-subtle text-[11px] font-medium">仓库数</p>
+                          <p className="theme-copy-subtle text-[11px] font-medium">{copy.engineering.repos}</p>
                           <p className="theme-title mt-1.5 text-[1.55rem] font-bold tracking-tight">
                             {formatCount(githubTelemetry.public_repos)}
                           </p>
                         </article>
                         <article className="theme-card-muted rounded-[1rem] p-3">
-                          <p className="theme-copy-subtle text-[11px] font-medium">总 Star</p>
+                          <p className="theme-copy-subtle text-[11px] font-medium">{copy.engineering.stars}</p>
                           <p className="theme-title mt-1.5 text-[1.55rem] font-bold tracking-tight">
                             {formatCount(githubTelemetry.totalStars)}
                           </p>
@@ -514,7 +541,7 @@ export default function EngineeringCommandCenter({
                       <div className="theme-card mt-4 rounded-[1rem] p-3.5 sm:p-4">
                         <div className="flex items-center justify-between gap-3">
                           <p className="theme-title text-sm font-semibold">
-                            重点仓库
+                            {copy.engineering.keyRepos}
                           </p>
                           <span className="theme-copy-subtle text-xs">
                             Top {githubTelemetry.specificRepos.length || 0}
@@ -524,7 +551,7 @@ export default function EngineeringCommandCenter({
                         <ul className="mt-3 divide-y divide-[color:var(--border-muted)]">
                           {githubTelemetry.specificRepos.length === 0 ? (
                             <li className="theme-copy py-3 text-sm">
-                              暂无可用仓库数据，当前展示的是降级结果。
+                              {copy.engineering.noRepos}
                             </li>
                           ) : (
                             githubTelemetry.specificRepos.map((repo) => (
@@ -553,7 +580,7 @@ export default function EngineeringCommandCenter({
                           <p className="theme-copy-subtle mt-3 text-xs leading-5">
                             {telemetryMessage}
                             {githubTelemetry.isPartial && telemetryState === "ready"
-                              ? "（部分数据）"
+                              ? copy.engineering.partial
                               : ""}
                           </p>
                         ) : null}
@@ -563,7 +590,7 @@ export default function EngineeringCommandCenter({
                     <section className={panelSectionClassName}>
                       <h3 className="theme-copy-subtle flex items-center gap-2 text-sm font-semibold tracking-[0.08em]">
                         <Cpu size={16} />
-                        构建信息
+                        {copy.engineering.build}
                       </h3>
                       <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
                         {fingerprintItems.map((item) => (
@@ -588,13 +615,13 @@ export default function EngineeringCommandCenter({
                           <ShieldCheck size={18} />
                         </div>
                         <div>
-                          <p className="theme-title text-sm font-semibold">数据边界</p>
+                          <p className="theme-title text-sm font-semibold">{copy.engineering.dataBoundary}</p>
                           <p className="theme-copy mt-2 text-sm leading-6">
-                            仅显示匿名性能与公开仓库数据，不记录联系信息。
+                            {copy.engineering.boundaryCopy}
                           </p>
                           <p className="theme-copy-subtle mt-2 inline-flex items-center gap-2 text-xs font-medium">
                             <Clock3 size={14} />
-                            指标按页面会话刷新。
+                            {copy.engineering.refreshNote}
                           </p>
                         </div>
                       </div>
