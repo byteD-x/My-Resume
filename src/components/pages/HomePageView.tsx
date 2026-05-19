@@ -12,19 +12,25 @@ import { HomeSupplementalSectionsShell } from "@/components/home/HomeSupplementa
 import { StructuredDataScript } from "@/components/StructuredDataScript";
 import { siteConfig } from "@/config/site";
 import { getHomepageData } from "@/lib/home-data";
-import { getHomePageStructuredData } from "@/lib/page-metadata";
+import { getHomePageStructuredDataForRoute } from "@/lib/page-metadata";
 import type { Locale } from "@/lib/locale";
 
 interface HomePageViewProps {
   locale: Locale;
+  explicitLocale?: boolean;
 }
 
-export function HomePageView({ locale }: HomePageViewProps) {
+export function HomePageView({
+  locale,
+  explicitLocale = false,
+}: HomePageViewProps) {
   const data = getHomepageData(locale);
 
   return (
     <main className="relative min-h-screen overflow-x-clip">
-      <StructuredDataScript data={getHomePageStructuredData(locale)} />
+      <StructuredDataScript
+        data={getHomePageStructuredDataForRoute(locale, explicitLocale)}
+      />
       <div className="page-grid-bg page-grid-fade pointer-events-none absolute inset-0 z-0 opacity-80" />
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute left-[-8rem] top-[12rem] hidden h-[22rem] w-[22rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.16),transparent_72%)] blur-3xl md:block" />

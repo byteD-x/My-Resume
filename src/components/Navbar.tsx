@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, m as motion } from "framer-motion";
-import { Github, Mail, Menu, X } from "lucide-react";
+import { Github, Languages, Mail, Menu, X } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { ProgressBar } from "@/components/ProgressBar";
 import { useHydrated } from "@/hooks/useHydrated";
@@ -33,6 +33,10 @@ interface NavbarProps {
 }
 
 const MOBILE_MENU_ID = "mobile-navigation-drawer";
+const LANGUAGE_OPTIONS = [
+  { locale: "zh", label: "中文" },
+  { locale: "en", label: "English" },
+] as const;
 
 export default function Navbar({ heroData, contactData }: NavbarProps) {
   const { locale, switchLocaleHref } = useLocale();
@@ -100,6 +104,43 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
 
   const handleGithubClick = () => {
     trackExternalLink(contactData.github, "navbar_github");
+  };
+
+  const renderLanguageOption = (
+    optionLocale: (typeof LANGUAGE_OPTIONS)[number]["locale"],
+    label: string,
+    className?: string,
+  ) => {
+    const isActive = locale === optionLocale;
+    const baseClassName = cn(
+      "inline-flex items-center justify-center rounded-full px-3 py-1.5 text-sm font-semibold transition-colors",
+      isActive
+        ? "bg-[linear-gradient(180deg,#243652_0%,#172235_100%)] text-[color:var(--text-inverse)] shadow-[0_12px_24px_rgba(15,23,42,0.14)]"
+        : "text-[color:var(--text-secondary)] hover:text-[color:var(--brand-gold)]",
+      className,
+    );
+
+    if (isActive) {
+      return (
+        <span
+          key={optionLocale}
+          aria-current="page"
+          className={baseClassName}
+        >
+          {label}
+        </span>
+      );
+    }
+
+    return (
+      <a
+        key={optionLocale}
+        href={switchLocaleHref(optionLocale)}
+        className={baseClassName}
+      >
+        {label}
+      </a>
+    );
   };
 
   useEffect(() => {
@@ -200,12 +241,22 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
           </button>
 
           <div className="hidden items-center gap-1 rounded-full border border-[color:var(--border-default)] bg-[rgba(255,255,255,0.82)] p-1 shadow-sm md:flex">
-            <a
-              href={switchLocaleHref(locale === "zh" ? "en" : "zh")}
-              className="motion-chip rounded px-3 py-1.5 text-sm font-medium text-[color:var(--text-secondary)] transition-colors hover:text-[color:var(--brand-gold)]"
-            >
-              {copy.nav.switchLanguage}
-            </a>
+            <div className="flex items-center gap-1 rounded-full border border-[rgba(148,163,184,0.18)] bg-[rgba(248,250,252,0.92)] px-1 py-1">
+              <span className="theme-card-kicker inline-flex items-center gap-1.5 px-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[color:var(--text-tertiary)]">
+                <Languages size={12} className="opacity-70" />
+                {copy.nav.language}
+              </span>
+              <div className="flex items-center gap-1">
+                {LANGUAGE_OPTIONS.map((option) =>
+                  renderLanguageOption(option.locale, option.label),
+                )}
+              </div>
+            </div>
+
+            <span
+              className="mx-1 h-5 w-px bg-[rgba(148,163,184,0.18)]"
+              aria-hidden="true"
+            />
             {navItems.map((item) => {
               const isActive = activeSection === item.href.slice(1);
               return (
@@ -326,9 +377,21 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               aria-label={copy.nav.mobileMenu}
             >
               <div className="flex items-center justify-between border-b border-[color:var(--border-default)] p-5">
-                <span className="text-sm font-semibold uppercase tracking-wider text-[color:var(--text-primary)]">
-                  {copy.nav.language}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(148,163,184,0.18)] bg-[rgba(248,250,252,0.92)] text-[color:var(--text-secondary)]">
+                    <Languages size={18} />
+                  </span>
+                  <div>
+                    <span className="text-sm font-semibold uppercase tracking-wider text-[color:var(--text-primary)]">
+                      {copy.nav.language}
+                    </span>
+                    <p className="mt-1 text-xs text-[color:var(--text-tertiary)]">
+                      {locale === "zh"
+                        ? "当前中文，可切换到 English"
+                        : "Currently English, switch to 中文"}
+                    </p>
+                  </div>
+                </div>
                 <button
                   type="button"
                   ref={menuCloseButtonRef}
@@ -386,6 +449,19 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
               </div>
 
               <div className="space-y-4 border-t border-[color:var(--border-default)] p-5">
+                <div className="rounded-[1.1rem] border border-[rgba(148,163,184,0.16)] bg-[rgba(248,250,252,0.8)] p-3.5">
+                  <p className="theme-card-kicker mb-2">{copy.nav.language}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {LANGUAGE_OPTIONS.map((option) =>
+                      renderLanguageOption(
+                        option.locale,
+                        option.label,
+                        "flex items-center justify-center py-2.5 text-center",
+                      ),
+                    )}
+                  </div>
+                </div>
+
                 <button
                   type="button"
                   onClick={() => {
@@ -396,13 +472,6 @@ export default function Navbar({ heroData, contactData }: NavbarProps) {
                 >
                   {copy.nav.contact}
                 </button>
-
-                <a
-                  href={switchLocaleHref(locale === "zh" ? "en" : "zh")}
-                  className="btn btn-secondary w-full py-3"
-                >
-                  {copy.nav.switchLanguage}
-                </a>
 
                 <a
                   href={resumeDownloadUrl}

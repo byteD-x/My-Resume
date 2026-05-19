@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { localizedSiteConfig, siteConfig } from "@/config/site";
 import { getExperience } from "@/lib/experiences";
 import {
-  getDefaultLocale,
+  addLocalePrefix,
   getOpenGraphLocale,
+  stripLocalePrefix,
   type Locale,
 } from "@/lib/locale";
+import {
+  getDeploymentDefaultLocale,
+  shouldUseExplicitRootLocale,
+} from "@/lib/deployment-locale";
 import { getPortfolioData } from "@/lib/portfolio-data";
 
 function normalizePagePath(pathname: string): string {
@@ -18,19 +23,20 @@ function buildRoutePath(
   pathname: string,
   explicitLocale = false,
 ): string {
-  const normalizedPath = normalizePagePath(pathname);
+  const normalizedPath = stripLocalePrefix(normalizePagePath(pathname));
   if (explicitLocale) {
-    return normalizedPath === "/"
-      ? `/${locale}`
-      : `/${locale}${normalizedPath}`;
+    return addLocalePrefix(normalizedPath, locale);
   }
 
-  const defaultLocale = getDefaultLocale();
-  if (locale === defaultLocale) {
+  const defaultLocale = getDeploymentDefaultLocale();
+  if (
+    locale === defaultLocale &&
+    !(normalizedPath === "/" && shouldUseExplicitRootLocale(defaultLocale))
+  ) {
     return normalizedPath;
   }
 
-  return normalizedPath === "/" ? `/${locale}` : `/${locale}${normalizedPath}`;
+  return addLocalePrefix(normalizedPath, locale);
 }
 
 function buildAbsoluteUrl(pathname: string): string {
@@ -38,16 +44,19 @@ function buildAbsoluteUrl(pathname: string): string {
 }
 
 function buildAlternates(pathname: string): NonNullable<Metadata["alternates"]> {
+  const normalizedPath = normalizePagePath(pathname);
+  const basePath = stripLocalePrefix(normalizedPath);
+  const defaultLocale = getDeploymentDefaultLocale();
   const languages = {
-    "zh-CN": buildAbsoluteUrl(buildRoutePath("zh", pathname)),
-    "en-US": buildAbsoluteUrl(buildRoutePath("en", pathname)),
+    "zh-CN": buildAbsoluteUrl(buildRoutePath("zh", basePath, true)),
+    "en-US": buildAbsoluteUrl(buildRoutePath("en", basePath, true)),
     "x-default": buildAbsoluteUrl(
-      buildRoutePath(getDefaultLocale(), pathname),
+      buildRoutePath(defaultLocale, basePath),
     ),
   } as const;
 
   return {
-    canonical: buildAbsoluteUrl(pathname),
+    canonical: buildAbsoluteUrl(normalizedPath),
     languages,
   };
 }
@@ -142,6 +151,13 @@ export function getExperiencePageMetadata(
 }
 
 export function getHomePageStructuredData(locale: Locale) {
+  return getHomePageStructuredDataForRoute(locale);
+}
+
+export function getHomePageStructuredDataForRoute(
+  locale: Locale,
+  explicitLocale = false,
+) {
   const localeConfig = localizedSiteConfig[locale];
   const data = getPortfolioData(locale);
   const works = data.projects
@@ -164,7 +180,7 @@ export function getHomePageStructuredData(locale: Locale) {
       {
         "@type": "Person",
         name: localeConfig.name,
-        url: buildAbsoluteUrl(buildRoutePath(locale, "/")),
+        url: buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale)),
         jobTitle: localeConfig.role,
         description: localeConfig.description,
         image: `${siteConfig.siteUrl}/og.png`,
@@ -195,7 +211,7 @@ export function getExperienceStructuredData(
       {
         "@type": "Person",
         name: localeConfig.name,
-        url: buildAbsoluteUrl(buildRoutePath(locale, "/")),
+        url: buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale)),
         jobTitle: localeConfig.role,
       },
       {

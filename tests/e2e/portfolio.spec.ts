@@ -201,6 +201,29 @@ test.describe('Portfolio E2E', () => {
         await expect(page).toHaveURL(/\/zh(?:[#?].*)?$/);
     });
 
+    test('experience section should render independent developer projects inline under the parent entry', async ({ page }) => {
+        await scrollSectionIntoView(page, '#experience');
+
+        const experienceSection = page.locator('#experience');
+        await expect(experienceSection.getByText('独立开发者').first()).toBeVisible();
+        await expect(experienceSection.getByText('RentBox 共享擦窗宝小程序')).toBeVisible();
+        await expect(experienceSection.getByText('论文检索任务平台')).toBeVisible();
+        await expect(experienceSection.getByText('智能客服运行时')).toBeVisible();
+        await expect(experienceSection.getByText('微信智能助手')).toBeVisible();
+        await expect(
+            experienceSection.locator('a[href="/experiences/exp-rentbox"]'),
+        ).toHaveCount(0);
+        await expect(
+            experienceSection.locator('a[href="/experiences/exp-paper-retrieval-platform"]'),
+        ).toHaveCount(0);
+        await expect(
+            experienceSection.locator('a[href="/experiences/exp-customer-ai-runtime"]'),
+        ).toHaveCount(0);
+        await expect(
+            experienceSection.locator('a[href="/experiences/exp-wechat-bot"]'),
+        ).toHaveCount(0);
+    });
+
     test('hero project evidence cta should scroll to projects section', async ({ page }) => {
         const projectsSection = page.locator('#projects');
         await expect(projectsSection).not.toBeInViewport();

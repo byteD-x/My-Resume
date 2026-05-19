@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { HomePageView } from "@/components/pages/HomePageView";
-import { getDefaultLocale } from "@/lib/locale";
+import { getRootLocaleEntryPath, getDeploymentDefaultLocale, shouldUseExplicitRootLocale } from "@/lib/deployment-locale";
 import { getHomePageMetadata } from "@/lib/page-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
-  return getHomePageMetadata(getDefaultLocale());
+  const locale = getDeploymentDefaultLocale();
+  return getHomePageMetadata(locale, shouldUseExplicitRootLocale(locale));
 }
 
 export default function HomePage() {
-  return <HomePageView locale={getDefaultLocale()} />;
+  const locale = getDeploymentDefaultLocale();
+
+  if (shouldUseExplicitRootLocale(locale)) {
+    redirect(getRootLocaleEntryPath(locale));
+  }
+
+  return <HomePageView locale={locale} explicitLocale={false} />;
 }

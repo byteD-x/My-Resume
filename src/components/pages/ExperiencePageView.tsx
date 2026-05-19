@@ -7,11 +7,13 @@ import type { Locale } from "@/lib/locale";
 interface ExperiencePageViewProps {
   slug: string;
   locale: Locale;
+  explicitLocale?: boolean;
 }
 
 export function ExperiencePageView({
   slug,
   locale,
+  explicitLocale = false,
 }: ExperiencePageViewProps) {
   const item = getExperience(slug, locale);
 
@@ -19,7 +21,11 @@ export function ExperiencePageView({
     return null;
   }
 
-  const structuredData = getExperienceStructuredData(slug, locale);
+  const structuredData = getExperienceStructuredData(
+    slug,
+    locale,
+    explicitLocale,
+  );
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)] p-4">

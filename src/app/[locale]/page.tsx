@@ -30,5 +30,5 @@ export default async function LocalizedHomePage({
     notFound();
   }
 
-  return <HomePageView locale={locale} />;
+  return <HomePageView locale={locale} explicitLocale={true} />;
 }

@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { localizedSiteConfig, siteConfig } from "@/config/site";
 import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
+import { getDeploymentDefaultLocale } from "@/lib/deployment-locale";
 import { LocaleProvider } from "@/lib/LocaleProvider";
 import { MotionProvider } from "@/lib/MotionProvider";
-import { getDefaultLocale, getHtmlLang } from "@/lib/locale";
+import { getHtmlLang } from "@/lib/locale";
 import { WebVitals } from "@/lib/performance";
 import { SkipToContent } from "@/components/SkipToContent";
 
-const defaultLocale = getDefaultLocale();
+const defaultLocale = getDeploymentDefaultLocale();
 const localeConfig = localizedSiteConfig[defaultLocale];
 
 export const metadata: Metadata = {

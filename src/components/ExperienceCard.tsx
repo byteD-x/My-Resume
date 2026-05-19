@@ -87,6 +87,23 @@ function getGroupChildTitle(item: TimelineItem | ProjectItem) {
   return "company" in item ? item.company : item.name;
 }
 
+function getGroupedChildPreviewPoints(
+  item: TimelineItem | ProjectItem,
+  locale: "zh" | "en",
+) {
+  const points = item.keyOutcomes?.filter(Boolean) ?? [];
+  if (points.length > 0) {
+    return points.slice(0, MAX_TIMELINE_PREVIEW_POINTS);
+  }
+
+  const fallbackPoints = getTimelinePreviewPoints(item, locale);
+  if (fallbackPoints.length > 0) {
+    return fallbackPoints;
+  }
+
+  return [item.summary].filter(Boolean);
+}
+
 export const ExperienceCard = memo(function ExperienceCard({
   item,
   type,
@@ -209,30 +226,53 @@ export const ExperienceCard = memo(function ExperienceCard({
           }`}
         >
           {isGroupedItem ? (
-            <div className="space-y-3">
+            <div className="space-y-4">
               <MarkdownRenderer
                 inline
-                className="block min-w-0 break-words [overflow-wrap:anywhere]"
+                className="block min-w-0 break-words text-[13px] leading-[1.78] text-[color:var(--text-secondary)] [overflow-wrap:anywhere] sm:text-[14px] sm:leading-[1.88]"
               >
                 {item.summary}
               </MarkdownRenderer>
-              <div className="space-y-2.5">
-                {groupChildren.map((child) => (
+              <div className="space-y-4 border-t border-[color:var(--border-default)] pt-4">
+                {groupChildren.map((child, index) => (
                   <div
                     key={child.id}
-                    className="min-w-0 rounded-[0.95rem] border border-[rgba(148,163,184,0.18)] bg-[rgba(248,250,252,0.8)] px-3 py-2.5"
+                    className={cn(
+                      "min-w-0 space-y-2.5",
+                      index > 0 && "border-t border-[rgba(148,163,184,0.16)] pt-4",
+                    )}
                   >
-                    <div className="flex flex-wrap items-start gap-2">
-                      <span className="theme-title min-w-0 flex-1 break-words text-[13px] font-semibold leading-6">
-                        {getGroupChildTitle(child)}
-                      </span>
-                      <span className="theme-chip-readable max-w-full break-words text-[10px] font-semibold uppercase tracking-[0.08em] text-[color:var(--text-tertiary)] [overflow-wrap:anywhere]">
-                        {child.year}
-                      </span>
+                    <div className="space-y-1.5">
+                      <div className="flex flex-wrap items-start justify-between gap-2">
+                        <span className="theme-title min-w-0 flex-1 break-words text-[0.98rem] font-semibold leading-7 text-[color:var(--text-primary)]">
+                          {getGroupChildTitle(child)}
+                        </span>
+                        <span className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.1em]">
+                          {child.year}
+                        </span>
+                      </div>
+                      <p className="theme-copy-subtle break-words text-[12px] font-semibold leading-6 [overflow-wrap:anywhere] sm:text-[12.5px]">
+                        {child.techTags.slice(0, 4).join(" / ")}
+                      </p>
                     </div>
-                    <p className="theme-copy-subtle mt-1 break-words text-[12px] leading-[1.7] [overflow-wrap:anywhere]">
-                      {child.techTags.slice(0, 4).join(" / ")}
-                    </p>
+                    <ul className="space-y-1.5">
+                      {getGroupedChildPreviewPoints(child, locale).map(
+                        (point, childIndex) => (
+                          <li
+                            key={`${child.id}-grouped-point-${childIndex}`}
+                            className="flex items-start gap-2"
+                          >
+                            <span className="mt-[0.48rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--brand-gold)]" />
+                            <MarkdownRenderer
+                              inline
+                              className="min-w-0 flex-1 break-words text-[13px] leading-[1.76] text-[color:var(--text-secondary)] [overflow-wrap:anywhere]"
+                            >
+                              {point}
+                            </MarkdownRenderer>
+                          </li>
+                        ),
+                      )}
+                    </ul>
                   </div>
                 ))}
               </div>

@@ -38,5 +38,5 @@ export default async function LocalizedExperiencePage({
     notFound();
   }
 
-  return <ExperiencePageView slug={slug} locale={locale} />;
+  return <ExperiencePageView slug={slug} locale={locale} explicitLocale={true} />;
 }
