@@ -415,19 +415,16 @@ test.describe('Portfolio E2E', () => {
         await expect(page.getByRole('link', { name: /查看案例拆解/i }).first()).toBeVisible();
     });
 
-    test('featured projects should expand story sections inline', async ({ page }) => {
+    test('featured projects should render story sections inline without collapsing', async ({ page }) => {
         await scrollSectionIntoView(page, '#featured-projects');
 
         const firstProjectCard = page.locator('#featured-projects article').first();
-        const capabilityButton = firstProjectCard.getByRole('button', { name: /功能描述|Capability breakdown/i }).first();
-
-        await expect(capabilityButton).toBeVisible();
-        await expect(capabilityButton).toHaveAttribute('aria-expanded', 'false');
-
-        await capabilityButton.click();
-
-        await expect(capabilityButton).toHaveAttribute('aria-expanded', 'true');
-        await expect(firstProjectCard.getByText('设计渠道接入', { exact: false })).toBeVisible();
+        await expect(
+            firstProjectCard.getByText(/功能描述|Capability breakdown/i).first(),
+        ).toBeVisible();
+        await expect(
+            firstProjectCard.getByText('设计渠道接入', { exact: false }).first(),
+        ).toBeVisible();
     });
 
     test('mobile deferred dock should stay compact after scroll', async ({ page }) => {
