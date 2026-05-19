@@ -54,11 +54,11 @@ function SupplementalSectionsSkeleton() {
       >
         <Container>
           <div
-            className="theme-section-header scroll-mt-28"
+            className="theme-section-header scroll-mt-28 !mb-6 sm:!mb-8 lg:!mb-9"
             data-scroll-target="projects"
           >
             <p className="theme-kicker mb-3">{copy.sections.projectsKicker}</p>
-            <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+            <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
               {copy.sections.projectsTitle}
             </h2>
           </div>
@@ -212,9 +212,8 @@ export function HomeSupplementalSectionsShell() {
       });
 
       const targetTop =
-        document
-          .getElementById(sectionId)
-          ?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY;
+        document.getElementById(sectionId)?.getBoundingClientRect().top ??
+        Number.POSITIVE_INFINITY;
       const isInView =
         Number.isFinite(targetTop) &&
         targetTop >= 0 &&

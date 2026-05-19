@@ -190,14 +190,14 @@ export function ProjectList({ items }: ProjectListProps) {
   const hasMore = visibleCount < filteredItems.length;
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-7 sm:space-y-9">
       <motion.div
         initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
         whileInView={shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         animate={!shouldAnimateInView ? { opacity: 1, y: 0 } : undefined}
         viewport={shouldAnimateInView ? { once: true } : undefined}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="theme-card rounded-2xl p-3.5 sm:p-5 md:rounded-[1.65rem] md:p-5"
+        className="theme-card rounded-[1.35rem] p-4 shadow-[0_16px_38px_rgba(15,23,42,0.055)] sm:p-5 md:rounded-[1.75rem] md:p-5"
       >
         <div className="mb-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
           <div className="relative min-w-0 flex-1">
@@ -307,7 +307,9 @@ export function ProjectList({ items }: ProjectListProps) {
                 <span
                   className={cn(
                     "motion-chip-label",
-                    isActive && tag === "all" && "text-[color:var(--text-inverse)]",
+                    isActive &&
+                      tag === "all" &&
+                      "text-[color:var(--text-inverse)]",
                   )}
                 >
                   {label}
@@ -318,11 +320,15 @@ export function ProjectList({ items }: ProjectListProps) {
         </div>
 
         <p className="theme-copy-subtle text-[11px] font-bold uppercase tracking-[0.12em] md:text-[10px] md:tracking-widest">
-          {copy.projectList.resultPrefix ? `${copy.projectList.resultPrefix} ` : ""}
+          {copy.projectList.resultPrefix
+            ? `${copy.projectList.resultPrefix} `
+            : ""}
           <span className="text-[color:var(--text-primary)]">
             {filteredItems.length}
           </span>
-          {copy.projectList.resultSuffix ? ` ${copy.projectList.resultSuffix}` : ""}
+          {copy.projectList.resultSuffix
+            ? ` ${copy.projectList.resultSuffix}`
+            : ""}
         </p>
       </motion.div>
 
@@ -356,85 +362,97 @@ export function ProjectList({ items }: ProjectListProps) {
           </button>
         </motion.div>
       ) : (
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-3 lg:gap-6 xl:gap-7">
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-2 lg:gap-6 xl:gap-7">
           <AnimatePresence mode="popLayout">
-            {visibleItems.map(({ item, visibleChildren, allChildren }) => (
-              <motion.div
-                key={item.id}
-                layout
-                initial={shouldAnimateInView ? { opacity: 0, y: 16 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 12 }}
-                transition={
-                  shouldReduceMotion
-                    ? { duration: 0.12 }
-                    : {
-                        layout: chipTransition,
-                        duration: 0.3,
-                        ease: [0.16, 1, 0.3, 1],
-                      }
-                }
-                className={cn(
-                  "h-full",
-                  visibleChildren.length > 0 && "lg:col-span-3",
-                )}
-              >
-                {visibleChildren.length > 0 ? (
-                  <section className="space-y-4">
-                    <div className="theme-card-muted min-w-0 rounded-[1.35rem] border border-[rgba(148,163,184,0.16)] px-4 py-4 sm:px-5 sm:py-5">
-                      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]">
-                              {item.year}
-                            </span>
-                            <span className="theme-card-kicker break-words text-[11px] [overflow-wrap:anywhere]">
+            {visibleItems.map(
+              ({ item, visibleChildren, allChildren }, index) => {
+                const isEditorialLead =
+                  index === 0 || visibleChildren.length > 0;
+
+                return (
+                  <motion.div
+                    key={item.id}
+                    layout
+                    initial={
+                      shouldAnimateInView ? { opacity: 0, y: 16 } : false
+                    }
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={
+                      shouldReduceMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, scale: 0.96, y: 12 }
+                    }
+                    transition={
+                      shouldReduceMotion
+                        ? { duration: 0.12 }
+                        : {
+                            layout: chipTransition,
+                            duration: 0.3,
+                            ease: [0.16, 1, 0.3, 1],
+                          }
+                    }
+                    className={cn("h-full", isEditorialLead && "lg:col-span-2")}
+                  >
+                    {visibleChildren.length > 0 ? (
+                      <section className="space-y-4 sm:space-y-5">
+                        <div className="theme-card-muted min-w-0 rounded-[1.35rem] border border-[rgba(148,163,184,0.16)] px-4 py-4 sm:px-5 sm:py-5">
+                          <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="theme-chip px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em]">
+                                  {item.year}
+                                </span>
+                                <span className="theme-card-kicker break-words text-[11px] [overflow-wrap:anywhere]">
+                                  {locale === "en"
+                                    ? `${visibleChildren.length}/${allChildren.length} visible child projects`
+                                    : `当前显示 ${visibleChildren.length}/${allChildren.length} 个子项目`}
+                                </span>
+                              </div>
+                              <h3 className="theme-title mt-3 break-words text-[1.1rem] font-semibold leading-7 sm:text-[1.2rem]">
+                                {item.name}
+                              </h3>
+                              <p className="theme-copy mt-2 break-words text-[13px] leading-[1.82] [overflow-wrap:anywhere] sm:text-[14px]">
+                                {item.summary}
+                              </p>
+                            </div>
+
+                            <IntentLink
+                              href={`/experiences/${item.id}`}
+                              className="theme-link min-w-0 shrink-0 break-words text-sm font-semibold hover:underline [overflow-wrap:anywhere]"
+                            >
                               {locale === "en"
-                                ? `${visibleChildren.length}/${allChildren.length} visible child projects`
-                                : `当前显示 ${visibleChildren.length}/${allChildren.length} 个子项目`}
-                            </span>
+                                ? "View grouped detail"
+                                : "查看分组详情"}
+                            </IntentLink>
                           </div>
-                          <h3 className="theme-title mt-3 break-words text-[1.1rem] font-semibold leading-7 sm:text-[1.2rem]">
-                            {item.name}
-                          </h3>
-                          <p className="theme-copy mt-2 break-words text-[13px] leading-[1.82] [overflow-wrap:anywhere] sm:text-[14px]">
-                            {item.summary}
-                          </p>
+
+                          <div className="mt-4 flex flex-wrap gap-2">
+                            {item.techTags.slice(0, 8).map((tag) => (
+                              <span
+                                key={`${item.id}-${tag}`}
+                                className="theme-chip max-w-full px-2.5 py-1 text-[11px] font-medium [overflow-wrap:anywhere]"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
                         </div>
 
-                        <IntentLink
-                          href={`/experiences/${item.id}`}
-                          className="theme-link min-w-0 shrink-0 break-words text-sm font-semibold hover:underline [overflow-wrap:anywhere]"
-                        >
-                          {locale === "en" ? "View grouped detail" : "查看分组详情"}
-                        </IntentLink>
-                      </div>
-
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {item.techTags.slice(0, 8).map((tag) => (
-                          <span
-                            key={`${item.id}-${tag}`}
-                            className="theme-chip max-w-full px-2.5 py-1 text-[11px] font-medium [overflow-wrap:anywhere]"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:gap-5">
-                      {visibleChildren.map((child) => (
-                        <div key={child.id} className="h-full">
-                          <ExperienceCard item={child} type="project" />
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:gap-5">
+                          {visibleChildren.map((child) => (
+                            <div key={child.id} className="h-full">
+                              <ExperienceCard item={child} type="project" />
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                  </section>
-                ) : (
-                  <ExperienceCard item={item} type="project" />
-                )}
-              </motion.div>
-            ))}
+                      </section>
+                    ) : (
+                      <ExperienceCard item={item} type="project" />
+                    )}
+                  </motion.div>
+                );
+              },
+            )}
           </AnimatePresence>
         </div>
       )}

@@ -160,8 +160,8 @@ export function Timeline({ items }: TimelineProps) {
   };
 
   return (
-    <div className="experience-timeline-shell space-y-6 sm:space-y-7">
-      <div className="theme-card experience-timeline-filter space-y-2.5 rounded-2xl border-[rgba(148,163,184,0.16)] p-2.5 shadow-[0_12px_28px_rgba(15,23,42,0.05)] sm:space-y-3 sm:rounded-[1.35rem] sm:p-3.5">
+    <div className="experience-timeline-shell space-y-7 sm:space-y-8">
+      <div className="theme-card experience-timeline-filter space-y-3 rounded-[1.35rem] border-[rgba(148,163,184,0.16)] p-3.5 shadow-[0_16px_38px_rgba(15,23,42,0.055)] sm:space-y-3.5 sm:rounded-[1.5rem] sm:p-4">
         <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
           <p className="theme-card-kicker text-xs">
             {tagStats.length > 0
@@ -183,14 +183,16 @@ export function Timeline({ items }: TimelineProps) {
 
         {recentDisplayTags.length > 0 && (
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="theme-card-kicker text-[11px]">{copy.timeline.recent}</span>
+            <span className="theme-card-kicker text-[11px]">
+              {copy.timeline.recent}
+            </span>
             {recentDisplayTags.map((tag) => (
               <button
                 key={`recent-${tag}`}
                 type="button"
                 onClick={() => handleTagSelect(tag)}
                 className={cn(
-                "cursor-pointer rounded px-2.5 py-1 text-[12px] font-semibold transition-colors sm:px-2.5 sm:py-1 sm:text-[11px]",
+                  "cursor-pointer rounded px-2.5 py-1 text-[12px] font-semibold transition-colors sm:px-2.5 sm:py-1 sm:text-[11px]",
                   activeTag === tag
                     ? "bg-[rgba(239,246,255,0.95)] text-[color:var(--text-primary)]"
                     : "theme-chip hover:bg-[rgba(239,246,255,0.92)]",
@@ -227,9 +229,9 @@ export function Timeline({ items }: TimelineProps) {
             <button
               type="button"
               onClick={() => setIsTagExpanded((value) => !value)}
-            className="theme-link text-[13px] font-semibold"
-            aria-expanded={isTagExpanded}
-          >
+              className="theme-link text-[13px] font-semibold"
+              aria-expanded={isTagExpanded}
+            >
               {isTagExpanded
                 ? copy.timeline.collapse
                 : copy.timeline.expand(hiddenTagCount)}
@@ -244,7 +246,7 @@ export function Timeline({ items }: TimelineProps) {
           aria-hidden="true"
         />
 
-        <div className="space-y-5 sm:space-y-6 md:space-y-7">
+        <div className="space-y-5 sm:space-y-6 md:space-y-8">
           {filteredItems.map((item, index) => (
             <motion.div
               key={item.id}
@@ -275,9 +277,9 @@ export function Timeline({ items }: TimelineProps) {
         {filteredItems.length === 0 && (
           <motion.div
             initial={shouldAnimateTimeline ? { opacity: 0 } : false}
-          animate={{ opacity: 1 }}
-          className="theme-copy py-16 text-center text-sm font-medium"
-        >
+            animate={{ opacity: 1 }}
+            className="theme-copy py-16 text-center text-sm font-medium"
+          >
             {copy.timeline.empty}
           </motion.div>
         )}

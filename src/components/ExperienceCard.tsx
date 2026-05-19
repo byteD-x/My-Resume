@@ -18,6 +18,7 @@ interface ExperienceCardProps {
 }
 
 const MAX_TIMELINE_PREVIEW_POINTS = 3;
+const GROUPED_CHILD_PREVIEW_POINTS = 2;
 
 function normalizePreviewText(value?: string) {
   return value?.replace(/\r/g, "").replace(/\s+/g, " ").trim() ?? "";
@@ -65,7 +66,10 @@ function getTimelinePreviewPoints(
       pushPoint(details.result);
     }
 
-    if (points.length < MAX_TIMELINE_PREVIEW_POINTS && details.techStack?.length) {
+    if (
+      points.length < MAX_TIMELINE_PREVIEW_POINTS &&
+      details.techStack?.length
+    ) {
       pushPoint(
         locale === "en"
           ? `Tech stack: ${details.techStack.slice(0, 4).join(" / ")}`
@@ -93,12 +97,12 @@ function getGroupedChildPreviewPoints(
 ) {
   const points = item.keyOutcomes?.filter(Boolean) ?? [];
   if (points.length > 0) {
-    return points.slice(0, MAX_TIMELINE_PREVIEW_POINTS);
+    return points.slice(0, GROUPED_CHILD_PREVIEW_POINTS);
   }
 
   const fallbackPoints = getTimelinePreviewPoints(item, locale);
   if (fallbackPoints.length > 0) {
-    return fallbackPoints;
+    return fallbackPoints.slice(0, GROUPED_CHILD_PREVIEW_POINTS);
   }
 
   return [item.summary].filter(Boolean);
@@ -140,7 +144,7 @@ export const ExperienceCard = memo(function ExperienceCard({
         ? "experience"
         : "role" in item
           ? "experience"
-        : "projects";
+          : "projects";
 
   const handleOpen = () => {
     if (typeof window === "undefined") return;
@@ -163,29 +167,29 @@ export const ExperienceCard = memo(function ExperienceCard({
       <div
         className={`theme-card theme-card-interactive theme-card-launcher relative flex h-full flex-col overflow-hidden border-[rgba(148,163,184,0.16)] shadow-[0_14px_30px_rgba(15,23,42,0.055)] ${
           isTimelineCard
-            ? "experience-timeline-card rounded-[1.1rem] p-3.5 sm:rounded-[1.25rem] sm:p-3.5 md:p-4"
-            : "rounded-[1.2rem] p-4 sm:rounded-[1.4rem] sm:p-4 md:p-[1.125rem]"
+            ? "experience-timeline-card rounded-[1.2rem] p-4 sm:rounded-[1.35rem] sm:p-4 md:p-5"
+            : "experience-project-card rounded-[1.2rem] p-4 sm:rounded-[1.35rem] sm:p-4 md:p-5"
         }`}
       >
         <div
           className={`pointer-events-none absolute inset-x-0 top-0 bg-[linear-gradient(180deg,rgba(219,234,254,0.42),transparent)] opacity-90 ${
-            isTimelineCard ? "h-[3.2rem]" : "h-[3.75rem]"
+            isTimelineCard ? "h-[3.2rem]" : "h-[3.45rem]"
           }`}
         />
 
         <div
           className={`relative z-10 flex items-start justify-between border-b border-[color:var(--border-default)] ${
             isTimelineCard
-              ? "experience-timeline-header mb-3 gap-3 pb-2.5 sm:mb-4 sm:pb-3"
-              : "mb-3 gap-3.5 pb-3 sm:mb-4 sm:pb-4"
+              ? "experience-timeline-header mb-3.5 gap-3.5 pb-3 sm:mb-4 sm:pb-3.5"
+              : "experience-card-header mb-3.5 gap-3.5 pb-3 sm:mb-4 sm:pb-3.5"
           }`}
         >
           <div className="min-w-0 flex-1 pr-2 sm:pr-4">
             <h3
               className={`theme-card-title transition-colors group-hover:text-[color:var(--brand-gold)] ${
                 isTimelineCard
-                  ? "experience-timeline-title text-[0.97rem] sm:text-[1rem]"
-                  : "text-[1rem] sm:text-[1.04rem]"
+                  ? "experience-timeline-title text-[1rem] sm:text-[1.06rem]"
+                  : "text-[1.02rem] sm:text-[1.08rem]"
               } break-words [overflow-wrap:anywhere]`}
             >
               {title}
@@ -219,53 +223,50 @@ export const ExperienceCard = memo(function ExperienceCard({
         <div
           className={`theme-card-body relative z-10 flex-grow text-[13px] leading-[1.74] sm:text-[14px] sm:leading-[1.82] ${
             isGroupedItem
-              ? "mb-3.5 sm:mb-4"
+              ? "mb-4 sm:mb-5"
               : isProjectCard
-              ? "mb-3.5 min-h-[5.4rem] sm:mb-4 sm:min-h-[6.15rem]"
-              : "experience-timeline-body mb-3 min-h-[5.75rem] sm:mb-3.5 sm:min-h-[6.6rem]"
+                ? "mb-4 min-h-[5.9rem] sm:mb-5 sm:min-h-[6.6rem]"
+                : "experience-timeline-body mb-4 min-h-[6rem] sm:mb-5 sm:min-h-[6.8rem]"
           }`}
         >
           {isGroupedItem ? (
             <div className="space-y-4">
               <MarkdownRenderer
                 inline
-                className="block min-w-0 break-words text-[13px] leading-[1.78] text-[color:var(--text-secondary)] [overflow-wrap:anywhere] sm:text-[14px] sm:leading-[1.88]"
+                className="experience-grouped-summary block min-w-0 break-words text-[13px] leading-[1.72] text-[color:var(--text-secondary)] [overflow-wrap:anywhere] sm:text-[14px] sm:leading-[1.82]"
               >
                 {item.summary}
               </MarkdownRenderer>
-              <div className="space-y-4 border-t border-[color:var(--border-default)] pt-4">
-                {groupChildren.map((child, index) => (
-                  <div
-                    key={child.id}
-                    className={cn(
-                      "min-w-0 space-y-2.5",
-                      index > 0 && "border-t border-[rgba(148,163,184,0.16)] pt-4",
-                    )}
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex flex-wrap items-start justify-between gap-2">
-                        <span className="theme-title min-w-0 flex-1 break-words text-[0.98rem] font-semibold leading-7 text-[color:var(--text-primary)]">
+              <div className="experience-grouped-grid">
+                {groupChildren.map((child) => (
+                  <div key={child.id} className="experience-grouped-child">
+                    <div className="experience-grouped-child-header">
+                      <div className="experience-grouped-child-title-row">
+                        <span className="theme-title min-w-0 flex-1 break-words text-[0.95rem] font-semibold leading-6 text-[color:var(--text-primary)] sm:text-[1rem]">
                           {getGroupChildTitle(child)}
                         </span>
-                        <span className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.1em]">
+                        <span className="theme-copy-subtle shrink-0 text-[11px] font-semibold uppercase tracking-[0.1em]">
                           {child.year}
                         </span>
                       </div>
-                      <p className="theme-copy-subtle break-words text-[12px] font-semibold leading-6 [overflow-wrap:anywhere] sm:text-[12.5px]">
+                      <p className="experience-grouped-tech theme-copy-subtle break-words text-[12px] font-semibold leading-5 [overflow-wrap:anywhere] sm:text-[12.5px]">
                         {child.techTags.slice(0, 4).join(" / ")}
                       </p>
                     </div>
-                    <ul className="space-y-1.5">
+                    <ul className="experience-grouped-points">
                       {getGroupedChildPreviewPoints(child, locale).map(
                         (point, childIndex) => (
                           <li
                             key={`${child.id}-grouped-point-${childIndex}`}
-                            className="flex items-start gap-2"
+                            className="experience-grouped-point flex items-start"
                           >
-                            <span className="mt-[0.48rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--brand-gold)]" />
+                            <span
+                              className="experience-grouped-bullet"
+                              aria-hidden="true"
+                            />
                             <MarkdownRenderer
                               inline
-                              className="min-w-0 flex-1 break-words text-[13px] leading-[1.76] text-[color:var(--text-secondary)] [overflow-wrap:anywhere]"
+                              className="min-w-0 flex-1 break-words text-[13px] leading-[1.66] text-[color:var(--text-secondary)] [overflow-wrap:anywhere]"
                             >
                               {point}
                             </MarkdownRenderer>
@@ -303,11 +304,7 @@ export const ExperienceCard = memo(function ExperienceCard({
           )}
         </div>
 
-        <div
-          className={`relative z-10 mt-auto border-t border-[color:var(--border-default)] ${
-            isTimelineCard ? "pt-2.5 sm:pt-3" : "pt-3 sm:pt-3.5"
-          }`}
-        >
+        <div className="relative z-10 mt-auto border-t border-[color:var(--border-default)] pt-3 sm:pt-3.5">
           <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-3">
             <div
               className={`flex flex-wrap content-start gap-1.5 ${
@@ -343,7 +340,11 @@ export const ExperienceCard = memo(function ExperienceCard({
                     aria-label={copy.experience.githubAria}
                     title={copy.experience.githubTitle}
                   >
-                    <Github size={15} strokeWidth={2} className="motion-icon-float" />
+                    <Github
+                      size={15}
+                      strokeWidth={2}
+                      className="motion-icon-float"
+                    />
                   </button>
                 ) : null}
                 {demoLink ? (
@@ -358,7 +359,11 @@ export const ExperienceCard = memo(function ExperienceCard({
                     aria-label={copy.experience.demoAria}
                     title={copy.experience.demoTitle}
                   >
-                    <ExternalLink size={15} strokeWidth={2} className="motion-icon-float" />
+                    <ExternalLink
+                      size={15}
+                      strokeWidth={2}
+                      className="motion-icon-float"
+                    />
                   </button>
                 ) : null}
               </div>
@@ -369,4 +374,3 @@ export const ExperienceCard = memo(function ExperienceCard({
     </IntentLink>
   );
 });
-

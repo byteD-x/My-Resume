@@ -20,14 +20,16 @@ export function HomeDeferredSectionsBody() {
     <>
       <Section
         id="experience"
-        className="theme-grid-section theme-section-dense relative z-10 scroll-mt-24 border-b section-divider !py-8 sm:!py-10 lg:!py-12"
+        className="theme-grid-section theme-section-dense relative z-10 scroll-mt-24 border-b section-divider !py-10 sm:!py-12 lg:!py-16"
       >
         <Container>
           <div
-            className="theme-section-header experience-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
+            className="theme-section-header experience-section-header scroll-mt-28 !mb-6 sm:!mb-8 lg:!mb-9"
             data-scroll-target="experience"
           >
-            <p className="theme-kicker mb-2">{copy.sections.experienceKicker}</p>
+            <p className="theme-kicker mb-2">
+              {copy.sections.experienceKicker}
+            </p>
             <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
               {copy.sections.experienceTitle}
             </h2>
@@ -63,11 +65,11 @@ export function HomeSupplementalSectionsBody() {
       >
         <Container>
           <div
-            className="theme-section-header scroll-mt-28"
+            className="theme-section-header scroll-mt-28 !mb-6 sm:!mb-8 lg:!mb-9"
             data-scroll-target="projects"
           >
             <p className="theme-kicker mb-3">{copy.sections.projectsKicker}</p>
-            <h2 className="theme-title mb-5 text-3xl font-bold md:text-4xl">
+            <h2 className="theme-title mb-2.5 text-3xl font-bold md:text-4xl">
               {copy.sections.projectsTitle}
             </h2>
           </div>

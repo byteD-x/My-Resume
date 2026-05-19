@@ -31,9 +31,9 @@ export const TimelineItem = React.memo(function TimelineItem({
         />
       )}
 
-      <div className="md:grid md:grid-cols-[11.5ch_30px_1fr] md:gap-7 lg:grid-cols-[12.25ch_34px_1fr] lg:gap-8">
+      <div className="md:grid md:grid-cols-[12ch_34px_1fr] md:gap-7 lg:grid-cols-[13ch_38px_1fr] lg:gap-9">
         {/* 1. Date Column (Desktop) */}
-        <div className="hidden md:block pt-3.5 text-right lg:pt-4">
+        <div className="hidden pt-4 text-right md:block lg:pt-5">
           <span className="experience-timeline-date theme-copy-subtle sticky top-24 text-[13px] font-medium uppercase tracking-widest">
             {item.year}
           </span>
@@ -52,7 +52,7 @@ export const TimelineItem = React.memo(function TimelineItem({
         </div>
 
         {/* 3. Content Card */}
-        <div className="relative pb-5 md:pb-1.5">
+        <div className="relative pb-5 md:pb-2">
           {/* Mobile Dot (Absolute) */}
           <div
             className={`absolute left-[-22px] top-7 z-10 h-2.5 w-2.5 rounded-full border-2 bg-[rgba(255,255,255,0.95)] transition-colors border-[rgba(37,99,235,0.22)] group-hover:border-[rgba(37,99,235,0.45)] md:hidden`}
