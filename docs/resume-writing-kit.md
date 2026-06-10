@@ -12,8 +12,16 @@
   面向 STAR 结构的项目/经历证据库，适合写项目详情、准备面试追问、扩写自我介绍。
 - `docs/resume-metrics-checklist.md`
   给主简历补齐业务规模、上线效果与测试覆盖等量化口径的待补数清单。
+- `docs/content-evidence-policy.md`
+  约束作品集数据和简历文案的证据来源、父子分组和 `verification.sourceType` 口径。
 - `docs/deployment-channels.md`
   用于补充 GitHub Pages / Vercel / 自托管部署背景，在被问到工程化交付时可直接引用。
+
+## 当前内容源
+
+- 网站数据源以 `src/data.ts` 为准，当前将 `独立开发者｜AI 应用 / 全栈项目` 作为父级经历与父级项目展示。
+- RentBox、论文检索任务平台、智能客服运行时、微信智能助手仍保留独立 slug、详情页和简历项目写法。
+- 写简历时可以按岗位把父级经历拆成单个项目，但不得把 `manual` 或 `experience` 证据升级成 `repo` 证据。
 
 ## 当前定位建议
 
@@ -59,7 +67,7 @@
 - 纯校内练手项目
 
 补充说明：
-- 如果需要一页版主简历，工作经历优先保留“独立 AI 项目 + 中软国际 + 骨科 + 联通”，把 `paper-retrieval-platform` 与 `RentBox` 放进项目经历区。
+- 如果需要一页版主简历，工作经历优先保留“独立 AI 项目 + 中软国际 + 骨科 + 联通”，把 `paper-retrieval-platform` 与 `rentbox` 放进项目经历区。
 - 如果需要突出近半年真实交付，可直接以 `docs/resume-ai-main.md` 为底稿，并按 `docs/resume-metrics-checklist.md` 补齐近期项目数据。
 
 ### 版本 B：后端 / 全栈工程师
@@ -124,9 +132,9 @@
 | EasyCloudPan 上传链路 | `1000+` 并发上传，成功率 `>99.5%` | `easyCloudPan/README.md` |
 | EasyCloudPan API 性能 | API `P95 <500ms`，`P99 <1s` | `easyCloudPan/README.md` |
 | EasyCloudPan 数据库 | 查询 `P95 <100ms`，慢查询减少 `80%` | `easyCloudPan/README.md` |
-| 智能客服运行时 | `7` 类插件扩展点 | `customer-ai-runtime/README.md` |
-| 微信智能助手 | `2 秒` 回复 deadline | `wechat-chat` 项目文档与站内文案 |
-| RAG-QA System | `3` 路召回链路 | `rag-qa-system/README.md` 与站内文案 |
+| 智能客服运行时 | `7` 类插件扩展点、`8` 个本地 RAG eval cases、provider billing / usage 对账 | `customer-ai-runtime/README.md`、`STAR-HIGHLIGHTS.md` 与 `RESUME_SNIPPETS.md` |
+| 微信智能助手 | `2 秒` 回复 deadline、`27` 条离线 smoke eval、受控 Tool Workflow / 只读 MCP | `wechat-chat/README.md`、`docs/HIGHLIGHTS.md` 与 `docs/RELEASE_UPDATES.md` |
+| RAG-QA System | `3` 路召回链路、Agent v2.1、`22` 个后端测试文件 + `9` 个前端测试文件、`400+` 测试项 | `rag-qa-system/README.md`、`AI_HIGHLIGHTS.md` 与 `docs/reference/RAG_STAR_TECHNICAL_CHALLENGES.md` |
 
 ## 可保守引用但不宜过度扩大的结果
 
@@ -173,11 +181,13 @@
 |-------------|-------|--------|--------|--------------|
 | 智能客服运行时 | 高 | 中 | 中 | 高 |
 | 微信智能助手 | 高 | 中 | 中 | 高 |
+| 论文检索任务平台 | 中 | 高 | 高 | 高 |
+| RentBox | 低 | 高 | 高 | 高 |
 | RAG-QA System | 高 | 高 | 中 | 高 |
 | EasyCloudPan | 中 | 高 | 高 | 高 |
 | 联通数据中台 | 中 | 高 | 中 | 高 |
 | 国家骨科小程序 | 中 | 中 | 中 | 中 |
-| 南方科技大学顾问项目 | 低 | 中 | 中 | 中 |
+| 南方科技大学 / IPA Demo | 中 | 中 | 中 | 中 |
 | 九州通路径规划 | 中 | 中 | 低 | 中 |
 | 乐学网 | 低 | 中 | 高 | 中 |
 
@@ -186,9 +196,10 @@
 优先准备成 3 分钟完整讲述的项目：
 1. 智能客服运行时
 2. 微信智能助手
-3. RAG-QA System
-4. EasyCloudPan
-5. 联通数据中台优化
+3. 论文检索任务平台
+4. RAG-QA System
+5. EasyCloudPan
+6. 联通数据中台优化
 
 其中至少要有两类讲法：
 - 一类偏 AI 工程：检索、路由、Agent、可恢复工作流、知识治理
@@ -200,7 +211,9 @@
 
 - 微信智能助手当前 GitHub Star 数与投递时快照
 - 智能客服运行时的接口数量、测试覆盖或典型延迟数据
-- RAG-QA System 的评测基线截图或回归通过记录
+- 论文检索任务平台的任务量、支付升级、SSE 成功率和测试覆盖口径
+- RentBox 的柜机/点位/订单/支付成功率与正式发布记录
+- RAG-QA System 的真实业务延迟、吞吐、命中率或成本收益报告
 - 国家骨科小程序的实际使用对象、检索量级或交付周期
 - 乐学网的并发峰值、支付链路口径或课程数量
 - 九州通路径规划系统的地图规模、车辆数量或仿真结果截图

@@ -1,10 +1,11 @@
 # 简历版经历文案
 
-以下文案与网站中的工作经历、项目经历保持一致，可直接复制到 Word / PDF 简历中使用。
+以下文案与网站中的工作经历、项目经历共享同一套证据口径，可直接复制到 Word / PDF 简历中使用。网站会把部分独立开发项目聚合展示，简历投递时可以按岗位拆成单个项目。
 
 相关材料：
 - `docs/resume-writing-kit.md`：岗位取舍、量化口径和写作规则。
 - `docs/resume-star-bank.md`：STAR 证据库与面试追问底稿。
+- `docs/content-evidence-policy.md`：证据来源、父子项目分组和可写边界。
 
 ## 工作经历
 
@@ -13,8 +14,8 @@
 
 - 抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。
 - 构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。
-- 补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，完善运行观测、配置审计与交付能力。
-- 落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。
+- 补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。
+- 落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。
 
 ### 智能客服运行时｜独立开发者 · 开源项目
 2026.02 - 至今
@@ -22,7 +23,7 @@
 - 设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。
 - 实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。
 - 提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。
-- 补齐知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。
+- 补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。
 
 ### 南方科技大学｜外包技术顾问
 2025.11 - 2025.12
@@ -35,9 +36,9 @@
 2025.04 - 2025.09
 
 - 设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。
-- 将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。
-- 建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用及 retrieve/debug 调试能力。
-- 建立 smoke-eval 与 regression gate 回归门禁，将检索质量、可恢复执行与发布验证纳入同一交付流程。
+- 将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。
+- 建设 ingest 与知识治理工作台，支持多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、五层指令合并、场景模板、企业聊天 v2 与 RAG 幻觉检测。
+- 落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。
 
 ### 国家骨科临床研究中心｜后端开发实习生
 2024.08 - 2024.10
@@ -72,29 +73,45 @@
 
 ## 项目经历
 
+### RentBox 共享擦窗宝小程序
+2026 - 至今
+
+- 设计 `OrderStateMachine` 与 `OrderLifecycleService`，用 `FOR UPDATE`、状态历史和审计日志管理支付、免押、取机、归还、退款与设备事件的状态迁移。
+- 接入微信支付 v3、微信支付分免押和柜机厂商 WebAPI，处理支付单复用、金额校验、免押授权、解押、退款与设备回调。
+- 针对支付通知、退款通知、设备开门/测物回调和定时任务并发，使用 Redis / JDBC 幂等、`processed_flag` 与回调重放入口控制重复处理。
+- 为订单、支付、设备指令、免押、锁和回调回放编写测试，使核心风险点可以在本地复现和回归。
+
+### 论文检索任务平台
+2026 - 至今
+
+- 在甲方 Worker 只读写共享 `tasks` 表的边界下，设计用户侧任务创建、状态同步、结果下载、额度扣减和支付回调模块。
+- 使用 PostgreSQL `LISTEN/NOTIFY` 驱动任务状态推送，提供单任务、多任务和全局活动任务 SSE；通知缺失时回退到短轮询。
+- 通过 Alembic 迁移增加 `check constraint` 与触发器，限制终态回退、缺少 `result_count`、缺少 `finished_at` 等脏数据。
+- 设计免费/Pro 额度模型和支付宝支付回调，使用 `SELECT ... FOR UPDATE`、唯一额度流水和金额校验处理并发扣减与重复通知。
+
 ### 智能客服运行时
 2026 - 至今
 
 - 设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。
 - 实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。
 - 提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。
-- 补齐知识版本管理、chunk 优化、消息级反馈、诊断导出、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。
+- 补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。
 
 ### 微信智能助手
 2025 - 至今
 
 - 抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。
 - 构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。
-- 补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，完善运行观测、配置审计与交付能力。
-- 落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。
+- 补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。
+- 落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。
 
 ### RAG-QA System
 2025.04 - 2025.09
 
 - 设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。
-- 将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。
-- 建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用及 retrieve/debug 调试能力。
-- 建立 smoke-eval 与 regression gate 回归门禁，将检索质量、可恢复执行与发布验证纳入同一交付流程。
+- 将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。
+- 建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。
+- 落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。
 
 ### 乐学网
 2024

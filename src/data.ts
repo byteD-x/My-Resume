@@ -87,14 +87,14 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "impact-rag",
       title: "知识问答",
-      value: "3路",
-      label: "检索召回",
+      value: "v2.1",
+      label: "Agent 增强",
       description:
-        "RAG-QA System：结构 / 全文 / 向量三路召回 + 加权 RRF + rerank，兼顾命中率与答案可追溯性",
+        "RAG-QA System：在三路混合检索与 LangGraph 运行时基础上，补齐 Agent 自主决策、知识库治理、推理优化与评测门禁",
       details: [
-        "将分散资料整理为可持续同步、可引用出处的企业知识问答系统，减少检索与答复成本。",
-        "采用结构、全文、向量三路召回，结合加权 RRF 与 rerank，兼顾命中率和可追溯性。",
-        "问答与检索链路统一接入 LangGraph 运行时，并补齐多知识库、多源连接器、chunk 治理、调试与评测回归。",
+        "将分散资料整理为可持续同步、可引用出处的企业 AI 问答平台，减少资料检索、答复与治理成本。",
+        "采用结构、全文、向量三路召回，结合 query rewrite、加权 RRF 与 rerank，兼顾命中质量和可追溯性。",
+        "在 LangGraph 可恢复运行时上扩展工具注册、任务拆解、反思闭环、三层记忆、人工接管队列、语义缓存、模型健康、Python SDK、readyz/trace 诊断与 token-aware 分块，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
       ].join("\n"),
       linkedExperienceId: "exp-chinasoft",
       icon: "TrendingUp",
@@ -102,9 +102,9 @@ export const defaultPortfolioData: PortfolioData = {
       bg: "bg-sky-50",
       verification: {
         sourceType: "repo",
-        sourceLabel: "GitHub 仓库 README / docs / tests",
+        sourceLabel: "本地仓库 README / AI_HIGHLIGHTS / docs/reference / tests / recent commits",
         sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-        verifiedAt: "2026-03-13",
+        verifiedAt: "2026-06-10",
         confidence: "high",
         level: "strict",
       },
@@ -115,11 +115,11 @@ export const defaultPortfolioData: PortfolioData = {
       value: "5+",
       label: "开源关注 (Stars)",
       description:
-        "微信智能助手：面向微信场景的长期运行机器人，补齐分层记忆、成本治理与运行观测能力",
+        "微信智能助手：面向 Windows 微信场景的长期运行机器人，补齐分层记忆、模型认证、知识库治理、发布更新与运行观测能力",
       details: [
         "交付可长期运行的微信智能助手，兼顾接入稳定性、排障效率与成本治理。",
         "以 `BaseTransport` 抽象微信接入边界，并用 `LangChain + LangGraph` 重构回复主链与后台任务。",
-        "构建三层记忆、可降级 RAG、运行状态接口、配置审计与成本分析能力，补齐长期运行所需的治理链路。",
+        "构建三层记忆、可降级 RAG、模型与认证中心、知识库治理 API、受控 Tool Workflow、只读 MCP adapter、运行准备度、配置审计与成本分析能力，补齐长期运行、排障和发布更新所需的治理链路。",
       ].join("\n"),
       linkedExperienceId: "exp-wechat-bot",
       icon: "Star",
@@ -128,9 +128,9 @@ export const defaultPortfolioData: PortfolioData = {
       githubRepo: "byteD-x/wechat-bot",
       verification: {
         sourceType: "repo",
-        sourceLabel: "README / docs / tests / GitHub Stars",
+        sourceLabel: "本地仓库 README / HIGHLIGHTS / RELEASE_UPDATES / SYSTEM_CHAINS / tests",
         sourceUrl: "https://github.com/byteD-x/wechat-bot",
-        verifiedAt: "2026-03-19",
+        verifiedAt: "2026-06-10",
         confidence: "high",
         level: "strict",
       },
@@ -141,11 +141,11 @@ export const defaultPortfolioData: PortfolioData = {
       value: "7+",
       label: "插件扩展点",
       description:
-        "智能客服运行时：统一文本/语音/RTC、宿主挂载、插件扩展与知识治理，将问答能力扩展为可接业务的运行时",
+        "智能客服运行时：统一文本/语音/RTC、宿主挂载、插件扩展、成本对账与知识治理，将问答能力扩展为可接业务的运行时",
       details: [
         "将客服能力扩展为可接业务、可转人工、可嵌入宿主系统的服务运行时。",
         "通过渠道接入、宿主桥接、核心引擎、业务增强、插件平台和提供商适配六层解耦，统一文本、语音、RTC 与挂载接入。",
-        "补齐路由治理、知识版本管理、诊断导出、限流与提示词脱敏，便于持续运营与审计。",
+        "补齐路由治理、知识版本管理、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、限流与提示词脱敏，便于持续运营与审计。",
       ].join("\n"),
       linkedExperienceId: "exp-customer-ai-runtime",
       icon: "Bot",
@@ -153,9 +153,9 @@ export const defaultPortfolioData: PortfolioData = {
       bg: "bg-teal-50",
       verification: {
         sourceType: "repo",
-        sourceLabel: "README / docs / tests / recent commits",
+        sourceLabel: "本地仓库 README / STAR-HIGHLIGHTS / RESUME_SNIPPETS / tests / recent commits",
         sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-        verifiedAt: "2026-03-19",
+        verifiedAt: "2026-06-10",
         confidence: "high",
         level: "strict",
       },
@@ -489,8 +489,8 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
         "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
-        "补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，完善运行观测、配置审计与交付能力。",
-        "落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。",
+        "补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。",
+        "落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -500,15 +500,15 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
       },
       engineeringDepth: {
-        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、配置热重载与 Prometheus 风格观测链路。",
-        en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, config hot reload, cost analytics, and runtime observability.",
+        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、模型认证中心、知识库治理、只读 MCP、受控工具流、发布更新与 Prometheus 风格观测链路。",
+        en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
       },
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "README / HIGHLIGHTS / SYSTEM_CHAINS / tests / recent commits",
+          sourceLabel: "本地仓库 README / HIGHLIGHTS / RELEASE_UPDATES / SYSTEM_CHAINS / tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/wechat-bot",
-          verifiedAt: "2026-03-19",
+          verifiedAt: "2026-06-10",
           confidence: "high",
           level: "strict",
         },
@@ -519,9 +519,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析、配置热重载与 GitHub Release 发布链路。",
+          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
         result:
-          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到运行观测、配置治理与发布交付的完整闭环。",
+          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新的完整闭环。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -566,7 +566,7 @@ export const defaultPortfolioData: PortfolioData = {
         "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
         "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
         "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "补齐知识版本管理、chunk 优化、消息级反馈、成本摘要、安全知识缓存、RAG 本地评测、人工接管队列、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -576,15 +576,15 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本治理、RAG eval、人工队列与多租户边界控制。",
+        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本对账、RAG eval、SQLite 人工队列、readiness 审计与多租户边界控制。",
         en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
       },
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "README / architecture / API tests / recent commits",
+          sourceLabel: "本地仓库 README / STAR-HIGHLIGHTS / RESUME_SNIPPETS / runtime tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-          verifiedAt: "2026-05-18",
+          verifiedAt: "2026-06-10",
           confidence: "high",
           level: "strict",
         },
@@ -595,7 +595,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、成本摘要、安全知识缓存、RAG eval、人工接管队列、诊断导出、request_id 贯通、限流与提示词脱敏。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
           "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
@@ -694,7 +694,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "中软国际",
       location: "西安",
       summary:
-        "负责企业知识问答系统核心研发，完成多源文档接入、三路混合检索、LangGraph 可恢复运行时与知识治理工作台建设。",
+        "负责企业 AI 问答平台核心研发，完成多源文档接入、三路混合检索、LangGraph 可恢复运行时、Agent 自主决策与平台治理能力建设。",
       techTags: [
         "FastAPI",
         "LangGraph",
@@ -705,22 +705,24 @@ export const defaultPortfolioData: PortfolioData = {
         "FastEmbed",
         "Docker",
         "LangChain",
+        "Agent Runtime",
+        "Python SDK",
       ],
       highlighted: true,
       keyOutcomes: [
         "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
-        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。",
-        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用，并在 retrieve/debug 中展示 `signal_scores`、`evidence_path` 与 retrieval stats。",
-        "补齐 deterministic retrieval fixture 与 local ingest fixture，打通 retrieval ablation、embedding benchmark、local ingest benchmark 和 regression gate。",
+        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。",
+        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。",
+        "落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "将分散文档沉淀为可持续同步、可追溯引用的企业知识问答能力，降低资料检索与答复成本，并为后续连接器扩展和运营审计打下基础。",
-        en: "Turned scattered documents into an enterprise knowledge QA capability with continuous sync and traceable citations.",
+        zh: "将分散文档和多步问答流程沉淀为可持续同步、可追溯引用、可配置 Agent 能力的企业 AI 问答平台，为连接器扩展、运营审计和低成本推理治理打下基础。",
+        en: "Turned scattered documents into an enterprise AI QA platform with continuous sync, traceable citations, configurable agent workflows, and inference governance.",
       },
       engineeringDepth: {
-        zh: "覆盖三路混合检索、LangGraph 工作流编排、知识治理、连接器安全边界、可解释检索调试与评测回归体系。",
-        en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, knowledge governance, connector boundaries, explainable retrieval debugging, and evaluation baselines.",
+        zh: "覆盖三路混合检索、LangGraph 编排、Agent 自主决策、工具生态、三层缓存、模型健康、分层指令、幻觉检测、Python SDK 与评测回归体系。",
+        en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, agent autonomy, tool ecosystems, semantic caching, model health, layered instructions, hallucination checks, SDK delivery, and evaluation gates.",
       },
       verification: [
         {
@@ -732,22 +734,22 @@ export const defaultPortfolioData: PortfolioData = {
         },
         {
           sourceType: "repo",
-          sourceLabel: "GitHub 仓库 README / docs/reference / tests",
+          sourceLabel: "本地仓库 README / AI_HIGHLIGHTS / docs/reference / core modules / tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-          verifiedAt: "2026-05-18",
+          verifiedAt: "2026-06-10",
           confidence: "high",
           level: "strict",
         },
       ],
       expandedDetails: {
         background:
-          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步的知识库问答系统。",
+          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步，并能支持多步 Agent 问答的知识平台。",
         problem:
-          "传统单路检索难以同时覆盖标题、关键词与语义混合场景，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
+          "传统单路检索难以同时覆盖标题、关键词与语义混合场景；Agent 模式如果缺少工具边界、反思、自主拆解、缓存治理和安全检测，也容易变成不可解释的高成本黑盒。",
         solution:
-          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。\n- **强化可解释评测**：调试页展示 `signal_scores`、`evidence_path`、retrieval stats，最小 fixture 输出 recall@K、MRR、NDCG 与 ingest throughput 报告。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构 Agent 运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events`、工具注册中心、任务拆解 DAG、反思闭环与三层记忆。\n- **补齐平台治理**：建设多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、6 类场景模板、RAG 幻觉检测、企业聊天 v2 与 Python SDK。\n- **强化推理与评测闭环**：引入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并和 readyz/trace 诊断，并通过 retrieval fixture、local ingest fixture、22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
         result:
-          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行与最小评测回归闭环。",
+          "形成面向中文企业场景的 AI 问答平台，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行、Agent 自主决策、人工接管、推理治理和最小评测回归闭环。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -756,6 +758,9 @@ export const defaultPortfolioData: PortfolioData = {
           "PostgreSQL",
           "Qdrant",
           "FastEmbed",
+          "Agent Runtime",
+          "Semantic Cache",
+          "Python SDK",
         ],
         links: [
           {
@@ -1277,7 +1282,7 @@ export const defaultPortfolioData: PortfolioData = {
         "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
         "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
         "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "补齐知识版本管理、chunk 优化、消息级反馈、成本摘要、安全知识缓存、RAG 本地评测、人工接管队列、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1285,15 +1290,15 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
       },
       engineeringDepth: {
-        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本治理、RAG eval、人工队列与多租户边界控制。",
+        zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本对账、RAG eval、SQLite 人工队列、readiness 审计与多租户边界控制。",
         en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
       },
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "README / architecture / API tests / recent commits",
+          sourceLabel: "本地仓库 README / STAR-HIGHLIGHTS / RESUME_SNIPPETS / runtime tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-          verifiedAt: "2026-05-18",
+          verifiedAt: "2026-06-10",
           confidence: "high",
           level: "strict",
         },
@@ -1304,7 +1309,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、成本摘要、安全知识缓存、RAG eval、人工接管队列、诊断导出、request_id 贯通、限流与提示词脱敏。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
           "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
@@ -1353,8 +1358,8 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
         "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
-        "补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析与 GitHub Release 发布链路，完善运行观测、配置审计与交付能力。",
-        "落地配置热重载与回复预算控制机制，支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险并提升可用性。",
+        "补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。",
+        "落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1362,15 +1367,15 @@ export const defaultPortfolioData: PortfolioData = {
         en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
       },
       engineeringDepth: {
-        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、配置热重载与 Prometheus 风格观测链路。",
-        en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, config hot reload, cost analytics, and runtime observability.",
+        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、模型认证中心、知识库治理、只读 MCP、受控工具流、发布更新与 Prometheus 风格观测链路。",
+        en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
       },
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "README / HIGHLIGHTS / SYSTEM_CHAINS / tests / recent commits",
+          sourceLabel: "本地仓库 README / HIGHLIGHTS / RELEASE_UPDATES / SYSTEM_CHAINS / tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/wechat-bot",
-          verifiedAt: "2026-03-19",
+          verifiedAt: "2026-06-10",
           confidence: "high",
           level: "strict",
         },
@@ -1381,9 +1386,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析、配置热重载与 GitHub Release 发布链路。",
+          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
         result:
-          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到运行观测、配置治理与发布交付的完整闭环。",
+          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新的完整闭环。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -1415,44 +1420,46 @@ export const defaultPortfolioData: PortfolioData = {
         "FastEmbed",
         "Docker",
         "LangChain",
+        "Agent Runtime",
+        "Python SDK",
       ],
       summary:
-        "负责企业知识问答系统核心研发，完成多源文档接入、三路混合检索、LangGraph 可恢复运行时与知识治理工作台建设。",
-      impact: "三路混合检索 + LangGraph 可恢复运行时",
+        "企业 AI 问答平台：覆盖多源知识接入、三路混合检索、LangGraph 可恢复运行时、Agent 自主决策、推理优化与平台生态。",
+      impact: "混合检索 + Agent 自主决策 + 推理治理",
       keyOutcomes: [
         "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
-        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 运行时，支持 checkpoint、interrupt/resume、人工澄清与 `step_events`。",
-        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用，并在 retrieve/debug 中展示 `signal_scores`、`evidence_path` 与 retrieval stats。",
-        "补齐 deterministic retrieval fixture 与 local ingest fixture，打通 retrieval ablation、embedding benchmark、local ingest benchmark 和 regression gate。",
+        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。",
+        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。",
+        "落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "将企业分散资料沉淀为可持续同步、可追溯引用的知识问答能力，降低检索和答复成本。",
-        en: "Turns scattered enterprise documents into a continuously synced knowledge QA capability with traceable citations.",
+        zh: "将企业分散资料沉淀为可持续同步、可追溯引用、可配置 Agent 能力的 AI 问答平台，降低检索、答复、治理和后续集成成本。",
+        en: "Turns scattered enterprise documents into a continuously synced AI QA platform with traceable citations, configurable agents, and lower integration overhead.",
       },
       engineeringDepth: {
-        zh: "覆盖三路混合检索、LangGraph 编排、知识治理、连接器边界控制、可解释检索调试与评测回归体系。",
-        en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, governance workflows, connector boundaries, explainable retrieval debugging, and evaluation baselines.",
+        zh: "覆盖三路混合检索、LangGraph 编排、Agent 自主决策、工具生态、三层缓存、模型健康、分层指令、幻觉检测、Python SDK 与评测回归体系。",
+        en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, agent autonomy, tool ecosystems, semantic caching, model health, layered instructions, hallucination checks, SDK delivery, and evaluation gates.",
       },
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "GitHub 仓库 README / docs/reference / tests",
+          sourceLabel: "本地仓库 README / AI_HIGHLIGHTS / docs/reference / core modules / tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-          verifiedAt: "2026-05-18",
+          verifiedAt: "2026-06-10",
           confidence: "high",
           level: "strict",
         },
       ],
       expandedDetails: {
         background:
-          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步的知识库问答系统。",
+          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步，并能支持多步 Agent 问答的知识平台。",
         problem:
-          "传统单路检索难以同时覆盖标题、关键词与语义混合场景，问答链路缺少可解释恢复机制，文档接入与 chunk 质量治理也缺乏统一工作台。",
+          "传统单路检索难以同时覆盖标题、关键词与语义混合场景；Agent 模式如果缺少工具边界、反思、自主拆解、缓存治理和安全检测，也容易变成不可解释的高成本黑盒。",
         solution:
-          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构可恢复运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events` 与人工澄清。\n- **补齐知识治理**：建设多知识库、多源连接器、chunk 治理、retrieve/debug、审计与回归门禁能力。\n- **强化可解释评测**：调试页展示 `signal_scores`、`evidence_path`、retrieval stats，最小 fixture 输出 recall@K、MRR、NDCG 与 ingest throughput 报告。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构 Agent 运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events`、工具注册中心、任务拆解 DAG、反思闭环与三层记忆。\n- **补齐平台治理**：建设多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、6 类场景模板、RAG 幻觉检测、企业聊天 v2 与 Python SDK。\n- **强化推理与评测闭环**：引入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并和 readyz/trace 诊断，并通过 retrieval fixture、local ingest fixture、22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
         result:
-          "形成面向中文企业场景的 RAG 问答系统，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行与最小评测回归闭环。",
+          "形成面向中文企业场景的 AI 问答平台，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行、Agent 自主决策、人工接管、推理治理和最小评测回归闭环。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -1461,6 +1468,9 @@ export const defaultPortfolioData: PortfolioData = {
           "PostgreSQL",
           "Qdrant",
           "FastEmbed",
+          "Agent Runtime",
+          "Semantic Cache",
+          "Python SDK",
         ],
         links: [
           {

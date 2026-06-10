@@ -7,6 +7,76 @@
 - `保守推断`：能从功能结构推导出结果，但没有强量化口径。
 - `待补充`：建议后续补截图、日志、评测或时间线证明。
 
+## RentBox 共享擦窗宝小程序
+
+### Situation
+- 租赁业务同时涉及支付、免押、取机、归还、退款和设备事件，异步回调与重复通知会直接影响订单状态和资金安全。
+
+### Task
+- 建立可回放、可审计、可测试的租赁订单主链路，并把小程序、管理端、支付和柜机设备接到同一套状态流转中。
+
+### Action
+- 设计 `OrderStateMachine` 与 `OrderLifecycleService`，用 `FOR UPDATE`、状态历史和审计日志管理订单迁移。
+- 接入微信支付 v3、微信支付分免押和柜机厂商 WebAPI，处理支付单复用、免押授权、解押、退款和设备回调。
+- 使用 Redis / JDBC 幂等、`processed_flag`、分布式锁和回调重放入口收口重复通知与并发事件。
+- 为订单、支付、设备指令、免押、锁和回调回放补充测试，保证高风险路径可复现。
+
+### Result
+- `已验证`：形成支付、免押、设备、订单状态和审计日志贯通的租赁闭环。
+- `已验证`：核心风险路径具备本地测试与回调回放能力。
+- `待补充`：缺少柜机数、点位数、订单量、支付成功率和正式发布记录。
+
+### Evidence
+- `src/data.ts`
+- `docs/resume-ai-main.md`
+- `docs/resume-experience-copy.md`
+
+### 简历可打标签
+- Spring Boot
+- 微信支付
+- 支付分免押
+- 设备集成
+- 幂等治理
+- 状态机
+
+### 待补充
+- 正式环境发布时间、柜机/点位口径、订单/退款/设备异常统计、回滚或健康检查记录。
+
+## 论文检索任务平台
+
+### Situation
+- 用户侧平台需要提交论文检索任务并跟踪进度，但实际检索由甲方 Worker 通过共享 PostgreSQL `tasks` 表完成。
+
+### Task
+- 在不侵入 Worker 的前提下，交付认证、任务提交、状态同步、结果下载、额度流水、支付升级和管理后台的测试验收版闭环。
+
+### Action
+- 设计用户侧任务创建、状态同步、结果下载、额度扣减和支付宝支付回调模块。
+- 使用 PostgreSQL `LISTEN/NOTIFY` 推送任务状态，并以 SSE keep-alive 与短轮询兜底保证前端可见进度。
+- 通过 Alembic 迁移加入 `check constraint` 与触发器，限制终态回退、终态缺少 `finished_at` 等脏数据。
+- 使用 `SELECT ... FOR UPDATE`、唯一额度流水和 `app_id / seller / amount` 校验处理并发扣减与重复通知。
+
+### Result
+- `已验证`：形成用户认证、任务提交、状态同步、结果下载、额度流水、支付升级和管理后台闭环。
+- `已验证`：用户侧平台与甲方 Worker 通过共享表契约解耦。
+- `待补充`：缺少任务量、活跃用户、支付升级、SSE 成功率和测试覆盖统计。
+
+### Evidence
+- `src/data.ts`
+- `docs/resume-ai-main.md`
+- `docs/resume-experience-copy.md`
+
+### 简历可打标签
+- FastAPI
+- PostgreSQL
+- SSE
+- 支付回调
+- 数据库约束
+- 测试验收
+
+### 待补充
+- 任务表/订单表导出、SSE 成功率、真实 E2E 通过率、管理后台截图。
+
 ## 智能客服运行时
 
 ### Situation
@@ -20,16 +90,20 @@
 - 统一文本、Voice API、RTC WebSocket 与 FastAPI 子应用挂载 4 类接入形态。
 - 实现 `route_confidence` 分层、`intent_stack` 回退和 `page_context` / `business_objects` 感知路由。
 - 提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点。
-- 补齐知识版本管理、智能切片优化、消息级反馈、诊断导出、限流和提示词脱敏。
+- 补齐知识版本管理、智能切片优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、限流和提示词脱敏。
 
 ### Result
 - `已验证`：支持 4 类接入形态，具备 7 类插件扩展点。
 - `已验证`：形成可挂载、可多租户隔离、可知识版本切换的客服运行时骨架。
+- `已验证`：本地 eval 与 demo 可输出成本对账、RAG eval 结果、转人工队列、queue_wait_seconds 和 claim-next 认领结果。
 - `保守推断`：显著降低新增业务场景接入时的耦合成本，便于按租户、行业、渠道装配能力。
 
 ### Evidence
 - `customer-ai-runtime/README.md`
+- `customer-ai-runtime/STAR-HIGHLIGHTS.md`
 - `customer-ai-runtime/RESUME_SNIPPETS.md`
+- `customer-ai-runtime/tests/test_runtime_api.py`
+- `customer-ai-runtime/tests/test_interview_artifacts.py`
 - `src/data.ts`
 
 ### 简历可打标签
@@ -41,7 +115,7 @@
 - 业务系统集成
 
 ### 待补充
-- 接口总数、关键路径延迟、测试覆盖或管理端截图。
+- 接口总数、关键路径延迟、真实转人工比例、线上 RAG 准确率或管理端截图。
 
 ## 微信智能助手
 
@@ -56,17 +130,21 @@
 - 基于 `LangGraph` 重构回复主链，将同步对话链与后台成长任务解耦。
 - 构建 SQLite 短期记忆、运行期向量记忆、导出语料 RAG 三层记忆体系。
 - 落地轻量重排与可选本地 `Cross-Encoder` 回退策略，平衡效果与部署成本。
-- 补齐 `/api/status`、`/api/metrics`、`/api/config/audit`、成本分析、配置热重载和 Release 发布链路。
+- 补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 和离线 eval。
 
 ### Result
 - `已验证`：形成三层记忆架构，并支持 RAG 精排失败自动回退。
 - `已验证`：建立状态诊断、Prometheus 指标、配置审计和成本分析能力。
 - `已验证`：支持 2 秒回复 deadline 策略，降低桌面场景下的阻塞风险。
+- `已验证`：27 条离线 smoke eval 覆盖 Prompt 回滚、受控工具流、Windows 首次运行、导出语料 RAG、无命中回退与误命中防护场景。
 - `保守推断`：显著提升长期运行、排障和配置治理的可维护性。
 
 ### Evidence
 - `wechat-chat/README.md`
 - `wechat-chat/docs/HIGHLIGHTS.md`
+- `wechat-chat/docs/SYSTEM_CHAINS.md`
+- `wechat-chat/tests/test_api.py`
+- `wechat-chat/tests/test_model_auth_center.py`
 - `src/data.ts`
 
 ### 简历可打标签
@@ -76,6 +154,8 @@
 - 可观测性
 - 配置热重载
 - 成本治理
+- 模型认证治理
+- 受控工具流
 
 ### 待补充
 - 回复成功率、平均响应时间、GitHub Star 快照。
@@ -83,31 +163,42 @@
 ## RAG-QA System / 中软国际
 
 ### Situation
-- 企业知识问答场景需要多知识库管理、证据引用、可恢复执行和回归门禁，不能停留在单链路 Demo。
+- 企业知识问答场景需要多知识库管理、证据引用、可恢复执行、Agent 多步处理和回归门禁，不能停留在单链路 Demo。
 
 ### Task
-- 交付可用于真实知识治理和问答验证的 RAG 系统，而不是单一问答接口。
+- 交付可用于知识治理、Agent 问答验证和平台化集成的 AI 问答系统，而不是单一问答接口。
 
 ### Action
 - 设计结构检索、全文检索、向量检索三路召回，结合加权 RRF 和 rerank 提升命中质量。
-- 将问答链路与检索链路改造成 LangGraph 运行时，支持 checkpoint、interrupt/resume 与 `step_events`。
-- 建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 拆分/合并/禁用和 retrieve/debug 调试。
-- 建立 smoke-eval 与 regression gate 回归门禁，把检索效果与发布验证纳入同一流程。
+- 将问答链路与检索链路改造成 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环和三层记忆。
+- 建设 ingest 与知识治理工作台，支持多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、场景模板、企业聊天 v2 与 RAG 幻觉检测。
+- 落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化、人工接管和平台生态。
 
 ### Result
 - `已验证`：支持 3 路召回、引用溯源、`grounding_score` 与 `trace_id` 返回。
-- `已验证`：支持工作流最小恢复能力与人工澄清。
-- `保守推断`：提升问答可信度、知识库治理效率和发布稳定性。
+- `已验证`：支持 LangGraph 可恢复运行时、工具注册、任务拆解、反思闭环、三层记忆、人工接管队列、分层指令、企业聊天 v2 与 RAG 幻觉检测。
+- `已验证`：22 个后端 `test_*.py`、9 个前端 `*.test.ts` 覆盖 400+ 测试项，覆盖 Agent 能力、推理优化、平台生态与 SDK 相关能力。
+- `保守推断`：提升问答可信度、知识库治理效率、Agent 可控性和发布稳定性。
 
 ### Evidence
 - `rag-qa-system/README.md`
 - `rag-qa-system/AI_HIGHLIGHTS.md`
+- `rag-qa-system/docs/reference/RAG_STAR_TECHNICAL_CHALLENGES.md`
+- `rag-qa-system/tests/test_agent_capabilities.py`
+- `rag-qa-system/tests/test_inference_optimization.py`
+- `rag-qa-system/tests/test_platform_ecosystem.py`
+- `rag-qa-system/tests/test_backend_infra.py`
+- `rag-qa-system/tests/test_agent_orchestration.py`
+- `rag-qa-system/tests/test_agent_metacognition.py`
 - `src/data.ts`
 
 ### 简历可打标签
 - RAG
 - 混合检索
 - LangGraph
+- Agent 自主决策
+- 推理优化
+- Python SDK
 - 引用溯源
 - 评测回归
 - 知识治理

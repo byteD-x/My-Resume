@@ -451,6 +451,12 @@
   }
 </style>
 
+<!--
+维护说明：
+- 作品集网站的数据源以 src/data.ts 为准，简历投递版可按岗位拆分独立开发者父级项目。
+- 技术亮点必须遵守 docs/content-evidence-policy.md：repo 证据用于工程实现，manual / experience 只校对事实骨架。
+-->
+
 <header class="resume-header">
   <h1>杜旭嘉</h1>
   <p class="resume-title">AI 应用工程师｜RAG / Agent / 后端工程化</p>
@@ -503,13 +509,13 @@
 
 - 面向企业客服同时处理知识问答、业务查询、语音/RTC 和转人工的场景，设计 6 层 Runtime：渠道接入、宿主桥接、核心引擎、业务增强、插件平台、模型提供商适配。
 - 实现基于 `intent_stack`、`page_context`、`business_objects` 和置信度分层的路由策略；在订单详情等上下文中优先走业务工具，连续低置信对话转入澄清或人工处理。
-- 设计 `PluginRegistry` 与 7 类扩展点，覆盖路由、业务工具、人工转接、行业适配、宿主鉴权、上下文增强和响应后处理；`AuthBridge` 将 API Key、Session、JWT、Custom Token 统一映射到租户上下文，并用路由、插件、语音提供商测试保护关键行为。
+- 设计 `PluginRegistry` 与 7 类扩展点，覆盖路由、业务工具、人工转接、行业适配、宿主鉴权、上下文增强和响应后处理；补齐 provider billing / usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列与外部 readiness 审计，用路由、插件、鉴权和运行时测试保护关键行为。
 
 #### 微信智能助手｜LangGraph / Electron / RAG
 
 - 面对桌面微信自动化不稳定、回复不能长时间阻塞的问题，抽象 `BaseTransport` 接入层，并用 `LangGraph` 把前台回复路径与后台成长任务分离，按回复预算控制同步路径。
 - 构建 SQLite 短期记忆、Chroma 向量记忆和导出聊天记录 RAG；后台批处理负责情绪、联系人画像、向量记忆、事实抽取和导出语料同步，避免把长期记忆计算压到用户回复路径上。
-- 开发 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、成本分析、回复策略、备份恢复和离线 eval；敏感关键词、静默时段、群聊白名单和新联系人策略进入人工审批队列，降低误发消息风险。
+- 开发 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、知识库治理、成本分析、模型认证中心、受控 Tool Workflow、只读 MCP adapter、备份恢复、发布更新和 27 条离线 eval；敏感关键词、静默时段、群聊白名单和新联系人策略进入人工审批队列，降低误发消息和凭据配置风险。
 
 <div class="experience-heading">
   <h3>中软国际｜企业知识库 RAG / Agent 工作台｜后端 / 全栈工程师</h3>
@@ -517,8 +523,8 @@
 </div>
 
 - 企业知识库问答需要同时给出答案、证据和检索诊断；设计结构检索、全文检索、向量检索 3 路召回，结合 `query rewrite`、加权 `RRF` 和 `rerank`，返回 `citations`、`grounding_score`、`trace_id` 与候选来源。
-- 将 Gateway 问答流程迁移到 `LangGraph` 运行时，使用 `checkpoint`、`interrupt/resume`、人工确认和 `step_events` 记录执行过程；失败重试时复用检索与生成 checkpoint，避免同一问题重复检索和重复计费。
-- 建设 ingest 与知识库治理工作台，处理多知识库、多源连接器、本地目录、Notion、Web、飞书、钉钉和 SQL 数据源；提供 `chunk` 拆分/合并/禁用、`retrieve/debug` 调试、Prompt Injection 防护、背压保护和 `smoke-eval / regression gate` 回归检查。
+- 将 Gateway 问答流程迁移到 `LangGraph` 可恢复运行时，使用 `checkpoint`、`interrupt/resume`、人工确认和 `step_events` 记录执行过程，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。
+- 建设 ingest 与知识库治理工作台，处理多知识库、多源连接器、本地目录、Notion、Web、飞书、钉钉和 SQL 数据源；补齐 batch dry-run/jobs、token-aware chunk、人工接管队列、五层指令合并、企业聊天 v2、场景模板、RAG 幻觉检测、三层语义缓存、模型健康熔断、Python SDK、readyz/trace 和 400+ 测试项回归检查。
 
 <div class="experience-heading">
   <h3>国家骨科临床研究中心｜SubMed 医学论文检索小程序｜后端开发实习生</h3>
@@ -561,21 +567,22 @@
 - 面向企业客服同时接入文本、语音轮次、RTC 实时通话和人工接手的场景，设计 6 层 Runtime：渠道接入、宿主桥接、核心引擎、业务上下文、插件平台和模型/语音提供商适配。
 - 在 `RoutingService` 与 `SessionService` 中维护 `intent_stack`，结合 `page_context`、`business_objects` 和置信度分层做路由决策；相同意图合并低置信计数，连续低置信或用户明确要求时转人工。
 - 设计 `PluginRegistry` 和 7 类扩展点，包括路由策略、业务工具、人工接手、行业适配、鉴权桥、上下文补充和响应后处理；宿主系统可按优先级注册插件，而不是改 Runtime 主干代码。
-- 在 `AuthBridgePlugin` 中统一 API Key、Session/Cookie、JWT/Bearer、Custom Token 与自定义 Header 桥接；语音/RTC 模块支持 ASR、TTS、房间状态机、打断和超时，相关行为由路由、插件、鉴权和语音提供商测试固定。
+- 在 `AuthBridgePlugin` 中统一 API Key、Session/Cookie、JWT/Bearer、Custom Token 与自定义 Header 桥接；补齐 provider billing / usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列和外部 readiness 审计，相关行为由路由、插件、鉴权和运行时测试固定。
 
 ### 微信智能助手｜Quart / Electron / LangGraph / ChromaDB
 
 - 面向 Windows 微信自动化不稳定、回复路径不能长时间阻塞的场景，抽象 `BaseTransport` 接入层，将 WCFerry 适配与 Bot 主循环解耦，桌面端和 Web 控制台共用 Quart 后端状态。
 - 使用 `LangGraph` 组织上下文加载、提示词构建、模型调用和回写，将前台回复与后台成长任务分开：前台按回复预算生成消息，后台再处理情绪、画像、事实抽取、向量记忆和导出聊天 RAG。
 - 构建 SQLite 短期记忆、Chroma 向量记忆和导出聊天记录 RAG；长记忆写入、embedding、联系人画像和导出语料同步放到后台任务，避免把高成本计算放进用户回复路径。
-- 提供 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、成本分析、回复策略、备份恢复和离线 eval；敏感关键词、静默时段、群聊白名单和新联系人策略进入人工审批队列，减少误触发消息风险。
+- 提供 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、知识库治理、成本分析、模型认证中心、受控 Tool Workflow、只读 MCP adapter、备份恢复、发布更新和 27 条离线 eval；敏感关键词、静默时段、群聊白名单和新联系人策略进入人工审批队列，减少误触发消息风险。
 
-### RAG-QA System｜FastAPI / Vue / LangGraph / Qdrant
+### RAG-QA System｜FastAPI / Vue / LangGraph / Agent Runtime
 
 - 面向企业知识库“答案必须能追溯来源”的需求，开发多知识库问答系统，包含文档上传、异步解析、统一聊天、SSE 流式回答、引用返回和检索诊断信息。
 - 在检索服务中实现结构化检索、全文检索、向量检索三路召回，结合 query rewrite、RRF 和 rerank 返回候选来源、`citations`、`grounding_score`、耗时分解和 `trace_id`。
-- 将 Gateway 问答流程迁移到 `LangGraph`，使用 `checkpoint`、`interrupt/resume`、人工确认和 `step_events` 记录执行过程；失败重试时复用检索与生成 checkpoint，减少同一问题重复检索和重复计费。
-- 建设知识库治理能力：本地目录、Notion、Web、飞书、钉钉和 SQL 连接器，chunk 拆分/合并/禁用、`retrieve/debug`、Prompt Injection 防护、429 背压返回，以及 `correctness / faithfulness / citation_alignment` 评测。
+- 将 Gateway 问答流程迁移到 `LangGraph` 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环和三层记忆，让复杂问题可以被拆解、执行、复盘和复用策略。
+- 建设知识库与平台治理能力：本地目录、Notion、Web、飞书、钉钉和 SQL 连接器，batch dry-run/jobs、token-aware chunk、`retrieve/debug`、人工接管队列、五层指令合并、企业聊天 v2、6 类场景模板、RAG 幻觉检测、Prompt Injection 防护和 429 背压返回。
+- 落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化、人工接管和平台生态。
 
 ### EasyCloudPan｜Spring Boot / React / PostgreSQL / Redis / MinIO
 
