@@ -1,12 +1,11 @@
 # Deployment Channels
 
-This project publishes through three separate channels. Keep this file aligned with `package.json`, `.github/workflows/pages.yml`, `next.config.ts`, and the deployment scripts under `scripts/`.
+This project publishes through two separate channels. Keep this file aligned with `package.json`, `next.config.ts`, and the deployment scripts under `scripts/`.
 
 ## Language Strategy
 
 - Build-time default locale is controlled by `NEXT_PUBLIC_DEFAULT_LOCALE`.
 - `Self-hosted` uses `zh`.
-- `GitHub Pages` uses `zh`.
 - `Vercel` uses `en`; when `NEXT_PUBLIC_DEFAULT_LOCALE` is not set, `src/lib/deployment-locale.ts` infers `en` from the Vercel runtime flag.
 - Shareable locale paths are always available:
   - `/zh`
@@ -19,7 +18,6 @@ This project publishes through three separate channels. Keep this file aligned w
 ## Public URLs
 
 - `International site (Vercel)`: `https://my-resume-gray-five.vercel.app`
-- `GitHub site (Pages)`: `https://byted-x.github.io/My-Resume/`
 - `China mainland site (Self-hosted)`: `https://blog.byted.online`
 - `China mainland site fallback (Self-hosted IP)`: `http://106.12.154.163`
 
@@ -30,14 +28,7 @@ This project publishes through three separate channels. Keep this file aligned w
    - Default locale: `en`
    - Verify: `curl -I https://my-resume-gray-five.vercel.app`
 
-2. `GitHub Pages`
-   - Trigger: `.github/workflows/pages.yml`
-   - Purpose: GitHub-hosted static site
-   - URL: `https://byted-x.github.io/My-Resume/`
-   - Default locale: `zh`
-   - Verify: `curl -I https://byted-x.github.io/My-Resume/`
-
-3. `Self-hosted server`
+2. `Self-hosted server`
    - Trigger: `git push` to the SSH bare repo on `106.12.154.163`
    - Purpose: China mainland site via standalone Next.js behind Nginx with a canonical domain
    - Default locale: `zh`
@@ -143,9 +134,6 @@ Verify deployed roots and explicit locale paths:
 curl -I https://my-resume-gray-five.vercel.app/
 curl -I https://my-resume-gray-five.vercel.app/en
 curl -I https://my-resume-gray-five.vercel.app/zh
-curl -I https://byted-x.github.io/My-Resume/
-curl -I https://byted-x.github.io/My-Resume/en
-curl -I https://byted-x.github.io/My-Resume/zh
 curl -I https://blog.byted.online/
 curl -I https://blog.byted.online/en
 curl -I https://blog.byted.online/zh
@@ -154,13 +142,13 @@ curl -I https://blog.byted.online/zh
 Static export verification:
 
 ```bash
-npm run build:pages
+npm run build:static
 test -f out/index.html
 test -f out/zh/index.html
 test -f out/en/index.html
 ```
 
-`npm run build:pages` sets `NEXT_PUBLIC_STATIC_EXPORT=true`, defaults the static locale to `zh`, accepts an optional GitHub Pages base path argument, temporarily disables the intercepting experience route, clears `.next` and `out`, runs `npm run build`, and then runs `npm run optimize:images`.
+`npm run build:static` sets `NEXT_PUBLIC_STATIC_EXPORT=true`, defaults the static locale to `zh`, accepts an optional base path argument, temporarily disables the intercepting experience route, clears `.next` and `out`, runs `npm run build`, and then runs `npm run optimize:images`.
 
 ## Rollback
 
@@ -169,7 +157,7 @@ To roll back, repoint it to an older release under `/var/www/portfolio/releases/
 
 ## Notes
 
-- The self-hosted channel is intentionally independent of GitHub Actions. GitHub only receives the same git push and continues triggering `Vercel` plus `Pages`.
+- The self-hosted channel is intentionally independent of CI. GitHub receives the source push for collaboration while Vercel handles the international deployment.
 - The server build runs with `/root/.local/share/mise/installs/node/22.22.1/bin/node`, not the system default `node`.
-- Public endpoint verification in `.github/workflows/pages.yml` always checks `Vercel`, `GitHub Pages`, and the self-hosted IP endpoint. The self-hosted domain is checked as optional by default; set `VERIFY_SERVER_PUBLIC_URL=true`, `1`, `required`, or `strict` when `https://blog.byted.online` should become a required gate.
+- Public endpoint verification checks `Vercel` and the self-hosted IP endpoint. The self-hosted domain is checked as optional by default; set `VERIFY_SERVER_PUBLIC_URL=true`, `1`, `required`, or `strict` when `https://blog.byted.online` should become a required gate.
 - `git push` across GitHub and the server is not atomic. If one remote succeeds and the other fails, resolve the failed side explicitly and push again.

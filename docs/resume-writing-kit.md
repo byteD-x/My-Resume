@@ -15,7 +15,7 @@
 - `docs/content-evidence-policy.md`
   约束作品集数据和简历文案的证据来源、父子分组和 `verification.sourceType` 口径。
 - `docs/deployment-channels.md`
-  用于补充 GitHub Pages / Vercel / 自托管部署背景，在被问到工程化交付时可直接引用。
+  用于补充 Vercel / 自托管部署背景，在被问到工程化交付时可直接引用。
 
 ## 当前内容源
 

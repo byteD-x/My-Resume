@@ -552,10 +552,6 @@ const enContact: ContactData = {
       url: "https://my-resume-gray-five.vercel.app/",
     },
     {
-      label: "GitHub Pages site",
-      url: "https://byted-x.github.io/My-Resume/",
-    },
-    {
       label: "China site (self-hosted)",
       url: "https://blog.byted.online/",
     },

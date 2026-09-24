@@ -28,23 +28,6 @@ if (basePath) {
     delete env.NEXT_PUBLIC_BASE_PATH;
 }
 
-function inferGithubPagesSiteUrl() {
-    const normalizedBasePath = String(basePath || '').replace(/^\/+|\/+$/g, '');
-    if (!normalizedBasePath) return null;
-
-    const ownerFromRepository = typeof env.GITHUB_REPOSITORY === 'string' ? env.GITHUB_REPOSITORY.split('/')[0] : '';
-    const owner = env.GITHUB_REPOSITORY_OWNER || ownerFromRepository;
-    if (!owner) return null;
-
-    return `https://${owner}.github.io/${normalizedBasePath}`;
-}
-
-const inferredSiteUrl = inferGithubPagesSiteUrl();
-if (!env.NEXT_PUBLIC_SITE_URL && inferredSiteUrl) {
-    env.NEXT_PUBLIC_SITE_URL = inferredSiteUrl;
-    console.log(`Inferred NEXT_PUBLIC_SITE_URL=${inferredSiteUrl}`);
-}
-
 function moveModalOut() {
     if (!fs.existsSync(interceptDir)) {
         console.log('No intercepting route directory found. Skipping removal.');
@@ -152,7 +135,7 @@ try {
         clearBuildArtifacts();
         exitCode = runBuild();
         if (exitCode === 0) {
-            // Keep image optimization in pages export while regular build stays fast.
+            // Keep image optimization in static export while regular build stays fast.
             exitCode = runImageOptimizer();
         }
     } finally {

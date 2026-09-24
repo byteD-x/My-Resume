@@ -101,7 +101,7 @@ npm run dev:external
 - 把项目目录加入 Windows Defender exclusion
 - 把缓存目标目录也加入 Windows Defender exclusion
 - tracing 和详细 fetch logging 只在单次排障时开启
-- 如果 `npm run build:pages` 提示 `.next` 或 `out` 被锁定，先停止 `npm run dev`、Playwright webServer 或其他文件监听进程后再重试。
+- 如果 `npm run build:static` 提示 `.next` 或 `out` 被锁定，先停止 `npm run dev`、Playwright webServer 或其他文件监听进程后再重试。
 
 ## 官方依据
 

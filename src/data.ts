@@ -1883,10 +1883,6 @@ export const defaultPortfolioData: PortfolioData = {
         url: "https://my-resume-gray-five.vercel.app/",
       },
       {
-        label: "GitHub 站（Pages）",
-        url: "https://byted-x.github.io/My-Resume/",
-      },
-      {
         label: "国内站（自托管）",
         url: "https://blog.byted.online/",
       },

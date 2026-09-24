@@ -5,7 +5,6 @@
 ## 在线地址
 
 - 国际站（Vercel）：[https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
-- GitHub Pages：[https://byted-x.github.io/My-Resume/](https://byted-x.github.io/My-Resume/)
 - 中国大陆主站（自托管）：[https://blog.byted.online](https://blog.byted.online)
 - 自托管回退地址：[http://106.12.154.163](http://106.12.154.163)
 
@@ -128,7 +127,7 @@ npm run lint
 npm run test:unit
 npm run test:e2e
 npm run build
-npm run build:pages
+npm run build:static
 npm run check:links
 npm run check:performance
 npm run verify:public
@@ -152,7 +151,7 @@ npm run push:all
 - `npm run test:unit`
 - `npm run test:e2e`
 - `npm run build`
-- `npm run build:pages`
+- `npm run build:static`
 - `npm run check:links`
 - `npm run check:performance`
 - `npm run verify:public`
@@ -164,23 +163,21 @@ npm run push:all
 - Playwright 默认覆盖 `chromium` 和 `Mobile Chrome`
 - 本地执行 E2E 时会自动拉起 `npm run dev`
 - `npm run build` 会先执行 `npm run build:data`；CI 中通过 `SKIP_GITHUB_FETCH=1` 跳过 GitHub 数据抓取
-- `npm run build:pages` 会进入静态导出模式，临时移出拦截路由、清理 `.next` / `out`，构建后运行图片优化
-- `npm run verify:public` 用于校验 Vercel、GitHub Pages 与自托管公开端点；是否强制校验自托管主域名由环境变量控制
+- `npm run build:static` 会进入静态导出模式，临时移出拦截路由、清理 `.next` / `out`，构建后运行图片优化
+- `npm run verify:public` 用于校验 Vercel 与自托管公开端点；是否强制校验自托管主域名由环境变量控制
 
-GitHub Actions 会在 `main` 分支的 push / pull request 上执行 lint、E2E、单测、服务端构建、静态导出与链接检查；非 PR 的 `main` 构建还会部署 GitHub Pages 并验证公开端点。
+Vercel 通过 Git 集成发布，自托管服务器通过 SSH bare repo 发布；本地可用 `npm run build:static` 验证静态导出链路。
 
 ## 部署
 
-项目当前维护三条发布链路：
+项目当前维护两条发布链路：
 
 1. `Vercel`
-2. `GitHub Pages`
-3. `自托管服务器`
+2. `自托管服务器`
 
 其中：
 
 - Vercel 面向国际访问
-- GitHub Pages 提供静态导出站点
 - 自托管服务器面向中国大陆主域名发布
 
 部署细节、回滚方式、服务端脚本与环境变量说明见：[docs/deployment-channels.md](docs/deployment-channels.md)
@@ -201,7 +198,6 @@ portfolio/
 ├─ scripts/                # 构建、部署、链接检查、缓存初始化脚本
 ├─ tests/                  # 单元测试与 E2E 测试
 ├─ public/                 # 静态资源、简历 PDF、OG 图与图片优化哈希
-└─ .github/workflows/      # CI / Pages 工作流
 ```
 
 ## 相关文档
@@ -218,5 +214,5 @@ portfolio/
 ## 备注
 
 - 非静态导出场景下，Next.js 使用 `standalone` 输出，便于自托管部署
-- 静态导出场景下，仓库通过 `build:pages` 生成 GitHub Pages 所需产物
+- 静态导出场景下，仓库通过 `build:static` 生成静态站点产物
 - 若要分析包体积，可执行 `npm run analyze`

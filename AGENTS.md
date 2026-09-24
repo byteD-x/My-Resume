@@ -11,7 +11,7 @@
 - 项目标识：`portfolio`
 - 包管理器：`npm`
 - 主要语言：TypeScript、JavaScript / MJS、YAML、CSS
-- 技术栈：Next.js 16、React 19、Tailwind CSS 4、TypeScript 5、Framer Motion、Vitest、Playwright、GitHub Pages
+- 技术栈：Next.js 16、React 19、Tailwind CSS 4、TypeScript 5、Framer Motion、Vitest、Playwright
 - 关键路径：
   - `README.md`
   - `package.json`
@@ -27,13 +27,10 @@
   - `scripts`
   - `tests`
   - `playwright.config.ts`
-  - `.github/workflows`
-- CI 工作流：
-  - `pages.yml`
 - 部署关注点：
   - 检测到 Next.js，发布前至少验证一次标准构建以覆盖服务端模式。
-  - 检测到 GitHub Pages 相关配置，发布前验证静态导出链路。
-  - 检测到三端发布场景：保持 Vercel、GitHub Pages 与自托管服务器说明同时可验证。
+  - 检测到静态导出配置，发布前验证静态导出链路。
+  - 检测到两端发布场景：保持 Vercel 与自托管服务器说明同时可验证。
   - 检测到静态导出信号：改动 API、headers、rewrite、redirect 时必须提供降级或兼容实现。
 
 ## 3. 协作原则
@@ -67,7 +64,7 @@
   2. `npm run test:unit`
   3. `npm run test:e2e`
   4. `npm run build`
-  5. `npm run build:pages`
+  5. `npm run build:static`
   6. `npm run check:links`
   7. `npm run check:performance`
   8. `npm run verify:public`
@@ -75,7 +72,7 @@
   - `analyze`
   - `build`
   - `build:data`
-  - `build:pages`
+  - `build:static`
   - `check:links`
   - `check:performance`
   - `dev`
@@ -116,5 +113,5 @@
 结束前：
 - 汇总改动文件、验证命令与结果。
 - 明确说明构建是否通过、测试是否通过、部署基线是否通过。
-- 若 `build` / `build:pages` / 数据脚本更新了仓库内快照或时间戳文件，按正常逻辑保留，并在最终说明里明确这是构建副产物而非异常改动。
+- 若 `build` / `build:static` / 数据脚本更新了仓库内快照或时间戳文件，按正常逻辑保留，并在最终说明里明确这是构建副产物而非异常改动。
 - 列出剩余风险与可选后续优化。

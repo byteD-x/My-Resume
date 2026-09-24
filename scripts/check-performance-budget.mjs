@@ -49,7 +49,7 @@ async function resolveHomepageHtmlPath() {
     }
   }
 
-  throw new Error('Could not find homepage HTML. Run "npm run build:pages" first.');
+  throw new Error('Could not find homepage HTML. Run "npm run build:static" first.');
 }
 
 function collectCandidateAssetPaths(assetPath) {

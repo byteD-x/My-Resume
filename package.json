@@ -14,7 +14,7 @@
     "optimize:images": "node scripts/optimize-images.js",
     "build:data": "node scripts/fetch-github-data.mjs",
     "prebuild": "npm run build:data",
-    "build:pages": "node scripts/build-pages.js",
+    "build:static": "node scripts/build-static.js",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",

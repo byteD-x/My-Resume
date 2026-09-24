@@ -1,7 +1,6 @@
 import process from "node:process";
 
 const DEFAULT_VERCEL_URL = "https://my-resume-gray-five.vercel.app";
-const DEFAULT_PAGES_URL = "https://byted-x.github.io/My-Resume";
 const DEFAULT_SERVER_URL = "https://blog.byted.online";
 const DEFAULT_SERVER_IP_URL = "http://106.12.154.163";
 const REQUEST_TIMEOUT_MS = Number(
@@ -32,29 +31,6 @@ function shouldRequireServerEndpoint() {
   );
 }
 
-function resolvePagesUrl() {
-  const explicitPagesUrl = normalizeUrl(process.env.PAGES_PUBLIC_URL);
-  if (explicitPagesUrl) {
-    return explicitPagesUrl;
-  }
-
-  const repository = String(process.env.GITHUB_REPOSITORY || "").trim();
-  const owner =
-    String(process.env.GITHUB_REPOSITORY_OWNER || "").trim() ||
-    repository.split("/")[0];
-  const repoName = repository.split("/")[1] || "";
-
-  if (!owner || !repoName) {
-    return DEFAULT_PAGES_URL;
-  }
-
-  if (repoName === `${owner}.github.io`) {
-    return `https://${owner}.github.io`;
-  }
-
-  return `https://${owner}.github.io/${repoName}`;
-}
-
 async function requestUrl(url, method) {
   const controller = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
   return fetch(url, {
@@ -83,10 +59,6 @@ function diagnoseHeaders(label, url, headers) {
 
   if (isDocumentUrl(url) && /31536000/.test(cacheControl)) {
     warnings.push("HTML 文档命中超长缓存 TTL，可能导致首页内容长期陈旧。");
-  }
-
-  if (label === "GitHub Pages" && headers["cdn-cache-control"] !== "-") {
-    warnings.push("GitHub Pages 返回了 CDN 定向缓存头，请确认是否符合预期。");
   }
 
   return warnings;
@@ -145,7 +117,6 @@ async function verifyOptional(endpoint) {
 async function main() {
   const vercelUrl =
     normalizeUrl(process.env.VERCEL_PUBLIC_URL) || DEFAULT_VERCEL_URL;
-  const pagesUrl = resolvePagesUrl();
   const serverUrl =
     normalizeUrl(process.env.SERVER_PUBLIC_URL) || DEFAULT_SERVER_URL;
   const serverIpUrl =
@@ -154,7 +125,6 @@ async function main() {
 
   const requiredEndpoints = [
     { label: "Vercel", url: vercelUrl },
-    { label: "GitHub Pages", url: pagesUrl },
     { label: "Self-hosted IP", url: serverIpUrl },
   ];
 
