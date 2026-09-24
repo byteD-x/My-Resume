@@ -13,7 +13,7 @@ describe("Footer", () => {
         email="2041487752dxj@gmail.com"
         githubUrl="https://github.com/byteD-x"
         websiteLinks={[
-          { label: "国内站（自托管）", url: "https://www.byted.online/" },
+          { label: "国内站（自托管）", url: "https://blog.byted.online/" },
         ]}
         icpRecord={siteConfig.icpRecord}
         icpRecordUrl={siteConfig.icpRecordUrl}

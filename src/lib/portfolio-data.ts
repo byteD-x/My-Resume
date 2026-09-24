@@ -557,7 +557,7 @@ const enContact: ContactData = {
     },
     {
       label: "China site (self-hosted)",
-      url: "https://www.byted.online/",
+      url: "https://blog.byted.online/",
     },
   ],
   resumeButtonText: "Download resume PDF",

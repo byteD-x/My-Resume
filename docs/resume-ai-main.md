@@ -465,7 +465,7 @@
     <span>邮箱：<a href="mailto:2041487752dxj@gmail.com">2041487752dxj@gmail.com</a></span>
     <span>城市：深圳 / 南京 / 杭州 / 成都</span>
     <span><a href="https://github.com/byteD-x">GitHub</a></span>
-    <span><a href="https://www.byted.online/">国内作品集</a></span>
+    <span><a href="https://blog.byted.online/">国内作品集</a></span>
     <span><a href="https://my-resume-gray-five.vercel.app/">国际站</a></span>
   </div>
   <p class="resume-intent">求职方向：AI 应用工程师 / LLM 应用工程师 / 后端工程师（AI 工程方向）</p>

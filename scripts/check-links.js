@@ -10,7 +10,7 @@ const CONCURRENCY = Number(process.env.LINK_CHECK_CONCURRENCY || 8);
 const RETRIES = Number(process.env.LINK_CHECK_RETRIES || 2);
 const OPTIONAL_HOSTS = new Set(
   String(
-    process.env.LINK_CHECK_OPTIONAL_HOSTS || "www.byted.online,106.12.154.163",
+    process.env.LINK_CHECK_OPTIONAL_HOSTS || "blog.byted.online,106.12.154.163",
   )
     .split(",")
     .map((item) => item.trim().toLowerCase())

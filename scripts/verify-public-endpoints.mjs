@@ -2,7 +2,7 @@ import process from "node:process";
 
 const DEFAULT_VERCEL_URL = "https://my-resume-gray-five.vercel.app";
 const DEFAULT_PAGES_URL = "https://byted-x.github.io/My-Resume";
-const DEFAULT_SERVER_URL = "https://www.byted.online";
+const DEFAULT_SERVER_URL = "https://blog.byted.online";
 const DEFAULT_SERVER_IP_URL = "http://106.12.154.163";
 const REQUEST_TIMEOUT_MS = Number(
   process.env.PUBLIC_ENDPOINT_TIMEOUT_MS || 20000,

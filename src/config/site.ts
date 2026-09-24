@@ -1,4 +1,4 @@
-const defaultSiteUrl = "https://www.byted.online";
+const defaultSiteUrl = "https://blog.byted.online";
 const envSiteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "")
   .trim()
   .replace(/\/+$/g, "");

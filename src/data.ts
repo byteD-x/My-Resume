@@ -1888,7 +1888,7 @@ export const defaultPortfolioData: PortfolioData = {
       },
       {
         label: "国内站（自托管）",
-        url: "https://www.byted.online/",
+        url: "https://blog.byted.online/",
       },
     ],
     resumeButtonText: "下载简历 PDF",

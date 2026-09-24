@@ -6,7 +6,7 @@
 
 - 国际站（Vercel）：[https://my-resume-gray-five.vercel.app](https://my-resume-gray-five.vercel.app)
 - GitHub Pages：[https://byted-x.github.io/My-Resume/](https://byted-x.github.io/My-Resume/)
-- 中国大陆主站（自托管）：[https://www.byted.online](https://www.byted.online)
+- 中国大陆主站（自托管）：[https://blog.byted.online](https://blog.byted.online)
 - 自托管回退地址：[http://106.12.154.163](http://106.12.154.163)
 
 ## 项目概览

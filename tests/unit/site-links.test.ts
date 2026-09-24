@@ -7,6 +7,6 @@ describe('site links', () => {
             item.label.includes('自托管'),
         );
 
-        expect(selfHostedLink?.url).toBe('https://www.byted.online/');
+        expect(selfHostedLink?.url).toBe('https://blog.byted.online/');
     });
 });

@@ -12,15 +12,17 @@ const config = {
   serverHost: process.env.SERVER_HOST || "106.12.154.163",
   serverUser: process.env.SERVER_USER || "root",
   serverPort: process.env.SERVER_PORT || "22",
-  canonicalHost: process.env.SERVER_CANONICAL_HOST || "www.byted.online",
-  additionalDomains: parseCsv(process.env.SERVER_ADDITIONAL_DOMAINS),
+  canonicalHost: process.env.SERVER_CANONICAL_HOST || "blog.byted.online",
+  additionalDomains: parseCsv(
+    process.env.SERVER_ADDITIONAL_DOMAINS || "www.byted.online",
+  ),
   redirectHosts: parseCsv(
     process.env.SERVER_REDIRECT_HOSTS || "106.12.154.163",
   ),
   certName:
     process.env.SERVER_CERT_NAME ||
     process.env.SERVER_CANONICAL_HOST ||
-    "www.byted.online",
+    "blog.byted.online",
   certbotInstall: process.env.SERVER_CERTBOT_INSTALL || "venv",
   certbotVenvDir: process.env.SERVER_CERTBOT_VENV_DIR || "/opt/certbot",
   nginxSitePath:
@@ -115,6 +117,27 @@ ${renderProxyDirectives()}
 
 function renderFinalHttpsConfig(serverNames, canonicalHost, certName) {
   const certDir = `/etc/letsencrypt/live/${certName}`;
+  const httpsRedirectHosts = serverNames.filter(
+    (host) => host !== canonicalHost && host !== config.serverHost,
+  );
+  const httpsRedirectServer = httpsRedirectHosts.length
+    ? `
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+
+  server_name ${httpsRedirectHosts.join(" ")};
+
+  ssl_certificate ${certDir}/fullchain.pem;
+  ssl_certificate_key ${certDir}/privkey.pem;
+  ssl_protocols TLSv1.2 TLSv1.3;
+
+  location / {
+    return 301 https://${canonicalHost}$request_uri;
+  }
+}
+`
+    : "";
 
   return `server {
   listen 80 default_server;
@@ -133,8 +156,8 @@ function renderFinalHttpsConfig(serverNames, canonicalHost, certName) {
 }
 
 server {
-  listen 443 ssl http2 default_server;
-  listen [::]:443 ssl http2 default_server;
+  listen 443 ssl default_server;
+  listen [::]:443 ssl default_server;
 
   server_name ${canonicalHost};
 
@@ -155,6 +178,7 @@ ${renderProxyDirectives()}
     add_header Cache-Control "${pageCacheControl}" always;
   }
 }
+${httpsRedirectServer}
 `;
 }
 
