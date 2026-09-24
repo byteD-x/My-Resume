@@ -32,19 +32,19 @@ interface MotionWrapperProps {
 // 预定义的动画变体
 const presetVariants: Record<AnimationPreset, Variants> = {
   "fade-up": {
-    initial: { opacity: 0, y: 18 },
+    initial: { opacity: 0, y: 12 },
     animate: { opacity: 1, y: 0 },
   },
   "fade-down": {
-    initial: { opacity: 0, y: -18 },
+    initial: { opacity: 0, y: -12 },
     animate: { opacity: 1, y: 0 },
   },
   "fade-left": {
-    initial: { opacity: 0, x: -18 },
+    initial: { opacity: 0, x: -12 },
     animate: { opacity: 1, x: 0 },
   },
   "fade-right": {
-    initial: { opacity: 0, x: 18 },
+    initial: { opacity: 0, x: 12 },
     animate: { opacity: 1, x: 0 },
   },
   scale: {
@@ -56,11 +56,11 @@ const presetVariants: Record<AnimationPreset, Variants> = {
     animate: { opacity: 1, filter: "blur(0px)" },
   },
   "slide-up": {
-    initial: { opacity: 0, y: 26 },
+    initial: { opacity: 0, y: 18 },
     animate: { opacity: 1, y: 0 },
   },
   "spring-up": {
-    initial: { opacity: 0, y: 20, scale: 0.975 },
+    initial: { opacity: 0, y: 14, scale: 0.985 },
     animate: { opacity: 1, y: 0, scale: 1 },
   },
 };
@@ -77,7 +77,7 @@ export const MotionWrapper = ({
   className = "",
   delay = 0,
   preset = "fade-up",
-  duration = 0.5,
+  duration = 0.42,
   once = true,
   amount = 0.2,
   disableOnReducedMotion = true,

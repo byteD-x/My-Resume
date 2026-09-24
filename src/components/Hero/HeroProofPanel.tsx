@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
 import type { HeroSpotlightItem } from "@/lib/home-highlights";
 import { getUiCopy } from "@/lib/locale-copy";
 import type { Locale } from "@/lib/locale";
@@ -13,64 +13,75 @@ export function HeroProofPanel({ items, locale }: HeroProofPanelProps) {
   const copy = getUiCopy(locale);
 
   return (
-    <aside className="theme-card relative overflow-hidden rounded-[1.25rem] border-[rgba(148,163,184,0.16)] p-3 shadow-[0_12px_28px_rgba(15,23,42,0.065)] sm:p-4 md:rounded-[1.6rem] md:p-5 md:shadow-[0_18px_36px_rgba(15,23,42,0.07)] lg:p-6">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[linear-gradient(180deg,rgba(219,234,254,0.62),transparent)]" />
-      <div className="relative z-10">
-        <div className="mb-4 flex items-end justify-between gap-3 border-b border-[color:var(--border-default)] pb-3.5 sm:mb-6 sm:pb-4">
-          <div>
-            <p className="theme-card-kicker">{copy.runtime.proofEntry}</p>
-            <h2 className="theme-title mt-1 text-[1.1rem] font-bold tracking-tight sm:mt-1.5 sm:text-[1.28rem]">
-              {copy.featured.fallbackRecent}
-            </h2>
-          </div>
-          <div className="theme-chip-strong px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] sm:text-[10px] sm:tracking-[0.24em]">
-            {copy.metric.verified}
-          </div>
+    <aside className="relative">
+      <div className="mb-2 flex items-end justify-between gap-4 border-b border-[color:var(--border-default)] pb-4 sm:mb-3 sm:pb-5">
+        <div>
+          <p className="theme-card-kicker">{copy.runtime.proofEntry}</p>
+          <h2
+            id="hero-projects-heading"
+            className="theme-title mt-1.5 text-[1.25rem] font-bold sm:text-[1.45rem]"
+          >
+            {copy.featured.fallbackRecent}
+          </h2>
         </div>
-
-        <div className="grid snap-x snap-mandatory grid-flow-col auto-cols-[92%] gap-2.5 overflow-x-auto pb-1 pr-1 sm:grid-flow-row sm:auto-cols-auto sm:grid-cols-2 sm:gap-3 md:gap-4">
-          {items.map((item) => {
-            const content = (
-              <>
-                <p className="theme-card-kicker">{item.focus}</p>
-                <div className="mt-2 flex items-start justify-between gap-2.5">
-                  <h3 className="theme-card-title pr-2 text-[0.98rem] sm:text-[1.03rem]">
-                    {item.name}
-                  </h3>
-                  <span className="motion-chip flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[rgba(37,99,235,0.14)] bg-white/80 text-[color:var(--text-tertiary)] transition-colors duration-200 group-hover:border-[rgba(37,99,235,0.24)] group-hover:text-[color:var(--brand-gold)]">
-                    <ArrowUpRight size={14} className="motion-arrow-shift" />
-                  </span>
-                </div>
-                <p className="theme-copy mt-2.5 line-clamp-3 text-[12px] leading-[1.72] sm:text-[13px] sm:leading-[1.82]">
-                  {item.summary}
-                </p>
-                {item.detail ? (
-                  <p className="theme-copy-subtle mt-3 line-clamp-2 border-t border-[color:var(--border-default)] pt-2.5 text-[11px] leading-[1.7] sm:mt-3.5 sm:pt-3 sm:text-[12px] sm:leading-[1.82]">
-                    {item.detail}
-                  </p>
-                ) : null}
-              </>
-            );
-
-            const className =
-              "theme-card-muted theme-card-interactive theme-card-launcher group flex min-h-[8.6rem] snap-start flex-col rounded-[1rem] border-[rgba(148,163,184,0.14)] p-3 sm:min-h-[10.5rem] sm:rounded-[1.25rem] sm:p-3.5";
-
-            if (!item.href) {
-              return (
-                <article key={item.id} className={className}>
-                  {content}
-                </article>
-              );
-            }
-
-            return (
-              <Link key={item.id} href={item.href} className={className}>
-                {content}
-              </Link>
-            );
-          })}
-        </div>
+        <span className="inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold text-[color:var(--text-tertiary)] sm:text-xs">
+          <Check size={14} className="text-emerald-600" aria-hidden="true" />
+          {copy.metric.verified}
+        </span>
       </div>
+
+      <ol
+        className="divide-y divide-[color:var(--border-muted)]"
+        aria-labelledby="hero-projects-heading"
+      >
+        {items.map((item, index) => {
+          const content = (
+            <>
+              <span
+                className="pt-0.5 text-[11px] font-semibold tabular-nums text-[color:var(--text-tertiary)]"
+                aria-hidden="true"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span className="min-w-0">
+                <span className="theme-card-kicker">{item.focus}</span>
+                <span className="mt-1 flex items-center justify-between gap-3">
+                  <span className="theme-card-title text-[0.98rem] sm:text-[1.03rem]">
+                    {item.name}
+                  </span>
+                  {item.href ? (
+                    <ArrowUpRight
+                      size={16}
+                      className="shrink-0 text-[color:var(--text-tertiary)] transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[color:var(--brand-gold)]"
+                      aria-hidden="true"
+                    />
+                  ) : null}
+                </span>
+                <span className="theme-copy mt-1.5 block line-clamp-2 text-[12px] leading-[1.7] sm:text-[13px]">
+                  {item.summary}
+                </span>
+              </span>
+            </>
+          );
+          const rowClassName =
+            "grid grid-cols-[1.6rem_minmax(0,1fr)] gap-3 py-4 sm:gap-4 sm:py-[1.125rem]";
+
+          return (
+            <li key={item.id}>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  className={`${rowClassName} group rounded-sm focus-visible:outline-offset-4`}
+                >
+                  {content}
+                </Link>
+              ) : (
+                <article className={rowClassName}>{content}</article>
+              )}
+            </li>
+          );
+        })}
+      </ol>
     </aside>
   );
 }

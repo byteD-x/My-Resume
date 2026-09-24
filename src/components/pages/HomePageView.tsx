@@ -1,4 +1,3 @@
-import ImmersiveBackdrop from "@/components/ImmersiveBackdrop";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
@@ -31,13 +30,6 @@ export function HomePageView({
       <StructuredDataScript
         data={getHomePageStructuredDataForRoute(locale, explicitLocale)}
       />
-      <div className="page-grid-bg page-grid-fade pointer-events-none absolute inset-0 z-0 opacity-80" />
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute left-[-8rem] top-[12rem] hidden h-[22rem] w-[22rem] rounded-full bg-[radial-gradient(circle,rgba(191,219,254,0.16),transparent_72%)] blur-3xl md:block" />
-        <div className="absolute right-[-5rem] top-[38rem] hidden h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(219,234,254,0.18),transparent_74%)] blur-3xl lg:block" />
-      </div>
-
-      <ImmersiveBackdrop />
       <HomePageRuntimeShell
         resumeOwnerName={data.hero.name}
         resumeOwnerTitle={data.hero.title}
@@ -48,7 +40,7 @@ export function HomePageView({
 
       <HomeDeferredSectionsShell />
 
-      <MotionWrapper delay={0.04} duration={0.52} amount={0.12}>
+      <MotionWrapper delay={0.04} duration={0.42} amount={0.12}>
         <div
           id="featured-projects"
           className="theme-grid-section defer-section-render relative z-10 scroll-mt-24"
@@ -57,7 +49,7 @@ export function HomePageView({
         </div>
       </MotionWrapper>
 
-      <MotionWrapper delay={0.06} duration={0.52} amount={0.12}>
+      <MotionWrapper delay={0.06} duration={0.42} amount={0.12}>
         <div
           id="capability-summary"
           className="theme-grid-section defer-section-render relative z-10 scroll-mt-24"
@@ -73,7 +65,7 @@ export function HomePageView({
 
       <HomeSupplementalSectionsShell />
 
-      <MotionWrapper delay={0.16} duration={0.58} amount={0.12}>
+      <MotionWrapper delay={0.08} duration={0.44} amount={0.12}>
         <div className="relative z-10">
           <Footer
             name={data.hero.name}

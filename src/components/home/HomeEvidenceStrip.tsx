@@ -40,16 +40,16 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
   };
 
   return (
-    <section className="theme-grid-section relative z-10 border-b section-divider !py-5 sm:!py-6 lg:!py-7">
+    <section className="theme-grid-section relative z-10 border-b section-divider !py-2 sm:!py-3">
       <Container>
-        <div className="grid gap-3 lg:grid-cols-3">
+        <div className="grid divide-y divide-[color:var(--border-muted)] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
           {items.map((item) => {
             const content = (
               <>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="theme-card-kicker">{item.kicker}</p>
-                    <h2 className="theme-card-title mt-2 text-[1rem] sm:text-[1.08rem]">
+                    <h2 className="theme-card-title mt-1.5 text-[1rem] sm:text-[1.08rem]">
                       {item.title}
                     </h2>
                   </div>
@@ -57,10 +57,10 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
                     <ArrowRight size={14} className="motion-arrow-shift" />
                   </span>
                 </div>
-                <p className="theme-copy mt-2.5 text-[13px] leading-[1.76] sm:text-[14px]">
+                <p className="theme-copy mt-2 text-[13px] leading-[1.7] sm:text-[14px]">
                   {item.summary}
                 </p>
-                <div className="mt-3 flex items-center justify-between gap-3 border-t border-[color:var(--border-default)] pt-3">
+                <div className="mt-3 flex items-center justify-between gap-3 pt-1">
                   <span className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.08em]">
                     {item.meta ??
                       (locale === "en"
@@ -76,7 +76,7 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
             );
 
             const className =
-              "theme-card-muted theme-card-interactive group flex min-h-[11rem] flex-col rounded-[1.15rem] border-[rgba(148,163,184,0.14)] p-4 shadow-[0_12px_28px_rgba(15,23,42,0.045)] sm:min-h-[11.5rem] sm:p-[1.125rem]";
+              "group flex min-h-[10.5rem] flex-col justify-between py-4 sm:py-5 lg:px-6 first:lg:pl-0 last:lg:pr-0";
             const ariaLabel = `${item.kicker} · ${item.actionLabel}`;
 
             if (isHashLink(item.href)) {

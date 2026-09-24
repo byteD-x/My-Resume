@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Download } from "lucide-react";
-import { useHydrated } from "@/hooks/useHydrated";
+import type { MouseEvent } from "react";
 import {
   trackCTAClick,
   trackProjectEvidenceClick,
@@ -24,7 +24,6 @@ interface HeroCTAProps {
 
 export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
   const copy = useUiCopy();
-  const isHydrated = useHydrated();
   const handleStaticDownload = createResumeDownloadHandler(
     downloadName,
     downloadUrl,
@@ -36,9 +35,21 @@ export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
     handleStaticDownload?.(event);
   };
 
-  const handleViewProjects = () => {
+  const handleViewProjects = (event: MouseEvent<HTMLAnchorElement>) => {
     trackCTAClick("project_evidence_click", "hero");
     trackProjectEvidenceClick("hero");
+
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    event.preventDefault();
     scrollToSection("projects", {
       behavior: getPreferredScrollBehavior(),
     });
@@ -60,16 +71,15 @@ export function HeroCTA({ downloadName, downloadUrl }: HeroCTAProps) {
         {copy.hero.resume}
       </a>
 
-      <button
-        type="button"
+      <a
+        href="#projects"
         onClick={handleViewProjects}
-        disabled={!isHydrated}
-        className="btn btn-secondary min-w-0 px-3 text-[13px] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[12.5rem] sm:px-5 sm:text-[0.9375rem]"
+        className="btn btn-secondary min-w-0 px-3 text-[13px] sm:min-w-[12.5rem] sm:px-5 sm:text-[0.9375rem]"
         aria-label={copy.hero.projectsAria}
       >
         <ArrowRight size={16} />
         {copy.hero.projects}
-      </button>
+      </a>
     </div>
   );
 }

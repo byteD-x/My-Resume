@@ -70,7 +70,7 @@ const isLowPerformanceEnvironment = async (page: Page) =>
     });
 
 const gotoHomePage = async (page: Page) => {
-    const homeHeading = page.getByRole('heading', { level: 1, name: 'AI 应用工程师' });
+    const homeHeading = page.getByRole('heading', { level: 1 });
 
     for (let attempt = 0; attempt < 3; attempt += 1) {
         await page.goto('/');
@@ -90,11 +90,7 @@ const gotoHomePage = async (page: Page) => {
 
 const gotoLocalizedHomePage = async (page: Page, path: '/zh' | '/en') => {
     await page.goto(path);
-    const heading =
-        path === '/en'
-            ? page.getByRole('heading', { level: 1, name: /AI Application Engineer/i })
-            : page.getByRole('heading', { level: 1, name: 'AI 应用工程师' });
-    await expect(heading).toBeVisible({ timeout: 8000 });
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible({ timeout: 8000 });
 };
 
 const waitForSectionToReachViewport = async (
@@ -153,12 +149,13 @@ test.describe('Portfolio E2E', () => {
     });
 
     test('hero should present positioning and quantified outcomes', async ({ page }) => {
-        await expect(page.getByRole('heading', { level: 1, name: 'AI 应用工程师' })).toBeVisible();
+        await expect(page.getByRole('heading', { level: 1, name: '杜旭嘉' })).toBeVisible();
+        await expect(page.getByRole('heading', { level: 2, name: 'AI 应用工程师' })).toBeVisible();
         await expect(page.getByText('RAG / Agent')).toBeVisible();
         await expect(page.getByText('混合检索 + LangGraph 运行时').first()).toBeVisible();
         await expect(page.getByText('文本 / 语音 / RTC 三通道接入').first()).toBeVisible();
         await expect(page.getByText('5x 提速与 40% 成本下降').first()).toBeVisible();
-        await expect(page.getByRole('button', { name: /查看项目证据|project evidence/i })).toBeVisible();
+        await expect(page.getByRole('link', { name: /查看项目证据|project evidence/i })).toHaveAttribute('href', '#projects');
         await expect(page.getByText('以上指标均可在项目详情与仓库中复核。')).toBeVisible();
     });
 
@@ -236,9 +233,9 @@ test.describe('Portfolio E2E', () => {
         const projectsSection = page.locator('#projects');
         await expect(projectsSection).not.toBeInViewport();
 
-        const projectEvidenceButton = page.getByRole('button', { name: /查看项目证据|project evidence/i }).first();
-        await expect(projectEvidenceButton).toBeVisible();
-        await projectEvidenceButton.click();
+        const projectEvidenceLink = page.getByRole('link', { name: /查看项目证据|project evidence/i }).first();
+        await expect(projectEvidenceLink).toBeVisible();
+        await projectEvidenceLink.click();
 
         await waitForSectionToReachViewport(page, '#projects', 9000);
     });

@@ -47,3 +47,9 @@ test-results/
 
 # AI Agents / Editors
 .kiro/
+
+# Local visual review artifacts
+.codex/*.pid
+.codex/*.png
+.codex/gh-pages-worktree/
+.codex/resume-preview/
