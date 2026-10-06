@@ -31,10 +31,11 @@ export default function Hero({ data, proofItems, locale }: HeroProps) {
   const { mainTitle, focusTitle } = splitHeroTitle(data.title);
 
   return (
-    <section className="relative border-b section-divider bg-white pb-8 pt-[4.6rem] sm:pb-10 sm:pt-22 md:pb-14 md:pt-24">
+    <section className="hero-section relative border-b section-divider bg-white pb-10 pt-[4.6rem] sm:pb-12 sm:pt-22 md:pb-16 md:pt-24">
+      <div className="hero-atmosphere" aria-hidden="true" />
       <Container>
-        <div className="grid items-start gap-9 lg:grid-cols-12 lg:gap-12 xl:gap-16">
-          <div className="flex flex-col items-start lg:col-span-6">
+        <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16">
+          <div className="hero-copy flex flex-col items-start lg:col-span-6">
             <div className="mb-3.5 sm:mb-5">
               <HeroStatusBadges location={data.location} locale={locale} />
             </div>
@@ -73,7 +74,7 @@ export default function Hero({ data, proofItems, locale }: HeroProps) {
             </p>
           </div>
 
-          <div className="relative lg:col-span-6 lg:pt-2">
+          <div className="hero-proof relative lg:col-span-6 lg:pt-2">
             <HeroProofPanel items={proofItems} locale={locale} />
           </div>
         </div>

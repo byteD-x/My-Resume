@@ -56,7 +56,9 @@ export default function HighlightDeck({
   const [selectedMetric, setSelectedMetric] = useState<ImpactItem | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [hasLoadedMetricDrawer, setHasLoadedMetricDrawer] = useState(false);
-  const [githubStats, setGithubStats] = useState<GitHubTelemetryPayload | null>(null);
+  const [githubStats, setGithubStats] = useState<GitHubTelemetryPayload | null>(
+    null,
+  );
 
   const linkedExperience = useMemo(() => {
     if (!selectedMetric?.linkedExperienceId) return null;
@@ -139,7 +141,9 @@ export default function HighlightDeck({
             className="theme-section-header scroll-mt-28 !mb-5 sm:!mb-6 lg:!mb-7"
             data-scroll-target="impact"
           >
-            <p className="theme-kicker text-[11px]">{copy.sections.impactKicker}</p>
+            <p className="theme-kicker text-[11px]">
+              {copy.sections.impactKicker}
+            </p>
             <h2 className="theme-title mt-2.5 text-3xl font-bold md:text-4xl">
               {copy.sections.impactTitle}
             </h2>
@@ -153,7 +157,7 @@ export default function HighlightDeck({
               hidden: { opacity: 0 },
               visible: { opacity: 1, transition: { staggerChildren: 0.05 } },
             }}
-            className="grid auto-rows-fr grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3"
+            className="grid grid-cols-1 items-start gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3"
           >
             {displayItems.map((item) => {
               const Icon = iconMap[item.icon] || TrendingUp;
@@ -165,14 +169,18 @@ export default function HighlightDeck({
                   type="button"
                   variants={{
                     hidden: { opacity: 0, y: 12 },
-                    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+                    },
                   }}
                   onMouseEnter={warmMetricDrawer}
                   onFocus={warmMetricDrawer}
                   onTouchStart={warmMetricDrawer}
                   onClick={() => handleCardClick(item)}
                   className={[
-                    "theme-card-interactive theme-card-launcher group relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left border transition-colors duration-200",
+                    "theme-card-interactive theme-card-launcher group relative flex min-h-[15rem] w-full cursor-pointer flex-col overflow-hidden text-left border transition-colors duration-200",
                     isFocal
                       ? "theme-card rounded-2xl border-[rgba(52,211,153,0.26)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98)_0%,rgba(240,253,250,0.96)_58%,rgba(236,253,245,0.92)_100%)] p-4 shadow-[0_12px_28px_rgba(16,185,129,0.075)] sm:col-span-2 sm:p-5 md:rounded-[1.35rem] md:shadow-[0_18px_38px_rgba(16,185,129,0.08)] lg:col-span-1 hover:border-[rgba(16,185,129,0.34)]"
                       : "theme-card rounded-[1.05rem] p-4 sm:rounded-[1.2rem] sm:p-[1.125rem] hover:border-[rgba(37,99,235,0.22)]",
@@ -227,15 +235,15 @@ export default function HighlightDeck({
                     <div className="mt-auto flex flex-col gap-3 pt-4 sm:gap-3.5 sm:pt-5">
                       {item.verification && (
                         <div className="inline-flex w-fit self-start items-center gap-1.5 rounded-full border border-emerald-300/70 bg-emerald-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest">
-                        <span
-                          className={cn(
-                            "h-1.5 w-1.5 rounded-full",
-                            "bg-emerald-500 dark:bg-emerald-400",
-                          )}
-                        />
-                        <span className="text-emerald-700 dark:text-emerald-300">
-                          {copy.metric.verified}
-                        </span>
+                          <span
+                            className={cn(
+                              "h-1.5 w-1.5 rounded-full",
+                              "bg-emerald-500 dark:bg-emerald-400",
+                            )}
+                          />
+                          <span className="text-emerald-700 dark:text-emerald-300">
+                            {copy.metric.verified}
+                          </span>
                         </div>
                       )}
 
@@ -246,7 +254,10 @@ export default function HighlightDeck({
                         ].join(" ")}
                       >
                         {copy.metric.detail}
-                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                        <ArrowRight
+                          size={14}
+                          className="transition-transform group-hover:translate-x-1"
+                        />
                       </div>
                     </div>
                   </div>

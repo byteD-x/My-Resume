@@ -72,8 +72,8 @@ function buildBaseMetadata(
 ): Metadata {
   const localeConfig = localizedSiteConfig[locale];
   const description = options?.description ?? localeConfig.description;
-  const title = options?.title ?? { absolute: siteConfig.siteName };
-  const displayTitle = options?.title ?? siteConfig.siteName;
+  const displayTitle = options?.title ?? localeConfig.title;
+  const title = options?.title ?? { absolute: displayTitle };
   const absoluteUrl = buildAbsoluteUrl(pathname);
 
   return {
@@ -82,12 +82,19 @@ function buildBaseMetadata(
     description,
     keywords: [...(options?.keywords ?? localeConfig.keywords)],
     authors: [{ name: localeConfig.name }],
+    creator: localeConfig.name,
+    publisher: localeConfig.name,
+    applicationName: siteConfig.shortName,
+    category: "technology",
+    formatDetection: {
+      telephone: false,
+    },
     alternates: buildAlternates(pathname),
     openGraph: {
       title: displayTitle,
       description,
       url: absoluteUrl,
-      siteName: siteConfig.siteName,
+      siteName: localeConfig.title,
       type: "website",
       locale: getOpenGraphLocale(locale),
       images: [
@@ -157,16 +164,20 @@ export function getHomePageStructuredDataForRoute(
 ) {
   const localeConfig = localizedSiteConfig[locale];
   const data = getPortfolioData(locale);
+  const homeUrl = buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale));
+  const personId = `${homeUrl}#person`;
+  const websiteId = `${homeUrl}#website`;
   const works = data.projects
     .filter((project) => project.link?.includes("github.com"))
     .map((project) => ({
       "@type": "SoftwareSourceCode",
       name: project.name,
       description: project.summary,
-      codeRepository: project.link,
+      codeRepository: project.link as string,
       programmingLanguage: project.techTags.join(", "),
       author: {
         "@type": "Person",
+        "@id": personId,
         name: localeConfig.name,
       },
     }));
@@ -176,12 +187,59 @@ export function getHomePageStructuredDataForRoute(
     "@graph": [
       {
         "@type": "Person",
+        "@id": personId,
         name: localeConfig.name,
-        url: buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale)),
+        url: homeUrl,
         jobTitle: localeConfig.role,
         description: localeConfig.description,
         image: `${siteConfig.siteUrl}/og.png`,
-        sameAs: ["https://github.com/byteD-x", siteConfig.siteUrl],
+        email: siteConfig.email,
+        knowsAbout: [
+          "AI agent product delivery",
+          "Forward-deployed engineering (FDE)",
+          "Enterprise AI adoption",
+          "Traditional-industry workflow modernization",
+          "Retrieval-Augmented Generation (RAG)",
+          "AI agent runtime design",
+          "LangGraph orchestration",
+          "FastAPI and Python",
+          "Business system integration",
+        ],
+        sameAs: [
+          "https://github.com/byteD-x",
+          "https://my-resume-gray-five.vercel.app/",
+          siteConfig.siteUrl,
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": websiteId,
+        url: homeUrl,
+        name: localeConfig.title,
+        description: localeConfig.description,
+        inLanguage: locale === "en" ? "en-US" : "zh-CN",
+        publisher: { "@id": personId },
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": `${homeUrl}#profile`,
+        url: homeUrl,
+        name: localeConfig.title,
+        isPartOf: { "@id": websiteId },
+        mainEntity: { "@id": personId },
+        inLanguage: locale === "en" ? "en-US" : "zh-CN",
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${homeUrl}#projects`,
+        name: locale === "en" ? "Selected engineering projects" : "精选工程项目",
+        itemListElement: works.map((work, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: work.name,
+          url: work.codeRepository,
+          item: work,
+        })),
       },
       ...works,
     ],
@@ -201,14 +259,16 @@ export function getExperienceStructuredData(
   const url = buildAbsoluteUrl(
     buildRoutePath(locale, `/experiences/${slug}`, explicitLocale),
   );
+  const homeUrl = buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale));
 
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "Person",
+        "@id": `${homeUrl}#person`,
         name: localeConfig.name,
-        url: buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale)),
+        url: homeUrl,
         jobTitle: localeConfig.role,
       },
       {
@@ -222,6 +282,23 @@ export function getExperienceStructuredData(
         ...(item.techTags.length > 0
           ? { programmingLanguage: item.techTags.join(", ") }
           : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: locale === "en" ? "Home" : "首页",
+            item: homeUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name,
+            item: url,
+          },
+        ],
       },
     ],
   };

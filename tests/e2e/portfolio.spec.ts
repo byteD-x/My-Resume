@@ -148,13 +148,12 @@ test.describe('Portfolio E2E', () => {
         expect(hasOverflow).toBeFalsy();
     });
 
-    test('hero should present positioning and quantified outcomes', async ({ page }) => {
+    test('hero should present positioning and evidence guidance', async ({ page }) => {
         await expect(page.getByRole('heading', { level: 1, name: '杜旭嘉' })).toBeVisible();
-        await expect(page.getByRole('heading', { level: 2, name: 'AI 应用工程师' })).toBeVisible();
-        await expect(page.getByText('RAG / Agent')).toBeVisible();
-        await expect(page.getByText('混合检索 + LangGraph 运行时').first()).toBeVisible();
-        await expect(page.getByText('文本 / 语音 / RTC 三通道接入').first()).toBeVisible();
-        await expect(page.getByText('5x 提速与 40% 成本下降').first()).toBeVisible();
+        await expect(page.getByRole('heading', { level: 2, name: 'AI Agent / FDE 工程师' })).toBeVisible();
+        await expect(page.getByText('AI Agent 产品化').first()).toBeVisible();
+        await expect(page.getByText('FDE 现场交付').first()).toBeVisible();
+        await expect(page.getByText('传统行业 AI 化').first()).toBeVisible();
         await expect(page.getByRole('link', { name: /查看项目证据|project evidence/i })).toHaveAttribute('href', '#projects');
         await expect(page.getByText('以上指标均可在项目详情与仓库中复核。')).toBeVisible();
     });
@@ -170,10 +169,10 @@ test.describe('Portfolio E2E', () => {
 
     test('localized home pages should render zh and en content', async ({ page }) => {
         await gotoLocalizedHomePage(page, '/zh');
-        await expect(page.getByText('混合检索 + LangGraph 运行时').first()).toBeVisible();
+        await expect(page.getByText('AI Agent 产品化').first()).toBeVisible();
 
         await gotoLocalizedHomePage(page, '/en');
-        await expect(page.getByText('Hybrid retrieval').first()).toBeVisible();
+        await expect(page.getByText('Agent productization').first()).toBeVisible();
         await expect(page.getByRole('link', { name: /download resume/i }).first()).toHaveAttribute(
             'download',
             EN_RESUME_FILE_NAME,
@@ -411,10 +410,9 @@ test.describe('Portfolio E2E', () => {
         await expect(page.getByText('w2041487752')).toBeVisible();
     });
 
-    test('featured projects should present content, capability and technical structure', async ({ page }) => {
+    test('featured projects should present summaries, capability and technical structure', async ({ page }) => {
         await scrollSectionIntoView(page, '#featured-projects');
 
-        await expect(page.getByText('内容定位').first()).toBeVisible();
         await expect(page.getByText('功能描述').first()).toBeVisible();
         await expect(page.getByText('技术描述').first()).toBeVisible();
         await expect(page.getByRole('link', { name: /查看案例拆解/i }).first()).toBeVisible();

@@ -296,7 +296,7 @@ export const ExperienceCard = memo(function ExperienceCard({
                             />
                             <MarkdownRenderer
                               inline
-                              className="min-w-0 flex-1 break-words text-[13px] leading-[1.66] text-[color:var(--text-secondary)] [overflow-wrap:anywhere]"
+                              className="min-w-0 flex-1 break-words text-[13px] leading-[1.76] text-[color:var(--text-secondary)] [overflow-wrap:anywhere]"
                             >
                               {point}
                             </MarkdownRenderer>

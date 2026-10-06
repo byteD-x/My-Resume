@@ -7,7 +7,7 @@ interface HeroBulletsProps {
 export function HeroBullets({ bullets }: HeroBulletsProps) {
   return (
     <div className="w-full max-w-[42rem]">
-      <div className="space-y-2 sm:space-y-4">
+      <div className="space-y-2 sm:space-y-3">
         {bullets.map((bullet) => (
           <div
             key={bullet.id}
@@ -16,7 +16,7 @@ export function HeroBullets({ bullets }: HeroBulletsProps) {
             <p className="theme-title text-[13px] font-semibold tracking-wide sm:text-sm">
               {bullet.title}
             </p>
-            <p className="theme-copy mt-0.5 text-[0.92rem] leading-[1.62] sm:mt-1 sm:text-[0.96rem] sm:leading-7">
+            <p className="theme-copy mt-0.5 line-clamp-2 text-[0.9rem] leading-[1.62] sm:mt-1 sm:text-[0.94rem] sm:leading-[1.75]">
               {bullet.description}
             </p>
           </div>

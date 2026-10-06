@@ -350,8 +350,8 @@ function buildEvidenceStripItems(
         primarySkills.length > 0
           ? primarySkills.join(locale === "en" ? " / " : " 路 ")
           : locale === "en"
-            ? "RAG / Agent / Full-stack"
-            : "RAG 路 Agent 路 Full-stack",
+            ? "AI Agent / FDE / Full-stack"
+            : "AI Agent 路 FDE 路 Full-stack",
     },
   ];
 }

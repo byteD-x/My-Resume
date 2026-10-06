@@ -6,32 +6,32 @@ import { PortfolioData } from "./types";
 export const defaultPortfolioData: PortfolioData = {
   hero: {
     name: "杜旭嘉",
-    title: "AI 应用工程师（RAG / Agent）",
+    title: "AI Agent / FDE 工程师（企业 AI 落地）",
     subtitle:
-      "聚焦检索增强、智能体运行时与业务系统集成，持续将原型方案推进为可验证、可维护、可接入真实业务的工程系统。",
+      "贴近业务现场设计并交付可用的 AI Agent。服务从小团队试点到大型企业系统接入，重点改造传统行业的知识与流程，并把 AI 接进既有系统。上线后继续复核效果、成本与稳定性。",
     location: "远程优先 ｜ 可到岗：深圳 / 南京 / 杭州 / 成都",
     bullets: [
       {
         id: "bullet-1",
-        title: "检索与编排",
+        title: "AI Agent 产品化",
         description:
-          "混合检索 + LangGraph 运行时，覆盖 citations / grounding_score / interrupt-resume / step_events",
+          "从知识问答、流程自动化到工具调用，落地可追溯、可恢复、可评测的 Agent 工作流",
       },
       {
         id: "bullet-2",
-        title: "业务集成",
+        title: "FDE 现场交付",
         description:
-          "文本 / 语音 / RTC 三通道接入，支持 Auth Bridge、业务工具、转人工与租户级插件扩展",
+          "贴近团队与一线流程，把模型接入既有系统、权限与数据。推动试点走到上线和持续运营",
       },
       {
         id: "bullet-3",
-        title: "成本与交付",
+        title: "传统行业 AI 化",
         description:
-          "做过 5x 提速与 40% 成本下降，并通过自动化校验与回归门禁控制交付质量",
+          "按企业规模与数字化基础选择切入点，先改造高频、重复、可验证的业务环节，再持续控制成本与风险",
       },
     ],
     quickFacts: {
-      role: "AI 应用工程师（RAG / Agent）",
+      role: "AI Agent / FDE 工程师",
       availability: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
       techStack: [
         "Java/Spring Boot",
@@ -45,8 +45,8 @@ export const defaultPortfolioData: PortfolioData = {
       ],
     },
     roleSnapshot: {
-      primaryRole: "AI 应用工程师（RAG / Agent）",
-      secondaryRole: "后端 / 全栈工程交付",
+      primaryRole: "AI Agent / FDE 工程师",
+      secondaryRole: "企业 AI 落地｜后端 / 全栈交付",
       availability: "远程优先",
       location: "远程优先｜可到岗：深圳 / 南京 / 杭州 / 成都",
       updatedAt: "2026-03-13",
@@ -54,8 +54,8 @@ export const defaultPortfolioData: PortfolioData = {
   },
 
   about: {
-    zh: "AI 应用工程师，主攻检索增强、运行时编排与业务系统集成；注重把原型能力沉淀为可验证、可维护、可接入真实业务的系统，并坚持用仓库、测试与指标证明结果。",
-    en: "AI application engineer focused on RAG, workflow orchestration, and business-system integration, with a bias toward recoverable, testable, and evidence-backed delivery.",
+    zh: "AI Agent / FDE 工程师，贴近业务现场把模型接入知识、流程与既有系统；服务从小团队试点到大型企业接入的不同场景，也关注传统行业流程智能化，并坚持用仓库、测试与指标证明结果。",
+    en: "AI Agent and forward-deployed engineer who works close to the business to connect models with existing knowledge, workflows, and systems, from small-team pilots to enterprise rollouts, including traditional-industry modernization.",
   },
 
   aboutLenses: {
@@ -63,7 +63,7 @@ export const defaultPortfolioData: PortfolioData = {
       "**业务要点**",
       "- 问答可信：支持 citations、grounding_score、trace_id，回答可追溯",
       "- 运行时能力：支持 checkpoint、interrupt/resume、人工澄清与回归门禁",
-      "- 业务接入：覆盖文本 / 语音 / RTC、Auth Bridge 与 Business Tool",
+      "- FDE 业务接入：贴近团队现场，覆盖文本 / 语音 / RTC、Auth Bridge 与 Business Tool",
       "- 成本与性能：做过 40% 推理降本，也做过 20s+ → 4s 的后端性能治理",
       "",
       "**数据约束**",
@@ -1837,9 +1837,9 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "svc-ai-integration",
-      title: "AI 工程化落地",
+      title: "AI Agent / FDE 落地",
       description:
-        "将模型能力接入业务流程，补齐知识检索、工具调用、成本控制与安全约束，支持灰度发布与效果复盘。",
+        "贴近业务现场把模型接入现有知识、流程、权限与系统，适配从小团队试点到大型企业接入，并通过成本评估、灰度发布与效果复盘推进上线。",
       icon: "Bot",
       techStack: ["LangChain", "OpenAI API", "RAG", "Qdrant"],
       gradient: "from-sky-500/10 to-cyan-500/10",

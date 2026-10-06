@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { localizedSiteConfig, siteConfig } from "@/config/site";
 import { AnalyticsProvider } from "@/lib/AnalyticsProvider";
@@ -21,10 +21,25 @@ export const metadata: Metadata = {
   description: localeConfig.description,
   keywords: [...localeConfig.keywords],
   authors: [{ name: localeConfig.name }],
+  creator: localeConfig.name,
+  publisher: localeConfig.name,
+  applicationName: siteConfig.shortName,
+  category: "technology",
+  formatDetection: {
+    telephone: false,
+  },
   robots: {
     index: true,
     follow: true,
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  colorScheme: "light",
+  themeColor: "#f3f6fa",
 };
 
 export default function RootLayout({

@@ -33,38 +33,38 @@ const selectedText = (value: BilingualText | undefined, locale: Locale) => {
 
 const enHero: HeroData = {
   name: "Xujia Du",
-  title: "AI Application Engineer (RAG / Agent)",
+  title: "AI Agent / FDE Engineer",
   subtitle:
-    "I build retrieval-augmented and agentic systems that move from prototype to verifiable, maintainable, business-ready engineering delivery.",
+    "I work close to the business to design and ship useful AI agents, from small-team pilots to enterprise system integration. I connect AI to existing knowledge, workflows, and systems, including traditional-industry operations. I track adoption, cost, and reliability after launch.",
   location: "Remote-first · Available for Shenzhen / Nanjing / Hangzhou / Chengdu",
   bullets: [
     {
       id: "bullet-1",
-      title: "Retrieval and orchestration",
+      title: "Agent productization",
       description:
-        "Hybrid retrieval plus LangGraph runtime, covering citations, grounding_score, interrupt-resume, and step_events.",
+        "From knowledge QA and workflow automation to tool calling, with traceable, recoverable, and evaluable agent workflows.",
     },
     {
       id: "bullet-2",
-      title: "Business integration",
+      title: "Forward-deployed delivery",
       description:
-        "Text, voice, and RTC channels connected to Auth Bridge, business tools, human handoff, and tenant-level extensions.",
+        "Work close to teams and frontline workflows. Connect models to existing systems, permissions, and data through production.",
     },
     {
       id: "bullet-3",
-      title: "Cost and delivery",
+      title: "AI adoption across industries",
       description:
-        "Delivered 5x speedups and 40% cost reduction while using automated checks and regression gates to control quality.",
+        "Choose entry points for each company's size and digital foundation, starting with high-volume workflows and tracking risk as they scale.",
     },
   ],
   quickFacts: {
-    role: "AI Application Engineer (RAG / Agent)",
+    role: "AI Agent / FDE Engineer",
     availability: "Remote-first · Shenzhen / Nanjing / Hangzhou / Chengdu",
     techStack: defaultPortfolioData.hero.quickFacts?.techStack ?? [],
   },
   roleSnapshot: {
-    primaryRole: "AI Application Engineer (RAG / Agent)",
-    secondaryRole: "Backend / Full-stack delivery",
+    primaryRole: "AI Agent / FDE Engineer",
+    secondaryRole: "Enterprise AI delivery | Backend / Full-stack",
     availability: "Remote-first",
     location: "Remote-first · Shenzhen / Nanjing / Hangzhou / Chengdu",
     updatedAt: defaultPortfolioData.hero.roleSnapshot?.updatedAt ?? "2026-03-13",
@@ -491,9 +491,9 @@ const enServiceCopy: Record<string, Pick<ServiceItem, "title" | "description" | 
     milestones: ["Scope needs", "Design approach", "Ship milestones", "Validate together"],
   },
   "svc-ai-integration": {
-    title: "AI Engineering Integration",
+    title: "AI Agent and FDE Delivery",
     description:
-      "Connect model capabilities to business workflows with retrieval, tool calls, cost controls, safety constraints, and release review.",
+      "Work from business context to production: connect agents to existing systems, knowledge, permissions, and workflows with cost and safety controls.",
     techStack: ["LangChain", "OpenAI API", "RAG", "Qdrant"],
     milestones: ["Map scenarios", "Prototype", "Estimate cost", "Release gradually"],
   },
@@ -602,7 +602,7 @@ function localizePortfolioData(locale: Locale): PortfolioData {
     },
     aboutLenses: {
       business:
-        "**Business focus**\n- Traceable answers with citations, grounding_score, and trace_id.\n- Runtime capability with checkpoints, interrupt/resume, human clarification, and regression gates.\n- Business integration across text, voice, RTC, Auth Bridge, and business tools.\n\n**Evidence rules**\n- Key metrics are managed with metric name, baseline, target, time window, and source.\n- Incomplete data stays qualitative instead of being overstated.",
+        "**Business focus**\n- Traceable answers with citations, grounding_score, and trace_id.\n- Runtime capability with checkpoints, interrupt/resume, human clarification, and regression gates.\n- Forward-deployed integration across text, voice, RTC, Auth Bridge, and business tools.\n\n**Evidence rules**\n- Key metrics are managed with metric name, baseline, target, time window, and source.\n- Incomplete data stays qualitative instead of being overstated.",
       engineering:
         "**Technical scope**\n- Python / FastAPI / AsyncIO / LangGraph / RAG / Qdrant\n- OpenAI / Tool Calling / ASR / TTS / RTC / WebSocket / SSE\n- PostgreSQL / Redis / ClickHouse / Docker / CI/CD\n- Next.js / Vue 3 / TypeScript\n\n**Delivery method**\n- Query rewrite -> hybrid retrieval -> rerank -> grounded answer -> evidence review\n- Checkpoint -> interrupt/resume -> eval/regression -> release guardrails",
     },

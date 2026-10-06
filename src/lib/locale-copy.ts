@@ -11,7 +11,7 @@ export const uiCopy = {
         { name: "服务", href: "#services" },
         { name: "联系", href: "#contact" },
       ],
-      roleLabel: "AI 应用工程师",
+      roleLabel: "AI Agent / FDE 工程师",
       backToTop: "返回顶部",
       github: "访问 GitHub 主页",
       resume: "下载简历",
@@ -64,33 +64,33 @@ export const uiCopy = {
       meta: [
         {
           id: "orchestration",
-          title: "AI 运行时与检索增强",
-          summary: "覆盖模型接入、检索增强与流程编排能力。",
-          layer: "运行时层",
+          title: "AI Agent 设计与运行",
+          summary: "把知识、工具与流程编排成可追溯、可恢复、可评测的 Agent 工作流。",
+          layer: "Agent 层",
         },
         {
           id: "delivery",
-          title: "业务接入与全栈交付",
+          title: "FDE 现场落地与系统接入",
           summary:
-            "覆盖文本、语音、RTC 和宿主系统接入，重点是把链路做稳、做清楚、做成可上线方案。",
+            "贴近业务团队，把 AI 接入既有系统、权限与数据，推进试点走到上线。",
           layer: "交付层",
         },
         {
           id: "performance",
-          title: "性能、成本与质量门禁",
-          summary: "覆盖基线、优化、回归与交付质量控制。",
-          layer: "质量层",
+          title: "规模化 AI 运营",
+          summary: "按企业规模与数字化基础控制成本、稳定性与持续迭代。",
+          layer: "运营层",
         },
       ],
       evidenceSlice: "证据切片",
       deliveryMode: "交付方式：",
       bulletSummaries: {
         "bullet-1":
-          "LangGraph 驱动的混合检索运行时，覆盖 citations、grounding_score、interrupt-resume 与 step_events。",
+          "从知识问答到工具调用，落地可追溯、可恢复、可评测的 Agent 工作流。",
         "bullet-2":
-          "支持文本、语音与 RTC 多通道接入，并衔接 Auth Bridge、业务工具、转人工与租户扩展。",
+          "贴近业务团队，把 AI 接入既有系统、权限与数据。推动试点走到上线和持续运营。",
         "bullet-3":
-          "围绕性能、成本与交付质量治理，落地过 5x 提速、40% 成本下降与完整回归门禁。",
+          "适配不同规模与数字化基础，优先改造传统行业中的高频、重复、可验证流程。",
       },
     },
     projectList: {
@@ -108,7 +108,7 @@ export const uiCopy = {
     },
     timeline: {
       all: "全部",
-      filter: "筛选标签",
+      filter: "技术标签",
       filterWithCount: (count: number) => `筛选标签 (${count})`,
       searchSr: "搜索技术标签",
       searchPlaceholder: "搜索技术关键词...",
@@ -354,7 +354,7 @@ export const uiCopy = {
         { name: "Services", href: "#services" },
         { name: "Contact", href: "#contact" },
       ],
-      roleLabel: "AI Application Engineer",
+      roleLabel: "AI Agent / FDE Engineer",
       backToTop: "Back to top",
       github: "Open GitHub profile",
       resume: "Download resume",
@@ -407,33 +407,33 @@ export const uiCopy = {
       meta: [
         {
           id: "orchestration",
-          title: "AI Runtime and Retrieval",
-          summary: "Model access, retrieval augmentation, and workflow orchestration.",
-          layer: "Runtime layer",
+          title: "AI Agent Design and Runtime",
+          summary: "Knowledge, tools, and workflows shaped into traceable, recoverable, evaluable agents.",
+          layer: "Agent layer",
         },
         {
           id: "delivery",
-          title: "Business Integration and Full-stack Delivery",
+          title: "FDE Delivery and System Integration",
           summary:
-            "Text, voice, RTC, and host-system integration with production-minded delivery paths.",
+            "Work close to business teams and connect AI to existing systems, permissions, and data through production.",
           layer: "Delivery layer",
         },
         {
           id: "performance",
-          title: "Performance, Cost, and Quality Gates",
-          summary: "Baselines, optimization, regression checks, and release quality control.",
-          layer: "Quality layer",
+          title: "AI Operations at Every Scale",
+          summary: "Cost, reliability, and iteration shaped around each company's size and digital foundation.",
+          layer: "Operations layer",
         },
       ],
       evidenceSlice: "Evidence slice",
       deliveryMode: "Delivery mode: ",
       bulletSummaries: {
         "bullet-1":
-          "LangGraph-backed hybrid retrieval with citations, grounding_score, interrupt-resume, and step_events.",
+          "From knowledge QA to tool calling, with traceable, recoverable, and evaluable agent workflows.",
         "bullet-2":
-          "Text, voice, and RTC channels connected to Auth Bridge, business tools, human handoff, and tenant extensions.",
+          "Work close to business teams. Connect AI to existing systems, permissions, and data through production.",
         "bullet-3":
-          "Performance, cost, and quality governance across 5x speedups, 40% cost reduction, and regression gates.",
+          "Adapt to each company's size and digital foundation, prioritizing measurable workflows in traditional industries.",
       },
     },
     projectList: {
@@ -451,7 +451,7 @@ export const uiCopy = {
     },
     timeline: {
       all: "All",
-      filter: "Filter tags",
+      filter: "Technical tags",
       filterWithCount: (count: number) => `Filter tags (${count})`,
       searchSr: "Search technical tags",
       searchPlaceholder: "Search technical keywords...",

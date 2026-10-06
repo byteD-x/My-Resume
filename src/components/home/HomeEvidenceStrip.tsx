@@ -40,9 +40,9 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
   };
 
   return (
-    <section className="theme-grid-section relative z-10 border-b section-divider !py-2 sm:!py-3">
+    <section className="theme-grid-section relative z-10 border-b section-divider !py-4 sm:!py-5">
       <Container>
-        <div className="grid divide-y divide-[color:var(--border-muted)] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+        <div className="evidence-strip grid divide-y divide-[color:var(--border-muted)] lg:grid-cols-3 lg:divide-x lg:divide-y-0">
           {items.map((item) => {
             const content = (
               <>
@@ -57,17 +57,17 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
                     <ArrowRight size={14} className="motion-arrow-shift" />
                   </span>
                 </div>
-                <p className="theme-copy mt-2 text-[13px] leading-[1.7] sm:text-[14px]">
+                <p className="theme-copy mt-2 line-clamp-3 text-[13px] leading-[1.7] sm:text-[14px]">
                   {item.summary}
                 </p>
                 <div className="mt-3 flex items-center justify-between gap-3 pt-1">
-                  <span className="theme-copy-subtle text-[11px] font-semibold uppercase tracking-[0.08em]">
+                  <span className="theme-copy-subtle min-w-0 flex-1 text-[11px] font-semibold uppercase tracking-[0.08em]">
                     {item.meta ??
                       (locale === "en"
                         ? "Recruiter-first path"
                         : "招聘方优先浏览路径")}
                   </span>
-                  <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-[color:var(--text-primary)]">
+                  <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-[13px] font-semibold text-[color:var(--text-primary)]">
                     {item.actionLabel}
                     <ArrowRight size={13} className="motion-arrow-shift" />
                   </span>
@@ -76,7 +76,7 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
             );
 
             const className =
-              "group flex min-h-[10.5rem] flex-col justify-between py-4 sm:py-5 lg:px-6 first:lg:pl-0 last:lg:pr-0";
+              "group evidence-strip-card flex min-h-[10.25rem] flex-col justify-between rounded-xl py-4 sm:py-5 lg:min-h-[10.5rem] lg:px-6 first:lg:pl-0 last:lg:pr-0";
             const ariaLabel = `${item.kicker} · ${item.actionLabel}`;
 
             if (isHashLink(item.href)) {
