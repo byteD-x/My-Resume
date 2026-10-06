@@ -16,7 +16,7 @@ export function HeroBullets({ bullets }: HeroBulletsProps) {
             <p className="theme-title text-[13px] font-semibold tracking-wide sm:text-sm">
               {bullet.title}
             </p>
-            <p className="theme-copy mt-0.5 line-clamp-2 text-[0.9rem] leading-[1.62] sm:mt-1 sm:text-[0.94rem] sm:leading-[1.75]">
+            <p className="theme-copy mt-0.5 text-[0.9rem] leading-[1.62] sm:mt-1 sm:text-[0.94rem] sm:leading-[1.75]">
               {bullet.description}
             </p>
           </div>

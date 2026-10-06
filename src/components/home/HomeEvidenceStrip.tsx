@@ -57,7 +57,7 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
                     <ArrowRight size={14} className="motion-arrow-shift" />
                   </span>
                 </div>
-                <p className="theme-copy mt-2 line-clamp-3 text-[13px] leading-[1.7] sm:text-[14px]">
+                <p className="theme-copy mt-2 text-[13px] leading-[1.7] sm:text-[14px]">
                   {item.summary}
                 </p>
                 <div className="mt-3 flex items-center justify-between gap-3 pt-1">
@@ -76,7 +76,7 @@ export function HomeEvidenceStrip({ items }: HomeEvidenceStripProps) {
             );
 
             const className =
-              "group evidence-strip-card flex min-h-[10.25rem] flex-col justify-between rounded-xl py-4 sm:py-5 lg:min-h-[10.5rem] lg:px-6 first:lg:pl-0 last:lg:pr-0";
+              "group evidence-strip-card flex h-full min-h-[10.25rem] flex-col justify-between rounded-xl py-4 sm:py-5 lg:min-h-[10.5rem] lg:px-6 first:lg:pl-0 last:lg:pr-0";
             const ariaLabel = `${item.kicker} · ${item.actionLabel}`;
 
             if (isHashLink(item.href)) {

@@ -57,7 +57,7 @@ export function HeroProofPanel({ items, locale }: HeroProofPanelProps) {
                     />
                   ) : null}
                 </span>
-                <span className="theme-copy mt-1.5 block line-clamp-2 text-[12px] leading-[1.7] sm:text-[13px]">
+                <span className="theme-copy mt-1.5 block text-[12px] leading-[1.7] sm:text-[13px]">
                   {item.summary}
                 </span>
               </span>
