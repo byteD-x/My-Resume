@@ -15,19 +15,19 @@ export const defaultPortfolioData: PortfolioData = {
         id: "bullet-1",
         title: "AI Agent 产品化",
         description:
-          "从知识问答、流程自动化到工具调用，落地可追溯、可恢复、可评测的 Agent 工作流",
+          "从知识问答、流程自动化到工具调用，交付有依据、可恢复、可评测的 Agent 工作流",
       },
       {
         id: "bullet-2",
         title: "FDE 现场交付",
         description:
-          "贴近团队与一线流程，把模型接入既有系统、权限与数据。推动试点走到上线和持续运营",
+          "贴近团队与一线流程，把模型接入既有系统、权限与数据，让试点进入上线和运营",
       },
       {
         id: "bullet-3",
         title: "传统行业 AI 化",
         description:
-          "按企业规模与数字化基础选择切入点，先改造高频、重复、可验证的业务环节，再持续控制成本与风险",
+          "按企业规模与数字化基础选择切入点，先改造高频、重复、可验证的业务环节，再看成本与风险",
       },
     ],
     quickFacts: {
@@ -61,7 +61,7 @@ export const defaultPortfolioData: PortfolioData = {
   aboutLenses: {
     business: [
       "**业务要点**",
-      "- 问答可信：支持 citations、grounding_score、trace_id，回答可追溯",
+      "- 问答可信：支持 citations、grounding_score、trace_id，回答有来源",
       "- 运行时能力：支持 checkpoint、interrupt/resume、人工澄清与回归门禁",
       "- FDE 业务接入：贴近团队现场，覆盖文本 / 语音 / RTC、Auth Bridge 与 Business Tool",
       "- 成本与性能：做过 40% 推理降本，也做过 20s+ → 4s 的后端性能治理",
@@ -87,14 +87,14 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "impact-rag",
       title: "知识问答",
-      value: "v2.1",
-      label: "Agent 增强",
+      value: "400+",
+      label: "回归测试项",
       description:
-        "RAG-QA System：在三路混合检索与 LangGraph 运行时基础上，补齐 Agent 自主决策、知识库治理、推理优化与评测门禁",
+        "RAG-QA System：22 个后端测试文件、9 个前端测试文件，共 400+ 个测试项约束检索、Agent 运行时与平台治理回归",
       details: [
-        "将分散资料整理为可持续同步、可引用出处的企业 AI 问答平台，减少资料检索、答复与治理成本。",
+        "将分散资料整理为可持续同步、带引用出处的企业 AI 问答平台，减少资料检索、答复与治理成本。",
         "采用结构、全文、向量三路召回，结合 query rewrite、加权 RRF 与 rerank，兼顾命中质量和可追溯性。",
-        "在 LangGraph 可恢复运行时上扩展工具注册、任务拆解、反思闭环、三层记忆、人工接管队列、语义缓存、模型健康、Python SDK、readyz/trace 诊断与 token-aware 分块，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
+        "在 LangGraph 可恢复运行时上扩展工具注册、任务拆解、反思流程、三层记忆、人工接管队列、语义缓存、模型健康、Python SDK、readyz/trace 诊断与 token-aware 分块，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
       ].join("\n"),
       linkedExperienceId: "exp-chinasoft",
       icon: "TrendingUp",
@@ -111,26 +111,25 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "impact-wechat",
-      title: "开源新作",
-      value: "5+",
-      label: "开源关注 (Stars)",
+      title: "微信智能助手",
+      value: "25/25",
+      label: "本地 smoke 通过",
       description:
-        "微信智能助手：面向 Windows 微信场景的长期运行机器人，补齐分层记忆、模型认证、知识库治理、发布更新与运行观测能力",
+        "固定 25 条本地 smoke 全部通过；另有 2 秒回复 deadline 与 27 条离线评测约束长期运行链路",
       details: [
         "交付可长期运行的微信智能助手，兼顾接入稳定性、排障效率与成本治理。",
         "以 `BaseTransport` 抽象微信接入边界，并用 `LangChain + LangGraph` 重构回复主链与后台任务。",
-        "构建三层记忆、可降级 RAG、模型与认证中心、知识库治理 API、受控 Tool Workflow、只读 MCP adapter、运行准备度、配置审计与成本分析能力，补齐长期运行、排障和发布更新所需的治理链路。",
+        "构建三层记忆、可降级 RAG、模型与认证中心、知识库治理 API、受控 Tool Workflow、只读 MCP adapter、运行准备度、配置审计与成本分析能力，覆盖长期运行、排障和发布更新。",
       ].join("\n"),
       linkedExperienceId: "exp-wechat-bot",
       icon: "Star",
       colSpan: "md:col-span-1",
       bg: "bg-indigo-50",
-      githubRepo: "byteD-x/wechat-bot",
       verification: {
-        sourceType: "repo",
-        sourceLabel: "本地仓库 README / HIGHLIGHTS / RELEASE_UPDATES / SYSTEM_CHAINS / tests",
+        sourceType: "experience",
+        sourceLabel: "简历证据库 / 固定 smoke 记录",
         sourceUrl: "https://github.com/byteD-x/wechat-bot",
-        verifiedAt: "2026-06-10",
+        verifiedAt: "2026-03-31",
         confidence: "high",
         level: "strict",
       },
@@ -138,33 +137,33 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "impact-customer-ai",
       title: "客服运行时",
-      value: "7+",
-      label: "插件扩展点",
+      value: "20/20",
+      label: "本地样例通过",
       description:
-        "智能客服运行时：统一文本/语音/RTC、宿主挂载、插件扩展、成本对账与知识治理，将问答能力扩展为可接业务的运行时",
+        "本地电商售后样例 20/20 通过；首响均值 18.05ms，轮次 P50/P95 为 17/24ms（离线样例口径）",
       details: [
         "将客服能力扩展为可接业务、可转人工、可嵌入宿主系统的服务运行时。",
         "通过渠道接入、宿主桥接、核心引擎、业务增强、插件平台和提供商适配六层解耦，统一文本、语音、RTC 与挂载接入。",
-        "补齐路由治理、知识版本管理、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、限流与提示词脱敏，便于持续运营与审计。",
+        "加入路由治理、知识版本管理、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、限流与提示词脱敏，用于运营与审计。",
       ].join("\n"),
       linkedExperienceId: "exp-customer-ai-runtime",
       icon: "Bot",
       colSpan: "md:col-span-1",
       bg: "bg-teal-50",
       verification: {
-        sourceType: "repo",
-        sourceLabel: "本地仓库 README / STAR-HIGHLIGHTS / RESUME_SNIPPETS / tests / recent commits",
+        sourceType: "experience",
+        sourceLabel: "简历证据库 / 本地电商售后样例",
         sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-        verifiedAt: "2026-06-10",
+        verifiedAt: "2026-03-31",
         confidence: "high",
         level: "strict",
       },
     },
     {
       id: "impact-2",
-      title: "性能极致",
+      title: "活动报表 API",
       value: "5x",
-      label: "API 提速",
+      label: "20s → 4s",
       description:
         "活动统计/报表接口 20s → 4s (5x)，把“等半分钟”变成“秒开”（ClickHouse + SQL 改写）",
       details: [
@@ -185,49 +184,48 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "impact-3",
-      title: "成本治理",
-      value: "5个",
-      label: "成本接口",
+      title: "IPA 语音原型",
+      value: "2380",
+      label: "累计识别次数",
       description:
-        "定价快照、价格刷新、会话汇总与明细接口齐备，把成本治理从经验优化升级为可观测能力",
+        "IPA Demo 运行日志累计 2380 次识别、60 次批量任务，单批最多 500 个文件；50 文件批次平均 25.36s（n=23）",
       details: [
-        "建立模型、会话和价格来源统一可查的成本口径。",
-        "补齐定价快照、价格刷新、汇总与明细接口，并在消息 `metadata` 中回写成本字段。",
-        "对缺少 token 或定价的信息做估算与标记区分，避免把不完整数据当成精确结果。",
+        "把本地 ASR 模型封装成 Flask Web 服务，统一音频预处理、批量识别和结果导出。",
+        "运行日志记录累计 2380 次识别与 60 次批量任务，单批最多 500 个文件。",
+        "50 文件批次平均耗时 25.36s（n=23），用于客户现场验收和后续工程化评估。",
       ].join("\n"),
-      linkedExperienceId: "exp-wechat-bot",
-      icon: "TrendingDown",
+      linkedExperienceId: "exp-sustech",
+      icon: "AudioLines",
       colSpan: "md:col-span-1",
       bg: "bg-emerald-50",
       verification: {
-        sourceType: "repo",
-        sourceLabel: "README / RELEASE_UPDATES / cost analytics tests",
-        sourceUrl: "https://github.com/byteD-x/wechat-bot",
-        verifiedAt: "2026-03-19",
+        sourceType: "experience",
+        sourceLabel: "客户验收记录 / 运行日志",
+        verifiedAt: "2026-02-10",
         confidence: "high",
         level: "strict",
       },
     },
     {
       id: "impact-4",
-      title: "全栈交付",
-      value: "100%",
-      label: "闭环能力",
+      title: "RentBox",
+      value: "27",
+      label: "客户需求交付",
       description:
-        "从需求到上线：方案/开发/测试/部署/监控闭环（CI/CD + 可观测性 + 回滚）",
+        "共享擦窗宝租赁系统已交付客户 27 项需求，覆盖小程序、商家端、管理端、设备与支付链路",
       details: [
-        "交付范围覆盖方案、开发、测试、部署、监控与回滚。",
-        "需求按可验收里程碑拆解，关键节点明确 What、Why 和验证方式。",
-        "通过 lint、build、test、e2e、静态导出与链接检查控制交付质量。",
+        "围绕订单状态机、幂等键、设备快照和支付/设备回调补偿处理乱序与重复事件。",
+        "以 TCP、MQTT、HTTP 的 DeviceProfile 路由隔离厂商协议，并保留超时重试与状态查询。",
+        "多端链路完成客户验收，已交付 27 项需求。",
       ].join("\n"),
-      icon: "Code2",
+      linkedExperienceId: "exp-rentbox",
+      icon: "PackageCheck",
       colSpan: "md:col-span-2",
-      rowSpan: "md:row-span-2",
       isFocal: true,
       verification: {
-        sourceType: "manual",
-        sourceLabel: "项目合集与履历交叉验证",
-        verifiedAt: "2026-02-15",
+        sourceType: "experience",
+        sourceLabel: "客户交付记录 / 项目验收",
+        verifiedAt: "2026-05-17",
         confidence: "high",
         level: "strict",
       },
@@ -241,7 +239,7 @@ export const defaultPortfolioData: PortfolioData = {
         "300+ 张百万级数据表同步，数千万条数据迁移至汇总库，并用 `xxl-job` 做每日动态更新",
       details: [
         "完成 300+ 张百万级数据表同步，并将数千万条数据迁移到汇总库。",
-        "采用 ClickHouse 代替 MySQL 存储海量数据，支撑更快的查询速度。",
+        "采用 ClickHouse 代替 MySQL 存储海量数据，用于更快的查询。",
         "通过 `xxl-job` 实现汇总库每日动态更新，优化数据管理流程。",
       ].join("\n"),
       linkedExperienceId: "exp-unicom",
@@ -300,7 +298,7 @@ export const defaultPortfolioData: PortfolioData = {
         solution:
           "- 统一承接 RentBox、论文检索任务平台、智能客服运行时与微信智能助手四个子项目。\n- 以独立开发者视角完成方案设计、全栈实现、联调验证、测试交付和运行治理。\n- 按子项目分别保留独立 slug 与详情页能力，方便继续追溯单个项目证据。",
         result:
-          "把独立开发阶段收敛成一个工作经历主项，同时保留每个代表项目的可追溯性与单项展示能力。",
+          "独立开发阶段以一个主经历呈现，四个代表项目仍可单独查看和核验。",
         role: "独立开发者",
         techStack: [
           "Java 21",
@@ -319,7 +317,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "RentBox 共享擦窗宝小程序",
       location: "本地项目 / 多端交付",
       summary:
-        "独立推进共享擦窗宝租赁系统的多端闭环，覆盖终端用户小程序、管理端、渠道端与 Spring Boot 后端，围绕支付、免押、设备、归还、结算和审计收敛测试期上线链路。",
+        "独立推进共享擦窗宝租赁系统，覆盖终端用户小程序、管理端、渠道端与 Spring Boot 后端，处理支付、免押、设备、归还、结算和审计，并覆盖测试期上线链路。",
       techTags: [
         "Java 21",
         "Spring Boot 3.5",
@@ -336,21 +334,21 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "按单仓多端组织 `server / admin / channel / miniapp / shared / deploy`，让用户租借、后台运营、渠道结算和宿主机发布处在同一套可验证工程链路里。",
+        "按单仓多端组织 `server / admin / channel / miniapp / shared / deploy`，把用户租借、后台运营、渠道结算和宿主机发布放在同一套工程路径中。",
         "围绕订单、支付、免押、设备开锁、归还审核和资金补偿建立服务端状态真相，结合 Redis / JDBC 幂等、分布式锁、状态历史与审计日志降低重复回调和乱序推进风险。",
-        "抽象 `DeviceGateway` 与 `DepositFreeGateway`，对接微信支付 v3、微信支付分和柜机厂商 WebApi；外部参数未就绪时返回真实阻塞态，而不是用模拟成功绕过风险。",
-        "沉淀 Maven 测试、Vite 构建、小程序真机验证清单、Flyway 版本策略和宿主机 release 切换脚本，保证多端交付可回归、可回滚、可审计。",
+        "抽象 `DeviceGateway` 与 `DepositFreeGateway`，对接微信支付 v3、微信支付分和柜机厂商 WebApi；外部参数未就绪时返回真实阻塞态，模拟成功不会绕过风险。",
+        "保留 Maven 测试、Vite 构建、小程序真机验证清单、Flyway 版本策略和宿主机 release 切换脚本，支持多端交付回归、回滚和审计。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
       hideFromSection: true,
       businessValue: {
-        zh: "把共享租赁业务从小程序下单、支付担保、柜机开锁、归还审核到渠道结算串成可上线闭环，降低线下设备、资金和运营协同的交付风险。",
-        en: "Connected mini-program rental, payment guarantee, cabinet operations, returns, and channel settlement into a verifiable delivery loop.",
+        zh: "共享租赁业务覆盖小程序下单、支付担保、柜机开锁、归还审核和渠道结算，减少线下设备、资金和运营协同的交付风险。",
+        en: "The delivery covers mini-program rental, payment guarantee, cabinet operations, returns, and channel settlement in a verifiable path.",
       },
       engineeringDepth: {
         zh: "覆盖模块化单体、支付/免押网关、设备适配层、回调验签、幂等与重放防护、渠道结算、审计日志、Flyway 迁移和多端前端工程化。",
-        en: "Combines a modular monolith, payment/deposit-free gateways, device adapters, callback verification, idempotency, settlement, audit logs, Flyway migrations, and multi-client delivery.",
+        en: "Uses a modular monolith, payment/deposit-free gateways, device adapters, callback verification, idempotency, settlement, audit logs, Flyway migrations, and multi-client delivery.",
       },
       verification: [
         {
@@ -368,9 +366,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "支付、免押、设备开锁、归还审核和渠道结算都存在外部回调、人工补偿和状态乱序风险；如果仅靠前端流程推进，容易出现重复扣款、错发开锁或状态倒退。",
         solution:
-          "- **组织多端闭环**：用 `server / admin / channel / miniapp / shared` 单仓组织后端、管理端、渠道端和 uni-app 小程序，统一接口、状态文案和交付文档。\n- **收敛状态真相**：将订单、支付、免押、设备指令、归还审核和资金补偿收敛到服务端状态机，并保留状态历史、审计日志和人工处理入口。\n- **隔离外部集成**：通过 `DeviceGateway`、`DepositFreeGateway`、支付网关和回调验签服务隔离微信支付、微信支付分、柜机厂商 WebApi 与业务主流程。\n- **固化交付路径**：补齐 Flyway 版本策略、Maven 测试、前端构建、小程序验证清单和宿主机 release 上传/切换脚本，控制上线与回滚风险。",
+          "- **组织多端**：用 `server / admin / channel / miniapp / shared` 单仓组织后端、管理端、渠道端和 uni-app 小程序，统一接口、状态文案和交付文档。\n- **收敛状态真相**：将订单、支付、免押、设备指令、归还审核和资金补偿收敛到服务端状态机，并保留状态历史、审计日志和人工处理入口。\n- **隔离外部集成**：通过 `DeviceGateway`、`DepositFreeGateway`、支付网关和回调验签服务隔离微信支付、微信支付分、柜机厂商 WebApi 与业务主流程。\n- **固化交付路径**：加入 Flyway 版本策略、Maven 测试、前端构建、小程序验证清单和宿主机 release 上传/切换脚本，控制上线与回滚风险。",
         result:
-          "形成共享租赁业务的测试期最小闭环，覆盖扫码租用、在线预约、支付/免押、开门取机、归还审核、渠道结算、后台运维和宿主机发布链路。",
+          "测试期覆盖扫码租用、在线预约、支付/免押、开门取机、归还审核、渠道结算、后台运维和宿主机发布链路。",
         role: "独立开发者（产品收敛、后端核心、多端联调、部署交付）",
         techStack: [
           "Java 21",
@@ -395,7 +393,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "论文检索任务平台",
       location: "本地项目 / 测试验收版",
       summary:
-        "独立交付论文检索任务平台，围绕手机号认证、任务创建、Worker 共享表对接、SSE 状态同步、额度流水、支付宝升级和管理后台形成测试验收版闭环。",
+        "独立交付论文检索任务平台，围绕手机号认证、任务创建、Worker 共享表对接、SSE 状态同步、额度流水、支付宝升级和管理后台完成测试验收版。",
       techTags: [
         "Python",
         "FastAPI",
@@ -447,7 +445,7 @@ export const defaultPortfolioData: PortfolioData = {
         solution:
           "- **搭建全栈平台**：用 FastAPI + React/Vite 交付登录、任务工作台、个人中心、额度流水、支付升级和管理后台。\n- **固化 Worker 契约**：通过 Alembic check constraint 和触发器约束任务状态流转、终态字段和结果数，避免 Worker 回写破坏用户侧假设。\n- **实现状态同步**：使用 PostgreSQL `pg_notify` + asyncpg LISTEN 唤醒 SSE，前端同时保留轮询兜底，覆盖单任务、多任务和全局活动任务。\n- **治理额度与支付**：成功任务再扣减额度，使用锁与唯一事件防重复；支付宝支付成功后恢复 Pro 额度，并在额度流水中留痕。",
         result:
-          "交付测试验收版论文检索平台，形成用户认证、任务提交、状态同步、结果下载、额度流水、支付升级和管理后台的完整闭环。",
+          "交付测试验收版论文检索平台，覆盖用户认证、任务提交、状态同步、结果下载、额度流水、支付升级和管理后台。",
         role: "独立开发者（后端架构、前端页面、Worker 契约、测试交付）",
         techStack: [
           "Python",
@@ -489,19 +487,19 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
         "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
-        "补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。",
-        "落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
+        "加入 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，补充运行观测、配置审计与排障能力。",
+        "加入配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
       hideFromSection: true,
       businessValue: {
         zh: "将微信自动回复脚本升级为具备接入治理、运行诊断与成本分析能力的桌面智能助手，降低长期运行和排障成本。",
-        en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
+        en: "The script-like WeChat bot now runs as a long-running AI assistant with diagnostics and cost control.",
       },
       engineeringDepth: {
         zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、模型认证中心、知识库治理、只读 MCP、受控工具流、发布更新与 Prometheus 风格观测链路。",
-        en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
+        en: "Uses transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
       },
       verification: [
         {
@@ -519,9 +517,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
+          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：使用 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **加入治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
         result:
-          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新的完整闭环。",
+          "交付面向 Windows 微信生态的长期运行智能助手，覆盖消息接入、记忆增强、模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -566,18 +564,18 @@ export const defaultPortfolioData: PortfolioData = {
         "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
         "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
         "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "加入知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
       hideFromSection: true,
       businessValue: {
-        zh: "将 AI 客服从单纯知识问答扩展为可挂载、可转人工、可接业务且可治理的运行时能力，降低宿主系统改造成本。",
-        en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
+        zh: "AI 客服现在支持挂载宿主系统、调用业务工具、转人工和知识治理，减少宿主系统改造成本。",
+        en: "The AI customer-service flow now runs as a controlled runtime that can mount into host systems, call business tools, and hand off to humans.",
       },
       engineeringDepth: {
         zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本对账、RAG eval、SQLite 人工队列、readiness 审计与多租户边界控制。",
-        en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
+        en: "Includes a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
       },
       verification: [
         {
@@ -591,13 +589,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "目标是在统一多通道接入和宿主系统复用的前提下，交付可转人工、可治理、可行业扩展的客服运行时。",
+          "目标是在统一多通道接入和宿主系统复用的前提下，交付支持转人工、知识治理和行业扩展的客服运行时。",
         problem:
           "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、request_id 贯通、限流与提示词脱敏。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **建立插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **加入治理能力**：完善知识版本、chunk 优化、反馈流程、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
-          "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计的工程基线。",
+          "交付可独立运行或宿主挂载的客服运行时，覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计。",
         role: "独立开发者（架构设计与核心开发）",
         techStack: [
           "Python 3.13",
@@ -637,8 +635,8 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: false,
       keyOutcomes: [
-        "将本地方言 ASR 模型封装为 Flask Web 服务，支持上传转写、流式转写、浏览器录音与示例音频体验，形成可直接演示的闭环。",
-        "补齐音频标准化、批量并发处理、IPA 声母/韵母/声调拆分与日志落盘，使原型既能跑通演示也便于问题定位。",
+        "将本地方言 ASR 模型封装为 Flask Web 服务，支持上传转写、流式转写、浏览器录音与示例音频体验，覆盖演示流程。",
+        "加入音频标准化、批量并发处理、IPA 声母/韵母/声调拆分与日志落盘，让原型可以演示，也便于问题定位。",
         "支持 Excel 模板校验、批量识别结果导出与系统手册下载，降低非技术用户试用与验收成本。",
       ],
       audienceTags: ["partner", "client"],
@@ -648,7 +646,7 @@ export const defaultPortfolioData: PortfolioData = {
       },
       engineeringDepth: {
         zh: "覆盖本地 ASR 推理封装、音频预处理、批量并发处理、结构化结果导出与面向演示场景的 Web 化交付。",
-        en: "Demonstrates rapid domain knowledge absorption and strict project timeline management.",
+        en: "Worked through a new domain quickly while keeping the project on its delivery schedule.",
       },
       verification: [
         {
@@ -673,7 +671,7 @@ export const defaultPortfolioData: PortfolioData = {
         solution:
           "- **推理封装**：基于 Flask + `transformers` ASR pipeline 封装本地模型，并结合 `torchaudio`、`ffmpeg` 做音频格式标准化。\n- **交互链路**：支持多文件上传、流式上传、浏览器录音、示例音频体验与上传后再次转写，覆盖演示与试用主路径。\n- **结果结构化**：通过 Excel 表维护声调/声母/韵母映射，输出 IPA 拆分结果，并支持文本/Excel 导出。\n- **可运维性**：加入请求日志、错误日志、批量并发处理和系统手册页面，方便验收与后续排障。",
         result:
-          "按期交付 `IPA Demo` 原型，形成“上传/录音 -> 转写 -> IPA 拆分 -> 导出”的完整演示闭环，可用于后续工程化讨论与立项评估。",
+        "按期交付 `IPA Demo` 原型，覆盖“上传/录音 -> 转写 -> IPA 拆分 -> 导出”的演示流程，可用于后续工程化讨论与立项评估。",
         role: "全栈顾问（需求收敛、后端实现、演示交付）",
         techStack: [
           "Python",
@@ -711,18 +709,18 @@ export const defaultPortfolioData: PortfolioData = {
       highlighted: true,
       keyOutcomes: [
         "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
-        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。",
+        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思流程与三层记忆。",
         "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。",
         "落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "将分散文档和多步问答流程沉淀为可持续同步、可追溯引用、可配置 Agent 能力的企业 AI 问答平台，为连接器扩展、运营审计和低成本推理治理打下基础。",
-        en: "Turned scattered documents into an enterprise AI QA platform with continuous sync, traceable citations, configurable agent workflows, and inference governance.",
+        zh: "把分散文档和多步问答流程整理成可持续同步、带引用来源、可配置 Agent 能力的企业 AI 问答平台，为连接器扩展、运营审计和低成本推理治理提供基础。",
+        en: "Built an enterprise AI QA platform from scattered documents, with continuous sync, traceable citations, configurable agent workflows, and inference governance.",
       },
       engineeringDepth: {
         zh: "覆盖三路混合检索、LangGraph 编排、Agent 自主决策、工具生态、三层缓存、模型健康、分层指令、幻觉检测、Python SDK 与评测回归体系。",
-        en: "Demonstrates integrated engineering across hybrid retrieval, LangGraph orchestration, agent autonomy, tool ecosystems, semantic caching, model health, layered instructions, hallucination checks, SDK delivery, and evaluation gates.",
+        en: "Covers hybrid retrieval, LangGraph orchestration, agent autonomy, tool ecosystems, semantic caching, model health, layered instructions, hallucination checks, SDK delivery, and evaluation gates.",
       },
       verification: [
         {
@@ -743,13 +741,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步，并能支持多步 Agent 问答的知识平台。",
+          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档整理为可检索、可引用、可持续同步，并能支持多步 Agent 问答的知识平台。",
         problem:
           "传统单路检索难以同时覆盖标题、关键词与语义混合场景；Agent 模式如果缺少工具边界、反思、自主拆解、缓存治理和安全检测，也容易变成不可解释的高成本黑盒。",
         solution:
-          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构 Agent 运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events`、工具注册中心、任务拆解 DAG、反思闭环与三层记忆。\n- **补齐平台治理**：建设多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、6 类场景模板、RAG 幻觉检测、企业聊天 v2 与 Python SDK。\n- **强化推理与评测闭环**：引入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并和 readyz/trace 诊断，并通过 retrieval fixture、local ingest fixture、22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构 Agent 运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events`、工具注册中心、任务拆解 DAG、反思流程与三层记忆。\n- **提供平台治理能力**：建设多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、6 类场景模板、RAG 幻觉检测、企业聊天 v2 与 Python SDK。\n- **强化推理与评测流程**：引入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并和 readyz/trace 诊断，并通过 retrieval fixture、local ingest fixture、22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
         result:
-          "形成面向中文企业场景的 AI 问答平台，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行、Agent 自主决策、人工接管、推理治理和最小评测回归闭环。",
+        "形成面向中文企业场景的 AI 问答平台，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行、Agent 自主决策、人工接管、推理治理和最小评测回归流程。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -777,7 +775,7 @@ export const defaultPortfolioData: PortfolioData = {
       company: "国家骨科临床研究中心",
       location: "远程",
       summary:
-        "参与 `SubMed` 医学论文检索小程序后端：围绕 PubMed 抓取、AI 搜索、深度分析、订阅推送与微信支付形成科研信息服务闭环。",
+        "参与 `SubMed` 医学论文检索小程序后端：围绕 PubMed 抓取、AI 搜索、深度分析、订阅推送与微信支付覆盖科研信息服务流程。",
       techTags: [
         "Django",
         "MySQL",
@@ -792,7 +790,7 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "搭建 PubMed 抓取、文章入库、DOI/期刊补全与定时任务链路，为骨科领域论文检索提供持续更新的数据底座。",
         "实现 AI 关键词生成、AI 检索与深度分析接口，降低医学专家从自然语言问题到可用检索结果的门槛。",
-        "补齐收藏、订阅、推送历史、积分/VIP、微信支付等业务能力，把内容服务做成可持续运营的小程序后端。",
+        "加入收藏、订阅、推送历史、积分/VIP、微信支付等业务能力，让内容服务可以持续运营。",
       ],
       audienceTags: ["hr", "jobSeeker"],
       businessValue: {
@@ -801,7 +799,7 @@ export const defaultPortfolioData: PortfolioData = {
       },
       engineeringDepth: {
         zh: "覆盖爬取入库、搜索接口、AI 辅助分析、订阅任务、支付积分体系与小程序 API 设计。",
-        en: "Demonstrates requirements analysis and system architecture in a vertical domain (Medical).",
+        en: "Covers requirements analysis and system architecture for a medical search product.",
       },
       verification: [
         {
@@ -824,9 +822,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "系统既要稳定抓取和入库 PubMed 论文，又要支持面向小程序的搜索、收藏、订阅、深度分析、支付积分和用户行为治理，业务链路较长。",
         solution:
-          "- **数据底座**：以 Django + MySQL 建模论文、主题、订阅、收藏、推送历史等核心实体，并通过 PubMed spider、DOI/期刊补全命令和 Celery 任务维护数据更新。\n- **搜索与分析**：提供关键词检索、AI 关键词生成、AI 搜索、深度分析与个性化推荐接口，降低从问题到论文集合的检索成本。\n- **用户与运营**：实现收藏、订阅频率/渠道配置、推送历史、积分记录、VIP、邀请码与反馈体系。\n- **交易闭环**：接入微信支付，支持会员/积分商品购买和支付回调处理，支撑小程序持续运营。",
+          "- **数据底座**：以 Django + MySQL 建模论文、主题、订阅、收藏、推送历史等核心实体，并通过 PubMed spider、DOI/期刊补全命令和 Celery 任务维护数据更新。\n- **搜索与分析**：提供关键词检索、AI 关键词生成、AI 搜索、深度分析与个性化推荐接口，降低从问题到论文集合的检索成本。\n- **用户与运营**：实现收藏、订阅频率/渠道配置、推送历史、积分记录、VIP、邀请码与反馈体系。\n- **交易与运营**：接入微信支付，支持会员/积分商品购买和支付回调处理，支持小程序持续运营。",
         result:
-          "形成面向医学专家的小程序后端闭环，覆盖论文抓取、检索、AI 分析、订阅推送与会员积分能力，可支撑日常科研信息获取与运营迭代。",
+          "交付面向医学专家的小程序后端，覆盖论文抓取、检索、AI 分析、订阅推送与会员积分能力，用于日常科研信息获取与运营迭代。",
         role: "后端开发（检索链路、业务 API、任务与数据模型）",
         techStack: [
           "Python",
@@ -890,7 +888,7 @@ export const defaultPortfolioData: PortfolioData = {
         solution:
           "- **接口与安全**：改造对外 API，加入第二次授权认证，并对请求与响应做初步加解密处理。\n- **性能与存储**：优化活动查询接口，将响应时间从 `20s+` 降到约 `4s`；使用 ClickHouse 替代 MySQL 承载海量数据查询。\n- **数据平台**：完成 `300+` 张百万级数据表同步，并将数千万条数据迁移到汇总库。\n- **持续更新与交付**：使用 `xxl-job` 驱动汇总库每日动态更新，同时开发能力管理页面和相关前后端逻辑。",
         result:
-          "联通运营相关系统在接口安全、查询性能和数据汇总更新上都得到明显改善，部分海量查询达到毫秒级，汇总库具备稳定的日更能力。",
+          "联通运营相关系统完成接口安全改造，活动查询从 20s+ 降到约 4s，汇总库支持稳定日更；部分海量查询达到毫秒级。",
         role: "后端开发",
         techStack: [
           "Java",
@@ -929,13 +927,13 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "构建“分片上传 + 秒传 + 断点续传 + SSE 状态回传”主链路，结合 `FileChannel.transferTo()` 零拷贝合并与并发控制，支持 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
         "完成 PostgreSQL 复合索引、游标分页与 Caffeine / Redis 多级缓存治理，使 API P95 <500ms、P99 <1s、数据库查询 P95 <100ms，慢查询减少 80%（README 指标口径）。",
-        "落地 HMAC-SHA256 请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离，形成文件平台安全闭环。",
+        "加入 HMAC-SHA256 请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离，覆盖文件平台安全要求。",
         "建立“本地一键启动 + Docker 全栈部署 + 健康检查 + Prometheus/Grafana + Web Vitals 入库”工程基线，使核心 P0/P1 流程可复现验证。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
         zh: "提供可私有化部署的一体化文件平台，兼顾高并发上传、安全治理、身份接入扩展与可观测交付，降低企业文件服务的稳定性与安全风险。",
-        en: "Delivered a privately deployable cloud-drive platform that balances performance, security, and observability.",
+        en: "Built a privately deployable cloud-drive platform with performance, security, and observability controls.",
       },
       engineeringDepth: {
         zh: "覆盖 Java 21 虚拟线程、上传状态机、签名防重放、OAuth 扩展接入、多租户隔离、Web Vitals 采集与脚本化验收，具备可回归验证的工程交付能力。",
@@ -954,13 +952,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "项目目标是把网盘能力沉淀为可企业内部署的文件平台，并保持本地一键启动与 Docker 全栈部署两条链路一致可用。",
+          "项目目标是把网盘能力做成可企业内部署的文件平台，并保持本地一键启动与 Docker 全栈部署两条链路一致可用。",
         problem:
-          "需要同时解决大文件上传稳定性、热点查询与深分页性能、安全鉴权一致性、第三方登录接入复杂度，以及上线后的监控与告警闭环。",
+          "需要同时解决大文件上传稳定性、热点查询与深分页性能、安全鉴权一致性、第三方登录接入复杂度，以及上线后的监控与告警流程。",
         solution:
-          "- **重构上传链路**：基于 Java 21 虚拟线程实现分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并，并通过 SSE 回传状态。\n- **优化数据性能**：落地 PostgreSQL 复合索引、游标分页、Caffeine(L1)/Redis(L2) 多级缓存、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **完善安全体系**：建设请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与 `X-Tenant-Id` 多租户隔离。\n- **补齐身份与观测**：接入 GitHub / Google / Microsoft OAuth 登录，并通过 Actuator、Micrometer、Prometheus、Grafana 与 Web Vitals 建立可观测闭环。",
+          "- **重构上传链路**：基于 Java 21 虚拟线程实现分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并，并通过 SSE 回传状态。\n- **优化数据性能**：落地 PostgreSQL 复合索引、游标分页、Caffeine(L1)/Redis(L2) 多级缓存、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **完善安全体系**：建设请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与 `X-Tenant-Id` 多租户隔离。\n- **加入身份与观测**：接入 GitHub / Google / Microsoft OAuth 登录，并通过 Actuator、Micrometer、Prometheus、Grafana 与 Web Vitals 建立可观测链路。",
         result:
-          "形成可私有化部署的一体化文件平台：API P95 <500ms、P99 <1s、数据库查询 P95 <100ms、慢查询减少 80%、缓存命中率 >90%、上传成功率 >99.5%（README 指标口径）。",
+          "交付可私有化部署的一体化文件平台：API P95 <500ms、P99 <1s、数据库查询 P95 <100ms、慢查询减少 80%、缓存命中率 >90%、上传成功率 >99.5%（README 指标口径）。",
         role: "全栈开发（架构设计、后端核心、前端联调、部署验收）",
         techStack: [
           "Java 21",
@@ -1002,7 +1000,7 @@ export const defaultPortfolioData: PortfolioData = {
       },
       engineeringDepth: {
         zh: "覆盖图搜索算法、冲突消解逻辑、仓储地图建模与图形化界面开发。",
-        en: "Demonstrates synthesis of graph search algorithms, concurrent programming, and GUI development.",
+        en: "Combined graph search algorithms, concurrent programming, and GUI development.",
       },
       verification: [
         {
@@ -1072,7 +1070,7 @@ export const defaultPortfolioData: PortfolioData = {
         "Redis",
       ],
       summary:
-        "以独立开发者身份推进 4 个代表项目，覆盖租赁业务闭环、任务平台、客服运行时与桌面智能助手，并按子项目保留独立详情与证据入口。",
+        "以独立开发者身份推进 4 个代表项目，覆盖租赁业务、任务平台、客服运行时与桌面智能助手，并按子项目保留独立详情与证据入口。",
       impact: "4 个代表项目的方案设计 / 全栈实现 / 联调验证 / 运行治理",
       highlighted: true,
       childIds: [
@@ -1130,13 +1128,13 @@ export const defaultPortfolioData: PortfolioData = {
         "Device Gateway",
       ],
       summary:
-        "面向共享擦窗宝租赁场景的单仓多端系统，覆盖用户小程序、管理端、渠道端和后端服务，将租借、支付担保、柜机开锁、归还审核与渠道结算串成测试期闭环。",
-      impact: "共享租赁多端闭环 + 支付设备一致性",
+        "面向共享擦窗宝租赁场景的单仓多端系统，覆盖用户小程序、管理端、渠道端和后端服务，处理租借、支付担保、柜机开锁、归还审核与渠道结算。",
+      impact: "共享租赁多端交付 + 支付设备一致性",
       keyOutcomes: [
         "按 `server / admin / channel / miniapp / shared / deploy` 组织单仓多端工程，统一用户端、后台、渠道端与部署链路。",
         "将订单、支付、免押、开锁、归还、补偿和结算状态收敛到服务端，以幂等、锁、状态历史和审计日志处理外部回调乱序风险。",
         "通过 `DeviceGateway`、`DepositFreeGateway` 和回调验签服务隔离柜机厂商、微信支付 v3 与微信支付分，缺配置时返回真实阻塞态。",
-        "补齐 Maven 测试、前端构建、小程序验证清单、Flyway 版本策略和宿主机 release 脚本，保证交付和回滚路径清晰。",
+        "加入 Maven 测试、前端构建、小程序验证清单、Flyway 版本策略和宿主机 release 脚本，保持交付和回滚路径清晰。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1145,7 +1143,7 @@ export const defaultPortfolioData: PortfolioData = {
       },
       engineeringDepth: {
         zh: "覆盖 Spring Boot 模块化单体、微信支付/支付分、厂商设备适配、Redis 幂等与锁、审计日志、Flyway 迁移、多端 React/uni-app 工程和宿主机发布。",
-        en: "Combines Spring Boot modular delivery, WeChat payment integrations, vendor device adapters, Redis idempotency and locking, audit logs, Flyway, multi-client frontends, and host deployment.",
+        en: "Uses Spring Boot modules, WeChat payment integrations, vendor device adapters, Redis idempotency and locking, audit logs, Flyway, multi-client frontends, and host deployment.",
       },
       verification: [
         {
@@ -1161,11 +1159,11 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "共享擦窗宝租赁需要同时处理微信小程序用户体验、后台运营、渠道合作、支付担保、柜机开锁和归还审核。",
         problem:
-          "租赁链路涉及多方外部系统，支付、免押和设备回调可能重复、延迟或乱序；如果缺少统一状态和审计，资金与设备动作很难安全闭环。",
+          "租赁链路涉及多方外部系统，支付、免押和设备回调可能重复、延迟或乱序；如果缺少统一状态和审计，资金与设备动作很难安全推进。",
         solution:
-          "- **多端工程组织**：单仓维护 Spring Boot 后端、React 管理端/渠道端、uni-app 小程序和共享组件，接口与文档同步推进。\n- **状态与幂等治理**：围绕订单生命周期建立状态历史、审计日志、Redis/JDBC 幂等、分布式锁和人工补偿入口。\n- **外部能力适配**：通过支付、免押和设备网关隔离微信支付、微信支付分和柜机厂商协议，真实配置缺失时暴露阻塞态。\n- **发布与回滚**：沉淀 Flyway 迁移策略、Maven/Vite 门禁、小程序验证清单和宿主机 release 切换流程。",
+          "- **多端工程组织**：单仓维护 Spring Boot 后端、React 管理端/渠道端、uni-app 小程序和共享组件，接口与文档同步推进。\n- **状态与幂等治理**：围绕订单生命周期建立状态历史、审计日志、Redis/JDBC 幂等、分布式锁和人工补偿入口。\n- **外部能力适配**：通过支付、免押和设备网关隔离微信支付、微信支付分和柜机厂商协议，真实配置缺失时暴露阻塞态。\n- **发布与回滚**：保留 Flyway 迁移策略、Maven/Vite 门禁、小程序验证清单和宿主机 release 切换流程。",
         result:
-          "完成测试期租赁闭环主体能力：扫码租用、在线预约、支付/免押、开门取机、归还审核、异常反馈、渠道结算、后台运维与服务器发布。",
+          "完成测试期租赁主体能力：扫码租用、在线预约、支付/免押、开门取机、归还审核、异常反馈、渠道结算、后台运维与服务器发布。",
         role: "独立开发者",
         techStack: [
           "Java 21",
@@ -1214,7 +1212,7 @@ export const defaultPortfolioData: PortfolioData = {
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
         zh: "在甲方 Worker 不接入用户系统的前提下，交付可验收的用户侧任务平台，降低跨团队联调和后续生产化风险。",
-        en: "Delivered a testable user-facing task platform while keeping the customer worker integration isolated through the database contract.",
+        en: "Built a testable user-facing task platform while keeping the customer worker integration behind a database contract.",
       },
       engineeringDepth: {
         zh: "覆盖 FastAPI 分层、异步 SQLAlchemy、PostgreSQL 触发器、LISTEN/NOTIFY、SSE、额度流水、支付宝回调、React 功能分层和自动化回归。",
@@ -1236,9 +1234,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "异步任务跨系统执行，状态同步、终态契约、结果链接安全和额度扣减都需要由平台侧兜住，否则容易出现进度不可见、终态回退或重复扣费。",
         solution:
-          "- **用户侧闭环**：交付登录注册、任务工作台、结果下载、个人中心、额度流水、支付升级和管理后台。\n- **Worker 契约**：使用 Alembic 迁移加入 check constraint 与触发器，约束状态流转、终态完成时间和成功任务结果数。\n- **状态同步**：通过 PostgreSQL `pg_notify` + asyncpg LISTEN 唤醒 SSE，前端保留轮询兜底。\n- **额度治理**：成功任务再扣减额度，结合 `SELECT ... FOR UPDATE`、唯一额度事件和测试覆盖处理并发。",
+          "- **用户侧路径**：交付登录注册、任务工作台、结果下载、个人中心、额度流水、支付升级和管理后台。\n- **Worker 契约**：使用 Alembic 迁移加入 check constraint 与触发器，约束状态流转、终态完成时间和成功任务结果数。\n- **状态同步**：通过 PostgreSQL `pg_notify` + asyncpg LISTEN 唤醒 SSE，前端保留轮询兜底。\n- **额度治理**：成功任务再扣减额度，结合 `SELECT ... FOR UPDATE`、唯一额度事件和测试覆盖处理并发。",
         result:
-          "形成测试验收版论文检索任务平台，覆盖用户认证、任务提交、进度同步、结果下载、额度流水、支付宝升级和管理后台。",
+          "交付测试验收版论文检索任务平台，覆盖用户认证、任务提交、进度同步、结果下载、额度流水、支付宝升级和管理后台。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -1282,16 +1280,16 @@ export const defaultPortfolioData: PortfolioData = {
         "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
         "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
         "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "提供知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
         zh: "将 AI 客服从单纯知识问答扩展为可挂载、可转人工、可接业务且可治理的运行时能力，降低宿主系统改造成本。",
-        en: "Turned AI customer service from simple knowledge Q&A into a governed runtime that can be mounted, connected to business tools, and handed off to humans.",
+        en: "The AI customer-service flow now runs as a controlled runtime that can mount into host systems, call business tools, and hand off to humans.",
       },
       engineeringDepth: {
         zh: "覆盖六层运行时架构、7 类插件注册中心、Auth Bridge、多提供商适配、知识治理、成本对账、RAG eval、SQLite 人工队列、readiness 审计与多租户边界控制。",
-        en: "Showcases a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
+        en: "Includes a layered runtime, plugin registry, auth bridging, provider adaptation, knowledge governance, cost governance, RAG evaluation, handoff queues, and multi-tenant boundary control.",
       },
       verification: [
         {
@@ -1309,7 +1307,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "如果将文本、语音、RTC、业务工具、鉴权和转人工能力写死在单一流程中，宿主系统难接入、租户边界难控制，运行诊断和知识治理也难持续演进。",
         solution:
-          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **沉淀插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **补齐治理能力**：完善知识版本、chunk 优化、反馈闭环、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、request_id 贯通、限流与提示词脱敏。",
+          "- **搭建分层运行时**：将渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层解耦，统一 4 类接入模式。\n- **设计路由协同机制**：通过 `route_confidence`、`intent_stack`、`page_context`、`business_objects` 组合决策，在低置信度或高风险场景优先澄清或转人工。\n- **建立插件扩展体系**：提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类扩展点，支持插件启停、范围过滤与宿主鉴权复用。\n- **提供治理能力**：完善知识版本、chunk 优化、反馈流程、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、request_id 贯通、限流与提示词脱敏。",
         result:
           "交付可独立运行或宿主挂载的客服运行时，形成覆盖业务接入、人工协同、知识治理、成本观测、评测复现、租户隔离与运行审计的工程基线。",
         role: "独立开发者（架构设计与核心开发）",
@@ -1358,17 +1356,17 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
         "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
-        "补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。",
+        "提供 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。",
         "落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
         zh: "将微信自动回复脚本升级为具备接入治理、运行诊断与成本分析能力的桌面智能助手，降低长期运行和排障成本。",
-        en: "Turned a script-like WeChat bot into a long-running AI assistant with diagnosability and cost control.",
+        en: "The script-like WeChat bot now runs as a long-running AI assistant with diagnostics and cost control.",
       },
       engineeringDepth: {
         zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、模型认证中心、知识库治理、只读 MCP、受控工具流、发布更新与 Prometheus 风格观测链路。",
-        en: "Showcases transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
+        en: "Uses transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
       },
       verification: [
         {
@@ -1386,9 +1384,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **补齐治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
+          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **提供治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
         result:
-          "交付面向 Windows 微信生态的长期运行智能助手，形成从消息接入、记忆增强到模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新的完整闭环。",
+        "交付面向 Windows 微信生态的长期运行智能助手，覆盖消息接入、记忆增强、模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新。",
         role: "独立开发者",
         techStack: [
           "Python",
@@ -1428,18 +1426,18 @@ export const defaultPortfolioData: PortfolioData = {
       impact: "混合检索 + Agent 自主决策 + 推理治理",
       keyOutcomes: [
         "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
-        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思闭环与三层记忆。",
+        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思流程与三层记忆。",
         "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。",
-        "落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
+        "加入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "将企业分散资料沉淀为可持续同步、可追溯引用、可配置 Agent 能力的 AI 问答平台，降低检索、答复、治理和后续集成成本。",
+        zh: "将企业分散资料整理为可持续同步、可追溯引用、可配置 Agent 能力的 AI 问答平台，降低检索、答复、治理和后续集成成本。",
         en: "Turns scattered enterprise documents into a continuously synced AI QA platform with traceable citations, configurable agents, and lower integration overhead.",
       },
       engineeringDepth: {
         zh: "覆盖三路混合检索、LangGraph 编排、Agent 自主决策、工具生态、三层缓存、模型健康、分层指令、幻觉检测、Python SDK 与评测回归体系。",
-        en: "Shows integrated engineering across hybrid retrieval, LangGraph orchestration, agent autonomy, tool ecosystems, semantic caching, model health, layered instructions, hallucination checks, SDK delivery, and evaluation gates.",
+        en: "Covers hybrid retrieval, LangGraph orchestration, agent autonomy, tool ecosystems, semantic caching, model health, layered instructions, hallucination checks, SDK delivery, and evaluation gates.",
       },
       verification: [
         {
@@ -1453,13 +1451,13 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       expandedDetails: {
         background:
-          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档沉淀为可检索、可引用、可持续同步，并能支持多步 Agent 问答的知识平台。",
+          "企业资料分散在本地目录、Notion 等多源，业务希望把制度、FAQ、项目文档整理为可检索、可引用、可持续同步，并能支持多步 Agent 问答的知识平台。",
         problem:
           "传统单路检索难以同时覆盖标题、关键词与语义混合场景；Agent 模式如果缺少工具边界、反思、自主拆解、缓存治理和安全检测，也容易变成不可解释的高成本黑盒。",
         solution:
-          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构 Agent 运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events`、工具注册中心、任务拆解 DAG、反思闭环与三层记忆。\n- **补齐平台治理**：建设多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、6 类场景模板、RAG 幻觉检测、企业聊天 v2 与 Python SDK。\n- **强化推理与评测闭环**：引入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并和 readyz/trace 诊断，并通过 retrieval fixture、local ingest fixture、22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
+          "- **搭建混合检索**：结构、全文、向量三路召回配合 query rewrite、加权 RRF 与 rerank，提升复杂问题场景下的证据命中率。\n- **重构 Agent 运行时**：在 Gateway 与检索层引入 LangGraph，支持 checkpoint、interrupt/resume、`step_events`、工具注册中心、任务拆解 DAG、反思流程与三层记忆。\n- **提供平台治理能力**：建设多知识库、多源连接器、batch dry-run/jobs、token-aware chunk、retrieve/debug、人工接管队列、五层指令合并、6 类场景模板、RAG 幻觉检测、企业聊天 v2 与 Python SDK。\n- **强化推理与评测流程**：引入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并和 readyz/trace 诊断，并通过 retrieval fixture、local ingest fixture、22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
         result:
-          "形成面向中文企业场景的 AI 问答平台，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行、Agent 自主决策、人工接管、推理治理和最小评测回归闭环。",
+          "形成面向中文企业场景的 AI 问答平台，支持 grounded answer、引用溯源、多源同步、可解释检索调试、可恢复执行、Agent 自主决策、人工接管、推理治理和最小评测回归流程。",
         role: "后端/AI 应用工程师",
         techStack: [
           "FastAPI",
@@ -1497,7 +1495,7 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       summary:
         "中文方言语音转写演示系统：把本地 ASR 模型封装成可试用的 Web 原型，支持上传、录音、批量处理、IPA 拆分和结果导出。",
-      impact: "方言语音转写原型 + 演示闭环",
+        impact: "方言语音转写原型 + 演示流程",
       keyOutcomes: [
         "基于 Flask 封装本地 ASR 模型，支持多文件上传、流式转写、浏览器录音与示例音频体验。",
         "加入音频标准化、并发处理、IPA 声母/韵母/声调拆分与日志体系，使原型既可演示也便于排障。",
@@ -1506,11 +1504,11 @@ export const defaultPortfolioData: PortfolioData = {
       audienceTags: ["jobSeeker", "partner", "client"],
       businessValue: {
         zh: "把研究型语音识别能力快速收敛成可试用原型，帮助客户低成本验证需求与技术路线。",
-        en: "Turned research-oriented speech recognition capability into a usable prototype for low-cost validation.",
+        en: "Packaged research-oriented speech recognition into a usable prototype for low-cost validation.",
       },
       engineeringDepth: {
         zh: "覆盖本地模型推理封装、音频预处理、批处理并发、结构化导出和面向演示场景的 Web 交付。",
-        en: "Showcases local ASR inference packaging, audio preprocessing, batch concurrency, structured export, and web delivery for demos.",
+        en: "Uses local ASR inference packaging, audio preprocessing, batch concurrency, structured export, and web delivery for demos.",
       },
       verification: [
         {
@@ -1526,9 +1524,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "需要同时解决模型推理封装、音频标准化、批量转写、结果导出和非技术用户可操作性，且交付周期有限。",
         solution:
-          "- **Web 化封装**：用 Flask 承载本地 ASR pipeline，并提供上传、录音、示例音频和二次转写接口。\n- **音频处理**：结合 `torchaudio` 与 `ffmpeg` 做格式检测、标准化转换和并发加载。\n- **结果结构化**：通过 Excel 表维护 IPA 映射，支持声母/韵母/声调拆分与 Excel 导出。\n- **演示交付**：补齐系统手册、模板下载、错误日志与批量处理能力，便于现场演示和验收。",
+          "- **Web 化封装**：用 Flask 承载本地 ASR pipeline，并提供上传、录音、示例音频和二次转写接口。\n- **音频处理**：结合 `torchaudio` 与 `ffmpeg` 做格式检测、标准化转换和并发加载。\n- **结果结构化**：通过 Excel 表维护 IPA 映射，支持声母/韵母/声调拆分与 Excel 导出。\n- **演示交付**：加入系统手册、模板下载、错误日志与批量处理能力，便于现场演示和验收。",
         result:
-          "交付完整的 `IPA Demo` 原型，覆盖“录音/上传 -> 转写 -> IPA 拆分 -> 导出”的核心闭环。",
+          "交付完整的 `IPA Demo` 原型，覆盖“录音/上传 -> 转写 -> IPA 拆分 -> 导出”的核心流程。",
         role: "全栈顾问",
         techStack: [
           "Python",
@@ -1559,12 +1557,12 @@ export const defaultPortfolioData: PortfolioData = {
         "WeChat Pay",
       ],
       summary:
-        "面向医学专家的论文检索与订阅推送后端：围绕 PubMed 抓取、AI 搜索、深度分析、收藏订阅和会员积分体系形成完整服务链路。",
+        "面向医学专家的论文检索与订阅推送后端：围绕 PubMed 抓取、AI 搜索、深度分析、收藏订阅和会员积分体系覆盖主要服务链路。",
       impact: "医学论文检索 + AI 分析 + 订阅运营",
       keyOutcomes: [
         "构建 PubMed 抓取、文章入库、DOI/期刊补全与定时任务链路，形成持续更新的论文数据底座。",
         "提供 AI 关键词、AI 检索、深度分析、收藏和推荐接口，提升医学场景的检索效率与阅读深度。",
-        "补齐订阅推送、推送历史、积分/VIP、邀请码和微信支付回调处理，支撑小程序持续运营。",
+        "加入订阅推送、推送历史、积分/VIP、邀请码和微信支付回调处理，支撑小程序持续运营。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
@@ -1589,9 +1587,9 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "除了论文抓取和搜索，还要同时处理个性化订阅、深度分析、用户行为、积分/VIP 和支付等运营需求，系统边界较宽。",
         solution:
-          "- **数据与检索**：基于 Django + MySQL 建立论文、主题、订阅和收藏等模型，通过 PubMed spider 与管理命令维护数据。\n- **AI 能力**：提供 AI 关键词生成、AI 搜索、深度分析和相关推荐接口，增强医学场景的检索表达能力。\n- **异步与缓存**：使用 Celery 和 Redis 支撑定时任务、推送流程和接口性能治理。\n- **商业化闭环**：接入微信支付、积分记录、VIP 与邀请码，支撑小程序持续运营。",
+          "- **数据与检索**：基于 Django + MySQL 建立论文、主题、订阅和收藏等模型，通过 PubMed spider 与管理命令维护数据。\n- **AI 能力**：提供 AI 关键词生成、AI 搜索、深度分析和相关推荐接口，增强医学场景的检索表达能力。\n- **异步与缓存**：使用 Celery 和 Redis 支撑定时任务、推送流程和接口性能治理。\n- **商业化流程**：接入微信支付、积分记录、VIP 与邀请码，支撑小程序持续运营。",
         result:
-          "形成面向医学检索场景的小程序后端闭环，覆盖数据抓取、搜索分析、订阅推送与支付运营。",
+          "形成面向医学检索场景的小程序后端流程，覆盖数据抓取、搜索分析、订阅推送与支付运营。",
         role: "后端开发",
         techStack: [
           "Python",
@@ -1613,20 +1611,20 @@ export const defaultPortfolioData: PortfolioData = {
       techTags: ["Spring Boot", "Redis", "Spring Security", "Vue.js", "MySQL"],
       summary:
         "面向校内选课、考试与知识付费场景的教育平台，集成课程管理、支付结算与实时互动能力。",
-      impact: "教育平台 + 支付闭环 + 实时互动",
+      impact: "教育平台 + 支付流程 + 实时互动",
       keyOutcomes: [
-        "负责课程、支付与互动链路的全栈实现，形成校内教学与知识付费闭环。",
-        "引入 Redis 缓存与 RBAC 权限治理，支撑选课与考试高峰时段的稳定访问。",
-        "基于 WebSocket 实现实时互动与在线答疑，提升教学场景的响应效率与参与度。",
+        "负责课程、支付与互动链路的全栈实现，覆盖校内教学与知识付费场景。",
+        "引入 Redis 缓存与 RBAC 权限治理，支持选课与考试高峰时段的稳定访问。",
+        "基于 WebSocket 实现实时互动与在线答疑，改善教学场景的响应效率与参与度。",
       ],
       audienceTags: ["jobSeeker", "partner", "client"],
       businessValue: {
-        zh: "为校园场景提供教学工具与支付能力一体化平台，打通课程服务与知识付费闭环。",
-        en: "Provided not just teaching tools but also a closed-loop monetization system for campus.",
+        zh: "为校园场景提供教学工具与支付能力一体化平台，连接课程服务与知识付费。",
+        en: "Provided teaching tools and a campus monetization system.",
       },
       engineeringDepth: {
-        zh: "覆盖支付系统对接、缓存治理、权限控制与实时互动场景落地。",
-        en: "Shows engineering practice in payment integration, concurrency governance, and content security.",
+        zh: "覆盖支付系统对接、缓存治理、权限控制与实时互动场景实现。",
+        en: "Covers payment integration, concurrency governance, and content security.",
       },
       verification: [
         {
@@ -1641,8 +1639,8 @@ export const defaultPortfolioData: PortfolioData = {
         background: "校园需要自有知识付费与在线学习平台。",
         problem: "现有系统功能单一，不支持支付与高并发。",
         solution:
-          "- **构建全栈平台**：围绕课程、支付与互动场景完成后端接口与前端页面开发。\n- **治理高峰流量**：使用 Redis 缓存热点课程数据，提升高峰时段访问稳定性。\n- **补齐交易与安全**：对接支付网关，并通过 Spring Security 实现细粒度 RBAC 权限控制。\n- **落地实时互动**：基于 WebSocket 实现在线互动与答疑能力。",
-        result: "完成校内教育平台原型交付，支持课程服务、支付结算与实时互动场景落地。",
+          "- **构建全栈平台**：围绕课程、支付与互动场景完成后端接口与前端页面开发。\n- **治理高峰流量**：使用 Redis 缓存热点课程数据，改善高峰时段访问稳定性。\n- **加入交易与安全**：对接支付网关，并通过 Spring Security 实现细粒度 RBAC 权限控制。\n- **实现实时互动**：基于 WebSocket 实现在线互动与答疑能力。",
+        result: "完成校内教育平台原型交付，覆盖课程服务、支付结算与实时互动场景。",
         role: "全栈开发",
         techStack: ["Spring Boot", "Redis", "Vue.js"],
       },
@@ -1675,17 +1673,17 @@ export const defaultPortfolioData: PortfolioData = {
       keyOutcomes: [
         "构建“分片上传 + 秒传 + 断点续传 + SSE 状态回传”主链路，结合零拷贝分片合并，支持 1000+ 并发上传，成功率 >99.5%（README 指标口径）。",
         "完成 PostgreSQL 复合索引、游标分页与 Caffeine / Redis 多级缓存治理，使 API P95 <500ms、P99 <1s、数据库查询 P95 <100ms，慢查询减少 80%（README 指标口径）。",
-        "落地 HMAC-SHA256 请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离，形成文件平台安全闭环。",
+        "落地 HMAC-SHA256 请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离，建立文件平台安全边界。",
         "建立“本地一键启动 + Docker 全栈部署 + 健康检查 + Prometheus/Grafana + Web Vitals 入库”工程基线，使核心 P0/P1 流程可复现验证。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
         zh: "提供可私有化部署的文件协作底座，兼顾高并发上传、安全治理、身份接入扩展与监控验收能力。",
-        en: "Provides a privately deployable file collaboration platform with lower operational and security risks.",
+        en: "Built a privately deployable file collaboration platform with operational and security controls.",
       },
       engineeringDepth: {
-        zh: "落地 Java 21 虚拟线程、零拷贝、签名防重放、OAuth 扩展接入、索引优化、多级缓存、游标分页与可观测体系，并在本地/容器双部署链路下保持一致交付。",
-        en: "Combines virtual threads, zero-copy transfer, signature replay protection, OAuth extensibility, layered caching, cursor pagination, and observability into an extensible engineering baseline.",
+        zh: "使用 Java 21 虚拟线程、零拷贝、签名防重放、OAuth 扩展接入、索引优化、多级缓存、游标分页与可观测体系，并在本地/容器双部署链路下保持一致交付。",
+        en: "Uses virtual threads, zero-copy transfer, signature replay protection, OAuth extensibility, layered caching, cursor pagination, and observability in the delivery baseline.",
       },
       verification: [
         {
@@ -1702,11 +1700,11 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "目标是在前后端分离架构下交付可企业内部署的文件平台，同时兼容本地一键启动与 Docker 全栈部署。",
         problem:
-          "需同时满足高并发上传稳定性、深分页与热点查询性能、安全鉴权一致性、第三方登录扩展能力和上线后可观测闭环。",
+          "需同时满足高并发上传稳定性、深分页与热点查询性能、安全鉴权一致性、第三方登录扩展能力和上线后的监控告警。",
         solution:
-          "- **重构上传链路**：基于 Java 21 虚拟线程实现分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并，并通过 SSE 回传状态。\n- **优化数据性能**：落地 PostgreSQL 复合索引、游标分页、Caffeine(L1)/Redis(L2) 多级缓存、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **完善安全体系**：建设请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离。\n- **补齐身份与观测**：接入 GitHub / Google / Microsoft OAuth 登录，并通过 Actuator、Micrometer、Prometheus、Grafana 与 Web Vitals 建立可观测闭环。",
+          "- **重构上传链路**：基于 Java 21 虚拟线程实现分片上传、断点续传、秒传与 `FileChannel.transferTo()` 零拷贝合并，并通过 SSE 回传状态。\n- **优化数据性能**：加入 PostgreSQL 复合索引、游标分页、Caffeine(L1)/Redis(L2) 多级缓存、布隆过滤器与分级 TTL，降低回源与深分页开销。\n- **完善安全体系**：建设请求签名防重放、JWT 双 Token + 黑名单、`@FileAccessCheck`、Magic Number 校验与多租户隔离。\n- **加入身份与观测**：接入 GitHub / Google / Microsoft OAuth 登录，并通过 Actuator、Micrometer、Prometheus、Grafana 与 Web Vitals 提供监控数据。",
         result:
-          "形成可持续迭代的交付基线：API P95 <500ms、P99 <1s、缓存命中率 >90%、上传成功率 >99.5%，并支持本地与 Docker 双链路部署（README 指标口径）。",
+          "交付可持续迭代的基线：API P95 <500ms、P99 <1s、缓存命中率 >90%、上传成功率 >99.5%，并支持本地与 Docker 双链路部署（README 指标口径）。",
         role: "全栈开发（主导）",
         techStack: [
           "Java 21",
@@ -1755,12 +1753,12 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
-        zh: "为自动化立体仓库调度系统提供算法可行性验证与仿真支撑。",
+        zh: "为自动化立体仓库调度系统提供算法可行性验证与仿真工具。",
         en: "Provided core algorithm verification and simulation tools for AS/RS scheduling.",
       },
       engineeringDepth: {
         zh: "覆盖图搜索算法、冲突消解逻辑、仓储地图建模与可视化交互开发。",
-        en: "Demonstrates engineering implementation of complex operations research algorithms and GUI dev.",
+        en: "Implemented operations-research algorithms and a GUI for the scheduling prototype.",
       },
       verification: [
         {
@@ -1775,7 +1773,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem: "多车协同场景下容易出现节点占用冲突、路径交叉与潜在死锁，单车寻路算法难以直接复用。",
         solution:
           "- **实现路径搜索**：基于 A* 完成仓储地图下的启发式路径求解。\n- **处理多车冲突**：引入冲突检测与优先级等待策略，解决多车协同时序冲突问题。\n- **构建仿真工具**：基于 PyQt5 开发地图编辑与路径可视化界面，支持调试与演示。",
-        result: "完成多车路径规划原型验证，支持在仿真环境中直观展示路径搜索与冲突消解过程。",
+        result: "完成多车路径规划原型验证，可在仿真环境中展示路径搜索与冲突消解过程。",
         role: "算法研发",
         techStack: ["Python", "A*", "PyQt5"],
       },
@@ -1911,7 +1909,7 @@ export const defaultPortfolioData: PortfolioData = {
       targetSection: "experience",
       primaryCTA: "查看履历证据",
       secondaryCTA: "下载简历 PDF",
-      highlightMetrics: ["远程优先", "关键指标可复核", "履历与项目闭环"],
+      highlightMetrics: ["远程优先", "关键指标可复核", "履历与项目证据"],
     },
     {
       id: "jobSeeker",

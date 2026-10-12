@@ -39,18 +39,16 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   colorScheme: "light",
-  themeColor: "#f3f6fa",
+  themeColor: "#fafafa",
 };
 
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
-    <html lang={getHtmlLang(defaultLocale)} suppressHydrationWarning>
+    <html lang={getHtmlLang(defaultLocale)} data-theme="light" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="subpixel-antialiased" suppressHydrationWarning>
         <AnalyticsProvider>
           <MotionProvider>
@@ -58,7 +56,6 @@ export default function RootLayout({
               <WebVitals />
               <SkipToContent />
               <div id="main-content">{children}</div>
-              {modal}
             </LocaleProvider>
           </MotionProvider>
         </AnalyticsProvider>

@@ -10,6 +10,11 @@ This project publishes through two separate channels. Keep this file aligned wit
 - Shareable locale paths are always available:
   - `/zh`
   - `/en`
+  - `/zh/projects`、`/en/projects`（作品索引）
+  - `/zh/experience`、`/en/experience`（经历索引）
+  - `/zh/about`、`/en/about`（关于页）
+  - `/zh/projects/[slug]`（规范项目详情路径）
+  - `/en/projects/[slug]`（规范项目详情路径）
   - `/zh/experiences/[slug]`
   - `/en/experiences/[slug]`
 - Root path `/` renders the deployment default locale directly.
@@ -148,7 +153,7 @@ test -f out/zh/index.html
 test -f out/en/index.html
 ```
 
-`npm run build:static` sets `NEXT_PUBLIC_STATIC_EXPORT=true`, defaults the static locale to `zh`, accepts an optional base path argument, temporarily disables the intercepting experience route, clears `.next` and `out`, runs `npm run build`, and then runs `npm run optimize:images`.
+`npm run build:static` sets `NEXT_PUBLIC_STATIC_EXPORT=true`, defaults the static locale to `zh`, accepts an optional base path argument, clears `.next` and `out`, runs `npm run build`, and then runs `npm run optimize:images`.
 
 ## Rollback
 

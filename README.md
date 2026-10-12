@@ -34,7 +34,7 @@
 - 部署形态：
   - 服务端构建：`output: 'standalone'`
   - 静态导出：`output: 'export'`
-  - 运行时能力：中英文路径、详情页与拦截路由、简历下载 API / 静态下载兼容、GitHub 遥测降级、CSP 与缓存响应头、GA4 可选统计
+  - 运行时能力：中英文路径、作品与经历详情页、简历下载 API / 静态下载兼容、CSP 与缓存响应头、GA4 可选统计
 
 ## 本地开发
 
@@ -132,8 +132,7 @@ npm run check:links
 npm run check:performance
 npm run verify:public
 
-# 数据、分析与部署
-npm run build:data
+# 分析、图片与部署
 npm run analyze
 npm run optimize:images
 npm run deploy:server
@@ -162,8 +161,8 @@ npm run push:all
 - E2E 测试目录为 `tests/e2e`
 - Playwright 默认覆盖 `chromium` 和 `Mobile Chrome`
 - 本地执行 E2E 时会自动拉起 `npm run dev`
-- `npm run build` 会先执行 `npm run build:data`；CI 中通过 `SKIP_GITHUB_FETCH=1` 跳过 GitHub 数据抓取
-- `npm run build:static` 会进入静态导出模式，临时移出拦截路由、清理 `.next` / `out`，构建后运行图片优化
+- `npm run build` 直接构建当前作品集页面，不依赖外部 GitHub 数据抓取
+- `npm run build:static` 会进入静态导出模式，清理 `.next` / `out`，构建后运行图片优化
 - `npm run verify:public` 用于校验 Vercel 与自托管公开端点；是否强制校验自托管主域名由环境变量控制
 
 Vercel 通过 Git 集成发布，自托管服务器通过 SSH bare repo 发布；本地可用 `npm run build:static` 验证静态导出链路。
@@ -193,7 +192,6 @@ portfolio/
 │  ├─ lib/                 # 运行时工具与辅助逻辑
 │  ├─ config/              # 站点配置
 │  ├─ data.ts              # 作品集核心内容数据
-│  └─ data/                # GitHub 遥测等辅助数据
 ├─ docs/                   # 开发、部署、履历素材相关文档
 ├─ scripts/                # 构建、部署、链接检查、缓存初始化脚本
 ├─ tests/                  # 单元测试与 E2E 测试

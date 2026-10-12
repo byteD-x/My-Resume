@@ -117,7 +117,7 @@ PDF 简历不单独用于：
 
 - 主数据文件：`src/data.ts`
 - 类型定义：`src/types.ts`
-- 展示入口：`src/app/page.tsx`、`src/app/[locale]/page.tsx`、`src/app/experiences/[slug]/page.tsx`、`src/components/*`
+- 展示入口：`src/app/page.tsx`、`src/app/[locale]/page.tsx`、`src/app/projects/[slug]/page.tsx`、`src/app/experiences/[slug]/page.tsx`、`src/components/*`
 - 简历素材：`docs/resume-ai-main.md`、`docs/resume-experience-copy.md`、`docs/resume-star-bank.md`、`docs/resume-writing-kit.md`、`docs/resume-metrics-checklist.md`
 
 如果规则与口头约定冲突，以“源码优先、PDF 只校对事实骨架”的原则为准。

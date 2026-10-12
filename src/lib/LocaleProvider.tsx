@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useState,
   type ReactNode,
 } from "react";
 import { usePathname } from "next/navigation";
@@ -43,10 +44,23 @@ export function LocaleProvider({
   const pathLocale = getPathLocale(pathname);
   const locale = pathLocale ?? defaultLocale;
   const explicitLocale = hasLocalePrefix(pathname);
+  const [currentSearch, setCurrentSearch] = useState("");
+  const [currentHash, setCurrentHash] = useState("");
 
   useEffect(() => {
     document.documentElement.lang = getHtmlLang(locale);
   }, [locale]);
+
+  useEffect(() => {
+    const syncLocationSuffix = () => {
+      setCurrentSearch(window.location.search);
+      setCurrentHash(window.location.hash);
+    };
+
+    syncLocationSuffix();
+    window.addEventListener("hashchange", syncLocationSuffix);
+    return () => window.removeEventListener("hashchange", syncLocationSuffix);
+  }, [pathname]);
 
   const value = useMemo<LocaleContextValue>(
     () => ({
@@ -57,19 +71,10 @@ export function LocaleProvider({
       localizedHref: (href: string) =>
         resolveLocalizedHref(href, locale, explicitLocale),
       switchLocaleHref: (targetLocale: Locale) => {
-        const search =
-          typeof window === "undefined" ? "" : window.location.search;
-        const hash =
-          typeof window === "undefined" ? "" : window.location.hash;
-        return resolveLocalePath(
-          pathname,
-          targetLocale,
-          search,
-          hash,
-        );
+        return resolveLocalePath(pathname, targetLocale, currentSearch, currentHash);
       },
     }),
-    [defaultLocale, explicitLocale, locale, pathname],
+    [currentHash, currentSearch, defaultLocale, explicitLocale, locale, pathname],
   );
 
   return (

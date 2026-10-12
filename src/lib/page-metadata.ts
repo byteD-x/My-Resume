@@ -127,10 +127,25 @@ export function getHomePageMetadata(
   return buildBaseMetadata(locale, pathname);
 }
 
+export function getSectionPageMetadata(
+  locale: Locale,
+  pathname: string,
+  title: string,
+  description: string,
+  explicitLocale = false,
+): Metadata {
+  return buildBaseMetadata(
+    locale,
+    buildRoutePath(locale, pathname, explicitLocale),
+    { title, description },
+  );
+}
+
 export function getExperiencePageMetadata(
   slug: string,
   locale: Locale,
   explicitLocale = false,
+  routeBase: "experiences" | "projects" = "experiences",
 ): Metadata | null {
   const item = getExperience(slug, locale);
   if (!item) return null;
@@ -143,7 +158,7 @@ export function getExperiencePageMetadata(
   );
   const pathname = buildRoutePath(
     locale,
-    `/experiences/${item.id}`,
+    `/${routeBase}/${item.id}`,
     explicitLocale,
   );
 
@@ -250,6 +265,7 @@ export function getExperienceStructuredData(
   slug: string,
   locale: Locale,
   explicitLocale = false,
+  routeBase: "experiences" | "projects" = "experiences",
 ) {
   const item = getExperience(slug, locale);
   if (!item) return null;
@@ -257,7 +273,7 @@ export function getExperienceStructuredData(
   const localeConfig = localizedSiteConfig[locale];
   const name = "role" in item ? `${item.role} - ${item.company}` : item.name;
   const url = buildAbsoluteUrl(
-    buildRoutePath(locale, `/experiences/${slug}`, explicitLocale),
+    buildRoutePath(locale, `/${routeBase}/${slug}`, explicitLocale),
   );
   const homeUrl = buildAbsoluteUrl(buildRoutePath(locale, "/", explicitLocale));
 

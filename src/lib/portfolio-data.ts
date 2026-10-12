@@ -74,25 +74,25 @@ const enHero: HeroData = {
 const enImpactCopy: Record<string, ImpactCopy> = {
   "impact-rag": {
     title: "Knowledge QA",
-    label: "Agent upgrade",
+    label: "regression cases",
     description:
-      "RAG-QA System: hybrid retrieval plus LangGraph recovery, agent autonomy, inference optimization, and platform SDK access.",
+      "RAG-QA System: 22 backend test files and 9 frontend test files covering 400+ regression cases across retrieval, runtime, and platform governance.",
     details:
       "Turns scattered documents into a continuously synced, citation-backed, and agent-configurable enterprise AI QA platform.",
   },
   "impact-wechat": {
-    title: "Open-source signal",
-    label: "GitHub stars",
+    title: "WeChat assistant",
+    label: "local smoke checks",
     description:
-      "WeChat assistant: a long-running bot for the WeChat ecosystem with layered memory, cost controls, and runtime observability.",
+      "25/25 fixed local smoke checks passed; a 2-second reply deadline and 27 offline evaluations constrain the long-running path.",
     details:
       "Uses a BaseTransport boundary plus LangChain/LangGraph to rebuild the reply workflow and governance path.",
   },
   "impact-customer-ai": {
     title: "Customer-service runtime",
-    label: "plugin extension points",
+    label: "local cases passed",
     description:
-      "AI customer-service runtime unifying text, voice, RTC, host mounting, plugins, and knowledge governance.",
+      "20/20 local e-commerce support cases passed; mean first response was 18.05ms and turn P50/P95 was 17/24ms in the offline sample.",
     details:
       "Extends QA into a business-mountable runtime with human handoff, diagnostics, and tenant-aware plugins.",
   },
@@ -105,20 +105,20 @@ const enImpactCopy: Record<string, ImpactCopy> = {
       "Manual resume evidence, not inferred from repository code.",
   },
   "impact-3": {
-    title: "Cost governance",
-    label: "cost APIs",
+    title: "IPA speech prototype",
+    label: "recognition runs",
     description:
-      "Pricing snapshots, price refresh, session summaries, and detail APIs turned cost work into observable capability.",
+      "The IPA Demo logs record 2,380 recognitions and 60 batch jobs, with up to 500 files in one batch; 50-file batches averaged 25.36s (n=23).",
     details:
-      "Distinguishes estimated token/pricing data from precise cost records to avoid overstating incomplete data.",
+      "Customer-acceptance evidence: 2,380 recognitions, 60 batches, and up to 500 files in one batch; the timing is a local prototype measurement.",
   },
   "impact-4": {
-    title: "Full-stack delivery",
-    label: "closed-loop delivery",
+    title: "RentBox",
+    label: "customer requirements shipped",
     description:
-      "From requirements to release: solution design, implementation, testing, deployment, monitoring, and rollback.",
+      "Delivered 27 customer requirements across mini-program, merchant, admin, device, and payment flows.",
     details:
-      "Uses lint, build, tests, e2e, static export, and link checks as delivery gates.",
+      "Resume and delivery evidence for a multi-client rental system, including payment, device, return, settlement, and audit paths.",
   },
   "impact-5": {
     title: "Large-scale data",
@@ -139,7 +139,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       "Led four representative projects across rental workflow delivery, task-platform integration, customer-service runtime design, and a long-running desktop assistant, covering design, implementation, integration, testing, and runtime governance.",
     keyOutcomes: [
       "Grouped RentBox, the Paper Retrieval Task Platform, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one independent-developer work entry.",
-      "Kept each child project traceable through its own slug, evidence notes, and detail page.",
+      "Kept each child project on its own slug, evidence notes, and detail page.",
       "Aligned the public portfolio structure with the latest Chinese resume and English PDF.",
     ],
     expandedDetails: {
@@ -167,7 +167,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     summary:
       "Independently delivered a multi-client rental system covering mini program, admin console, channel portal, and Spring Boot backend across payment, deposit-free rental, device commands, returns, settlement, and audit paths.",
     keyOutcomes: [
-      "Organized server, admin, channel, miniapp, shared, and deploy modules in one verifiable delivery loop.",
+      "Organized server, admin, channel, miniapp, shared, and deploy modules in one delivery path.",
       "Built server-side state machines for orders, payments, devices, returns, compensation, and audit logs.",
       "Integrated WeChat Pay v3, WeChat Pay Score, and device-vendor Web APIs behind gateway boundaries.",
     ],
@@ -179,7 +179,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       solution:
         "- Organized a multi-client monorepo around server / admin / channel / miniapp / shared modules.\n- Converged order, payment, device command, return review, and compensation into backend state machines.\n- Isolated external integrations behind DeviceGateway and DepositFreeGateway boundaries.\n- Added Flyway, tests, build checks, and host release scripts for repeatable delivery.",
       result:
-        "Delivered a testable rental-business loop covering scan-to-rent, reservation, payment/deposit-free flows, device opening, return review, channel settlement, operations, and release management.",
+        "Covered scan-to-rent, reservation, payment/deposit-free flows, device opening, return review, channel settlement, operations, and release management in a testable rental build.",
       role: "Independent developer covering product convergence, backend core, multi-client integration, and deployment.",
       techStack: [
         "Java 21",
@@ -199,7 +199,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     company: "Paper Retrieval Task Platform",
     location: "Local project / acceptance build",
     summary:
-      "Delivered a user-facing task platform around phone verification, task creation, shared worker-table integration, SSE status updates, quota ledger, Alipay upgrade, and admin operations.",
+      "Built a user-facing task platform around phone verification, task creation, shared worker-table integration, SSE status updates, quota ledger, Alipay upgrade, and admin operations.",
     keyOutcomes: [
       "Built user, admin, task, payment, quota, and health-check modules with FastAPI and React.",
       "Integrated with the customer worker through a shared database contract instead of direct coupling.",
@@ -213,7 +213,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       solution:
         "- Defined a shared tasks-table contract for worker integration.\n- Built FastAPI layers for auth, tasks, quota, payment callbacks, and admin operations.\n- Used PostgreSQL LISTEN/NOTIFY and SSE for realtime progress.\n- Added pytest, Vitest, and Playwright regression coverage.",
       result:
-        "Created an acceptance-ready platform that lowered cross-team integration risk while keeping the production path clear.",
+        "Created an acceptance-ready platform with a separate worker boundary and a clear production path.",
       role: "Independent full-stack developer.",
       techStack: [
         "Python",
@@ -233,7 +233,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     company: "WeChat Intelligent Assistant",
     location: "Open-source project / long-running desktop assistant",
     summary:
-      "Turned a script-like WeChat auto-reply tool into a long-running AI assistant with access governance, layered memory, runtime diagnostics, and cost analysis.",
+      "The former script-like WeChat auto-reply tool now runs as a long-running AI assistant with access governance, layered memory, runtime diagnostics, and cost analysis.",
     keyOutcomes: [
       "Abstracted the WeChat access boundary with BaseTransport.",
       "Rebuilt the reply chain with LangChain and LangGraph.",
@@ -247,7 +247,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       solution:
         "- Introduced BaseTransport to isolate WeChat access.\n- Rebuilt the runtime with LangChain and LangGraph.\n- Added layered memory, degradable RAG, hot-reloadable config, metrics, and cost APIs.",
       result:
-        "Established a more maintainable long-running assistant baseline with clearer runtime governance.",
+        "The assistant has a maintainable long-running baseline with clearer runtime governance.",
       role: "Independent AI application engineer.",
       techStack: ["Python", "LangChain", "LangGraph", "RAG", "FastAPI", "Prometheus"],
     },
@@ -267,11 +267,11 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       background:
         "Customer service needs more than knowledge QA: it must connect to host systems, call tools, and hand off to humans.",
       problem:
-        "Without a governed runtime, AI support is hard to mount, audit, extend, and operate safely.",
+        "Without explicit runtime boundaries, AI support is hard to mount, audit, extend, and operate safely.",
       solution:
         "- Designed a six-layer runtime architecture.\n- Added route confidence, intent_stack, page_context, and business_objects-aware routing.\n- Exposed seven plugin extension categories covering route, tool, auth, industry, handoff, context, and response processing.\n- Connected text, voice, RTC, diagnostics, rate limiting, and redaction paths.",
       result:
-        "Turned customer-service QA into a business-mountable and governable runtime capability.",
+        "The customer-service QA flow now runs as a business-mountable runtime with explicit controls.",
       role: "Independent AI runtime developer.",
       techStack: ["Python", "FastAPI", "OpenAI", "RAG", "WebSocket", "RTC", "Redis"],
     },
@@ -285,7 +285,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     keyOutcomes: [
       "Wrapped local ASR inference and audio preprocessing.",
       "Added batch processing and structured result export.",
-      "Delivered a web-based demo for feasibility validation.",
+      "Added a web-based demo for feasibility validation.",
     ],
   },
   "exp-chinasoft": {
@@ -329,7 +329,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     company: "EasyCloudPan",
     location: "Private file-platform project",
     summary:
-      "Delivered a privately deployable file platform covering auth, upload/download, sharing, preview, multi-tenancy, secure communication, and observability.",
+      "Built a privately deployable file platform covering auth, upload/download, sharing, preview, multi-tenancy, secure communication, and observability.",
     keyOutcomes: [
       "Built chunked upload, instant upload, resumable upload, and SSE progress.",
       "Added security baselines including signature replay protection and tenant isolation.",
@@ -368,7 +368,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       background:
         "This grouped project entry mirrors the latest resume's independent-developer section.",
       solution:
-        "- Present RentBox, the Paper Retrieval Task Platform, AI Customer Service Runtime, and the WeChat Intelligent Assistant as one grouped project area.\n- Keep each child project independently traceable through the existing detail routes.\n- Reuse the current portfolio structure instead of duplicating a second detail model.",
+        "- Group RentBox, the Paper Retrieval Task Platform, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one project area.\n- Keep each child project on its own detail route.\n- Reuse the current portfolio structure instead of duplicating a second detail model.",
       result:
         "The projects section now shows one parent grouping for independent work while keeping project-level drill-down intact.",
       role: "Independent developer",
@@ -397,7 +397,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
   "proj-customer-ai-runtime": {
     name: "AI Customer Service Runtime",
     summary:
-      "A governed AI customer-service runtime that supports host mounting, tools, human handoff, knowledge governance, and multi-channel access.",
+      "An AI customer-service runtime with host mounting, tools, human handoff, knowledge controls, and multi-channel access.",
     impact: "AI runtime + intent-aware routing + 7-plugin governance",
   },
   "proj-wechat-bot": {

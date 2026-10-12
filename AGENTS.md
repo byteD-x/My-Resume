@@ -71,7 +71,6 @@
 - 检测到可用脚本：
   - `analyze`
   - `build`
-  - `build:data`
   - `build:static`
   - `check:links`
   - `check:performance`

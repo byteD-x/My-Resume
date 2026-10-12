@@ -1,6 +1,6 @@
 import type { Transition } from "framer-motion";
 
-type SurfaceKind = "drawer" | "panel" | "modal";
+type SurfaceKind = "drawer" | "panel";
 
 const EMPHASIZED_EASE = [0.22, 1, 0.36, 1] as const;
 const EXIT_EASE = [0.4, 0, 1, 1] as const;
@@ -21,14 +21,9 @@ export function getOverlayFadeTransition(
 
 export function getOverlaySurfaceTransition({
   reduceMotion,
-  kind,
 }: SurfaceMotionOptions): Transition {
   if (reduceMotion) {
     return { duration: 0.14, ease: EMPHASIZED_EASE };
-  }
-
-  if (kind === "modal") {
-    return { duration: 0.24, ease: EMPHASIZED_EASE };
   }
 
   return { duration: 0.26, ease: EMPHASIZED_EASE };
@@ -37,16 +32,9 @@ export function getOverlaySurfaceTransition({
 export function getOverlaySurfaceInitial({
   reduceMotion,
   desktop,
-  kind,
 }: SurfaceMotionOptions) {
   if (reduceMotion) {
     return { opacity: 0 };
-  }
-
-  if (kind === "modal") {
-    return desktop
-      ? { opacity: 0, y: 20, scale: 0.985 }
-      : { opacity: 0, y: 28, scale: 1 };
   }
 
   return desktop
@@ -67,16 +55,9 @@ export function getOverlaySurfaceAnimate({
 export function getOverlaySurfaceExit({
   reduceMotion,
   desktop,
-  kind,
 }: SurfaceMotionOptions) {
   if (reduceMotion) {
     return { opacity: 0 };
-  }
-
-  if (kind === "modal") {
-    return desktop
-      ? { opacity: 0, y: 12, scale: 0.992, transition: { ease: EXIT_EASE } }
-      : { opacity: 0, y: 18, scale: 1, transition: { ease: EXIT_EASE } };
   }
 
   return desktop

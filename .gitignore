@@ -47,9 +47,17 @@ test-results/
 
 # AI Agents / Editors
 .kiro/
+.claude/
 
 # Local visual review artifacts
 .codex/*.pid
+.codex/*.log
 .codex/*.png
+.codex/*-check.py
+.codex/cover-prompts/
+.codex/generated-covers/
 .codex/gh-pages-worktree/
 .codex/resume-preview/
+
+# Static image export cache
+public/images/nextImageExportOptimizer/

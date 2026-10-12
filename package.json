@@ -12,8 +12,6 @@
     "dev:external:trace": "cross-env NEXT_DIST_DIR=.next-dev-cache NEXT_PUBLIC_DEV_VISUAL_MODE=lite NEXT_TURBOPACK_TRACING=1 next dev",
     "build": "next build",
     "optimize:images": "node scripts/optimize-images.js",
-    "build:data": "node scripts/fetch-github-data.mjs",
-    "prebuild": "npm run build:data",
     "build:static": "node scripts/build-static.js",
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",

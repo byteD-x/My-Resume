@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/Container";
-import { getDefaultLocale } from "@/lib/locale";
+import { getDeploymentDefaultLocale } from "@/lib/deployment-locale";
 import { getUiCopy } from "@/lib/locale-copy";
 
 /**
@@ -7,29 +7,29 @@ import { getUiCopy } from "@/lib/locale-copy";
  * 在路由切换时显示骨架屏，提升用户体验
  */
 export default function Loading() {
-  const copy = getUiCopy(getDefaultLocale());
+  const copy = getUiCopy(getDeploymentDefaultLocale());
 
   return (
     <div
-      className="min-h-screen bg-[rgba(255,250,242,0.78)]"
+      className="dark-portfolio min-h-screen bg-[#0c0d10]"
       role="status"
       aria-live="polite"
       aria-label={copy.loadingLabel}
     >
       {/* Navbar 骨架 */}
-      <div className="h-16 border-b border-[color:var(--border-default)] bg-[rgba(255,255,255,0.92)] backdrop-blur-sm">
+      <div className="h-16 border-b border-[rgba(241,238,232,0.13)] bg-[rgba(12,13,16,0.92)] backdrop-blur-sm">
         <Container>
           <div className="flex items-center justify-between h-full">
-            <div className="h-6 w-24 rounded-full bg-[rgba(191,219,254,0.45)] animate-pulse" />
+            <div className="h-6 w-24 rounded-full bg-[rgba(0,217,255,0.24)] animate-pulse" />
             <div className="hidden md:flex gap-6">
               {[1, 2, 3, 4].map((i) => (
                 <div
                   key={i}
-                  className="h-4 w-16 rounded-full bg-[rgba(191,219,254,0.38)] animate-pulse"
+                  className="h-4 w-16 rounded-full bg-[rgba(241,238,232,0.13)] animate-pulse"
                 />
               ))}
             </div>
-            <div className="h-10 w-24 rounded-full bg-[rgba(37,99,235,0.18)] animate-pulse" />
+            <div className="h-10 w-24 rounded-full bg-[rgba(255,107,53,0.2)] animate-pulse" />
           </div>
         </Container>
       </div>
@@ -39,24 +39,24 @@ export default function Loading() {
         <Container>
           <div className="max-w-3xl mx-auto text-center space-y-6">
             {/* 状态徽章 */}
-            <div className="mx-auto h-6 w-32 rounded-full bg-[rgba(191,219,254,0.45)] animate-pulse" />
+              <div className="mx-auto h-6 w-32 rounded-full bg-[rgba(0,217,255,0.2)] animate-pulse" />
 
             {/* 标题 */}
             <div className="space-y-4">
-              <div className="mx-auto h-12 w-64 rounded-2xl bg-[rgba(37,99,235,0.16)] animate-pulse" />
-              <div className="mx-auto h-8 w-96 rounded-2xl bg-[rgba(121,102,77,0.18)] animate-pulse" />
+              <div className="mx-auto h-12 w-64 rounded-2xl bg-[rgba(241,238,232,0.15)] animate-pulse" />
+              <div className="mx-auto h-8 w-96 rounded-2xl bg-[rgba(255,107,53,0.14)] animate-pulse" />
             </div>
 
             {/* 描述 */}
             <div className="space-y-2 max-w-xl mx-auto">
-              <div className="h-4 w-full rounded-full bg-[rgba(121,102,77,0.16)] animate-pulse" />
-              <div className="mx-auto h-4 w-4/5 rounded-full bg-[rgba(121,102,77,0.16)] animate-pulse" />
+              <div className="h-4 w-full rounded-full bg-[rgba(241,238,232,0.1)] animate-pulse" />
+              <div className="mx-auto h-4 w-4/5 rounded-full bg-[rgba(241,238,232,0.1)] animate-pulse" />
             </div>
 
             {/* 按钮组 */}
             <div className="flex gap-4 justify-center pt-4">
-              <div className="h-12 w-32 rounded-full bg-[rgba(37,99,235,0.18)] animate-pulse" />
-              <div className="h-12 w-32 rounded-full bg-[rgba(121,102,77,0.16)] animate-pulse" />
+              <div className="h-12 w-32 rounded-full bg-[rgba(255,107,53,0.18)] animate-pulse" />
+              <div className="h-12 w-32 rounded-full bg-[rgba(241,238,232,0.1)] animate-pulse" />
             </div>
           </div>
         </Container>
@@ -69,7 +69,7 @@ export default function Loading() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-40 rounded-[1.5rem] bg-[rgba(239,246,255,0.9)] animate-pulse"
+                className="h-40 rounded-[1.5rem] border border-[rgba(241,238,232,0.1)] bg-[rgba(17,20,24,0.9)] animate-pulse"
                 style={{ animationDelay: `${i * 100}ms` }}
               />
             ))}

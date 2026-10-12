@@ -15,7 +15,7 @@ export default function NotFound() {
   const copy = useUiCopy();
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)]">
+    <main className="dark-portfolio flex min-h-screen items-center justify-center bg-[#0c0d10]">
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -30,17 +30,17 @@ export default function NotFound() {
             transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
             className="mb-8"
           >
-            <div className="mb-4 inline-flex h-24 w-24 items-center justify-center rounded-full bg-[rgba(239,246,255,0.94)]">
-              <Search className="h-12 w-12 text-[color:var(--brand-gold)]" />
+            <div className="mb-4 inline-flex h-24 w-24 items-center justify-center rounded-full border border-[rgba(158,217,189,0.3)] bg-[rgba(158,217,189,0.08)]">
+              <Search className="h-12 w-12 text-[#9ed9bd]" />
             </div>
-            <h1 className="text-8xl font-bold text-[rgba(37,99,235,0.18)]">404</h1>
+            <h1 className="text-8xl font-bold text-[rgba(158,217,189,0.24)]">404</h1>
           </motion.div>
 
           {/* 错误信息 */}
           <h2 className="theme-title mb-3 text-2xl font-bold">
             {copy.notFound.title}
           </h2>
-          <p className="theme-card-muted mb-8 rounded-[1.25rem] p-4 text-left font-mono text-sm leading-relaxed text-[color:var(--text-secondary)]">
+          <p className="mb-8 rounded-[1.25rem] border border-[rgba(241,238,232,0.13)] bg-[rgba(17,20,24,0.8)] p-4 text-left font-mono text-sm leading-relaxed text-[#9da5a1]">
             {`> Error: 404 Not Found`}
             <br />
             {`> Reason: Object reference not set to an instance of an object.`}
@@ -68,8 +68,8 @@ export default function NotFound() {
 
           {/* 装饰性背景 */}
           <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-            <div className="absolute left-1/4 top-1/4 h-64 w-64 rounded-full bg-sky-300/10 blur-3xl" />
-            <div className="absolute bottom-1/4 right-1/4 h-48 w-48 rounded-full bg-blue-300/10 blur-3xl" />
+            <div className="absolute left-1/4 top-1/4 h-64 w-64 rounded-full bg-emerald-300/10 blur-3xl" />
+            <div className="absolute bottom-1/4 right-1/4 h-48 w-48 rounded-full bg-slate-300/10 blur-3xl" />
           </div>
         </motion.div>
       </Container>

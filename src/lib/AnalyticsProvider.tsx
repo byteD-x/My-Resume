@@ -112,8 +112,8 @@ export function AnalyticsProvider({ children }: AnalyticsProviderProps) {
     const sectionIds = [
       "impact",
       "experience",
-      "projects",
-      "skills",
+      "featured-projects",
+      "capability-summary",
       "contact",
     ];
     const observer = new IntersectionObserver(

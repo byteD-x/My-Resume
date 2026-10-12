@@ -48,7 +48,7 @@ const contentSecurityPolicy = `
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   img-src 'self' data: https: blob:;
   font-src 'self' https://fonts.gstatic.com;
-  connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://api.github.com;
+  connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;
   frame-ancestors 'none';
   base-uri 'self';
   form-action 'self';
@@ -123,21 +123,6 @@ const mediaAssetHeaders = [
     },
 ];
 
-const apiHeaders = [
-    {
-        key: 'Cache-Control',
-        value: 'public, max-age=0, s-maxage=600, stale-while-revalidate=3600',
-    },
-    {
-        key: 'CDN-Cache-Control',
-        value: 'public, max-age=600, stale-while-revalidate=3600',
-    },
-    {
-        key: 'Vercel-CDN-Cache-Control',
-        value: 'public, max-age=600, stale-while-revalidate=3600',
-    },
-];
-
 const headersConfig = isStaticExport
     ? {}
     : {
@@ -146,10 +131,6 @@ const headersConfig = isStaticExport
                 {
                     source: '/og.png',
                     headers: withSecurityHeaders(mediaAssetHeaders),
-                },
-                {
-                    source: '/api/github',
-                    headers: withSecurityHeaders(apiHeaders),
                 },
                 {
                     source: '/api/resume',

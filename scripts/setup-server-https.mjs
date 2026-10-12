@@ -86,8 +86,6 @@ function renderBootstrapHttpConfig(serverNames, canonicalHost) {
 
 const pageCacheControl =
   "public, max-age=60, s-maxage=3600, stale-while-revalidate=86400";
-const apiCacheControl =
-  "public, max-age=0, s-maxage=600, stale-while-revalidate=3600";
 const mediaCacheControl =
   "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400";
 const immutableStaticCacheControl = "public, max-age=31536000, immutable";
@@ -168,7 +166,6 @@ server {
   ssl_session_timeout 1d;
 
 ${renderCachedProxyLocation("^~ /_next/static/", immutableStaticCacheControl)}
-${renderCachedProxyLocation("= /api/github", apiCacheControl)}
 ${renderCachedProxyLocation("= /api/resume", mediaCacheControl)}
 ${renderCachedProxyLocation("~* \\.(?:avif|css|gif|ico|jpe?g|js|pdf|png|svg|webp|woff2?)$", mediaCacheControl)}
   location / {

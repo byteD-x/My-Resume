@@ -53,6 +53,7 @@ export interface BaseExperienceItem {
   keyOutcomes?: string[]; // 核心结果
   link?: string; // Project link
   demoLink?: string; // Project demo link
+  links?: { label: string; url: string }[]; // 相关链接（兼容直接挂载链接）
   audienceTags?: AudienceType[]; // 面向角色
   businessValue?: BilingualText; // 面向业务/客户视角
   engineeringDepth?: BilingualText; // 面向工程/求职视角
@@ -94,7 +95,6 @@ export interface ImpactItem {
   rowSpan?: string;
   bg?: string;
   isFocal?: boolean;
-  githubRepo?: string; // Optional: GitHub repo name (e.g. "byteD-x/wechat-bot") for dynamic stats
   verification?: VerificationInfo;
 }
 

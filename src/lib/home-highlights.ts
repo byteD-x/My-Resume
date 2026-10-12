@@ -233,7 +233,7 @@ export function getHomepageFeaturedProjects(
         id: item.id,
         name: copy?.name ?? item.name,
         focus: copy?.focus ?? item.impact ?? ui.featured.fallbackFocus,
-        href: `/experiences/${item.id}`,
+        href: `/projects/${item.id}`,
         techTags: item.techTags,
         contentSummary: copy?.contentSummary ?? item.summary,
         capabilitySummary:
@@ -269,7 +269,7 @@ export function getHeroSpotlights(
         focus: copy?.focus ?? item.impact ?? ui.featured.fallbackRecent,
         summary: copy?.heroSummary ?? item.summary,
         detail: copy?.heroDetail ?? item.keyOutcomes?.[0],
-        href: `/experiences/${item.id}`,
+        href: `/projects/${item.id}`,
       };
     });
 }

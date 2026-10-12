@@ -89,12 +89,19 @@ function createTimelineSummary(item: TimelineItem): TimelineItem {
     techTags: item.techTags,
     highlighted: item.highlighted,
     keyOutcomes: item.keyOutcomes?.slice(0, 3),
+    verification: item.verification,
     link,
     demoLink,
     groupParentId: item.groupParentId,
     childIds: item.childIds,
     hideFromSection: item.hideFromSection,
-    expandedDetails: undefined,
+    expandedDetails: item.expandedDetails
+      ? {
+          problem: item.expandedDetails.problem,
+          solution: item.expandedDetails.solution,
+          techStack: item.expandedDetails.techStack,
+        }
+      : undefined,
     bulletPoints: undefined,
   };
 }
@@ -111,6 +118,7 @@ function createProjectSummary(item: ProjectItem): ProjectItem {
     highlighted: item.highlighted,
     impact: item.impact,
     keyOutcomes: item.keyOutcomes?.slice(0, 3),
+    verification: item.verification,
     businessValue: item.businessValue,
     engineeringDepth: item.engineeringDepth,
     link,
@@ -134,6 +142,7 @@ function createFeaturedProjectSummary(item: ProjectItem): ProjectItem {
     highlighted: item.highlighted,
     impact: item.impact,
     keyOutcomes: item.keyOutcomes?.slice(0, 2),
+    verification: item.verification,
     businessValue: item.businessValue,
     engineeringDepth: item.engineeringDepth,
     link,
@@ -157,6 +166,7 @@ function createImpactLinkedTimeline(item: TimelineItem): TimelineItem {
     summary: item.summary,
     techTags: item.techTags,
     highlighted: item.highlighted,
+    verification: item.verification,
     link,
     demoLink,
     groupParentId: item.groupParentId,

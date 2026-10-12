@@ -19,6 +19,21 @@ export function getExperience(
   return projectItem;
 }
 
+export function getProject(
+  slug: string,
+  locale: Locale = getDefaultLocale(),
+): ProjectItem | undefined {
+  return getPortfolioData(locale).projects.find((item) => item.id === slug);
+}
+
+export function getAllProjectSlugs() {
+  return getPortfolioData("zh").projects.map(({ id }) => ({ slug: id }));
+}
+
+export function getAllTimelineSlugs() {
+  return getPortfolioData("zh").timeline.map(({ id }) => ({ slug: id }));
+}
+
 export function getAllExperienceSlugs() {
   const data = getPortfolioData("zh");
   return [

@@ -3,24 +3,23 @@
 const RESUME_FILE_NAME = '\u675c\u65ed\u5609_AI\u5e94\u7528\u5de5\u7a0b\u5e08_15035925107.pdf';
 const RESUME_FILE_PATH = `/${encodeURIComponent(RESUME_FILE_NAME)}`;
 const EN_RESUME_FILE_NAME = 'du-xujia-ai-application-engineer.pdf';
-const ENGINEERING_TRIGGER_NAME = /Engineering|工程实力中枢|工程中枢/i;
 
 const openMobileMenuIfNeeded = async (page: Page) => {
     const viewport = page.viewportSize();
     if (!viewport || viewport.width >= 768) return;
 
-    const localeSwitchLink = page
-        .getByRole('link', { name: /English|中文|switch to chinese|switch to english/i })
-        .first();
-
-    if (await localeSwitchLink.isVisible().catch(() => false)) {
+    const contactLink = page.locator('nav').first().getByRole('link', { name: /联系|contact/i }).first();
+    if (await contactLink.isVisible().catch(() => false)) {
         return;
     }
 
     const openMenuButton = page.getByRole('button', { name: /打开菜单|open menu/i }).first();
     await expect(openMenuButton).toBeVisible({ timeout: 5000 });
     await expect(openMenuButton).toBeEnabled();
+    const mobileMenu = page.locator('#dark-mobile-menu');
+    if (await mobileMenu.isVisible().catch(() => false)) return;
     await openMenuButton.click();
+    await expect(mobileMenu).toBeVisible({ timeout: 5000 });
 };
 
 const scrollSectionIntoView = async (page: Page, selector: string) => {
@@ -51,23 +50,6 @@ const scrollSectionIntoView = async (page: Page, selector: string) => {
         }
     }
 };
-
-const isLowPerformanceEnvironment = async (page: Page) =>
-    page.evaluate(() => {
-        const nav = navigator as Navigator & {
-            deviceMemory?: number;
-            connection?: { saveData?: boolean };
-        };
-
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
-        const noHover = window.matchMedia('(hover: none)').matches;
-        const lowCoreCount = typeof nav.hardwareConcurrency === 'number' && nav.hardwareConcurrency <= 4;
-        const lowMemory = typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4;
-        const saveDataEnabled = Boolean(nav.connection?.saveData);
-
-        return prefersReducedMotion || saveDataEnabled || lowCoreCount || lowMemory || (coarsePointer && noHover);
-    });
 
 const gotoHomePage = async (page: Page) => {
     const homeHeading = page.getByRole('heading', { level: 1 });
@@ -114,13 +96,6 @@ const waitForSectionToReachViewport = async (
             },
         )
         .toBe(true);
-};
-
-const revealDeferredDock = async (page: Page) => {
-    await page.evaluate(() => window.scrollTo(0, 720));
-    await expect(
-        page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).first(),
-    ).toBeVisible({ timeout: 12000 });
 };
 
 test.describe('Portfolio E2E', () => {
@@ -181,13 +156,11 @@ test.describe('Portfolio E2E', () => {
 
     test('language switch should preserve context via explicit locale routes', async ({ page }) => {
         await gotoLocalizedHomePage(page, '/zh');
-        await openMobileMenuIfNeeded(page);
         const switchToEnglish = page.locator('nav').getByRole('link', { name: /English/i }).first();
         await expect(switchToEnglish).toBeVisible();
         await switchToEnglish.click();
         await expect(page).toHaveURL(/\/en(?:[#?].*)?$/);
 
-        await openMobileMenuIfNeeded(page);
         const switchToChinese = page
             .locator('nav')
             .getByRole('link', { name: /switch to chinese|中文/i })
@@ -197,45 +170,26 @@ test.describe('Portfolio E2E', () => {
         await expect(page).toHaveURL(/\/zh(?:[#?].*)?$/);
     });
 
-    test('experience section should render independent developer projects inline under the parent entry', async ({ page }) => {
+    test('experience section should render the parent role and its project evidence', async ({ page }) => {
         await scrollSectionIntoView(page, '#experience');
 
         const experienceSection = page.locator('#experience');
         await expect(experienceSection.getByText('独立开发者').first()).toBeVisible();
-        await expect(experienceSection.getByText('项目名称/实践场景：RentBox 共享擦窗宝小程序')).toBeVisible();
-        await expect(
-            experienceSection.getByText('技术栈：Java 21 / Spring Boot 3.5 / MySQL / Redis'),
-        ).toBeVisible();
-        await expect(experienceSection.getByText('项目名称/实践场景：论文检索任务平台')).toBeVisible();
-        await expect(
-            experienceSection.getByText('技术栈：Python / FastAPI / AsyncIO / SQLAlchemy'),
-        ).toBeVisible();
-        await expect(experienceSection.getByText('项目名称/实践场景：智能客服运行时')).toBeVisible();
-        await expect(
-            experienceSection.getByText('项目名称/实践场景：微信智能助手'),
-        ).toBeVisible();
-        await expect(
-            experienceSection.locator('a[href="/experiences/exp-rentbox"]'),
-        ).toHaveCount(0);
-        await expect(
-            experienceSection.locator('a[href="/experiences/exp-paper-retrieval-platform"]'),
-        ).toHaveCount(0);
-        await expect(
-            experienceSection.locator('a[href="/experiences/exp-customer-ai-runtime"]'),
-        ).toHaveCount(0);
-        await expect(
-            experienceSection.locator('a[href="/experiences/exp-wechat-bot"]'),
-        ).toHaveCount(0);
+        await expect(experienceSection.getByText('项目名称 / 实践场景')).toBeVisible();
+        await expect(experienceSection.getByText('RentBox 共享擦窗宝小程序')).toBeVisible();
+        await expect(experienceSection.getByText('论文检索任务平台')).toBeVisible();
+        await expect(experienceSection.getByText('智能客服运行时')).toBeVisible();
+        await expect(experienceSection.getByText('微信智能助手')).toBeVisible();
+        await expect(experienceSection.getByText('技术栈：Java 21 / Spring Boot 3.5 / MySQL / Redis')).toBeVisible();
     });
 
-    test('hero project evidence cta should scroll to projects section', async ({ page }) => {
-        const projectsSection = page.locator('#projects');
-        await expect(projectsSection).not.toBeInViewport();
-
+    test('hero project evidence cta should reveal the project evidence section', async ({ page }) => {
         const projectEvidenceLink = page.getByRole('link', { name: /查看项目证据|project evidence/i }).first();
         await expect(projectEvidenceLink).toBeVisible();
+        await expect(projectEvidenceLink).toHaveAttribute('href', '#projects');
         await projectEvidenceLink.click();
 
+        await expect(page).toHaveURL(/#projects$/);
         await waitForSectionToReachViewport(page, '#projects', 9000);
     });
 
@@ -255,17 +209,15 @@ test.describe('Portfolio E2E', () => {
         expect(sectionOffsets['featured-projects']).toBeLessThan(sectionOffsets.projects);
     });
 
-    test('evidence strip should provide quick jumps into full sections', async ({ page }) => {
-        const impactEntry = page.getByRole('link', { name: /量化结果.*查看全部指标/i }).first();
-        await expect(impactEntry).toBeVisible();
-        await impactEntry.click();
-        await waitForSectionToReachViewport(page, '#impact', 8000);
+    test('scroll progress should provide quick jumps into the reboot sections', async ({ page }) => {
+        const progressNav = page.locator('.reboot-progress');
+        await expect(progressNav).toBeVisible();
+        await expect(progressNav.locator('a')).toHaveCount(4);
 
-        await page.goto('/');
-        const capabilityEntry = page.getByRole('link', { name: /工程能力.*查看能力结构/i }).first();
-        await expect(capabilityEntry).toBeVisible();
-        await capabilityEntry.click();
-        await waitForSectionToReachViewport(page, '#skills', 10000);
+        const workEntry = progressNav.locator('a[href="#featured-projects"]');
+        await expect(workEntry).toBeVisible();
+        await workEntry.click();
+        await waitForSectionToReachViewport(page, '#featured-projects', 8000);
     });
 
     test('about and audience quick-entry sections should not render', async ({ page }) => {
@@ -282,74 +234,7 @@ test.describe('Portfolio E2E', () => {
         await expect(page.locator('button', { hasText: /编辑|editor/i })).toHaveCount(0);
     });
 
-    test.describe('Engineering Command Center', () => {
-        test('should open and close with escape, and trap focus', async ({ page }) => {
-            await revealDeferredDock(page);
-            const openButton = page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME });
-            await expect(openButton).toBeVisible();
-
-            await openButton.click();
-            const panelTitle = page.getByRole('heading', { name: /工程实力中枢|Engineering Command Center/i });
-            await expect(panelTitle).toBeVisible();
-            await expect(page.getByRole('heading', { name: /页面性能|实时性能指标|Runtime Metrics/i })).toBeVisible();
-            await expect(page.getByRole('heading', { name: /开源数据|开源数据看板|Open Source Telemetry/i })).toBeVisible();
-            await expect(page.getByRole('heading', { name: /构建信息|工程指纹|Engineering Fingerprint/i })).toBeVisible();
-
-            const closeButton = page.getByRole('button', { name: /关闭工程实力中枢|close/i });
-            await expect(closeButton).toBeVisible();
-            await expect(closeButton).toBeFocused();
-
-            await page.keyboard.press('Escape');
-            await expect(panelTitle).not.toBeVisible();
-        });
-
-        test('should render telemetry from github api response', async ({ page }) => {
-            await page.route('**/api/github', async (route) => {
-                await route.fulfill({
-                    status: 200,
-                    contentType: 'application/json',
-                    body: JSON.stringify({
-                        followers: 42,
-                        public_repos: 7,
-                        totalStars: 123,
-                        source: 'github-api',
-                        isPartial: false,
-                        message: '已通过 GitHub 接口获取实时数据。',
-                        specificRepos: [
-                            {
-                                name: 'wechat-bot',
-                                stars: 5,
-                                url: 'https://github.com/byteD-x/wechat-bot',
-                            },
-                        ],
-                    }),
-                });
-            });
-
-            await revealDeferredDock(page);
-            await page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).click();
-            await expect(page.getByText('123', { exact: true })).toBeVisible();
-            await expect(page.getByText('wechat-bot')).toBeVisible();
-            await expect(page.getByText('★ 5')).toBeVisible();
-        });
-
-        test('should degrade gracefully when github api fails', async ({ page }) => {
-            await page.route('**/api/github', async (route) => {
-                await route.fulfill({
-                    status: 500,
-                    contentType: 'application/json',
-                    body: JSON.stringify({ error: 'fail' }),
-                });
-            });
-
-            await revealDeferredDock(page);
-            await page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).click();
-            await expect(page.getByRole('heading', { name: /工程实力中枢|Engineering Command Center/i })).toBeVisible();
-            await expect(page.getByText(/GitHub 数据请求失败|GitHub 数据暂不可用|telemetry.*unavailable/i)).toBeVisible();
-        });
-    });
-
-    test('impact card should not auto-jump, and jump only when explicitly requested', async ({ page }) => {
+    test('impact cards should open an accessible evidence drawer', async ({ page }) => {
         await scrollSectionIntoView(page, '#impact');
         await page.waitForTimeout(150);
 
@@ -362,35 +247,26 @@ test.describe('Portfolio E2E', () => {
         const closeButton = drawer.getByRole('button', { name: /关闭.*面板|关闭/i }).first();
         await expect(closeButton).toBeVisible();
         await expect(closeButton).toBeFocused();
-
-        const jumpButton = page.getByRole('button', { name: /定位到对应经历/i });
-        await expect(jumpButton).toBeVisible();
-
-        await jumpButton.evaluate((el: HTMLButtonElement) => el.click());
-        await page.waitForTimeout(400);
-        const experienceSection = page.locator('#experience');
-        await expect(experienceSection).toBeInViewport();
+        await expect(drawer.getByText(/证据来源|Evidence source|概述|Overview/i).first()).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(drawer).not.toBeVisible();
     });
 
-    test('navigation should scroll to target section', async ({ page }) => {
+    test('navigation should open the contact entry page', async ({ page }) => {
         await openMobileMenuIfNeeded(page);
 
+        const viewport = page.viewportSize();
         const navRoot = page.locator('nav').first();
-        const contactNav = navRoot
-            .getByRole('button', { name: /联系|contact/i })
-            .or(navRoot.getByRole('link', { name: /联系|contact/i }))
-            .first();
+        const contactNav = viewport && viewport.width < 768
+            ? page.locator('#dark-mobile-menu').getByRole('link', { name: /联系|contact/i }).first()
+            : navRoot.getByRole('link', { name: /联系|contact/i }).first();
 
         await expect(contactNav).toBeVisible();
         await expect(contactNav).toBeEnabled();
 
         await contactNav.click();
-        try {
-            await waitForSectionToReachViewport(page, '#contact', 10000);
-        } catch {
-            await contactNav.click();
-            await waitForSectionToReachViewport(page, '#contact', 12000);
-        }
+        await expect(page).toHaveURL(/\/(?:about)?#contact$/);
+        await expect(page.locator('#contact')).toBeVisible();
     });
 
     test('contact private channels should be reveal-on-demand', async ({ page }) => {
@@ -426,23 +302,40 @@ test.describe('Portfolio E2E', () => {
             firstProjectCard.getByText(/功能描述|Capability breakdown/i).first(),
         ).toBeVisible();
         await expect(
-            firstProjectCard.getByText('设计渠道接入', { exact: false }).first(),
+            firstProjectCard.locator('.reboot-project-details').first(),
         ).toBeVisible();
     });
 
-    test('mobile deferred dock should stay compact after scroll', async ({ page }) => {
+    test('inner pages should share the reboot shell and remain navigable', async ({ page }) => {
+        for (const path of ['/projects', '/experience', '/about', '/experiences/proj-rag-qa-system']) {
+            await page.goto(path);
+            await expect(page.locator('.dark-portfolio.reboot-page.reboot-inner-page')).toBeVisible();
+            await expect(page.locator('h1').first()).toBeVisible();
+            await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+            expect(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+        }
+    });
+
+    test('theme toggle should switch the reboot shell without navigation', async ({ page }) => {
+        const toggle = page.locator('.reboot-icon-button').first();
+        await expect(toggle).toBeVisible();
+        await expect(toggle).toHaveAttribute('aria-label', /切换到浅色模式|switch to light mode/i);
+        await toggle.click({ noWaitAfter: true });
+        await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+        await expect(page.locator('.dark-portfolio.reboot-page')).toBeVisible();
+        await toggle.click({ noWaitAfter: true });
+        await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+    });
+
+    test('mobile scroll progress dock should stay compact after scroll', async ({ page }) => {
         const viewport = page.viewportSize();
         test.skip(!viewport || viewport.width >= 768, 'mobile only');
 
-        await revealDeferredDock(page);
+        await page.evaluate(() => window.scrollTo(0, 720));
+        const progressDock = page.locator('.reboot-progress');
+        await expect(progressDock).toBeVisible();
 
-        const mobileDock = page.locator('div.fixed.inset-x-0.bottom-0.z-50').first();
-        const engineeringButton = mobileDock.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).first();
-
-        await expect(mobileDock).toBeVisible();
-        await expect(engineeringButton).toBeVisible();
-
-        const dockBox = await mobileDock.boundingBox();
+        const dockBox = await progressDock.boundingBox();
         expect(dockBox).not.toBeNull();
         expect(dockBox!.height).toBeLessThanOrEqual(96);
     });
@@ -451,26 +344,11 @@ test.describe('Portfolio E2E', () => {
         const viewport = page.viewportSize();
         test.skip(!viewport || viewport.width < 768, 'desktop only');
 
-        const lowPerformanceMode = await isLowPerformanceEnvironment(page);
-        if (lowPerformanceMode) {
-            await expect(page.locator('[role="progressbar"]')).toHaveCount(0);
-            return;
-        }
-
         await page.evaluate(() => window.scrollTo(0, 600));
-        await expect(
-            page.getByRole('button', { name: ENGINEERING_TRIGGER_NAME }).first(),
-        ).toBeVisible({ timeout: 12000 });
-        await expect
-            .poll(async () => page.locator('[role="progressbar"]').count(), {
-                timeout: 4000,
-                interval: 200,
-            })
-            .toBeGreaterThan(0);
-        await expect(page.locator('[role="progressbar"]').first()).toBeVisible();
-        const backToTopButton = page.getByRole('button', { name: /回到顶部/i }).first();
-        await expect(backToTopButton).toBeVisible();
-        await backToTopButton.click();
+        const progress = page.locator('.reboot-progress');
+        await expect(progress).toBeVisible();
+        await expect(progress.locator('.reboot-progress-fill')).toHaveAttribute('style', /scaleY/);
+        await progress.locator('a[href="#hero"]').click();
         await expect
             .poll(async () => page.evaluate(() => window.scrollY), { timeout: 5000 })
             .toBeLessThan(40);

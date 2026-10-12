@@ -1,4 +1,4 @@
-import { ExperienceModal } from "@/components/ExperienceModal";
+import { DarkExperienceDetail } from "@/components/portfolio/DarkExperienceDetail";
 import { StructuredDataScript } from "@/components/StructuredDataScript";
 import { getExperience } from "@/lib/experiences";
 import { getExperienceStructuredData } from "@/lib/page-metadata";
@@ -8,12 +8,14 @@ interface ExperiencePageViewProps {
   slug: string;
   locale: Locale;
   explicitLocale?: boolean;
+  routeBase?: "experiences" | "projects";
 }
 
 export function ExperiencePageView({
   slug,
   locale,
   explicitLocale = false,
+  routeBase = "experiences",
 }: ExperiencePageViewProps) {
   const item = getExperience(slug, locale);
 
@@ -25,12 +27,13 @@ export function ExperiencePageView({
     slug,
     locale,
     explicitLocale,
+    routeBase,
   );
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[rgba(255,250,242,0.82)] p-4">
+    <>
       {structuredData ? <StructuredDataScript data={structuredData} /> : null}
-      <ExperienceModal item={item} variant="page" />
-    </div>
+      <DarkExperienceDetail item={item} locale={locale} explicitLocale={explicitLocale} />
+    </>
   );
 }

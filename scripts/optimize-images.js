@@ -49,6 +49,7 @@ const npxCommand = process.platform === 'win32' ? 'npx.cmd' : 'npx';
 const result = spawnSync(npxCommand, ['next-image-export-optimizer'], {
     stdio: 'inherit',
     env: process.env,
+    shell: process.platform === 'win32',
 });
 
 if (result.error) {
