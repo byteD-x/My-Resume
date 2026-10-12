@@ -86,25 +86,25 @@ export const defaultPortfolioData: PortfolioData = {
   impact: [
     {
       id: "impact-rag",
-      title: "知识问答",
-      value: "400+",
-      label: "回归测试项",
+      title: "GitHub 开源项目",
+      value: "51",
+      label: "累计 Stars",
       description:
-        "RAG-QA System：22 个后端测试文件、9 个前端测试文件，共 400+ 个测试项约束检索、Agent 运行时与平台治理回归",
+        "byteD-x 公开账号快照：14 个公开仓库累计 51 Stars、7 Forks；统计截止 2026-10-12",
       details: [
-        "将分散资料整理为可持续同步、带引用出处的企业 AI 问答平台，减少资料检索、答复与治理成本。",
-        "采用结构、全文、向量三路召回，结合 query rewrite、加权 RRF 与 rerank，兼顾命中质量和可追溯性。",
-        "在 LangGraph 可恢复运行时上扩展工具注册、任务拆解、反思流程、三层记忆、人工接管队列、语义缓存、模型健康、Python SDK、readyz/trace 诊断与 token-aware 分块，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项约束回归。",
+        "GitHub 公开账号当前维护 14 个公开仓库，累计获得 51 Stars 和 7 Forks。",
+        "其中 wechat-bot 37 Stars / 5 Forks、easyCloudPan 5 Stars、customer-ai-runtime 4 Stars / 1 Fork。",
+        "该指标来自 GitHub 公开仓库页快照，统计日期与仓库范围明确。",
       ].join("\n"),
-      linkedExperienceId: "exp-chinasoft",
+      linkedExperienceId: "exp-independent-developer",
       icon: "TrendingUp",
       colSpan: "md:col-span-1",
       bg: "bg-sky-50",
       verification: {
-        sourceType: "repo",
-        sourceLabel: "本地仓库 README / AI_HIGHLIGHTS / docs/reference / tests / recent commits",
-        sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-        verifiedAt: "2026-06-10",
+        sourceType: "manual",
+        sourceLabel: "GitHub 公开账号与仓库页面快照",
+        sourceUrl: "https://github.com/byteD-x",
+        verifiedAt: "2026-10-12",
         confidence: "high",
         level: "strict",
       },
@@ -112,24 +112,24 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "impact-wechat",
       title: "微信智能助手",
-      value: "25/25",
-      label: "本地 smoke 通过",
+      value: "37 / 5",
+      label: "Stars / Forks",
       description:
-        "固定 25 条本地 smoke 全部通过；另有 2 秒回复 deadline 与 27 条离线评测约束长期运行链路",
+        "GitHub 公开仓库当前 37 Stars、5 Forks（统计截止 2026-10-12）；本地运行链路另有 2 秒回复 deadline 与离线评测约束",
       details: [
-        "交付可长期运行的微信智能助手，兼顾接入稳定性、排障效率与成本治理。",
-        "以 `BaseTransport` 抽象微信接入边界，使用 OpenAI-compatible chat/embedding 调用拆分前台回复与后台记忆任务。",
-        "构建 SQLite 三层记忆、可降级 RAG、模型认证、受控 Tool、运行准备度、配置审计与发布门禁，覆盖长期运行、排障和更新。",
+        "GitHub 公开仓库当前 37 Stars、5 Forks，作为开源项目外部反馈快照。",
+        "以 `BaseTransport` 抽象微信接入边界，拆分前台回复与后台记忆任务，支撑长期运行。",
+        "构建 SQLite 三层记忆、可降级 RAG、模型认证、受控 Tool、运行准备度、配置审计与发布门禁。",
       ].join("\n"),
       linkedExperienceId: "exp-wechat-bot",
       icon: "Star",
       colSpan: "md:col-span-1",
       bg: "bg-indigo-50",
       verification: {
-        sourceType: "experience",
-        sourceLabel: "简历证据库 / 固定 smoke 记录",
+        sourceType: "manual",
+        sourceLabel: "GitHub 公开仓库页 / 项目运行证据",
         sourceUrl: "https://github.com/byteD-x/wechat-bot",
-        verifiedAt: "2026-03-31",
+        verifiedAt: "2026-10-12",
         confidence: "high",
         level: "strict",
       },
@@ -137,24 +137,24 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "impact-customer-ai",
       title: "客服运行时",
-      value: "20/20",
-      label: "本地样例通过",
+      value: "4 / 1",
+      label: "Stars / Forks",
       description:
-        "本地电商售后样例 20/20 通过；首响均值 18.05ms，轮次 P50/P95 为 17/24ms（离线样例口径）",
+        "GitHub 公开仓库当前 4 Stars、1 Fork（统计截止 2026-10-12）；本地电商售后样例另有 20/20 通过记录",
       details: [
-        "将客服能力扩展为可接业务、可转人工、可嵌入宿主系统的服务运行时。",
+        "GitHub 公开仓库当前 4 Stars、1 Fork，作为开源项目外部反馈快照。",
         "通过渠道接入、宿主桥接、核心引擎、业务增强、插件平台和提供商适配六层解耦，统一文本、语音、RTC 与挂载接入。",
-        "加入路由治理、知识版本管理、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、诊断导出、限流与提示词脱敏，用于运营与审计。",
+        "本地电商售后样例 20/20 通过；另有知识版本管理、人工接管队列、成本对账和 RAG 评测治理。",
       ].join("\n"),
       linkedExperienceId: "exp-customer-ai-runtime",
       icon: "Bot",
       colSpan: "md:col-span-1",
       bg: "bg-teal-50",
       verification: {
-        sourceType: "experience",
-        sourceLabel: "简历证据库 / 本地电商售后样例",
+        sourceType: "manual",
+        sourceLabel: "GitHub 公开仓库页 / 本地电商售后样例",
         sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-        verifiedAt: "2026-03-31",
+        verifiedAt: "2026-10-12",
         confidence: "high",
         level: "strict",
       },
@@ -282,7 +282,7 @@ export const defaultPortfolioData: PortfolioData = {
       highlighted: true,
       keyOutcomes: [
         "2025.09 起独立承接商业与外包项目，完成简租科技小程序、论文检索任务平台和 IPA 方言语音转写原型交付。",
-        "同时维护智能客服运行时、Windows 微信助手等开源项目。",
+        "同时维护智能客服运行时、Windows 微信助手等开源项目；GitHub 公开账号 14 个仓库累计 51 Stars、7 Forks（2026-10-12 快照）。",
         "具备企业知识库 RAG · Agent 工作台、支付与设备接入、跨端交付经历。",
       ],
       childIds: [
@@ -451,6 +451,7 @@ export const defaultPortfolioData: PortfolioData = {
         "接入层抽象：针对 Windows 微信版本、权限和通道差异，统一消息收发与运行状态接口，避免主链路绑定具体自动化实现。",
         "响应与记忆解耦：将事实提取、记忆写入、联系人画像和语料同步移出回复主链路，分层管理短期对话、运行期记忆和导出语料；排序增强不可用时回退关键词或轻量语义检索。",
         "认证与发布治理：统一凭据回退，提供提示词版本回滚、备份恢复、脱敏诊断、Windows 发布门禁，并通过离线评测和 smoke 用例回归主路径。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 37 Stars、5 Forks。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -466,9 +467,9 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "本地仓库 README / HIGHLIGHTS / RELEASE_UPDATES / SYSTEM_CHAINS / tests / recent commits",
+          sourceLabel: "GitHub 公开仓库页 / README / HIGHLIGHTS / tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/wechat-bot",
-          verifiedAt: "2026-06-10",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },
@@ -499,6 +500,7 @@ export const defaultPortfolioData: PortfolioData = {
         "插件化接入与上下文路由：隔离渠道、业务工具与模型适配，统一文本、语音、RTC 和宿主页面入口；结合用户意图、页面上下文和业务对象区分自动回答、追问与转人工。",
         "受控执行器：以白名单、参数校验、步骤上限、失败停止、断点恢复和审批门禁控制工具调用，保证副作用可控、过程可追溯。",
         "知识、成本与评测治理：按租户管理知识库、文档、切片和版本，支持快照激活与引用回传；知识问答可缓存，业务查询保持实时，记录模型用量并以离线评测和回归门禁约束版本发布。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 4 Stars、1 Fork。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -514,9 +516,9 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "本地仓库 README / STAR-HIGHLIGHTS / RESUME_SNIPPETS / runtime tests / recent commits",
+          sourceLabel: "GitHub 公开仓库页 / README / STAR-HIGHLIGHTS / runtime tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-          verifiedAt: "2026-06-10",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },
@@ -601,6 +603,7 @@ export const defaultPortfolioData: PortfolioData = {
         "可信回答：按证据强度输出回答、补充或拒答，并强制引用与可信度回传，把无证据回答挡在生成前。",
         "可恢复工作流：将问答拆为可暂停、可恢复的图工作流，支持复杂问题并行拆解、工具调用、人工澄清和失败恢复，便于持续交付。",
         "权限与发布门禁：在召回前按租户、部门过滤文档，缓存按权限隔离；用安全回归、检索对比和引用质量检查约束版本发布。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 2 Stars；仓库内另有 400+ 项回归测试证据。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
@@ -621,9 +624,9 @@ export const defaultPortfolioData: PortfolioData = {
         },
         {
           sourceType: "repo",
-          sourceLabel: "本地仓库 README / AI_HIGHLIGHTS / docs/reference / core modules / tests / recent commits",
+          sourceLabel: "GitHub 公开仓库页 / README / AI_HIGHLIGHTS / docs/reference / tests",
           sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-          verifiedAt: "2026-06-10",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },
@@ -751,6 +754,7 @@ export const defaultPortfolioData: PortfolioData = {
         "查询与一致性：用复合索引、游标分页和分层缓存治理高频列表查询，并校验文件元数据与对象存储状态，减少脏数据。",
         "安全访问：通过请求签名、防重放、双令牌、文件权限和真实类型校验，形成从请求入口到文件落地的访问控制。",
         "部署可运维：提供 Docker 部署、健康检查与监控基线，保证核心流程可复现、问题可定位。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 5 Stars。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -884,6 +888,10 @@ export const defaultPortfolioData: PortfolioData = {
         "以独立开发者身份推进 5 个代表项目，覆盖租赁业务、任务平台、方言语音转写、客服运行时与桌面智能助手，并按子项目保留独立详情与证据入口。",
       impact: "5 个代表项目的方案设计 / 全栈实现 / 联调验证 / 运行治理",
       highlighted: true,
+      keyOutcomes: [
+        "GitHub 公开账号快照：14 个公开仓库累计 51 Stars、7 Forks（2026-10-12）。",
+        "聚合租赁、论文检索、方言转写、客服运行时与微信助手五个代表项目，覆盖方案设计、全栈实现、联调验证和运行治理。",
+      ],
       childIds: [
         "proj-rentbox",
         "proj-paper-retrieval-platform",
@@ -1080,6 +1088,7 @@ export const defaultPortfolioData: PortfolioData = {
         "插件化接入与上下文路由：隔离渠道、业务工具与模型适配，统一文本、语音、RTC 和宿主页面入口；结合用户意图、页面上下文和业务对象区分自动回答、追问与转人工。",
         "受控执行器：以白名单、参数校验、步骤上限、失败停止、断点恢复和审批门禁控制工具调用，保证副作用可控、过程可追溯。",
         "知识、成本与评测治理：按租户管理知识库、文档、切片和版本，支持快照激活与引用回传；知识问答可缓存，业务查询保持实时，记录模型用量并以离线评测和回归门禁约束版本发布。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 4 Stars、1 Fork。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1093,9 +1102,9 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "本地仓库 README / STAR-HIGHLIGHTS / RESUME_SNIPPETS / runtime tests / recent commits",
+          sourceLabel: "GitHub 公开仓库页 / README / STAR-HIGHLIGHTS / runtime tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/customer-ai-runtime",
-          verifiedAt: "2026-06-10",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },
@@ -1153,6 +1162,7 @@ export const defaultPortfolioData: PortfolioData = {
         "接入层抽象：针对 Windows 微信版本、权限和通道差异，统一消息收发与运行状态接口，避免主链路绑定具体自动化实现。",
         "响应与记忆解耦：将事实提取、记忆写入、联系人画像和语料同步移出回复主链路，分层管理短期对话、运行期记忆和导出语料；排序增强不可用时回退关键词或轻量语义检索。",
         "认证与发布治理：统一凭据回退，提供提示词版本回滚、备份恢复、脱敏诊断、Windows 发布门禁，并通过离线评测和 smoke 用例回归主路径。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 37 Stars、5 Forks。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1166,9 +1176,9 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "本地仓库 README / HIGHLIGHTS / RELEASE_UPDATES / SYSTEM_CHAINS / tests / recent commits",
+          sourceLabel: "GitHub 公开仓库页 / README / HIGHLIGHTS / tests / recent commits",
           sourceUrl: "https://github.com/byteD-x/wechat-bot",
-          verifiedAt: "2026-06-10",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },
@@ -1221,6 +1231,7 @@ export const defaultPortfolioData: PortfolioData = {
         "可信回答与权限：按证据强度输出回答、补充或拒答并强制回传引用；召回前按租户、部门过滤文档，缓存按权限隔离。",
         "可恢复工作流：将问答拆为可暂停、可恢复的图工作流，支持复杂问题并行拆解、工具调用、人工澄清和失败恢复，便于持续交付。",
         "发布门禁：用安全回归、检索对比和引用质量检查约束版本发布。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 2 Stars；仓库内另有 400+ 项回归测试证据。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1234,9 +1245,9 @@ export const defaultPortfolioData: PortfolioData = {
       verification: [
         {
           sourceType: "repo",
-          sourceLabel: "本地仓库 README / AI_HIGHLIGHTS / docs/reference / core modules / tests / recent commits",
+          sourceLabel: "GitHub 公开仓库页 / README / AI_HIGHLIGHTS / docs/reference / tests",
           sourceUrl: "https://github.com/byteD-x/rag-qa-system",
-          verifiedAt: "2026-06-10",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },
@@ -1452,6 +1463,7 @@ export const defaultPortfolioData: PortfolioData = {
         "查询与一致性：用复合索引、游标分页和分层缓存治理高频列表查询，并校验文件元数据与对象存储状态，减少脏数据。",
         "安全访问：通过请求签名、防重放、双令牌、文件权限和真实类型校验，形成从请求入口到文件落地的访问控制。",
         "部署可运维：提供 Docker 部署、健康检查与监控基线，保证核心流程可复现、问题可定位。",
+        "开源反馈：GitHub 仓库截至 2026-10-12 获 5 Stars。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1468,7 +1480,7 @@ export const defaultPortfolioData: PortfolioData = {
           sourceLabel:
             "GitHub 仓库、README、RESUME_EasyCloudPan 文档与代码锚点",
           sourceUrl: "https://github.com/byteD-x/easyCloudPan",
-          verifiedAt: "2026-02-24",
+          verifiedAt: "2026-10-12",
           confidence: "high",
           level: "strict",
         },

@@ -73,26 +73,26 @@ const enHero: HeroData = {
 
 const enImpactCopy: Record<string, ImpactCopy> = {
   "impact-rag": {
-    title: "Knowledge QA",
-    label: "regression cases",
+    title: "GitHub open source",
+    label: "total stars",
     description:
-      "RAG-QA System: 22 backend test files and 9 frontend test files covering 400+ regression cases across retrieval, runtime, and platform governance.",
+      "Public byteD-x profile snapshot: 14 public repositories with 51 total stars and 7 forks, measured on 2026-10-12.",
     details:
-      "Turns scattered documents into a continuously synced, citation-backed, and agent-configurable enterprise AI QA platform.",
+      "The snapshot covers public GitHub feedback only, with a clear date and repository scope.",
   },
   "impact-wechat": {
     title: "WeChat assistant",
-    label: "local smoke checks",
+    label: "stars / forks",
     description:
-      "25/25 fixed local smoke checks passed; a 2-second reply deadline and 27 offline evaluations constrain the long-running path.",
+      "The public repository has 37 stars and 5 forks as of 2026-10-12; local runtime evidence also includes a 2-second reply deadline and offline evaluations.",
     details:
       "Uses a BaseTransport boundary plus direct OpenAI-compatible chat/embedding calls to keep the reply path and runtime governance controllable.",
   },
   "impact-customer-ai": {
     title: "Customer-service runtime",
-    label: "local cases passed",
+    label: "stars / forks",
     description:
-      "20/20 local e-commerce support cases passed; mean first response was 18.05ms and turn P50/P95 was 17/24ms in the offline sample.",
+      "The public repository has 4 stars and 1 fork as of 2026-10-12; 20/20 local e-commerce support cases also passed.",
     details:
       "Extends QA into a business-mountable runtime with human handoff, diagnostics, and tenant-aware plugins.",
   },
@@ -140,7 +140,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     keyOutcomes: [
       "Grouped RentBox, the Paper Retrieval Task Platform, the IPA dialect speech prototype, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one independent-developer work entry.",
       "Kept each child project on its own slug, evidence notes, and detail page.",
-      "Aligned the public portfolio structure with the latest Chinese resume and English PDF.",
+      "Aligned the public portfolio structure with the latest Chinese resume and English PDF; the public GitHub profile snapshot shows 51 stars and 7 forks across 14 repositories as of 2026-10-12.",
     ],
     expandedDetails: {
       background:
@@ -330,6 +330,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       "Combined structured, full-text, and vector retrieval.",
       "Used weighted RRF and reranking to balance hit rate and traceability, then exposed retrieve/debug evidence paths.",
       "Extended the LangGraph runtime with tool registration, DAG decomposition, reflection, layered memory, semantic caching, model-health routing, hallucination checks, and Python SDK access.",
+      "GitHub feedback snapshot: 2 stars as of 2026-10-12, with 400+ regression checks in the repository evidence.",
     ],
   },
   "exp-noc": {
@@ -366,6 +367,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       "Built chunked upload, instant upload, resumable upload, and SSE progress.",
       "Added security baselines including signature replay protection and tenant isolation.",
       "Supported local one-click startup and Docker Compose deployment.",
+      "GitHub feedback snapshot: 5 stars as of 2026-10-12.",
     ],
   },
   "exp-jzt-shuttle-path": {
@@ -465,6 +467,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       "Unified text, voice, RTC, and host-page entry points with intent, page-context, and business-object-aware routing.",
       "Controlled side-effecting tools with allowlists, parameter validation, step limits, fail-stop, checkpoint/resume, and approval gates.",
       "Governed tenant-scoped knowledge versions, handoff queues, usage billing, readiness audits, rate limits, and prompt redaction with offline RAG evaluation.",
+      "GitHub feedback snapshot: 4 stars and 1 fork as of 2026-10-12.",
     ],
   },
   "proj-wechat-bot": {
@@ -476,6 +479,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       "Abstracted Windows WeChat access behind BaseTransport and separated first response from background fact, profile, vector, and corpus jobs.",
       "Built SQLite-backed short-term and vector memory for runtime/exported-corpus RAG, with keyword or lightweight semantic fallback when ranking is unavailable.",
       "Added model auth, hot reload, readiness/status/metrics APIs, sanitized diagnostics, backup/restore, release gates, and 27 offline smoke evaluations.",
+      "GitHub feedback snapshot: 37 stars and 5 forks as of 2026-10-12.",
     ],
   },
   "proj-rag-qa-system": {
@@ -483,6 +487,10 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     summary:
       "An enterprise AI QA platform with multi-source ingestion, hybrid retrieval, LangGraph recovery, agent autonomy, inference governance, retrieve/debug inspection, and Python SDK access.",
     impact: "Hybrid retrieval + agent autonomy + inference governance",
+    keyOutcomes: [
+      "GitHub feedback snapshot: 2 stars as of 2026-10-12.",
+      "Maintained 400+ regression checks across retrieval, Agent runtime, and platform governance.",
+    ],
   },
   "proj-submed": {
     name: "SubMed Mini Program",
@@ -501,6 +509,9 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     summary:
       "A privately deployable enterprise file platform with high-concurrency upload, security governance, identity extension, and observability.",
     impact: "Private file platform + security baseline + observability",
+    keyOutcomes: [
+      "GitHub feedback snapshot: 5 stars as of 2026-10-12.",
+    ],
   },
   "proj-jzt-shuttle-path": {
     name: "JZT Shuttle Path Planning",
