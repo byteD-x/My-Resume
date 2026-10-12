@@ -18,7 +18,6 @@ This project publishes through two separate channels. Keep this file aligned wit
   - `/zh/experiences/[slug]`
   - `/en/experiences/[slug]`
 - Root path `/` renders the deployment default locale directly.
-- Static export does not depend on middleware, cookies, or runtime redirects.
 
 ## Public URLs
 
@@ -76,7 +75,6 @@ Recommended configuration after filing approval:
 ```bash
 NEXT_PUBLIC_SITE_URL=https://blog.byted.online
 SERVER_PUBLIC_URL=https://blog.byted.online
-VERIFY_SERVER_PUBLIC_URL=true
 ```
 
 Recommended rollout order:
@@ -85,7 +83,7 @@ Recommended rollout order:
 2. Rebuild and redeploy the self-hosted release.
 3. Run `npm run setup:server:https` if the TLS certificate still does not match `blog.byted.online`.
 4. Confirm `curl -I https://blog.byted.online` succeeds without `-k`.
-5. Keep `VERIFY_SERVER_PUBLIC_URL=true` in CI so the public domain remains a required gate.
+5. Keep the canonical domain in the required public endpoint check; set `VERIFY_SERVER_IP_URL=true` only when troubleshooting the fallback IP.
 
 After setup, plain `git push` to `origin` will push to both GitHub and the server because `origin` gets a second `pushurl`. The repository also keeps a dedicated `server` remote for direct troubleshooting.
 
@@ -106,10 +104,8 @@ Optional environment overrides for setup/status/deploy scripts:
 - `SERVER_ADDITIONAL_DOMAINS`
 - `SERVER_REDIRECT_HOSTS`
 - `SERVER_IP_PUBLIC_URL`
+- `VERIFY_SERVER_IP_URL=true` to include the fallback IP in public endpoint verification
 - `KEEP_RELEASES`
-- `LOCAL_ORIGIN_REMOTE`
-- `LOCAL_SERVER_REMOTE`
-- `SKIP_BUILD=1` to reuse an existing local build artifact
 
 ## Common Commands
 
@@ -117,12 +113,6 @@ Push all release channels:
 
 ```bash
 git push
-```
-
-Explicit push helper:
-
-```bash
-npm run push:all
 ```
 
 Check self-hosted deployment status:
@@ -144,16 +134,6 @@ curl -I https://blog.byted.online/en
 curl -I https://blog.byted.online/zh
 ```
 
-Static export verification:
-
-```bash
-npm run build:static
-test -f out/index.html
-test -f out/zh/index.html
-test -f out/en/index.html
-```
-
-`npm run build:static` sets `NEXT_PUBLIC_STATIC_EXPORT=true`, defaults the static locale to `zh`, accepts an optional base path argument, clears `.next` and `out`, runs `npm run build`, and then runs `npm run optimize:images`.
 
 ## Rollback
 
@@ -164,5 +144,5 @@ To roll back, repoint it to an older release under `/var/www/portfolio/releases/
 
 - The self-hosted channel is intentionally independent of CI. GitHub receives the source push for collaboration while Vercel handles the international deployment.
 - The server build runs with `/root/.local/share/mise/installs/node/22.22.1/bin/node`, not the system default `node`.
-- Public endpoint verification checks `Vercel` and the self-hosted IP endpoint. The self-hosted domain is checked as optional by default; set `VERIFY_SERVER_PUBLIC_URL=true`, `1`, `required`, or `strict` when `https://blog.byted.online` should become a required gate.
+- Public endpoint verification checks `Vercel` and the canonical self-hosted domain. Set `VERIFY_SERVER_IP_URL=true`, `1`, `required`, or `strict` to include the fallback IP as an additional troubleshooting check.
 - `git push` across GitHub and the server is not atomic. If one remote succeeds and the other fails, resolve the failed side explicitly and push again.

@@ -26,30 +26,14 @@ export function getOpenGraphLocale(locale: Locale): string {
   return locale === "en" ? "en_US" : "zh_CN";
 }
 
-export function getBasePath(): string {
-  const raw = (process.env.NEXT_PUBLIC_BASE_PATH || "").trim();
-  if (!raw) return "";
-  return `/${raw.replace(/^\/+|\/+$/g, "")}`;
-}
-
-export function stripBasePath(pathname: string): string {
-  const basePath = getBasePath();
-  if (!basePath) return pathname || "/";
-  if (pathname === basePath) return "/";
-  if (pathname.startsWith(`${basePath}/`)) {
-    return pathname.slice(basePath.length) || "/";
-  }
-  return pathname || "/";
-}
-
 export function getPathLocale(pathname: string): Locale | null {
-  const normalizedPath = stripBasePath(pathname);
+  const normalizedPath = pathname || "/";
   const firstSegment = normalizedPath.split("/").filter(Boolean)[0];
   return isLocale(firstSegment) ? firstSegment : null;
 }
 
 export function stripLocalePrefix(pathname: string): string {
-  const normalizedPath = stripBasePath(pathname);
+  const normalizedPath = pathname || "/";
   const segments = normalizedPath.split("/").filter(Boolean);
   if (segments.length > 0 && isLocale(segments[0])) {
     const rest = segments.slice(1).join("/");

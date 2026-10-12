@@ -4,13 +4,9 @@ import {
   EN_RESUME_FILE_NAME,
   RESUME_FILE_NAME,
 } from "@/lib/resume";
-import { getDefaultLocale, normalizeLocale } from "@/lib/locale";
+import { normalizeLocale } from "@/lib/locale";
 
 export const runtime = "nodejs";
-
-// Static export ignores API routes but needs a static segment config to avoid build errors.
-export const dynamic = "force-static";
-const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === "true";
 
 const FALLBACK_NAME = RESUME_FILE_NAME;
 const RESUME_CACHE_CONTROL =
@@ -32,9 +28,7 @@ function getResumeAsset(localeParam: string | null) {
 }
 
 export async function GET(request: Request) {
-  const localeParam = isStaticExport
-    ? getDefaultLocale()
-    : new URL(request.url).searchParams.get("locale");
+  const localeParam = new URL(request.url).searchParams.get("locale");
   const { fileName: safeFileName, filePath } = getResumeAsset(localeParam);
 
   try {

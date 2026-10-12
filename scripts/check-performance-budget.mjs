@@ -4,8 +4,8 @@ import process from "node:process";
 import { JSDOM } from "jsdom";
 
 const rootDir = process.cwd();
-const outDir = path.join(rootDir, "out");
-const nextDir = path.join(rootDir, ".next");
+const configuredDistDir = process.env.NEXT_DIST_DIR?.trim();
+const nextDir = path.resolve(rootDir, configuredDistDir || ".next");
 const budgetStrict =
   process.argv.includes("--strict") || process.env.PERF_BUDGET_STRICT === "1";
 
@@ -35,21 +35,29 @@ async function fileExists(filePath) {
 }
 
 async function resolveHomepageHtmlPath() {
-  const directIndex = path.join(outDir, "index.html");
+  const directIndex = path.join(nextDir, "server", "app", "index.html");
   if (await fileExists(directIndex)) {
     return directIndex;
   }
 
-  const entries = await fs.readdir(outDir, { withFileTypes: true });
+  const entries = await fs.readdir(path.join(nextDir, "server", "app"), {
+    withFileTypes: true,
+  });
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
-    const nestedIndex = path.join(outDir, entry.name, "index.html");
+    const nestedIndex = path.join(
+      nextDir,
+      "server",
+      "app",
+      entry.name,
+      "index.html",
+    );
     if (await fileExists(nestedIndex)) {
       return nestedIndex;
     }
   }
 
-  throw new Error('Could not find homepage HTML. Run "npm run build:static" first.');
+  throw new Error('Could not find homepage HTML. Run "npm run build" first.');
 }
 
 function collectCandidateAssetPaths(assetPath) {
@@ -65,7 +73,7 @@ function collectCandidateAssetPaths(assetPath) {
 
   const candidates = [];
   for (const variant of variants) {
-    candidates.push(path.join(outDir, variant));
+    candidates.push(path.join(nextDir, variant));
 
     if (variant.startsWith("_next/static/")) {
       candidates.push(

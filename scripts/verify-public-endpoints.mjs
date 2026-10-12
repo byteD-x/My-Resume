@@ -22,8 +22,8 @@ function normalizeUrl(url) {
     .replace(/\/+$/g, "");
 }
 
-function shouldRequireServerEndpoint() {
-  const raw = String(process.env.VERIFY_SERVER_PUBLIC_URL || "")
+function shouldVerifyServerIp() {
+  const raw = String(process.env.VERIFY_SERVER_IP_URL || "")
     .trim()
     .toLowerCase();
   return (
@@ -121,21 +121,17 @@ async function main() {
     normalizeUrl(process.env.SERVER_PUBLIC_URL) || DEFAULT_SERVER_URL;
   const serverIpUrl =
     normalizeUrl(process.env.SERVER_IP_PUBLIC_URL) || DEFAULT_SERVER_IP_URL;
-  const serverRequired = shouldRequireServerEndpoint();
+  const verifyServerIp = shouldVerifyServerIp();
 
   const requiredEndpoints = [
     { label: "Vercel", url: vercelUrl },
-    { label: "Self-hosted IP", url: serverIpUrl },
+    { label: "Self-hosted domain", url: serverUrl },
   ];
-
-  if (serverRequired) {
-    requiredEndpoints.push({ label: "Self-hosted domain", url: serverUrl });
-  }
 
   await verifyRequired(requiredEndpoints);
 
-  if (!serverRequired) {
-    await verifyOptional({ label: "Self-hosted domain", url: serverUrl });
+  if (verifyServerIp) {
+    await verifyOptional({ label: "Self-hosted IP", url: serverIpUrl });
   }
 }
 

@@ -11,7 +11,6 @@ import {
 } from "@/lib/experiences";
 import { locales, type Locale } from "@/lib/locale";
 
-// 静态导出需要强制静态配置
 export const dynamic = "force-static";
 
 const defaultLocale = getDeploymentDefaultLocale();

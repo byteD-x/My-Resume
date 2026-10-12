@@ -23,8 +23,6 @@ const withBundleAnalyzer = createBundleAnalyzer();
 
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 const configuredDistDir = process.env.NEXT_DIST_DIR?.trim();
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ? `/${process.env.NEXT_PUBLIC_BASE_PATH}` : '';
-const isStaticExport = process.env.NEXT_PUBLIC_STATIC_EXPORT === 'true';
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || '').trim();
 const shouldUpgradeInsecureRequests = siteUrl.startsWith('https://');
 const enableVerboseFetchLogging = process.env.NEXT_FETCH_LOGGING === '1';
@@ -123,40 +121,37 @@ const mediaAssetHeaders = [
     },
 ];
 
-const headersConfig = isStaticExport
-    ? {}
-    : {
-        async headers() {
-            return [
-                {
-                    source: '/og.png',
-                    headers: withSecurityHeaders(mediaAssetHeaders),
-                },
-                {
-                    source: '/api/resume',
-                    headers: withSecurityHeaders(mediaAssetHeaders),
-                },
-                {
-                    source: '/',
-                    headers: withSecurityHeaders(pageCacheHeaders),
-                },
-                {
-                    source: '/:path((?!api/|_next/|.*\\..*).*)',
-                    headers: withSecurityHeaders(pageCacheHeaders),
-                },
-            ];
-        },
-    };
+const headersConfig = {
+    async headers() {
+        return [
+            {
+                source: '/og.png',
+                headers: withSecurityHeaders(mediaAssetHeaders),
+            },
+            {
+                source: '/api/resume',
+                headers: withSecurityHeaders(mediaAssetHeaders),
+            },
+            {
+                source: '/',
+                headers: withSecurityHeaders(pageCacheHeaders),
+            },
+            {
+                source: '/:path((?!api/|_next/|.*\\..*).*)',
+                headers: withSecurityHeaders(pageCacheHeaders),
+            },
+        ];
+    },
+};
 
 const buildTimestamp = process.env.NEXT_PUBLIC_BUILD_TIMESTAMP ?? new Date().toISOString();
 
 const nextConfig: NextConfig = {
     // Self-hosted server deployments use the standalone output so runtime no longer
     // depends on a separate `npm ci` step or `next` binary in the release directory.
-    output: isStaticExport ? 'export' : 'standalone',
+    output: 'standalone',
     distDir: configuredDistDir || undefined,
     allowedDevOrigins: ['127.0.0.1', 'localhost'],
-    trailingSlash: isStaticExport ? true : undefined,
     typescript: {
         tsconfigPath: './tsconfig.next.json',
     },
@@ -173,23 +168,8 @@ const nextConfig: NextConfig = {
             },
         }
         : undefined,
-    images: {
-        loader: 'custom',
-        loaderFile: './image-loader.ts',
-    },
-    transpilePackages: ['next-image-export-optimizer'],
-    basePath: isStaticExport ? basePath : undefined,
-    assetPrefix: isStaticExport && basePath ? `${basePath}/` : undefined,
     env: {
-        nextImageExportOptimizer_imageFolderPath: 'public/images',
-        nextImageExportOptimizer_exportFolderPath: 'out',
-        nextImageExportOptimizer_quality: '75',
-        nextImageExportOptimizer_storePicturesInWEBP: 'true',
-        nextImageExportOptimizer_exportFolderName: 'nextImageExportOptimizer',
-        nextImageExportOptimizer_generateAndUseBlurImages: 'true',
-        nextImageExportOptimizer_removeOriginalExtension: 'true',
         NEXT_PUBLIC_BUILD_TIMESTAMP: buildTimestamp,
-        NEXT_PUBLIC_DEPLOY_TARGET: isStaticExport ? 'static-export' : 'server',
         NEXT_PUBLIC_NEXT_VERSION: packageJson.dependencies.next,
         NEXT_PUBLIC_REACT_VERSION: packageJson.dependencies.react,
         NEXT_PUBLIC_TYPESCRIPT_VERSION: packageJson.devDependencies.typescript,

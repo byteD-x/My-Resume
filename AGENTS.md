@@ -29,9 +29,7 @@
   - `playwright.config.ts`
 - 部署关注点：
   - 检测到 Next.js，发布前至少验证一次标准构建以覆盖服务端模式。
-  - 检测到静态导出配置，发布前验证静态导出链路。
   - 检测到两端发布场景：保持 Vercel 与自托管服务器说明同时可验证。
-  - 检测到静态导出信号：改动 API、headers、rewrite、redirect 时必须提供降级或兼容实现。
 
 ## 3. 协作原则
 - 先读后改：先定位受影响文件与边界，再写代码。
@@ -44,7 +42,7 @@
 - 对外接口和边界输入做校验（空值、类型、范围）。
 - 避免明显性能问题（N+1、无界循环、全量扫描）；无法避免时写明上限与原因。
 - 不在日志中输出敏感信息，不提交密钥、令牌、私密配置。
-- 构建、导出、数据抓取脚本正常产生的时间戳、快照或遥测文件更新，默认按实际结果保留；除非用户明确要求或确认是无关噪声，不要在收尾阶段手动回退这类变更。
+- 构建、数据抓取脚本正常产生的时间戳、快照或遥测文件更新，默认按实际结果保留；除非用户明确要求或确认是无关噪声，不要在收尾阶段手动回退这类变更。
 
 ### 4.1 作品集内容更新规则
 - 涉及 `src/data.ts` 的 `timeline`、`projects`、`impact` 更新时，必须先审阅对应项目源码，再写技术亮点。
@@ -64,14 +62,12 @@
   2. `npm run test:unit`
   3. `npm run test:e2e`
   4. `npm run build`
-  5. `npm run build:static`
-  6. `npm run check:links`
-  7. `npm run check:performance`
-  8. `npm run verify:public`
+  5. `npm run check:links`
+  6. `npm run check:performance`
+  7. `npm run verify:public`
 - 检测到可用脚本：
   - `analyze`
   - `build`
-  - `build:static`
   - `check:links`
   - `check:performance`
   - `dev`
@@ -80,14 +76,11 @@
   - `dev:external:webpack`
   - `dev:trace`
   - `dev:webpack`
-  - `deploy:server`
   - `deploy:server:status`
   - `format`
   - `format:check`
   - `lint`
   - `lint:fix`
-  - `optimize:images`
-  - `push:all`
   - `setup:fast-dev-cache`
   - `setup:server:ci`
   - `setup:server:https`
@@ -112,5 +105,5 @@
 结束前：
 - 汇总改动文件、验证命令与结果。
 - 明确说明构建是否通过、测试是否通过、部署基线是否通过。
-- 若 `build` / `build:static` / 数据脚本更新了仓库内快照或时间戳文件，按正常逻辑保留，并在最终说明里明确这是构建副产物而非异常改动。
+- 若 `build` / 数据脚本更新了仓库内快照或时间戳文件，按正常逻辑保留，并在最终说明里明确这是构建副产物而非异常改动。
 - 列出剩余风险与可选后续优化。
