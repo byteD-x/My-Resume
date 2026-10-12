@@ -118,8 +118,8 @@ export const defaultPortfolioData: PortfolioData = {
         "固定 25 条本地 smoke 全部通过；另有 2 秒回复 deadline 与 27 条离线评测约束长期运行链路",
       details: [
         "交付可长期运行的微信智能助手，兼顾接入稳定性、排障效率与成本治理。",
-        "以 `BaseTransport` 抽象微信接入边界，并用 `LangChain + LangGraph` 重构回复主链与后台任务。",
-        "构建三层记忆、可降级 RAG、模型与认证中心、知识库治理 API、受控 Tool Workflow、只读 MCP adapter、运行准备度、配置审计与成本分析能力，覆盖长期运行、排障和发布更新。",
+        "以 `BaseTransport` 抽象微信接入边界，使用 OpenAI-compatible chat/embedding 调用拆分前台回复与后台记忆任务。",
+        "构建 SQLite 三层记忆、可降级 RAG、模型认证、受控 Tool、运行准备度、配置审计与发布门禁，覆盖长期运行、排障和更新。",
       ].join("\n"),
       linkedExperienceId: "exp-wechat-bot",
       icon: "Star",
@@ -258,28 +258,38 @@ export const defaultPortfolioData: PortfolioData = {
   timeline: [
     {
       id: "exp-independent-developer",
-      year: "2025.12 - 至今",
+      year: "2025.09 - 至今",
       role: "独立开发者",
       company: "AI 应用 / 全栈项目",
       location: "独立开发阶段代表项目",
       summary:
-        "围绕 4 个代表项目持续推进方案设计、全栈实现、联调验证、测试交付与运行治理，覆盖租赁业务、任务平台、客服运行时和桌面智能助手。",
+        "2025.09 起独立承接商业、外包与开源项目，围绕租赁业务、论文检索、方言语音转写、智能客服和 Windows 微信助手完成方案设计、全栈实现、联调验证与交付治理。",
       techTags: [
         "Java 21",
         "Spring Boot 3.5",
         "Python",
         "FastAPI",
+        "Flask",
+        "Quart",
         "React 19",
         "TypeScript",
-        "LangGraph",
         "PostgreSQL",
         "MySQL",
         "Redis",
+        "SSE",
+        "MQTT",
       ],
       highlighted: true,
+      keyOutcomes: [
+        "独立承接并交付简租科技小程序、论文检索任务平台和 IPA 方言语音转写原型，覆盖支付/设备接入、异步任务和本地模型服务化。",
+        "持续维护智能客服运行时与 Windows 微信助手，将 RAG、受控 Agent、人工接管、分层记忆和运行观测接入真实业务流程。",
+        "以状态机、数据库契约、权限边界、幂等回放、协议适配、健康检查和离线评测约束交付路径，保留可复核的测试与发布证据。",
+        "按项目分别保留独立 slug、技术栈和源码证据，支持从经历时间线继续追溯具体实现。",
+      ],
       childIds: [
         "exp-rentbox",
         "exp-paper-retrieval-platform",
+        "exp-sustech",
         "exp-customer-ai-runtime",
         "exp-wechat-bot",
       ],
@@ -296,17 +306,20 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "这是最新简历中独立开发阶段的主线，覆盖多个 AI 应用与全栈项目的并行推进。",
         solution:
-          "- 统一承接 RentBox、论文检索任务平台、智能客服运行时与微信智能助手四个子项目。\n- 以独立开发者视角完成方案设计、全栈实现、联调验证、测试交付和运行治理。\n- 按子项目分别保留独立 slug 与详情页能力，方便继续追溯单个项目证据。",
+          "- 统一承接 RentBox、论文检索任务平台、IPA 方言语音转写、智能客服运行时与微信智能助手五个子项目。\n- 以独立开发者视角完成方案设计、全栈实现、联调验证、测试交付和运行治理。\n- 按子项目分别保留独立 slug 与详情页能力，方便继续追溯单个项目证据。",
         result:
-          "独立开发阶段以一个主经历呈现，四个代表项目仍可单独查看和核验。",
+          "独立开发阶段以一个主经历呈现，五个代表项目仍可单独查看和核验。",
         role: "独立开发者",
         techStack: [
           "Java 21",
           "Spring Boot 3.5",
           "Python",
           "FastAPI",
+          "Flask",
+          "Quart",
           "React 19",
-          "LangGraph",
+          "SSE",
+          "MQTT",
         ],
       },
     },
@@ -314,10 +327,10 @@ export const defaultPortfolioData: PortfolioData = {
       id: "exp-rentbox",
       year: "2026.05 - 至今",
       role: "独立开发者 · 全栈项目",
-      company: "RentBox 共享擦窗宝小程序",
+      company: "简租科技小程序（RentBox）",
       location: "本地项目 / 多端交付",
       summary:
-        "独立推进共享擦窗宝租赁系统，覆盖终端用户小程序、管理端、渠道端与 Spring Boot 后端，处理支付、免押、设备、归还、结算和审计，并覆盖测试期上线链路。",
+        "独立推进简租科技共享擦窗宝租赁系统，覆盖终端用户小程序、管理端、渠道端与 Spring Boot 后端，处理支付、免押、设备、归还、结算和审计，完成正式上线交付。",
       techTags: [
         "Java 21",
         "Spring Boot 3.5",
@@ -330,14 +343,15 @@ export const defaultPortfolioData: PortfolioData = {
         "uni-app",
         "WeChat Pay",
         "WeChat Pay Score",
+        "MQTT",
         "Device Gateway",
       ],
       highlighted: true,
       keyOutcomes: [
-        "按单仓多端组织 `server / admin / channel / miniapp / shared / deploy`，把用户租借、后台运营、渠道结算和宿主机发布放在同一套工程路径中。",
-        "围绕订单、支付、免押、设备开锁、归还审核和资金补偿建立服务端状态真相，结合 Redis / JDBC 幂等、分布式锁、状态历史与审计日志降低重复回调和乱序推进风险。",
-        "抽象 `DeviceGateway` 与 `DepositFreeGateway`，对接微信支付 v3、微信支付分和柜机厂商 WebApi；外部参数未就绪时返回真实阻塞态，模拟成功不会绕过风险。",
-        "保留 Maven 测试、Vite 构建、小程序真机验证清单、Flyway 版本策略和宿主机 release 切换脚本，支持多端交付回归、回滚和审计。",
+        "围绕商家入驻、租赁商品、支付免押、取机归还建立订单状态机，以幂等键与结果回放处理乱序/重复回调，保证订单按合法路径推进。",
+        "接入柜机心跳、柜门事件和开锁回执，使用新鲜设备快照校验在线与闭门状态；异常状态进入工单，避免设备状态不明时放行。",
+        "在接入层统一适配 TCP、MQTT、HTTP，并按板型与协议码路由；开锁超时通过重试、状态查询和定时补偿推进，最终转异常工单而不阻塞请求线程。",
+        "统筹微信/支付宝支付、微信支付分开通及小程序、商家端、管理端、渠道端和正式环境部署，完成客户 27 项需求交付。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -388,9 +402,9 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "exp-paper-retrieval-platform",
-      year: "2026.04",
+      year: "2026.01 - 2026.05",
       role: "独立开发者 · 全栈项目",
-      company: "论文检索任务平台",
+      company: "数阁科技（深圳）｜论文检索任务平台",
       location: "本地项目 / 测试验收版",
       summary:
         "独立交付论文检索任务平台，围绕手机号认证、任务创建、Worker 共享表对接、SSE 状态同步、额度流水、支付宝升级和管理后台完成测试验收版。",
@@ -411,10 +425,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "基于 FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis 和 React/Vite 搭建用户端、管理端、任务、支付、额度与健康检查等核心模块。",
-        "在甲方 Worker 只读写共享 `tasks` 表的约束下，设计 `pending -> running -> success/failed` 状态契约，并通过数据库触发器约束终态回退、完成时间和成功结果数。",
-        "实现任务状态 LISTEN/NOTIFY 监听、按任务 SSE、多任务 SSE、全局活动任务 SSE 与轮询兜底，减少用户侧等待时的状态盲区。",
-        "将额度扣减延后到任务成功后执行，结合 `SELECT ... FOR UPDATE`、唯一额度事件、并发测试和月度额度流水，避免任务失败或重复通知造成额度误扣。",
+        "在甲方 Worker 仅通过共享 `tasks` 表回写的边界下，设计任务创建、状态同步、结果下载和额度扣减流程，隔离用户侧与 Worker 进程。",
+        "使用 PostgreSQL `LISTEN/NOTIFY` 驱动单任务、多任务和全局活动任务 SSE，以首次快照、keep-alive、定时 reconcile 和轮询兜底保证进度可见、终态不回退。",
+        "通过 Alembic 的 `check constraint` 与触发器约束终态字段、结果数和完成时间，并按路径边界与用户归属校验结果文件，避免脏回写和越权下载。",
+        "任务成功后使用 `SELECT ... FOR UPDATE`、唯一额度流水和支付验签处理并发扣款、待支付复用、过期关闭与重复通知，并配套 pytest/Vitest/Playwright 回归。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -475,20 +489,20 @@ export const defaultPortfolioData: PortfolioData = {
         "Python",
         "Quart",
         "Asyncio",
-        "LangGraph",
+        "OpenAI-compatible API",
         "RAG",
         "Electron",
         "SQLite",
-        "ChromaDB",
+        "SSE",
         "BaseTransport",
         "Cost Analytics",
       ],
       highlighted: true,
       keyOutcomes: [
-        "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
-        "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
-        "加入 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，补充运行观测、配置审计与排障能力。",
-        "加入配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
+        "抽象 `BaseTransport` 接入层，隔离 Windows 微信版本、权限和通道差异，统一消息收发、状态检查与通道恢复。",
+        "将上下文加载、Prompt 构建、模型调用、事实抽取、记忆写入和联系人画像分层，前台回复按预算执行，后台 backlog 不阻塞主链路。",
+        "构建 SQLite 短期记忆、运行期向量记忆和导出语料 RAG 三层体系；排序增强不可用时回退关键词或轻量语义检索。",
+        "补齐 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、模型认证、受控 Tool、备份恢复、脱敏诊断、Windows 发布门禁与 27 条离线 smoke eval。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -498,8 +512,8 @@ export const defaultPortfolioData: PortfolioData = {
         en: "The script-like WeChat bot now runs as a long-running AI assistant with diagnostics and cost control.",
       },
       engineeringDepth: {
-        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、模型认证中心、知识库治理、只读 MCP、受控工具流、发布更新与 Prometheus 风格观测链路。",
-        en: "Uses transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
+        zh: "覆盖 `BaseTransport` 抽象、分层 Agent 运行时、SQLite 三层记忆、可降级 RAG、模型认证中心、知识库治理、受控工具流、发布更新与运行观测。",
+        en: "Uses transport abstraction, a layered agent runtime, SQLite-backed memory tiers, degradable RAG, auth governance, controlled tools, release gates, and runtime observability.",
       },
       verification: [
         {
@@ -517,7 +531,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：使用 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **加入治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
+          "- **分层回复运行时**：拆分上下文加载、Prompt 构建、模型调用、结果回写与后台成长任务，前台回复按预算执行，后台处理事实、画像、向量与导出语料。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道差异，并支持状态检查与通道恢复。\n- **构建三层记忆**：使用 SQLite 短期记忆、运行期向量记忆与导出语料 RAG；排序增强不可用时回退关键词或轻量语义检索。\n- **加入治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、模型认证、受控 Tool、备份恢复、脱敏诊断、发布门禁与 27 条离线 eval。",
         result:
           "交付面向 Windows 微信生态的长期运行智能助手，覆盖消息接入、记忆增强、模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新。",
         role: "独立开发者",
@@ -525,10 +539,10 @@ export const defaultPortfolioData: PortfolioData = {
           "Python",
           "Quart",
           "Asyncio",
-          "LangGraph",
+          "OpenAI-compatible API",
           "Electron",
-          "ChromaDB",
           "SQLite",
+          "SSE",
           "httpx",
         ],
         links: [
@@ -561,10 +575,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
-        "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
-        "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "加入知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "以插件化架构统一文本、语音、RTC 与宿主页面入口，结合意图、页面上下文和业务对象路由回答、追问或转人工。",
+        "以白名单、参数校验、步骤上限、失败停止、断点恢复和审批门禁控制高风险工具调用。",
+        "按租户管理知识库、切片与版本，支持快照激活、引用回传、安全缓存和实时业务查询。",
+        "以离线 RAG 评测、usage 对账、人工接管队列、readiness 审计、限流和提示词脱敏约束发布。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       groupParentId: "exp-independent-developer",
@@ -618,10 +632,11 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "exp-sustech",
       year: "2025.11 - 2025.12",
+      groupParentId: "exp-independent-developer",
       hideFromSection: true,
       role: "外包技术顾问",
-      company: "南方科技大学",
-      location: "深圳",
+      company: "数阁科技（深圳）｜IPA 方言语音转写原型",
+      location: "深圳 · 终端客户：南方科技大学",
       summary:
         "独立承接并交付 `IPA Demo` 原型：围绕中文方言语音转写做出可演示、可批处理、可导出的 Web 系统，帮助客户快速验证技术路线。",
       techTags: [
@@ -635,9 +650,9 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: false,
       keyOutcomes: [
-        "将本地方言 ASR 模型封装为 Flask Web 服务，支持上传转写、流式转写、浏览器录音与示例音频体验，覆盖演示流程。",
-        "加入音频标准化、批量并发处理、IPA 声母/韵母/声调拆分与日志落盘，让原型可以演示，也便于问题定位。",
-        "支持 Excel 模板校验、批量识别结果导出与系统手册下载，降低非技术用户试用与验收成本。",
+        "在需求不清、周期受限下，将范围收敛为本地转写、批量复核和 Excel 导出的可验收 MVP，按期交付客户。",
+        "统一音频采样率和声道后进入识别链路，将 IPA 拆分规则改为表格驱动，输出声母、韵母和调值，支持研究人员复核与二次整理。",
+        "打通批量处理、SSE 流式进度和 Excel 导出；运行日志可追溯累计 2380 次识别、60 次批量任务，单批最大 500 个文件。",
       ],
       audienceTags: ["partner", "client"],
       businessValue: {
@@ -708,10 +723,10 @@ export const defaultPortfolioData: PortfolioData = {
       ],
       highlighted: true,
       keyOutcomes: [
-        "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
-        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思流程与三层记忆。",
-        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。",
-        "落地三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
+        "针对制度条款、编号和图文教程等精确查询易漏检，融合结构化信号、全文检索和向量召回，再做查询改写与重排，并通过离线检索对比检查版本回归。",
+        "按证据强度输出回答、补充或拒答并强制回传引用；召回前按租户、部门过滤文档，缓存按权限隔离，避免无证据作答和越权复用。",
+        "将问答拆为可暂停、可恢复的图工作流，支持复杂问题并行拆解、工具调用、人工澄清和失败恢复，保留阶段级 trace。",
+        "以安全回归、检索对比和引用质量检查约束知识与模型版本发布，并配套 22 个后端测试文件、9 个前端测试文件和 400+ 测试项。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner"],
       businessValue: {
@@ -1031,6 +1046,11 @@ export const defaultPortfolioData: PortfolioData = {
         "主修计算机科学与大数据技术，GPA 3.8/4.5 (Top 5%)。注重工程实践与持续学习能力。",
       techTags: ["Computer Science", "Big Data", "Top 5%"],
       highlighted: false,
+      keyOutcomes: [
+        "GPA 3.8/4.5，排名 Top 5%。",
+        "获得校级三好学生、校级优秀学生干部和院级奖学金。",
+        "完成数据科学与大数据技术本科阶段学习，形成计算机与数据工程基础。",
+      ],
       audienceTags: ["hr"],
       businessValue: {
         zh: "打下了扎实的计算机理论基础，具备持续学习与工程实践的潜力。",
@@ -1055,7 +1075,7 @@ export const defaultPortfolioData: PortfolioData = {
   projects: [
     {
       id: "proj-independent-developer",
-      year: "2025.12 - 至今",
+      year: "2025.09 - 至今",
       name: "独立开发者｜AI 应用 / 全栈项目",
       techTags: [
         "Java 21",
@@ -1064,18 +1084,21 @@ export const defaultPortfolioData: PortfolioData = {
         "FastAPI",
         "React 19",
         "TypeScript",
-        "LangGraph",
         "PostgreSQL",
         "MySQL",
         "Redis",
+        "Flask",
+        "SSE",
+        "MQTT",
       ],
       summary:
-        "以独立开发者身份推进 4 个代表项目，覆盖租赁业务、任务平台、客服运行时与桌面智能助手，并按子项目保留独立详情与证据入口。",
-      impact: "4 个代表项目的方案设计 / 全栈实现 / 联调验证 / 运行治理",
+        "以独立开发者身份推进 5 个代表项目，覆盖租赁业务、任务平台、方言语音转写、客服运行时与桌面智能助手，并按子项目保留独立详情与证据入口。",
+      impact: "5 个代表项目的方案设计 / 全栈实现 / 联调验证 / 运行治理",
       highlighted: true,
       childIds: [
         "proj-rentbox",
         "proj-paper-retrieval-platform",
+        "proj-ipa-demo",
         "proj-customer-ai-runtime",
         "proj-wechat-bot",
       ],
@@ -1092,7 +1115,7 @@ export const defaultPortfolioData: PortfolioData = {
         background:
           "该分组用于承接最新简历中的独立开发阶段，把并行推进的代表项目集中展示。",
         solution:
-          "- 统一展示 RentBox、论文检索任务平台、智能客服运行时和微信智能助手四个子项目。\n- 在项目区保留每个子项目的独立卡片能力，同时提供父项视角的整体概览。\n- 通过父子关系维持最新简历结构与现有详情页 slug 的兼容。",
+          "- 统一展示 RentBox、论文检索任务平台、IPA 方言语音转写、智能客服运行时和微信智能助手五个子项目。\n- 在项目区保留每个子项目的独立卡片能力，同时提供父项视角的整体概览。\n- 通过父子关系维持最新简历结构与现有详情页 slug 的兼容。",
         result:
           "让独立开发者相关项目在项目区以一个大项聚合展示，同时保留单个项目的独立访问路径。",
         role: "独立开发者",
@@ -1101,8 +1124,11 @@ export const defaultPortfolioData: PortfolioData = {
           "Spring Boot 3.5",
           "Python",
           "FastAPI",
+          "Flask",
+          "Quart",
           "React 19",
-          "LangGraph",
+          "SSE",
+          "MQTT",
         ],
       },
     },
@@ -1111,7 +1137,7 @@ export const defaultPortfolioData: PortfolioData = {
       year: "2026.05 - 至今",
       groupParentId: "proj-independent-developer",
       hideFromSection: true,
-      name: "RentBox 共享擦窗宝小程序",
+      name: "简租科技小程序（RentBox）",
       demoLink: "",
       techTags: [
         "Java 21",
@@ -1131,10 +1157,10 @@ export const defaultPortfolioData: PortfolioData = {
         "面向共享擦窗宝租赁场景的单仓多端系统，覆盖用户小程序、管理端、渠道端和后端服务，处理租借、支付担保、柜机开锁、归还审核与渠道结算。",
       impact: "共享租赁多端交付 + 支付设备一致性",
       keyOutcomes: [
-        "按 `server / admin / channel / miniapp / shared / deploy` 组织单仓多端工程，统一用户端、后台、渠道端与部署链路。",
-        "将订单、支付、免押、开锁、归还、补偿和结算状态收敛到服务端，以幂等、锁、状态历史和审计日志处理外部回调乱序风险。",
-        "通过 `DeviceGateway`、`DepositFreeGateway` 和回调验签服务隔离柜机厂商、微信支付 v3 与微信支付分，缺配置时返回真实阻塞态。",
-        "加入 Maven 测试、前端构建、小程序验证清单、Flyway 版本策略和宿主机 release 脚本，保持交付和回滚路径清晰。",
+        "围绕商家入驻、租赁商品、支付免押、取机归还建立订单状态机，以幂等键与结果回放处理乱序/重复回调。",
+        "使用设备新鲜快照校验柜机在线与闭门状态，异常状态进入工单，避免设备状态不明时放行。",
+        "统一适配 TCP、MQTT、HTTP 并按板型与协议码路由，开锁超时通过重试、状态查询和定时补偿推进。",
+        "保留多端构建、小程序验证、Flyway 迁移和 release 切换脚本，支撑 27 项客户需求交付与回滚审计。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1182,7 +1208,7 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "proj-paper-retrieval-platform",
-      year: "2026.04",
+      year: "2026.01 - 2026.05",
       groupParentId: "proj-independent-developer",
       hideFromSection: true,
       name: "论文检索任务平台",
@@ -1204,10 +1230,10 @@ export const defaultPortfolioData: PortfolioData = {
         "面向论文检索服务的全栈任务平台，提供认证、任务提交、Worker 共享表对接、状态同步、结果下载、额度流水、支付宝升级与管理后台。",
       impact: "共享表 Worker 契约 + SSE 状态同步 + 额度流水",
       keyOutcomes: [
-        "使用 FastAPI、SQLAlchemy、Alembic、PostgreSQL、Redis 和 React/Vite 搭建用户端、管理端、任务、支付和额度模块。",
-        "通过数据库约束与触发器固化 Worker 对 `tasks` 表的状态回写契约，禁止终态回退并要求成功任务具备结果数。",
-        "实现 LISTEN/NOTIFY、按任务 SSE、多任务 SSE、全局活动任务 SSE 与轮询兜底，让用户侧能持续感知检索进度。",
-        "将任务额度扣减延后到成功完成后执行，并通过锁、唯一额度事件和并发测试避免失败任务或重复通知误扣。",
+        "在甲方 Worker 仅通过共享 `tasks` 表回写的边界下，设计任务创建、状态同步、结果下载和额度扣减流程，隔离用户侧与 Worker 进程。",
+        "使用 PostgreSQL `LISTEN/NOTIFY` 驱动单任务、多任务和全局活动任务 SSE，以首次快照、keep-alive、定时 reconcile 和轮询兜底保证进度可见、终态不回退。",
+        "通过 Alembic 的 `check constraint` 与触发器约束终态字段、结果数和完成时间，并按路径边界与用户归属校验结果文件，避免脏回写和越权下载。",
+        "任务成功后使用 `SELECT ... FOR UPDATE`、唯一额度流水和支付验签处理并发扣款、待支付复用、过期关闭与重复通知，并配套 pytest/Vitest/Playwright 回归。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1277,10 +1303,10 @@ export const defaultPortfolioData: PortfolioData = {
         "独立设计企业级智能客服运行时，统一文本、语音、RTC 与宿主挂载接入，并通过插件体系和知识治理将问答能力扩展为可接业务的服务运行时。",
       impact: "六层运行时 + 7 类插件 + 多通道接入",
       keyOutcomes: [
-        "设计渠道接入、宿主桥接、核心引擎、业务增强、插件平台、提供商适配六层架构，统一文本、Voice API、RTC WebSocket 与 FastAPI 挂载 4 类接入形态。",
-        "实现 `route_confidence` 分层、`intent_stack` 回退及 `page_context` / `business_objects` 感知路由，在低置信度与高风险场景优先澄清或转人工。",
-        "提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。",
-        "提供知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。",
+        "以插件化架构隔离渠道、业务工具和模型适配，统一文本、语音、RTC 与宿主页面入口，并基于用户意图、页面上下文和业务对象路由自动回答、追问或转人工。",
+        "以白名单、参数校验、步骤上限、失败停止、断点恢复和审批门禁控制工具调用，让退款、赔付等副作用过程可控、可追溯。",
+        "按租户管理知识库、文档、切片和版本，支持快照激活与引用回传；知识问答可缓存，业务查询保持实时并记录模型用量。",
+        "用离线评测和回归门禁约束版本发布，并补齐人工接管队列、readiness 审计、限流、提示词脱敏与多租户治理。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1332,7 +1358,7 @@ export const defaultPortfolioData: PortfolioData = {
     },
     {
       id: "proj-wechat-bot",
-      year: "2025 - 至今",
+      year: "2025.12 - 至今",
       groupParentId: "proj-independent-developer",
       hideFromSection: true,
       name: "微信智能助手",
@@ -1342,11 +1368,11 @@ export const defaultPortfolioData: PortfolioData = {
         "Python",
         "Quart",
         "Asyncio",
-        "LangGraph",
+        "OpenAI-compatible API",
         "RAG",
         "Electron",
         "SQLite",
-        "ChromaDB",
+        "SSE",
         "BaseTransport",
         "Cost Analytics",
       ],
@@ -1354,10 +1380,10 @@ export const defaultPortfolioData: PortfolioData = {
         "独立设计并持续迭代 Windows 微信生态智能助手运行时，围绕稳定接入、分层记忆、可降级 RAG 与运行治理，交付可长期运行的桌面化 AI 助手。",
       impact: "微信接入运行时 + 三层记忆 + 可观测治理",
       keyOutcomes: [
-        "抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。",
-        "构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。",
-        "提供 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。",
-        "落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。",
+        "针对 Windows 微信版本、权限和通道差异抽象 `BaseTransport`，统一消息收发与运行状态接口，避免主链路绑定具体自动化实现。",
+        "将事实提取、记忆写入、联系人画像和语料同步移出回复主链路，分层管理短期对话、运行期记忆和导出语料；排序增强不可用时回退关键词或轻量语义检索。",
+        "统一凭据回退，提供提示词版本回滚、备份恢复、脱敏诊断和 Windows 发布门禁，通过离线评测与 smoke 用例回归主路径。",
+        "以 `OpenAI-compatible API`、SQLite 和 SSE 支撑模型调用、记忆存储与进度反馈，保持桌面助手可长期运行和可排障。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1365,8 +1391,8 @@ export const defaultPortfolioData: PortfolioData = {
         en: "The script-like WeChat bot now runs as a long-running AI assistant with diagnostics and cost control.",
       },
       engineeringDepth: {
-        zh: "覆盖 `BaseTransport` 抽象、LangGraph 运行时、三层记忆、可降级 RAG、模型认证中心、知识库治理、只读 MCP、受控工具流、发布更新与 Prometheus 风格观测链路。",
-        en: "Uses transport abstraction, a LangGraph runtime, degradable RAG, model auth governance, config hot reload, controlled tools, cost analytics, and runtime observability.",
+        zh: "覆盖 `BaseTransport` 抽象、分层 Agent 运行时、SQLite 三层记忆、可降级 RAG、模型认证中心、知识库治理、受控工具流、发布更新与运行观测。",
+        en: "Uses transport abstraction, a layered agent runtime, SQLite-backed memory tiers, degradable RAG, auth governance, controlled tools, release gates, and runtime observability.",
       },
       verification: [
         {
@@ -1384,7 +1410,7 @@ export const defaultPortfolioData: PortfolioData = {
         problem:
           "微信接入边界依赖桌面环境且稳定性敏感；如果把记忆、RAG、诊断和配置能力耦合在主回复链路内，系统很难长期运行与排障。",
         solution:
-          "- **重构运行时**：以 `LangChain + LangGraph` 编排 `load_context / build_prompt / invoke / finalize_request`，把同步回复与后台成长任务分层处理。\n- **抽象接入边界**：将微信入口统一收敛到 `BaseTransport`，隔离 Windows 微信版本、权限与消息通道的环境差异。\n- **构建三层记忆**：落地 SQLite 短期记忆、运行期向量记忆与导出语料 RAG，并支持轻量重排与可选本地 `Cross-Encoder` 自动回退。\n- **提供治理能力**：完善 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 与 27 条离线 eval。",
+          "- **抽象接入边界**：针对 Windows 微信版本、权限和通道差异统一消息收发与运行状态接口。\n- **解耦回复与记忆**：将事实提取、记忆写入、联系人画像和语料同步移出回复主链路，分层管理短期对话、运行期记忆和导出语料。\n- **保留检索回退**：排序增强不可用时回退关键词或轻量语义检索，避免单一向量依赖阻断回复。\n- **加入发布治理**：统一凭据回退，提供提示词版本回滚、备份恢复、脱敏诊断、Windows 发布门禁与离线 smoke 评测。",
         result:
         "交付面向 Windows 微信生态的长期运行智能助手，覆盖消息接入、记忆增强、模型认证、知识库治理、运行观测、配置治理、排障评测与发布更新。",
         role: "独立开发者",
@@ -1392,9 +1418,10 @@ export const defaultPortfolioData: PortfolioData = {
           "Python",
           "Quart",
           "Asyncio",
-          "LangGraph",
+          "OpenAI-compatible API",
           "Electron",
-          "RAG",
+          "SQLite",
+          "SSE",
         ],
         links: [
           { label: "GitHub", url: "https://github.com/byteD-x/wechat-bot" },
@@ -1425,10 +1452,10 @@ export const defaultPortfolioData: PortfolioData = {
         "企业 AI 问答平台：覆盖多源知识接入、三路混合检索、LangGraph 可恢复运行时、Agent 自主决策、推理优化与平台生态。",
       impact: "混合检索 + Agent 自主决策 + 推理治理",
       keyOutcomes: [
-        "设计结构检索、全文检索、向量检索三路召回链路，结合加权 RRF 融合与 rerank，支持 `citations`、`grounding_score` 与 `trace_id` 返回。",
-        "将 Gateway 问答链路与 KB 检索链路改造为 LangGraph 可恢复运行时，并扩展工具注册中心、任务拆解 DAG、反思流程与三层记忆。",
-        "建设 ingest 与知识治理工作台，支持多知识库、多源连接器、chunk 治理、retrieve/debug、五层指令合并、场景模板与 RAG 幻觉检测。",
-        "加入三层语义缓存、模型健康熔断、复杂度驱动路由、请求合并、人工接管队列、readyz/trace 诊断与 Python SDK，并用 22 个后端测试文件、9 个前端测试文件和 400+ 测试项覆盖 Agent 能力、推理优化和平台生态。",
+        "针对制度条款、编号和图文教程等精确查询易漏检，融合结构化信号、全文检索和向量召回，再做查询改写与重排，并通过离线检索对比检查版本回归。",
+        "按证据强度输出回答、补充或拒答并强制回传引用；召回前按租户、部门过滤文档，缓存按权限隔离，避免无证据作答和越权复用。",
+        "将问答拆为可暂停、可恢复的图工作流，支持复杂问题并行拆解、工具调用、人工澄清和失败恢复，保留阶段级 trace。",
+        "以安全回归、检索对比和引用质量检查约束知识与模型版本发布，并配套 22 个后端测试文件、9 个前端测试文件和 400+ 测试项。",
       ],
       audienceTags: ["hr", "jobSeeker", "partner", "client"],
       businessValue: {
@@ -1482,6 +1509,7 @@ export const defaultPortfolioData: PortfolioData = {
     {
       id: "proj-ipa-demo",
       year: "2025.11 - 2025.12",
+      groupParentId: "proj-independent-developer",
       name: "IPA Demo",
       techTags: [
         "Python",
@@ -1497,9 +1525,9 @@ export const defaultPortfolioData: PortfolioData = {
         "中文方言语音转写演示系统：把本地 ASR 模型封装成可试用的 Web 原型，支持上传、录音、批量处理、IPA 拆分和结果导出。",
         impact: "方言语音转写原型 + 演示流程",
       keyOutcomes: [
-        "基于 Flask 封装本地 ASR 模型，支持多文件上传、流式转写、浏览器录音与示例音频体验。",
-        "加入音频标准化、并发处理、IPA 声母/韵母/声调拆分与日志体系，使原型既可演示也便于排障。",
-        "支持 Excel 模板校验、批量导出与系统手册下载，降低客户试用和验收成本。",
+        "在需求不清、周期受限下，将范围收敛为本地转写、批量复核和 Excel 导出的可验收 MVP，按期交付客户。",
+        "统一音频采样率和声道后进入识别链路，将 IPA 拆分规则改为表格驱动，输出声母、韵母和调值，支持研究人员复核与二次整理。",
+        "打通批量处理、SSE 流式进度和 Excel 导出；运行日志可追溯累计 2380 次识别、60 次批量任务，单批最大 500 个文件。",
       ],
       audienceTags: ["jobSeeker", "partner", "client"],
       businessValue: {

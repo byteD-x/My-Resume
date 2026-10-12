@@ -176,11 +176,21 @@ test.describe('Portfolio E2E', () => {
         const experienceSection = page.locator('#experience');
         await expect(experienceSection.getByText('独立开发者').first()).toBeVisible();
         await expect(experienceSection.getByText('项目名称 / 实践场景')).toBeVisible();
-        await expect(experienceSection.getByText('RentBox 共享擦窗宝小程序')).toBeVisible();
-        await expect(experienceSection.getByText('论文检索任务平台')).toBeVisible();
-        await expect(experienceSection.getByText('智能客服运行时')).toBeVisible();
-        await expect(experienceSection.getByText('微信智能助手')).toBeVisible();
+        await expect(experienceSection.getByText('简租科技小程序（RentBox）', { exact: true })).toBeVisible();
+        await expect(experienceSection.getByText('数阁科技（深圳）｜论文检索任务平台', { exact: true })).toBeVisible();
+        await expect(experienceSection.getByText('数阁科技（深圳）｜IPA 方言语音转写原型', { exact: true })).toBeVisible();
+        await expect(experienceSection.getByText('智能客服运行时', { exact: true })).toBeVisible();
+        await expect(experienceSection.getByText('微信智能助手', { exact: true })).toBeVisible();
         await expect(experienceSection.getByText('技术栈：Java 21 / Spring Boot 3.5 / MySQL / Redis')).toBeVisible();
+
+        const parentOutcomes = experienceSection.locator('.reboot-timeline-row').first().locator('.reboot-timeline-outcomes li');
+        await expect(parentOutcomes).toHaveCount(3);
+
+        const projectCards = experienceSection.locator('.reboot-child-project');
+        await expect(projectCards).toHaveCount(5);
+        for (const card of await projectCards.all()) {
+            await expect(card.locator('.reboot-child-outcomes li')).toHaveCount(3);
+        }
     });
 
     test('hero project evidence cta should reveal the project evidence section', async ({ page }) => {

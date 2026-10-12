@@ -127,9 +127,9 @@
 
 ### Action
 - 抽象 `BaseTransport` 接入层，收敛微信自动化的不稳定边界。
-- 基于 `LangGraph` 重构回复主链，将同步对话链与后台成长任务解耦。
+- 将回复主链与后台成长任务解耦，使用 OpenAI-compatible chat/embedding 调用按回复预算执行同步路径。
 - 构建 SQLite 短期记忆、运行期向量记忆、导出语料 RAG 三层记忆体系。
-- 落地轻量重排与可选本地 `Cross-Encoder` 回退策略，平衡效果与部署成本。
+- 排序增强不可用时回退关键词或轻量语义检索，平衡召回质量与部署成本。
 - 补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、模型认证中心、成本分析、配置热重载、受控 Tool Workflow、只读 MCP adapter 和离线 eval。
 
 ### Result
@@ -148,7 +148,7 @@
 - `src/data.ts`
 
 ### 简历可打标签
-- LangGraph
+- OpenAI-compatible API
 - 本地 Agent
 - RAG
 - 可观测性

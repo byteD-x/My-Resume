@@ -511,10 +511,10 @@
 - 实现基于 `intent_stack`、`page_context`、`business_objects` 和置信度分层的路由策略；在订单详情等上下文中优先走业务工具，连续低置信对话转入澄清或人工处理。
 - 设计 `PluginRegistry` 与 7 类扩展点，覆盖路由、业务工具、人工转接、行业适配、宿主鉴权、上下文增强和响应后处理；补齐 provider billing / usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列与外部 readiness 审计，用路由、插件、鉴权和运行时测试保护关键行为。
 
-#### 微信智能助手｜LangGraph / Electron / RAG
+#### 微信智能助手｜Quart / Electron / OpenAI-compatible API / RAG
 
-- 面对桌面微信自动化不稳定、回复不能长时间阻塞的问题，抽象 `BaseTransport` 接入层，并用 `LangGraph` 把前台回复路径与后台成长任务分离，按回复预算控制同步路径。
-- 构建 SQLite 短期记忆、Chroma 向量记忆和导出聊天记录 RAG；后台批处理负责情绪、联系人画像、向量记忆、事实抽取和导出语料同步，避免把长期记忆计算压到用户回复路径上。
+- 面对桌面微信自动化不稳定、回复不能长时间阻塞的问题，抽象 `BaseTransport` 接入层，使用 OpenAI-compatible chat/embedding 调用把前台回复路径与后台成长任务分离，按回复预算控制同步路径。
+- 构建 SQLite 短期记忆、运行期向量记忆和导出聊天记录 RAG；后台批处理负责联系人画像、事实抽取、向量记忆和导出语料同步，避免把长期记忆计算压到用户回复路径上。
 - 开发 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、知识库治理、成本分析、模型认证中心、受控 Tool Workflow、只读 MCP adapter、备份恢复、发布更新和 27 条离线 eval；敏感关键词、静默时段、群聊白名单和新联系人策略进入人工审批队列，降低误发消息和凭据配置风险。
 
 <div class="experience-heading">
@@ -569,11 +569,11 @@
 - 设计 `PluginRegistry` 和 7 类扩展点，包括路由策略、业务工具、人工接手、行业适配、鉴权桥、上下文补充和响应后处理；宿主系统可按优先级注册插件，而不是改 Runtime 主干代码。
 - 在 `AuthBridgePlugin` 中统一 API Key、Session/Cookie、JWT/Bearer、Custom Token 与自定义 Header 桥接；补齐 provider billing / usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列和外部 readiness 审计，相关行为由路由、插件、鉴权和运行时测试固定。
 
-### 微信智能助手｜Quart / Electron / LangGraph / ChromaDB
+### 微信智能助手｜Quart / Electron / OpenAI-compatible API / SQLite
 
 - 面向 Windows 微信自动化不稳定、回复路径不能长时间阻塞的场景，抽象 `BaseTransport` 接入层，将 WCFerry 适配与 Bot 主循环解耦，桌面端和 Web 控制台共用 Quart 后端状态。
-- 使用 `LangGraph` 组织上下文加载、提示词构建、模型调用和回写，将前台回复与后台成长任务分开：前台按回复预算生成消息，后台再处理情绪、画像、事实抽取、向量记忆和导出聊天 RAG。
-- 构建 SQLite 短期记忆、Chroma 向量记忆和导出聊天记录 RAG；长记忆写入、embedding、联系人画像和导出语料同步放到后台任务，避免把高成本计算放进用户回复路径。
+- 使用分层运行时组织上下文加载、提示词构建、模型调用和回写，并通过 OpenAI-compatible chat/embedding 调用将前台回复与后台成长任务分开：前台按回复预算生成消息，后台再处理画像、事实抽取、向量记忆和导出聊天 RAG。
+- 构建 SQLite 短期记忆、运行期向量记忆和导出聊天记录 RAG；长记忆写入、embedding、联系人画像和导出语料同步放到后台任务，排序增强不可用时回退关键词或轻量语义检索。
 - 提供 `/api/status`、`/api/readiness`、`/api/metrics`、配置审计、知识库治理、成本分析、模型认证中心、受控 Tool Workflow、只读 MCP adapter、备份恢复、发布更新和 27 条离线 eval；敏感关键词、静默时段、群聊白名单和新联系人策略进入人工审批队列，减少误触发消息风险。
 
 ### RAG-QA System｜FastAPI / Vue / LangGraph / Agent Runtime

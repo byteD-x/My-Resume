@@ -86,7 +86,7 @@ const enImpactCopy: Record<string, ImpactCopy> = {
     description:
       "25/25 fixed local smoke checks passed; a 2-second reply deadline and 27 offline evaluations constrain the long-running path.",
     details:
-      "Uses a BaseTransport boundary plus LangChain/LangGraph to rebuild the reply workflow and governance path.",
+      "Uses a BaseTransport boundary plus direct OpenAI-compatible chat/embedding calls to keep the reply path and runtime governance controllable.",
   },
   "impact-customer-ai": {
     title: "Customer-service runtime",
@@ -136,9 +136,9 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     company: "AI Applications | Full-stack Products",
     location: "Independent delivery stage",
     summary:
-      "Led four representative projects across rental workflow delivery, task-platform integration, customer-service runtime design, and a long-running desktop assistant, covering design, implementation, integration, testing, and runtime governance.",
+      "Led five representative projects across rental workflow delivery, task-platform integration, dialect ASR prototyping, customer-service runtime design, and a long-running desktop assistant, covering design, implementation, integration, testing, and runtime governance.",
     keyOutcomes: [
-      "Grouped RentBox, the Paper Retrieval Task Platform, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one independent-developer work entry.",
+      "Grouped RentBox, the Paper Retrieval Task Platform, the IPA dialect speech prototype, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one independent-developer work entry.",
       "Kept each child project on its own slug, evidence notes, and detail page.",
       "Aligned the public portfolio structure with the latest Chinese resume and English PDF.",
     ],
@@ -146,7 +146,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       background:
         "This is the independent-developer stage described in the latest resume, spanning multiple AI application and full-stack projects in parallel.",
       solution:
-        "- Consolidated RentBox, the Paper Retrieval Task Platform, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one parent work item.\n- Kept design, implementation, integration, testing, and runtime governance visible from the parent view.\n- Preserved each child project's independent slug and detail route for drill-down.",
+        "- Consolidated RentBox, the Paper Retrieval Task Platform, the IPA dialect speech prototype, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one parent work item.\n- Kept design, implementation, integration, testing, and runtime governance visible from the parent view.\n- Preserved each child project's independent slug and detail route for drill-down.",
       result:
         "The portfolio now reflects the latest resume structure without losing access to project-level evidence.",
       role: "Independent developer",
@@ -155,14 +155,17 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
         "Spring Boot 3.5",
         "Python",
         "FastAPI",
+        "Flask",
+        "Quart",
         "React 19",
-        "LangGraph",
+        "SSE",
+        "MQTT",
       ],
     },
   },
   "exp-rentbox": {
     role: "Independent Developer · Full-stack Project",
-    company: "RentBox Shared Window-cleaning Device Mini Program",
+    company: "Jianzhu Technology Mini Program (RentBox)",
     location: "Local project / multi-client delivery",
     summary:
       "Independently delivered a multi-client rental system covering mini program, admin console, channel portal, and Spring Boot backend across payment, deposit-free rental, device commands, returns, settlement, and audit paths.",
@@ -196,7 +199,7 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
   },
   "exp-paper-retrieval-platform": {
     role: "Independent Developer · Full-stack Project",
-    company: "Paper Retrieval Task Platform",
+    company: "Shuge Technology (Shenzhen) · Paper Retrieval Task Platform",
     location: "Local project / acceptance build",
     summary:
       "Built a user-facing task platform around phone verification, task creation, shared worker-table integration, SSE status updates, quota ledger, Alipay upgrade, and admin operations.",
@@ -228,6 +231,39 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       ],
     },
   },
+  "exp-sustech": {
+    role: "Technical Consultant · Outsourced Project",
+    company: "Shuge Technology (Shenzhen) · IPA Dialect Speech Transcription Prototype",
+    location: "Shenzhen · end client: SUSTech",
+    summary:
+      "Delivered a locally runnable dialect-to-IPA transcription prototype with audio normalization, batch review, SSE progress, and Excel export under a short acceptance window.",
+    keyOutcomes: [
+      "Clarified ambiguous requirements and narrowed the scope to an acceptance-ready MVP covering local transcription, batch review, and Excel export.",
+      "Normalized sample rate and channels before local ASR, then made IPA initials, finals, and tones table-driven with template validation and export.",
+      "Connected batch processing, SSE progress, and Excel export; acceptance logs trace 2,380 recognitions, 60 batch jobs, and a largest batch of 500 files.",
+    ],
+    expandedDetails: {
+      background:
+        "The client needed a short-cycle proof of dialect speech transcription for research use, with enough structure for on-site review and acceptance.",
+      problem:
+        "The prototype had to package local ASR, normalize varied audio inputs, support batch review, and make IPA rules editable without extending the delivery window.",
+      solution:
+        "- Clarified the scope around local transcription, batch review, and Excel export.\n- Normalized audio with FFmpeg/Torchaudio and drove initials, finals, and tone mapping from validated Excel templates.\n- Added batch processing, SSE progress, structured export, and traceable logs for acceptance.",
+      result:
+        "Delivered the IPA prototype for on-site acceptance with real audio samples and a reproducible review/export path.",
+      role: "Technical consultant covering scope clarification, local inference packaging, and client delivery.",
+      techStack: [
+        "Python",
+        "Flask",
+        "PyTorch",
+        "Transformers",
+        "Torchaudio",
+        "FFmpeg",
+        "SSE",
+        "Excel",
+      ],
+    },
+  },
   "exp-wechat-bot": {
     role: "Independent Developer · AI Runtime",
     company: "WeChat Intelligent Assistant",
@@ -235,9 +271,9 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     summary:
       "The former script-like WeChat auto-reply tool now runs as a long-running AI assistant with access governance, layered memory, runtime diagnostics, and cost analysis.",
     keyOutcomes: [
-      "Abstracted the WeChat access boundary with BaseTransport.",
-      "Rebuilt the reply chain with LangChain and LangGraph.",
-      "Added layered memory, degradable RAG, config reload, status APIs, and cost analytics.",
+      "Abstracted the Windows WeChat boundary with BaseTransport and moved model calls to direct OpenAI-compatible chat/embedding endpoints, separating first response from background fact, vector, profile, and corpus jobs.",
+      "Built SQLite short-term memory and vector storage for runtime/exported-corpus RAG, with optional hybrid search and keyword or lightweight semantic fallback when ranking is unavailable.",
+      "Added model auth, config hot reload, readiness/status/metrics APIs, sanitized diagnostics, backup/restore, controlled tools, release gates, and 27 offline smoke evaluations.",
     ],
     expandedDetails: {
       background:
@@ -245,11 +281,19 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       problem:
         "A simple reply script is difficult to maintain, observe, and control when message volume and model cost increase.",
       solution:
-        "- Introduced BaseTransport to isolate WeChat access.\n- Rebuilt the runtime with LangChain and LangGraph.\n- Added layered memory, degradable RAG, hot-reloadable config, metrics, and cost APIs.",
+        "- Isolated Windows WeChat access behind BaseTransport and direct OpenAI-compatible chat/embedding endpoints.\n- Separated the first-response path from background fact extraction, vector writes, profile updates, and corpus sync; used SQLite memory plus RAG fallback.\n- Added model auth, hot reload, readiness/metrics, controlled tools, backup/restore, sanitized diagnostics, release gates, and offline smoke evaluations.",
       result:
         "The assistant has a maintainable long-running baseline with clearer runtime governance.",
       role: "Independent AI application engineer.",
-      techStack: ["Python", "LangChain", "LangGraph", "RAG", "FastAPI", "Prometheus"],
+      techStack: [
+        "Python",
+        "Quart",
+        "Electron",
+        "SQLite",
+        "OpenAI-compatible API",
+        "RAG",
+        "SSE",
+      ],
     },
   },
   "exp-customer-ai-runtime": {
@@ -275,18 +319,6 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
       role: "Independent AI runtime developer.",
       techStack: ["Python", "FastAPI", "OpenAI", "RAG", "WebSocket", "RTC", "Redis"],
     },
-  },
-  "exp-sustech": {
-    role: "Speech Recognition Prototype Developer",
-    company: "SUSTech-linked ASR Prototype",
-    location: "Client prototype / short-cycle delivery",
-    summary:
-      "Packaged research-oriented ASR capability into a web demo with local inference, preprocessing, batch handling, and structured export.",
-    keyOutcomes: [
-      "Wrapped local ASR inference and audio preprocessing.",
-      "Added batch processing and structured result export.",
-      "Added a web-based demo for feasibility validation.",
-    ],
   },
   "exp-chinasoft": {
     role: "AI Application Engineer",
@@ -355,20 +387,26 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
     summary:
       "Built a solid computer-science foundation and converted coursework into practical full-stack and algorithm projects.",
     keyOutcomes: [
-      "Maintained strong academic performance.",
-      "Built fundamentals in software engineering, algorithms, databases, and networks.",
+      "Graduated with a 3.8/4.5 GPA in the top 5%.",
+      "Received university-level merit and student-leadership awards plus a college scholarship.",
+      "Completed a bachelor's program in Data Science and Big Data Technology, building a foundation in computing and data engineering.",
     ],
   },
   "proj-independent-developer": {
     name: "Independent Developer | AI Applications and Full-stack Products",
     summary:
-      "A grouped portfolio view of four representative independent projects, keeping the latest resume structure while preserving project-level detail pages.",
+      "A grouped portfolio view of five representative independent projects, keeping the latest resume structure while preserving project-level detail pages.",
     impact: "Design + full-stack delivery + integration + testing + runtime governance",
+    keyOutcomes: [
+      "Delivered rental, paper-retrieval, dialect-ASR, customer-service-runtime, and WeChat-assistant work under one independent-developer stage.",
+      "Owned scope convergence, full-stack implementation, integration, acceptance testing, and release governance across the five projects.",
+      "Kept each project traceable through its own slug, technology stack, and repository or acceptance evidence.",
+    ],
     expandedDetails: {
       background:
         "This grouped project entry mirrors the latest resume's independent-developer section.",
       solution:
-        "- Group RentBox, the Paper Retrieval Task Platform, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one project area.\n- Keep each child project on its own detail route.\n- Reuse the current portfolio structure instead of duplicating a second detail model.",
+        "- Group RentBox, the Paper Retrieval Task Platform, the IPA dialect speech prototype, AI Customer Service Runtime, and the WeChat Intelligent Assistant under one project area.\n- Keep each child project on its own detail route.\n- Reuse the current portfolio structure instead of duplicating a second detail model.",
       result:
         "The projects section now shows one parent grouping for independent work while keeping project-level drill-down intact.",
       role: "Independent developer",
@@ -377,46 +415,74 @@ const enExperienceCopy: Record<string, ExperienceCopy> = {
         "Spring Boot 3.5",
         "Python",
         "FastAPI",
+        "Flask",
+        "Quart",
         "React 19",
-        "LangGraph",
+        "SSE",
+        "MQTT",
       ],
     },
   },
   "proj-rentbox": {
-    name: "RentBox",
+    name: "Jianzhu Technology Mini Program (RentBox)",
     summary:
       "A shared rental mini-program system covering user flows, payment guarantees, cabinet state, channel settlement, and operations.",
     impact: "Rental workflow + payment guarantee + device integration",
+    keyOutcomes: [
+      "Built order state machines for rental, payment, deposit-free authorization, pickup, return, and settlement, with idempotency and replay handling for late callbacks.",
+      "Validated cabinet online and closed-door state from fresh device snapshots, then routed TCP, MQTT, and HTTP commands by board and protocol code.",
+      "Added retry, status-query, and scheduled compensation paths for unlock timeouts while completing 27 customer requirements across client and operations surfaces.",
+    ],
   },
   "proj-paper-retrieval-platform": {
-    name: "Paper Retrieval Task Platform",
+    name: "Shuge Technology (Shenzhen) · Paper Retrieval Task Platform",
     summary:
       "A user-facing task platform that isolates a customer worker through a database contract while providing task, quota, payment, and admin workflows.",
     impact: "Task platform + worker contract + payment/quota loop",
+    keyOutcomes: [
+      "Isolated the user-facing platform from a customer worker that only writes the shared tasks table.",
+      "Used PostgreSQL LISTEN/NOTIFY, snapshot-first SSE, keep-alive, reconciliation, and polling fallback to keep asynchronous progress visible.",
+      "Enforced terminal-state and result-file boundaries in the database and handled successful-task quota debit with row locks, unique ledger events, and payment verification.",
+    ],
+  },
+  "proj-ipa-demo": {
+    name: "Shuge Technology (Shenzhen) · IPA Dialect Speech Prototype",
+    summary:
+      "A short-cycle dialect speech transcription demo delivered for SUSTech, with local ASR, audio normalization, batch progress, IPA decomposition, and Excel export.",
+    impact: "Dialect ASR prototype + structured export",
+    keyOutcomes: [
+      "Narrowed an ambiguous request to an acceptance-ready MVP for local transcription, batch review, and Excel export.",
+      "Normalized audio before local ASR and made IPA initials, finals, and tones table-driven for repeatable review.",
+      "Connected batch processing, SSE progress, and export; acceptance logs trace 2,380 recognitions, 60 batch jobs, and up to 500 files in one batch.",
+    ],
   },
   "proj-customer-ai-runtime": {
     name: "AI Customer Service Runtime",
     summary:
       "An AI customer-service runtime with host mounting, tools, human handoff, knowledge controls, and multi-channel access.",
     impact: "AI runtime + intent-aware routing + 7-plugin governance",
+    keyOutcomes: [
+      "Unified text, voice, RTC, and host-page entry points with intent, page-context, and business-object-aware routing.",
+      "Controlled side-effecting tools with allowlists, parameter validation, step limits, fail-stop, checkpoint/resume, and approval gates.",
+      "Governed tenant-scoped knowledge versions, handoff queues, usage billing, readiness audits, rate limits, and prompt redaction with offline RAG evaluation.",
+    ],
   },
   "proj-wechat-bot": {
     name: "WeChat Intelligent Assistant",
     summary:
       "A long-running WeChat assistant with transport abstraction, layered memory, RAG fallback, runtime observability, and cost analytics.",
     impact: "WeChat bot + memory + runtime governance",
+    keyOutcomes: [
+      "Abstracted Windows WeChat access behind BaseTransport and separated first response from background fact, profile, vector, and corpus jobs.",
+      "Built SQLite-backed short-term and vector memory for runtime/exported-corpus RAG, with keyword or lightweight semantic fallback when ranking is unavailable.",
+      "Added model auth, hot reload, readiness/status/metrics APIs, sanitized diagnostics, backup/restore, release gates, and 27 offline smoke evaluations.",
+    ],
   },
   "proj-rag-qa-system": {
     name: "RAG-QA System",
     summary:
       "An enterprise AI QA platform with multi-source ingestion, hybrid retrieval, LangGraph recovery, agent autonomy, inference governance, retrieve/debug inspection, and Python SDK access.",
     impact: "Hybrid retrieval + agent autonomy + inference governance",
-  },
-  "proj-ipa-demo": {
-    name: "IPA Demo",
-    summary:
-      "A short-cycle ASR demo that wraps local inference, audio preprocessing, batch handling, structured export, and a web demo.",
-    impact: "ASR prototype + web delivery",
   },
   "proj-submed": {
     name: "SubMed Mini Program",

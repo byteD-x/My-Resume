@@ -12,8 +12,8 @@
 ### 微信智能助手｜独立开发者 · 开源项目
 2025.12 - 至今
 
-- 抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。
-- 构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。
+- 抽象 `BaseTransport` 接入层，隔离 Windows 微信版本、权限和通道差异，统一消息收发、状态检查与通道恢复。
+- 将事实提取、记忆写入、联系人画像和语料同步移出回复主链路，构建 SQLite 短期记忆、运行期向量记忆和导出语料 RAG 三层体系；排序增强不可用时回退关键词或轻量语义检索。
 - 补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。
 - 落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。
 
@@ -25,7 +25,7 @@
 - 提供 Route、BusinessTool、Handoff、Industry、AuthBridge、Context、Response 7 类插件扩展点，支持宿主鉴权复用与业务能力按需挂载。
 - 补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。
 
-### 南方科技大学｜外包技术顾问
+### 数阁科技（深圳）｜IPA 方言语音转写原型｜外包技术顾问
 2025.11 - 2025.12
 
 - 主导需求澄清与原型方案拆解，在需求不明确、周期受限条件下快速收敛 MVP 范围。
@@ -73,7 +73,7 @@
 
 ## 项目经历
 
-### RentBox 共享擦窗宝小程序
+### 简租科技小程序（RentBox）
 2026 - 至今
 
 - 设计 `OrderStateMachine` 与 `OrderLifecycleService`，用 `FOR UPDATE`、状态历史和审计日志管理支付、免押、取机、归还、退款与设备事件的状态迁移。
@@ -98,10 +98,10 @@
 - 补齐知识版本管理、chunk 优化、消息级反馈、provider billing 与 usage 对账、安全知识缓存、8 个本地 RAG eval cases、SQLite 人工接管队列、外部 readiness 审计、request_id 贯通、限流与提示词脱敏，强化多租户治理与审计能力。
 
 ### 微信智能助手
-2025 - 至今
+2025.12 - 至今
 
-- 抽象 `BaseTransport` 接入层并以 `LangGraph` 重构回复主链，将同步回复与后台成长任务解耦，建立适合长期运行的微信助手架构。
-- 构建 SQLite 短期记忆、运行期向量记忆与导出语料 RAG 三层记忆体系，支持轻量重排与可选本地 `Cross-Encoder` 自动回退，平衡召回质量与部署成本。
+- 抽象 `BaseTransport` 接入层，隔离 Windows 微信版本、权限和通道差异，统一消息收发、状态检查与通道恢复。
+- 将事实提取、记忆写入、联系人画像和语料同步移出回复主链路，构建 SQLite 短期记忆、运行期向量记忆和导出语料 RAG 三层体系；排序增强不可用时回退关键词或轻量语义检索。
 - 补齐 `/api/status`、`/api/readiness`、`/api/metrics`、`/api/config/audit`、知识库治理 API、成本分析与脱敏诊断支持包，完善运行观测、配置审计与排障能力。
 - 落地配置热重载、回复预算、人工审批、模型认证中心、受控 Tool Workflow、只读 MCP adapter 与发布更新链路，支持 2 秒回复 deadline 与 27 条离线 smoke eval，降低误发、阻塞和凭据配置风险。
 

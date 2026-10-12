@@ -19,8 +19,8 @@ const visualMeta: Record<string, { zh: { title: string; flow: string; tech: stri
     en: { title: "RAG-QA System", flow: "Docs → retrieval → cited answer", tech: ["Hybrid retrieval", "Qdrant", "Eval gates"] },
   },
   memory: {
-    zh: { title: "微信智能助手", flow: "对话 → 记忆 → 工具执行", tech: ["三层记忆", "LangGraph", "Cross-Encoder"] },
-    en: { title: "Long-running assistant", flow: "Chat → memory → tool execution", tech: ["3-layer memory", "LangGraph", "Cross-Encoder"] },
+    zh: { title: "微信智能助手", flow: "对话 → 记忆 → 工具执行", tech: ["三层记忆", "OpenAI-compatible API", "SSE"] },
+    en: { title: "Long-running assistant", flow: "Chat → memory → tool execution", tech: ["3-layer memory", "OpenAI-compatible API", "SSE"] },
   },
   storage: {
     zh: { title: "EasyCloudPan", flow: "上传 → 存储 → 同步 / 权限", tech: ["Java 21", "OAuth2", "MinIO / S3"] },

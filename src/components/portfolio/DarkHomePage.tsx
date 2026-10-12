@@ -190,8 +190,8 @@ export function DarkHomePage({ locale, explicitLocale = false }: DarkHomePagePro
                     <article className="reboot-timeline-row reboot-reveal" data-reboot-reveal key={item.id}>
                       <time>{item.year}</time><span className="reboot-timeline-marker" aria-hidden="true" />
                       <div className="reboot-timeline-copy"><p className="reboot-meta">{item.company}</p><h3>{item.role}</h3><p>{item.summary}</p>
-                        {children.length > 0 ? <div className="reboot-child-projects"><span className="reboot-meta">{zh ? "项目名称 / 实践场景" : "Projects / practice"}</span>{children.map((child) => <div key={child!.id}><strong>{child!.company}</strong><span>{zh ? `技术栈：${child!.techTags.slice(0, 4).join(" / ")}` : `Stack: ${child!.techTags.slice(0, 4).join(" / ")}`}</span></div>)}</div> : null}
-                        {item.keyOutcomes?.[0] ? <p className="reboot-timeline-proof"><strong>{zh ? "结果" : "Result"}</strong>{item.keyOutcomes[0]}</p> : null}
+                        {children.length > 0 ? <div className="reboot-child-projects"><span className="reboot-meta">{zh ? "项目名称 / 实践场景" : "Projects / practice"}</span>{children.map((child) => <div className="reboot-child-project" key={child!.id}><strong>{child!.company}</strong><span>{zh ? `技术栈：${child!.techTags.slice(0, 4).join(" / ")}` : `Stack: ${child!.techTags.slice(0, 4).join(" / ")}`}</span>{child!.keyOutcomes?.length ? <ul className="reboot-child-outcomes">{child!.keyOutcomes.slice(0, 3).map((outcome) => <li key={outcome}>{outcome}</li>)}</ul> : null}</div>)}</div> : null}
+                        {item.keyOutcomes?.length ? <div className="reboot-timeline-outcomes"><p className="reboot-meta">{zh ? "项目要点" : "Project outcomes"}</p><ul>{item.keyOutcomes.slice(0, 3).map((outcome) => <li key={outcome}>{outcome}</li>)}</ul></div> : null}
                       </div>
                     </article>
                   );

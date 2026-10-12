@@ -88,13 +88,13 @@ const zhSpotlightCopy: Record<
     focus: "微信机器人 / 分层记忆 / 长期运行",
     heroSummary:
       "把微信机器人做成能长期运行的智能助手，兼顾消息接入、记忆增强、诊断观测和成本控制。",
-    heroDetail: "重点看微信消息接入、LangGraph 编排、分层记忆和运行治理怎么配合。",
+    heroDetail: "重点看微信消息接入、分层记忆、模型调用和运行治理怎么配合。",
     contentSummary:
       "面向 Windows 微信生态的微信机器人项目，支持长期运行、自动回复与运行治理。",
     capabilitySummary:
       "覆盖微信接入抽象、分层记忆、运行期 RAG、配置热重载、运行观测、成本分析与发布链路。",
     technicalSummary:
-      "技术实现重点在 `BaseTransport` 接入边界、`LangGraph` 运行时、轻量重排与可选本地 Cross-Encoder 回退、配置快照/热重载以及 `/api/status`、`/api/metrics`、成本接口的协同。",
+      "技术实现重点在 `BaseTransport` 接入边界、分层回复与后台记忆、OpenAI-compatible API、关键词/轻量语义回退、配置快照/热重载以及 `/api/status`、`/api/metrics`、成本接口的协同。",
   },
 };
 
@@ -139,13 +139,13 @@ const enSpotlightCopy: typeof zhSpotlightCopy = {
     focus: "WeChat bot / layered memory / long-running assistant",
     heroSummary:
       "A long-running WeChat assistant that balances message access, memory, diagnostics, and cost control.",
-    heroDetail: "Focus on WeChat access, LangGraph orchestration, memory, and runtime governance.",
+    heroDetail: "Focus on WeChat access, layered memory, model calls, and runtime governance.",
     contentSummary:
       "A Windows WeChat assistant project for long-running auto-reply and runtime governance.",
     capabilitySummary:
       "Covers WeChat access abstraction, layered memory, runtime RAG, config hot reload, observability, cost analytics, and release flow.",
     technicalSummary:
-      "The implementation centers on BaseTransport, LangGraph runtime, lightweight reranking, optional local Cross-Encoder fallback, config snapshots, and status/metrics/cost APIs.",
+      "The implementation centers on BaseTransport, separated reply and background-memory paths, OpenAI-compatible endpoints, keyword or lightweight semantic fallback, config snapshots, and status/metrics/cost APIs.",
   },
 };
 

@@ -101,6 +101,32 @@ function ExperienceHighlights({
   );
 }
 
+function ExperienceOutcomeList({
+  item,
+  locale,
+  compact = false,
+}: {
+  item: TimelineItem;
+  locale: Locale;
+  compact?: boolean;
+}) {
+  const outcomes = item.keyOutcomes?.filter(Boolean).slice(0, 3) ?? [];
+  if (!outcomes.length) return null;
+
+  return (
+    <div className={`dark-timeline-outcomes${compact ? " is-compact" : ""}`}>
+      <p className="dark-eyebrow">
+        {locale === "zh" ? "项目要点" : "Project outcomes"}
+      </p>
+      <ul>
+        {outcomes.map((outcome) => (
+          <li key={outcome}>{outcome}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function DarkExperienceIndex({ items, locale, explicitLocale = false }: { items: TimelineItem[]; locale: Locale; explicitLocale?: boolean }) {
   const hrefFor = (id: string) => explicitLocale ? resolveLocalePath(`/experiences/${id}`, locale) : `/experiences/${id}`;
   const groupedChildIds = new Set(items.flatMap((item) => item.childIds ?? []));
@@ -125,12 +151,7 @@ export function DarkExperienceIndex({ items, locale, explicitLocale = false }: {
               <p className="dark-eyebrow">{eyebrow}</p>
               <h2>{heading}</h2>
               <p>{item.summary}</p>
-              {item.keyOutcomes?.[0] ? (
-                <p className="dark-timeline-proof">
-                  <strong>{locale === "zh" ? "成果" : "Result"}</strong>
-                  {item.keyOutcomes[0]}
-                </p>
-              ) : null}
+              <ExperienceOutcomeList item={item} locale={locale} />
               {evidence ? (
                 <p className="dark-timeline-proof">
                   <strong>{locale === "zh" ? "证据" : "Evidence"}</strong>
@@ -167,6 +188,11 @@ export function DarkExperienceIndex({ items, locale, explicitLocale = false }: {
                         <p className="dark-timeline-child-summary">
                           {child.summary}
                         </p>
+                        <ExperienceOutcomeList
+                          item={child}
+                          locale={locale}
+                          compact
+                        />
                         <ExperienceHighlights
                           item={child}
                           locale={locale}
